@@ -1850,6 +1850,8 @@ async function loadSharedData() {
   STATE.data = json;
   // Override seasonal data from shared.json if available (fallback: inline SEASONAL_DATA constant)
   if (json.seasonal) SEASONAL_DATA = json.seasonal;
+  // Override nutrition data from shared.json if available (fallback: inline NUTRITION_DATA)
+  if (json.nutrition) NUTRITION_DATA = json.nutrition;
   return json;
 }
 
@@ -5794,7 +5796,7 @@ function dotProduct(a, b) {
 // ── PCA Map ──
 
 /** Nutrition data per 100g: [calories, protein_g, fat_g, carbs_g, fiber_g] — USDA-based estimates */
-const NUTRITION_DATA = {
+var NUTRITION_DATA = {
   // Meat & Poultry
   chicken_breast:[165,31,3.6,0,0], chicken_thigh:[209,26,11,0,0], chicken_wings:[222,25,14,0,0],
   chicken_liver:[119,17,4.8,0.9,0], chicken:[190,27,8,0,0], turkey:[189,29,7,0,0],
