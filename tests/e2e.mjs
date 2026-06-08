@@ -473,7 +473,96 @@ async function main() {
       await sleep(300);
     });
 
-    // 5i. Spoonacular graceful degradation
+    // 5i. Neighbours tab (feature test)
+    await test('Neighbours tab renders ingredient neighbours after selection', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('miso'); });
+      await sleep(300);
+      await page.click('.tab-cat[data-cat="core"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="neighbours"]');
+      await sleep(1000);
+      const items = await page.$$('#panel-neighbours .neighbour-card');
+      assert(items.length > 0, `Neighbours tab has ${items.length} neighbour cards`);
+    });
+
+    // 5j. Compare tab (feature test)
+    await test('Compare tab shows neighbour lists across models', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('miso'); });
+      await sleep(300);
+      await page.click('.tab[data-tab="compare"]');
+      await sleep(800);
+      // Should have neighbour sections for each loaded model
+      const panels = await page.$$('#panel-compare .model-neighbours, #panel-compare .neighbour-grid');
+      const hasContent = await page.evaluate(() => {
+        const panel = document.getElementById('panel-compare');
+        return panel ? panel.textContent.length > 200 : false;
+      });
+      assert(hasContent || panels.length > 0, 'Compare tab appears empty');
+    });
+
+    // 5k. Modes tab (feature test)
+    await test('Modes tab renders culinary mode content', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('miso'); });
+      await sleep(300);
+      await page.click('.tab[data-tab="modes"]');
+      await sleep(1000);
+      const hasContent = await page.evaluate(() => {
+        const panel = document.getElementById('panel-modes');
+        return panel ? panel.textContent.length > 50 : false;
+      });
+      assert(hasContent, 'Modes tab appears empty');
+    });
+
+    // 5l. Recipes tab (feature test)
+    await test('Recipes tab has subtab navigation and content', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('miso'); });
+      await sleep(300);
+      await page.click('.tab[data-tab="recipes"]');
+      await sleep(1500); // Allow model data + cuisine rendering
+      // Check for subtab nav elements
+      const subTabs = await page.$$('#panel-recipes .recipe-subtab');
+      assert(subTabs.length >= 3, `Recipes tab has ${subTabs.length} subtabs (expected ≥3)`);
+      // Click a non-active subtab programmatically to avoid overlay interception
+      await page.evaluate(() => {
+        const subtabs = document.querySelectorAll('.recipe-subtab');
+        for (const st of subtabs) {
+          if (!st.classList.contains('active')) {
+            st.click();
+            return st.getAttribute('data-recipe-tab') || 'unknown';
+          }
+        }
+        return 'none';
+      });
+      await sleep(800);
+      const hasContent = await page.evaluate(() => {
+        const content = document.getElementById('recipeContent');
+        return content ? content.textContent.length > 50 : false;
+      });
+      assert(hasContent, 'Recipes tab appears empty after subtab switch');
+    });
+
+    // 5m. Snap tab (feature test)
+    await test('Snap tab shows file upload input', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="analyze"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="snap"]');
+      await sleep(600);
+      const fileInput = await page.$('#panel-snap input[type="file"], #panel-snap .file-input, #snapInput');
+      assert(!!fileInput, 'Snap tab missing file input');
+      const hasInstructions = await page.evaluate(() => {
+        const panel = document.getElementById('panel-snap');
+        return panel ? panel.textContent.includes('photo') || panel.textContent.includes('Photo') || panel.textContent.includes('upload') : false;
+      });
+      assert(hasInstructions, 'Snap tab missing upload instructions');
+    });
+
+    // ───── 6. Spoonacular graceful degradation ─────
+    console.log('\n═══ 6. Spoonacular Degradation ═══');
     await test('Spoonacular shows degraded state without API key', async () => {
       await dismissTour(page);
       await page.evaluate(() => localStorage.removeItem('spoonacular_key'));
@@ -498,8 +587,8 @@ async function main() {
       }
     });
 
-    // ───── 6. Chef's Toolkit ─────
-    console.log('\n═══ 6. Chef\'s Toolkit ═══');
+    // ───── 7. Chef's Toolkit ─────
+    console.log('\n═══ 7. Chef\'s Toolkit ═══');
     await test('Chef\'s Toolkit opens and shows content', async () => {
       await dismissTour(page);
       // Ensure miso is selected
@@ -552,8 +641,8 @@ async function main() {
       assert(!visible, 'Sidebar still visible');
     });
 
-    // ───── 7. Category Navigation ─────
-    console.log('\n═══ 7. Category Navigation ═══');
+    // ───── 8. Category Navigation ─────
+    console.log('\n═══ 8. Category Navigation ═══');
     for (const cat of ['core', 'play', 'analyze', 'advanced']) {
       await test(`Category "${cat}" switchable`, async () => {
         await dismissTour(page);
@@ -566,8 +655,8 @@ async function main() {
       });
     }
 
-    // ───── 8. Deep-Link URL ─────
-    console.log('\n═══ 8. Deep-Link URL ═══');
+    // ───── 9. Deep-Link URL ─────
+    console.log('\n═══ 9. Deep-Link URL ═══');
     await test('Hash-based deep-link loads correct state', async () => {
       // Fresh browser context forces a full page load with deep-link hash
       const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
@@ -596,8 +685,8 @@ async function main() {
       await ctx.close();
     });
 
-    // ───── 9. Service Worker ─────
-    console.log('\n═══ 9. Service Worker ═══');
+    // ───── 10. Service Worker ─────
+    console.log('\n═══ 10. Service Worker ═══');
     await test('Service Worker registered', async () => {
       const regs = await page.evaluate(() =>
         navigator.serviceWorker.getRegistrations().then(r => r.length)
@@ -605,8 +694,8 @@ async function main() {
       assert(regs >= 1, `No SW (got ${regs})`);
     });
 
-    // ───── 10. Onboarding Tour ─────
-    console.log('\n═══ 10. Onboarding Tour ═══');
+    // ───── 11. Onboarding Tour ─────
+    console.log('\n═══ 11. Onboarding Tour ═══');
     await test('Tour fires on fresh visit', async () => {
       const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
       const p = await ctx.newPage();
@@ -619,8 +708,8 @@ async function main() {
       await ctx.close();
     });
 
-    // ───── 11. Gesture Hint (touch) ─────
-    console.log('\n═══ 11. Gesture Hint ═══');
+    // ───── 12. Gesture Hint (touch) ─────
+    console.log('\n═══ 12. Gesture Hint ═══');
     await test('Gesture hint shown on touch device map visit', async () => {
       const ctx = await browser.newContext({
         viewport: { width: 768, height: 900 },
@@ -645,8 +734,8 @@ async function main() {
       await ctx.close();
     });
 
-    // ───── 12. Responsive ─────
-    console.log('\n═══ 12. Responsive Layout ═══');
+    // ───── 13. Responsive ─────
+    console.log('\n═══ 13. Responsive Layout ═══');
     for (const w of [768, 480]) {
       await test(`Responsive at ${w}px`, async () => {
         const ctx = await browser.newContext({ viewport: { width: w, height: 700 } });
@@ -659,8 +748,8 @@ async function main() {
       });
     }
 
-    // ───── 13. Accessibility ─────
-    console.log('\n═══ 13. Accessibility ═══');
+    // ───── 14. Accessibility ─────
+    console.log('\n═══ 14. Accessibility ═══');
     await test('Inputs have aria-label', async () => {
       const inputs = await page.$$('input');
       for (const el of inputs) {
@@ -674,8 +763,8 @@ async function main() {
       assert(!!tl, 'No role="tablist"');
     });
 
-    // ───── 14. i18n ─────
-    console.log('\n═══ 14. i18n ═══');
+    // ───── 15. i18n ─────
+    console.log('\n═══ 15. i18n ═══');
     await test('i18n ingredient names display in Spanish', async () => {
       await dismissTour(page);
       // Select garlic programmatically first
@@ -705,7 +794,7 @@ async function main() {
       await sleep(200);
     });
 
-    // ───── 12. New Feature Coverage ─────
+    // ───── 16. New Feature Coverage ─────
     console.log('\n═══ 15. New Feature Coverage ═══');
     await test('Chef Toolkit has QR code button', async () => {
       await dismissTour(page);
