@@ -25,7 +25,8 @@ python3 -m http.server 8080
 
 Then open **http://localhost:8080** in any modern browser. No build step, no npm install, no API keys needed.
 
-> **Note:** For Spoonacular API features (recipe search, image classification, nutrition, wine pairing), get a free API key at [spoonacular.com](https://spoonacular.com/food-api) and enter it in the 🌐 Spoonacular tab.
+> **Note:** For Spoonacular API features (recipe search, image classification, nutrition, wine pairing), get a free API key at [spoonacular.com](https://spoonacular.com/food-api) and enter it in the 🌐 Spoonacular tab.  
+> **No key?** Recipe search falls back to [TheMealDB](https://www.themealdb.com/) (free, no key needed).
 
 ---
 
@@ -75,7 +76,8 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 ### External Integrations
 | Tab | What It Does |
 |-----|-------------|
-| **🌐 Spoonacular** | Live recipe search, nutrition lookup, wine pairing (requires free API key) |
+| **🌐 Spoonacular** | Live recipe search (with <a href="https://www.themealdb.com/">TheMealDB</a> free fallback), nutrition lookup, wine pairing (requires free API key) |
+| **🌿 TheCocktailDB** | Real cocktail recipes alongside embedding-based suggestions in the Cocktail tab (free, no key needed) |
 
 ### Professional Toolbar
 | Feature | What It Does |
@@ -150,14 +152,14 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 
 ## Development
 
-This project was built across 10 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
+This project was built across 13 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **7,312 lines** of HTML/CSS/JS in a single file
-- **~154 JavaScript functions** across 19 tabs and Chef's Toolkit
-- **~5,500 lines** of JavaScript application logic
+- **7,756 lines** of HTML/CSS/JS in a single file
+- **~168 JavaScript functions** across 19 tabs and Chef's Toolkit
+- **~5,800 lines** of JavaScript application logic
 - **28 files** tracked in version control
-- **66 automated E2E tests** — all passing
+- **72 automated E2E tests** — all passing
 
 ---
 
@@ -169,3 +171,5 @@ This project was built across 10 development sessions (June–July 2026). See [`
 - **Embeddings:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — Radzikowski & Chen (2026), [arXiv:2605.22391](https://arxiv.org/abs/2605.22391)
 - **Nutrition data:** [USDA FoodData Central](https://fdc.nal.usda.gov/) (public domain)
 - **Spoonacular API:** Subject to [Spoonacular terms of service](https://spoonacular.com/food-api) — requires a free API key
+- **TheMealDB API:** Free recipe data from [TheMealDB](https://www.themealdb.com/) — no key needed for development
+- **TheCocktailDB API:** Free cocktail data from [TheCocktailDB](https://www.thecocktaildb.com/) — no key needed for development

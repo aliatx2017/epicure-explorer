@@ -140,6 +140,16 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
   .tab { font-size: 0.68rem; padding: 4px 8px; }
   #pcaCanvas { height: 220px; }
 }
+@media (max-width: 420px) {
+  .chef-sidebar { padding: 12px; font-size: 0.75rem; }
+  .chef-sidebar h3 { font-size: 0.78rem; }
+  .chef-sidebar .chef-section h4 { font-size: 0.68rem; }
+  .chef-tag { font-size: 0.65rem; padding: 2px 6px; }
+  .chef-sub-item { font-size: 0.65rem; padding: 2px 6px; }
+  .chef-sidebar-header h3 { font-size: 0.82rem; }
+  .chef-close-btn { font-size: 1rem; padding: 2px 6px; }
+  .chef-toggle { padding: 5px 10px; font-size: 0.72rem; }
+}
 
 .tabs { display: flex; gap: 4px; background: var(--surface); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 12px; flex-wrap: wrap; }
 .tabs .tab.hidden-cat { display: none; }
@@ -878,7 +888,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
             <span id="nutrientStatus" style="font-size:0.7rem;color:var(--text2);margin-left:6px;"></span>
             <span id="densitySliderWrap" style="display:none;align-items:center;gap:4px;margin-left:6px;">
               <span style="font-size:0.65rem;color:var(--text2);">Min%</span>
-              <input type="range" id="densityThreshold" min="0" max="10" value="2" step="0.5" style="width:60px;height:4px;" oninput="document.getElementById('densityThresholdLabel').textContent=this.value+'%'" onchange="renderMap()" aria-label="Density threshold">
+              <input type="range" id="densityThreshold" min="0" max="10" value="2" step="0.5" style="width:60px;height:4px;" oninput="updateDensityMarker(this.value)" onchange="renderMap()" aria-label="Density threshold">
               <span id="densityThresholdLabel" style="font-size:0.65rem;color:var(--text2);min-width:20px;">2%</span>
             </span>
           </div>
@@ -894,9 +904,10 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           <div class="pca-legend" id="pcaLegend">
             <span><span class="dot" style="background:var(--accent)"></span> Selected ingredient</span>
             <span id="nutrientLegend" style="display:none;font-size:0.7rem;align-items:center;gap:4px;margin-left:4px;">
-              <span class="nutrient-bar" id="nutrientBar" style="display:inline-block;width:60px;height:8px;border-radius:4px;vertical-align:middle;"></span>
+              <canvas id="nutrientBar" width="120" height="16" style="width:60px;height:8px;border-radius:4px;vertical-align:middle;cursor:pointer;" title="Click for density details"></canvas>
               <span id="nutrientMinLabel" style="color:var(--text2);">low</span>
               <span id="nutrientMaxLabel" style="color:var(--text2);">high</span>
+              <span id="densityInfoToggle" style="display:none;color:var(--accent);font-size:0.65rem;cursor:pointer;margin-left:2px;" onclick="toggleDensityInfo()">ℹ️</span>
             </span>
             <span><span class="dot" style="background:var(--text2)"></span> All ingredients</span>
             <span id="pcaStatus" style="color:var(--text2);font-size:0.8rem;"></span>
@@ -1230,7 +1241,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
         <h2>🌐 Spoonacular Recipe & Nutrition</h2>
         <div class="panel-section">
           <div class="spoon-key-section" id="spoonKeySection">
-            <p style="font-size:0.82rem;color:var(--text2);margin-bottom:6px;">Connect to the <a href="https://spoonacular.com/food-api" target="_blank" style="color:var(--accent);">Spoonacular API</a> for live recipe search, nutrition data, and wine pairing. Get a free API key at spoonacular.com.</p>
+            <p style="font-size:0.82rem;color:var(--text2);margin-bottom:6px;">Connect to the <a href="https://spoonacular.com/food-api" target="_blank" style="color:var(--accent);">Spoonacular API</a> for live recipe search, nutrition data, and wine pairing. No key? Use the free <strong>TheMealDB</strong> for recipe search only.</p>
             <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
               <input type="text" id="spoonKeyInput" placeholder="Enter your Spoonacular API key…" aria-label="Spoonacular API key" style="flex:1;min-width:220px;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.78rem;font-family:var(--font);outline:none;">
               <button class="game-new-btn" onclick="saveSpoonKey()" style="font-size:0.72rem;">💾 Save Key</button>
@@ -1466,6 +1477,8 @@ const MAP_PULSE = { active: false, idx: -1, start: 0 };
 let MAP_DENSITY_CACHE = null;
 // RAF coalescing for map renders
 let MAP_RENDER_PENDING = false;
+// Spatial grid for fast click lookup (built during renderMap)
+let MAP_SPATIAL_GRID = null;
 
 // ── i18n — lightweight UI string translation ──
 var CURRENT_LANG = 'en';
@@ -3532,6 +3545,8 @@ function runCocktail() {
       document.getElementById('searchInput').value = n;
     });
   });
+  // Also fetch real cocktails from TheCocktailDB as a supplement
+  searchCocktailDB(spirit);
 }
 
 // ── Build-A-Dish — Multi-ingredient Composition ──
@@ -4103,6 +4118,36 @@ function renderSeasonal() {
 var SPOON_KEY = localStorage.getItem('spoonacular_key') || '';
 var SPOON_DAILY_LIMIT = 150;
 
+// ── TheMealDB — Free recipe provider (no API key needed for dev) ──
+var MEALDB_BASE = 'https://www.themealdb.com/api/json/v1/1';
+
+// TheMealDB area list (curated subset matching common Epicure ingredient cuisines)
+var MEALDB_AREAS = [
+  'American','British','Canadian','Chinese','Croatian','Danish','Dutch','Egyptian',
+  'French','German','Greek','Indian','Irish','Italian','Jamaican','Japanese',
+  'Kenyan','Malaysian','Mexican','Moroccan','Nigerian','Norwegian','Polish',
+  'Portuguese','Russian','Spanish','Swedish','Thai','Turkish','Ukrainian','Vietnamese'
+];
+
+// TheMealDB area → Epicure cuisine direction mapping
+var MEALDB_AREA_CUISINE = {
+  'American': 'western_atlantic', 'British': 'western_atlantic', 'Canadian': 'western_atlantic',
+  'Italian': 'mediterranean', 'French': 'mediterranean', 'Spanish': 'mediterranean',
+  'Greek': 'mediterranean', 'Turkish': 'mediterranean', 'Portuguese': 'mediterranean',
+  'Chinese': 'east_asian', 'Japanese': 'japanese', 'Korean': 'east_asian',
+  'Thai': 'southeast_asian', 'Vietnamese': 'southeast_asian', 'Malaysian': 'southeast_asian',
+  'Indonesian': 'southeast_asian', 'Filipino': 'southeast_asian',
+  'Indian': 'south_asian', 'Pakistani': 'south_asian', 'Bangladeshi': 'south_asian',
+  'Sri Lankan': 'south_asian', 'Nepalese': 'south_asian',
+  'Mexican': 'latin_american', 'Brazilian': 'latin_american', 'Argentine': 'latin_american',
+  'Peruvian': 'latin_american', 'Cuban': 'latin_american', 'Jamaican': 'latin_american',
+  'Russian': 'eastern_european', 'Polish': 'eastern_european', 'Ukrainian': 'eastern_european',
+  'Croatian': 'eastern_european', 'Dutch': 'eastern_european', 'German': 'eastern_european',
+  'Norwegian': 'eastern_european', 'Danish': 'eastern_european', 'Swedish': 'eastern_european',
+  'Egyptian': 'mediterranean', 'Moroccan': 'mediterranean', 'Kenyan': 'mediterranean',
+  'Nigerian': 'mediterranean', 'Irish': 'western_atlantic'
+};
+
 function spoonGetCallsToday() {
   try {
     var raw = localStorage.getItem('spoonacular_calls');
@@ -4144,29 +4189,76 @@ function renderSpoonacular() {
       callCountEl.textContent = '';
     }
   }
-  // Graceful degradation: hide feature panel when no key
+  // Graceful degradation: hide feature panel when no key, show TheMealDB as fallback
   if (layoutEl) {
     layoutEl.style.display = SPOON_KEY ? '' : 'none';
   }
-  // Update any degraded-state banner
+  // Update degraded-state banner with TheMealDB fallback option
   var degradedEl = document.getElementById('spoonDegraded');
-  if (!degradedEl && !SPOON_KEY && layoutEl) {
+  if (!degradedEl && layoutEl) {
     degradedEl = document.createElement('div');
     degradedEl.id = 'spoonDegraded';
     degradedEl.style.cssText = 'padding:16px;border-radius:var(--radius-sm);background:var(--surface);border:1px dashed var(--border);text-align:center;margin-top:8px;';
-    degradedEl.innerHTML = '<div style="font-size:1.5rem;margin-bottom:8px;">🔑</div>'
-      + '<p style="font-size:0.82rem;color:var(--text2);margin-bottom:8px;">Enter a free Spoonacular API key above to unlock:</p>'
-      + '<ul style="list-style:none;font-size:0.78rem;color:var(--text2);line-height:1.6;">'
-      + '<li>🍲 Search recipes by ingredients</li>'
-      + '<li>🥗 Get nutrition data</li>'
-      + '<li>🍷 Find wine pairings</li>'
-      + '<li>📸 Image ingredient recognition</li>'
-      + '</ul>'
-      + '<p style="font-size:0.72rem;color:var(--text3);margin-top:8px;">Get your free key at <a href="https://spoonacular.com/food-api" target="_blank" style="color:var(--accent);">spoonacular.com</a></p>';
+    var html = '<div style="font-size:1.2rem;margin-bottom:6px;">🌿 Recipe Search Available</div>'
+      + '<p style="font-size:0.8rem;color:var(--text2);margin-bottom:8px;">You can use the free <strong>TheMealDB</strong> for recipe search, or enter a Spoonacular API key for full features.</p>'
+      + '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;">'
+      + '<button class="game-new-btn" onclick="useMealDBFallback()" style="font-size:0.75rem;">🌿 Use TheMealDB (Free)</button>'
+      + '<span style="font-size:0.72rem;color:var(--text3);display:flex;align-items:center;">or</span>'
+      + '</div>';
+    if (!SPOON_KEY) {
+      html += '<p style="font-size:0.72rem;color:var(--text3);margin-top:4px;">Enter a Spoonacular API key above to unlock nutrition, wine pairing &amp; image classification.</p>';
+    }
+    degradedEl.innerHTML = html;
     layoutEl.parentNode.insertBefore(degradedEl, layoutEl.nextSibling);
+    // If no key but TheMealDB was previously selected by user, auto-show it
+    if (localStorage.getItem('epicure_use_mealdb') === '1' && !SPOON_KEY) {
+      useMealDBFallback();
+    }
   } else if (degradedEl) {
     degradedEl.style.display = SPOON_KEY ? 'none' : '';
   }
+}
+
+function useMealDBFallback() {
+  localStorage.setItem('epicure_use_mealdb', '1');
+  var degradedEl = document.getElementById('spoonDegraded');
+  if (degradedEl) {
+    degradedEl.innerHTML = '<div style="font-size:1rem;margin-bottom:6px;">🌿 TheMealDB Active</div>'
+      + '<p style="font-size:0.78rem;color:var(--text2);margin-bottom:4px;">Using free recipe data from <strong>TheMealDB</strong>. Enter ingredients below to search.</p>'
+      + '<p style="font-size:0.7rem;color:var(--text3);"><button class="game-new-btn" onclick="localStorage.removeItem(\'epicure_use_mealdb\');renderSpoonacular();" style="font-size:0.65rem;padding:2px 8px;">✕ Switch to Spoonacular</button></p>';
+  }
+  // Show the recipe search panel
+  var layoutEl = document.getElementById('spoonLayout');
+  if (layoutEl) {
+    layoutEl.style.display = '';
+  }
+  var keySection = document.getElementById('spoonKeySection');
+  if (keySection) keySection.style.display = 'none';
+  // Hide wine + nutrition sections since those still need Spoonacular
+  var wineResults = document.getElementById('spoonWineResults');
+  if (wineResults) wineResults.innerHTML = '<div class="empty-state" style="font-size:0.72rem;">🍷 Wine pairing requires a Spoonacular API key.</div>';
+  var nutritionResults = document.getElementById('spoonNutritionResults');
+  if (nutritionResults) nutritionResults.innerHTML = '<div class="empty-state" style="font-size:0.72rem;">🥗 Nutrition lookup requires a Spoonacular API key.</div>';
+  // Add a badge to the recipe search input
+  var recipeInput = document.getElementById('spoonRecipeInput');
+  if (recipeInput) recipeInput.placeholder = 'e.g. chicken, garlic, lemon';
+  // Wire the recipe search button to TheMealDB
+  var recipeBtn = document.querySelector('[onclick="spoonSearchRecipes()"]');
+  if (recipeBtn) {
+    recipeBtn.setAttribute('onclick', 'mealDBSearchRecipes(document.getElementById(\'spoonRecipeInput\').value)');
+    recipeBtn.textContent = '🌿 Find Recipes';
+  }
+  // Show a hint bar
+  var hintBar = document.getElementById('spoonHintBar');
+  if (!hintBar) {
+    hintBar = document.createElement('div');
+    hintBar.id = 'spoonHintBar';
+    hintBar.style.cssText = 'padding:8px 12px;border-radius:var(--radius-sm);background:var(--surface2);margin-top:6px;font-size:0.72rem;color:var(--text2);display:flex;align-items:center;gap:8px;';
+    hintBar.innerHTML = '🌿 Recipe data from <a href="https://www.themealdb.com/" target="_blank" style="color:var(--accent);">TheMealDB</a> — free, no API key needed.';
+    var layoutEl = document.getElementById('spoonLayout');
+    if (layoutEl) layoutEl.parentNode.insertBefore(hintBar, layoutEl);
+  }
+  hintBar.style.display = '';
 }
 
 function saveSpoonKey() {
@@ -4215,6 +4307,11 @@ function spoonFetch(url) {
 }
 
 function spoonSearchRecipes() {
+  // Auto-degrade to TheMealDB when no API key is set
+  if (!SPOON_KEY) {
+    mealDBSearchRecipes(document.getElementById('spoonRecipeInput').value);
+    return;
+  }
   var r = document.getElementById('spoonRecipeResults');
   r.innerHTML = '<div class="spoon-loading">⏳ Searching recipes…</div>';
   var input = document.getElementById('spoonRecipeInput').value.trim();
@@ -4346,6 +4443,196 @@ function spoonNutritionLookup() {
   }).catch(function(err) {
     r.innerHTML = '<div class="spoon-error">❌ ' + err.message + '</div>';
   });
+}
+
+// ── TheMealDB — Free Recipe API (no API key needed) ──
+
+function mealDBFetch(url) {
+  if (!navigator.onLine) {
+    return Promise.reject(new Error('📡 You appear to be offline. Please check your internet connection.'));
+  }
+  // Use test key '1' during development; for production apps, instructions to get a paid key
+  return fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 'apiKey=1')
+    .then(function(r) {
+      if (!r.ok) throw new Error('TheMealDB error (HTTP ' + r.status + ')');
+      return r.json();
+    })
+    .then(function(data) {
+      if (!data || data.meals === null || data.meals === undefined) return null;
+      return data;
+    });
+}
+
+function mealDBSearchRecipes(ingredient) {
+  var r = document.getElementById('spoonRecipeResults');
+  r.innerHTML = '<div class="spoon-loading">🌿 Searching TheMealDB recipes…</div>';
+  var clean = ingredient.trim().toLowerCase().replace(/\s+/g, '_');
+  if (!clean) { r.innerHTML = '<div class="spoon-error">Enter at least one ingredient.</div>'; return; }
+
+  mealDBFetch(MEALDB_BASE + '/filter.php?i=' + encodeURIComponent(clean)).then(function(data) {
+    if (!data || !data.meals || data.meals.length === 0) {
+      r.innerHTML = '<div class="empty-state">No recipes found for "' + ingredient + '" in TheMealDB. Try a different ingredient.</div>';
+      return;
+    }
+    var meals = data.meals.slice(0, 12);
+    r.innerHTML = '<div style="font-size:0.72rem;color:var(--text2);margin-bottom:6px;">🌿 Free via TheMealDB — Found ' + meals.length + ' recipes</div>' +
+      '<div class="spoon-recipe-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">' +
+      meals.map(function(meal) {
+        var thumb = meal.strMealThumb || '';
+        var thumbSmall = thumb ? thumb + '/preview' : '';
+        return '<div class="spoon-recipe-card" onclick="mealDBGetRecipeInfo(\'' + meal.idMeal + '\')" style="cursor:pointer;">' +
+          (thumbSmall ? '<img class="spoon-recipe-img" src="' + thumbSmall + '" alt="" loading="lazy" style="height:100px;width:100%;object-fit:cover;">' : '<div class="spoon-recipe-img" style="height:100px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:2rem;">🍲</div>') +
+          '<div class="spoon-recipe-info" style="padding:4px 8px;">' +
+          '<div class="spoon-recipe-title" style="font-size:0.72rem;">' + meal.strMeal + '</div>' +
+          '</div></div>';
+      }).join('') +
+      '</div>' +
+      '<div style="font-size:0.65rem;color:var(--text2);margin-top:4px;">💡 Click a recipe to view ingredients &amp; instructions.</div>';
+  }).catch(function(err) {
+    r.innerHTML = '<div class="spoon-error">❌ ' + err.message + '</div>';
+  });
+}
+
+function mealDBGetRecipeInfo(id) {
+  var r = document.getElementById('spoonRecipeResults');
+  r.innerHTML = '<div class="spoon-loading">🌿 Loading recipe details…</div>';
+
+  mealDBFetch(MEALDB_BASE + '/lookup.php?i=' + encodeURIComponent(id)).then(function(data) {
+    if (!data || !data.meals || data.meals.length === 0) {
+      r.innerHTML = '<div class="spoon-error">Recipe not found.</div>';
+      return;
+    }
+    var meal = data.meals[0];
+    // Collect non-empty ingredients and measures (strIngredient1 + strMeasure1, etc.)
+    var ingredients = [];
+    for (var mi = 1; mi <= 20; mi++) {
+      var ing = meal['strIngredient' + mi];
+      var meas = meal['strMeasure' + mi];
+      if (ing && ing.trim()) {
+        ingredients.push({ name: ing.trim(), measure: (meas || '').trim() });
+      }
+    }
+    var html = '<div class="spoon-wine-card" style="padding:12px;">';
+    html += '<div style="display:flex;gap:10px;align-items:flex-start;">';
+    if (meal.strMealThumb) {
+      html += '<img src="' + meal.strMealThumb + '/preview" alt="" style="width:100px;height:100px;border-radius:8px;object-fit:cover;">';
+    }
+    html += '<div style="flex:1;">';
+    html += '<div style="font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:2px;">' + meal.strMeal + '</div>';
+    html += '<div style="font-size:0.72rem;color:var(--text2);margin-bottom:2px;">📍 ' + (meal.strArea || '') + ' · 🏷️ ' + (meal.strCategory || '') + '</div>';
+    if (meal.strYoutube) {
+      html += '<a href="' + meal.strYoutube + '" target="_blank" style="font-size:0.7rem;color:var(--accent);">▶ Watch on YouTube</a>';
+    }
+    if (meal.strSource) {
+      html += ' · <a href="' + meal.strSource + '" target="_blank" style="font-size:0.7rem;color:var(--accent);">📄 Source</a>';
+    }
+    html += '</div></div>';
+    // Ingredients
+    html += '<div style="margin-top:10px;"><strong style="font-size:0.75rem;color:var(--accent);">🛒 Ingredients</strong></div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;">';
+    for (var ii = 0; ii < ingredients.length; ii++) {
+      var label = ingredients[ii].measure ? ingredients[ii].measure + ' ' + ingredients[ii].name : ingredients[ii].name;
+      html += '<span class="recipe-tag" style="font-size:0.65rem;">' + label + '</span>';
+    }
+    html += '</div>';
+    // Instructions
+    html += '<div style="margin-top:10px;"><strong style="font-size:0.75rem;color:var(--accent);">📝 Instructions</strong></div>';
+    var steps = meal.strInstructions.split(/\r?\n/).filter(function(s) { return s.trim(); });
+    html += '<ol style="margin-top:4px;padding-left:18px;font-size:0.72rem;color:var(--text2);line-height:1.5;">';
+    for (var si = 0; si < steps.length; si++) {
+      html += '<li style="margin-bottom:4px;">' + steps[si] + '</li>';
+    }
+    html += '</ol>';
+    html += '<div style="margin-top:6px;font-size:0.65rem;color:var(--text2);">🌿 Data from TheMealDB</div>';
+    html += '</div>';
+    r.innerHTML = html;
+  }).catch(function(err) {
+    r.innerHTML = '<div class="spoon-error">❌ ' + err.message + '</div>';
+  });
+}
+
+// ── TheCocktailDB — Free Cocktail Recipe API (no API key needed) ──
+var COCKTAIL_DB_BASE = 'https://www.thecocktaildb.com/api/json/v1/1';
+
+function cocktailDBFetch(url) {
+  if (!navigator.onLine) return Promise.reject(new Error('📡 Offline'));
+  return fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 'apiKey=1')
+    .then(function(r) { if (!r.ok) throw new Error('CocktailDB error'); return r.json(); })
+    .then(function(d) { return (d && d.drinks) || null; });
+}
+
+function searchCocktailDB(spirit) {
+  var r = document.getElementById('cocktailResults');
+  if (!spirit) return;
+  var term = spirit.replace(/_/g, ' ');
+  // Remove old results container if it exists
+  var old = document.getElementById('cocktailDBResults');
+  if (old) old.remove();
+  cocktailDBFetch(COCKTAIL_DB_BASE + '/search.php?s=' + encodeURIComponent(term)).then(function(drinks) {
+    if (!drinks || drinks.length === 0) return;
+    // Filter by spirit type (must contain the spirit in ingredients)
+    var filtered = drinks.filter(function(d) {
+      for (var i = 1; i <= 15; i++) {
+        var ing = d['strIngredient' + i];
+        if (ing && ing.toLowerCase().indexOf(term) >= 0) return true;
+      }
+      return false;
+    });
+    if (filtered.length === 0) filtered = drinks.slice(0, 5);
+    else filtered = filtered.slice(0, 5);
+    var container = document.createElement('div');
+    container.id = 'cocktailDBResults';
+    container.style.cssText = 'margin-top:12px;border-top:1px solid var(--border);padding-top:8px;';
+    var html = '<div style="font-size:0.75rem;color:var(--accent);font-weight:600;margin-bottom:6px;">🍸 Real Cocktails (TheCocktailDB)</div>';
+    for (var di = 0; di < filtered.length; di++) {
+      var d = filtered[di];
+      html += '<div class="spoon-wine-card" style="margin-top:4px;padding:8px;cursor:pointer;" onclick="showCocktailDBDetail(\'' + d.idDrink + '\')">';
+      if (d.strDrinkThumb) html += '<img src="' + d.strDrinkThumb + '/preview" alt="" style="width:50px;height:50px;border-radius:6px;float:left;margin-right:8px;object-fit:cover;">';
+      html += '<div style="font-weight:500;font-size:0.78rem;color:var(--text);">' + d.strDrink + '</div>';
+      html += '<div style="font-size:0.68rem;color:var(--text2);">' + (d.strCategory || '') + (d.strAlcoholic ? ' · ' + d.strAlcoholic : '') + '</div>';
+      html += '<div style="font-size:0.65rem;color:var(--text3);">Click for recipe</div><div style="clear:both;"></div>';
+      html += '</div>';
+    }
+    html += '<div style="font-size:0.6rem;color:var(--text3);margin-top:4px;">🌿 Free via TheCocktailDB</div>';
+    container.innerHTML = html;
+    r.parentNode.appendChild(container);
+  }).catch(function() {});
+}
+
+function showCocktailDBDetail(id) {
+  cocktailDBFetch(COCKTAIL_DB_BASE + '/lookup.php?i=' + encodeURIComponent(id)).then(function(drinks) {
+    if (!drinks || drinks.length === 0) return;
+    var d = drinks[0];
+    var ingredients = [];
+    for (var i = 1; i <= 15; i++) {
+      var ing = d['strIngredient' + i];
+      var meas = d['strMeasure' + i];
+      if (ing && ing.trim()) ingredients.push({ name: ing.trim(), measure: (meas || '').trim() });
+    }
+    var container = document.getElementById('cocktailDBResults');
+    if (!container) return;
+    var html = '<div class="spoon-wine-card" style="padding:12px;margin-top:4px;">';
+    html += '<div style="display:flex;gap:10px;align-items:flex-start;">';
+    if (d.strDrinkThumb) html += '<img src="' + d.strDrinkThumb + '/preview" alt="" style="width:80px;height:80px;border-radius:8px;object-fit:cover;">';
+    html += '<div style="flex:1;">';
+    html += '<div style="font-weight:600;font-size:0.82rem;color:var(--text);margin-bottom:2px;">' + d.strDrink + '</div>';
+    html += '<div style="font-size:0.68rem;color:var(--text2);">' + (d.strCategory || '') + ' · ' + (d.strAlcoholic || '') + ' · ' + (d.strGlass || '') + '</div>';
+    if (d.strInstructions) {
+      html += '<div style="margin-top:4px;font-size:0.68rem;color:var(--text2);">' + d.strInstructions.substring(0, 150) + (d.strInstructions.length > 150 ? '…' : '') + '</div>';
+    }
+    if (d.strYoutube) {
+      html += '<a href="' + d.strYoutube + '" target="_blank" style="font-size:0.68rem;color:var(--accent);margin-top:4px;display:inline-block;">▶ Watch on YouTube</a>';
+    }
+    html += '</div></div><div style="clear:both;"></div>';
+    html += '<div style="margin-top:6px;"><strong style="font-size:0.7rem;color:var(--accent);">🛒 Ingredients</strong></div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;">';
+    for (var ii = 0; ii < ingredients.length; ii++) {
+      html += '<span class="recipe-tag" style="font-size:0.65rem;">' + (ingredients[ii].measure ? ingredients[ii].measure + ' ' : '') + ingredients[ii].name + '</span>';
+    }
+    html += '</div>';
+    html += '<div style="margin-top:6px;font-size:0.6rem;color:var(--text3);">Data from TheCocktailDB</div></div>';
+    container.innerHTML = html;
+  }).catch(function() {});
 }
 
 // ── Describe a Dish — Natural Language Ingredient Parser ──
@@ -5534,6 +5821,38 @@ function nutrientToColor(val, min, max) {
   }
 }
 
+// ── Density heatmap interactive functions ──
+function updateDensityMarker(val) {
+  document.getElementById('densityThresholdLabel').textContent = val + '%';
+  var bar = document.getElementById('nutrientBar');
+  if (!bar || !bar.getContext) return;
+  // Re-draw the marker on the existing gradient
+  // We re-draw the whole bar to clear old marker
+  renderMap();
+}
+var DENSITY_INFO_VISIBLE = false;
+var DENSITY_INFO_POPUP = null;
+function toggleDensityInfo() {
+  DENSITY_INFO_VISIBLE = !DENSITY_INFO_VISIBLE;
+  var toggle = document.getElementById('densityInfoToggle');
+  if (toggle) toggle.style.opacity = DENSITY_INFO_VISIBLE ? '1' : '0.5';
+  if (!DENSITY_INFO_VISIBLE) {
+    if (DENSITY_INFO_POPUP) { DENSITY_INFO_POPUP.remove(); DENSITY_INFO_POPUP = null; }
+    return;
+  }
+  // Show a popup with density details
+  var canvas = document.getElementById('pcaCanvas');
+  if (!canvas) return;
+  var popup = document.createElement('div');
+  popup.style.cssText = 'position:absolute;bottom:30px;left:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:0.72rem;color:var(--text2);max-width:260px;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+  popup.innerHTML = '<strong style="color:var(--accent);font-size:0.75rem;">🔬 Density Heatmap</strong><br>' +
+    'Colors: <span style="color:#1e3a5f">●</span> sparse → <span style="color:#0891b2">●</span> → <span style="color:#84cc22">●</span> → <span style="color:#facc15">●</span> → <span style="color:#f97316">●</span> dense<br>' +
+    'Adjust threshold with the slider above.<br>' +
+    '<span style="color:var(--text3)">Click anywhere on the map in density mode to see ingredients in that area.</span>';
+  canvas.parentElement.appendChild(popup);
+  DENSITY_INFO_POPUP = popup;
+}
+
 function getForceGraphLayout(model, names) {
   const n = names.length;
   if (!model.neighbours || model.neighbours.length === 0) {
@@ -5782,6 +6101,19 @@ function renderMap() {
   window._lastScreenPts = screenPts;
   window._lastNames = names;
 
+  // Build spatial grid for fast click lookup
+  var SPATIAL_GRID_S = 30;
+  var gridCells = [];
+  var cellWGrid = W / SPATIAL_GRID_S, cellHGrid = H / SPATIAL_GRID_S;
+  for (var gi = 0; gi < screenPts.length; gi++) {
+    var gcx = Math.max(0, Math.min(SPATIAL_GRID_S - 1, Math.floor(screenPts[gi].sx / cellWGrid)));
+    var gcy = Math.max(0, Math.min(SPATIAL_GRID_S - 1, Math.floor(screenPts[gi].sy / cellHGrid)));
+    if (!gridCells[gcy]) gridCells[gcy] = [];
+    if (!gridCells[gcy][gcx]) gridCells[gcy][gcx] = [];
+    gridCells[gcy][gcx].push({ idx: gi, sx: screenPts[gi].sx, sy: screenPts[gi].sy });
+  }
+  MAP_SPATIAL_GRID = { cells: gridCells, cellW: cellWGrid, cellH: cellHGrid, gridS: SPATIAL_GRID_S };
+
   // Nutrient overlay
   const nutrient = document.getElementById('nutrientOverlay').value;
   let nutrientValues = null, nMin = null, nMax = null;
@@ -5810,22 +6142,28 @@ function renderMap() {
     if (MAP_DENSITY_CACHE && MAP_DENSITY_CACHE.key === cacheKey && MAP_DENSITY_CACHE.grid) {
       densityGrid = MAP_DENSITY_CACHE;
     } else {
+      // Optimized KDE: iterate points and scatter to nearby cells (O(n × r²))
+      // instead of iterating all cells × all points (O(cells × n))
       var grid = [];
       var maxCount = 0;
-      for (var gy = 0; gy < GRID_Y; gy++) {
-        grid[gy] = [];
-        for (var gx = 0; gx < GRID_X; gx++) {
-          var cx = (gx + 0.5) * cellW;
-          var cy = (gy + 0.5) * cellH;
-          var count = 0;
-          for (var pi = 0; pi < screenPts.length; pi++) {
-            var dx = screenPts[pi].sx - cx;
-            var dy = screenPts[pi].sy - cy;
+      for (var gi = 0; gi < GRID_Y; gi++) { grid[gi] = new Array(GRID_X).fill(0); }
+      for (var pi = 0; pi < screenPts.length; pi++) {
+        var px = screenPts[pi].sx, py = screenPts[pi].sy;
+        var minGX = Math.max(0, Math.floor((px - densityRadius) / cellW));
+        var maxGX = Math.min(GRID_X - 1, Math.floor((px + densityRadius) / cellW));
+        var minGY = Math.max(0, Math.floor((py - densityRadius) / cellH));
+        var maxGY = Math.min(GRID_Y - 1, Math.floor((py + densityRadius) / cellH));
+        for (var gy = minGY; gy <= maxGY; gy++) {
+          for (var gx = minGX; gx <= maxGX; gx++) {
+            var cx = (gx + 0.5) * cellW, cy = (gy + 0.5) * cellH;
+            var dx = px - cx, dy = py - cy;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < densityRadius) count += (1 - dist / densityRadius);
+            if (dist < densityRadius) {
+              var contrib = (1 - dist / densityRadius);
+              grid[gy][gx] += contrib;
+              if (grid[gy][gx] > maxCount) maxCount = grid[gy][gx];
+            }
           }
-          grid[gy][gx] = count;
-          if (count > maxCount) maxCount = count;
         }
       }
       MAP_DENSITY_CACHE = { key: cacheKey, grid: grid, cellW: cellW, cellH: cellH, maxCount: maxCount || 1 };
@@ -5833,16 +6171,40 @@ function renderMap() {
     }
     nutStatus.textContent = screenPts.length + ' ingredients · density';
     nutLegend.style.display = 'inline-flex';
+    document.getElementById('densityInfoToggle').style.display = '';
+    var dt = document.getElementById('densityInfoToggle');
+    if (dt) { dt.style.display = ''; dt.style.opacity = '0.5'; }
+    // Render density color scale on the legend canvas
     var bar = document.getElementById('nutrientBar');
-    bar.style.background = 'linear-gradient(to right, #1e3a5f, #0891b2, #84cc16, #facc15, #f97316)';
+    if (bar && bar.getContext) {
+      var bctx = bar.getContext('2d');
+      var bw = bar.width, bh = bar.height;
+      var dc = [[30,58,95],[8,145,178],[132,204,22],[250,204,21],[249,115,22]];
+      for (var bi = 0; bi < bw; bi++) {
+        var t = bi / bw;
+        var seg = t * (dc.length - 1);
+        var si = Math.floor(seg), sf = seg - si;
+        var ni = Math.min(si + 1, dc.length - 1);
+        bctx.fillStyle = 'rgb(' + Math.round(dc[si][0] + (dc[ni][0] - dc[si][0]) * sf) + ',' + Math.round(dc[si][1] + (dc[ni][1] - dc[si][1]) * sf) + ',' + Math.round(dc[si][2] + (dc[ni][2] - dc[si][2]) * sf) + ')';
+        bctx.fillRect(bi, 0, 1, bh);
+      }
+      // Threshold indicator
+      var thresholdPct = parseFloat((document.getElementById('densityThreshold')||{}).value) || 0;
+      var tx = Math.round(thresholdPct / 100 * bw);
+      bctx.fillStyle = '#fff';
+      bctx.fillRect(tx - 1, 0, 2, bh);
+    }
     document.getElementById('nutrientMinLabel').textContent = 'Sparse';
     document.getElementById('nutrientMaxLabel').textContent = 'Dense';
   } else {
     var dSliderWrap2 = document.getElementById('densitySliderWrap');
     if (dSliderWrap2) dSliderWrap2.style.display = 'none';
+    var densityToggle = document.getElementById('densityInfoToggle');
+    if (densityToggle) densityToggle.style.display = 'none';
+    // Clean up density popup when leaving density mode
+    if (DENSITY_INFO_POPUP) { DENSITY_INFO_POPUP.remove(); DENSITY_INFO_POPUP = null; DENSITY_INFO_VISIBLE = false; }
   }
 
-  // Season overlay
   if (nutrient === 'season') {
     seasonValues = names.map(function(n) { return getSeasonForIngredient(n); });
     var seasonCounts = { spring: 0, summer: 0, autumn: 0, winter: 0 };
@@ -5901,29 +6263,38 @@ function renderMap() {
     }
   }
 
-  // Viewport culling: only render points within visible area (+ margin)
+  // Viewport culling + batch rendering: group points by color, one beginPath/fill per color
   const CULL_MARGIN = 10;
+  const pointGroups = {};
+  const POINT_SIZE = 2.5;
   for (let i = 0; i < screenPts.length; i++) {
     const { sx, sy } = screenPts[i];
-    // Skip points outside the visible viewport
     if (sx < -CULL_MARGIN || sx > W + CULL_MARGIN || sy < -CULL_MARGIN || sy > H + CULL_MARGIN) continue;
-    ctx.beginPath();
-    ctx.arc(sx, sy, 2.5, 0, Math.PI * 2);
+    let color;
     if (i === selIdx) {
-      ctx.fillStyle = '#c084fc';
+      color = '#c084fc';
     } else if (seasonValues && seasonValues[i]) {
-      // Pick first matching season from multi-season string
       var sv = seasonValues[i];
       var mapSeason = sv === 'yearround' ? null :
         sv.indexOf('spring') >= 0 ? 'spring' :
         sv.indexOf('summer') >= 0 ? 'summer' :
         sv.indexOf('autumn') >= 0 ? 'autumn' :
         sv.indexOf('winter') >= 0 ? 'winter' : null;
-      ctx.fillStyle = mapSeason ? SEASON_COLORS[mapSeason] : 'rgba(150, 150, 200, 0.25)';
+      color = mapSeason ? SEASON_COLORS[mapSeason] : 'rgba(150, 150, 200, 0.25)';
     } else if (nutrientValues && nMin !== null) {
-      ctx.fillStyle = nutrientToColor(nutrientValues[i], nMin, nMax);
+      color = nutrientToColor(nutrientValues[i], nMin, nMax);
     } else {
-      ctx.fillStyle = 'rgba(150, 150, 200, 0.25)';
+      color = 'rgba(150, 150, 200, 0.25)';
+    }
+    if (!pointGroups[color]) pointGroups[color] = [];
+    pointGroups[color].push(sx, sy);
+  }
+  for (const [color, pts] of Object.entries(pointGroups)) {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    for (let pi = 0; pi < pts.length; pi += 2) {
+      ctx.moveTo(pts[pi], pts[pi + 1]);
+      ctx.arc(pts[pi], pts[pi + 1], POINT_SIZE, 0, Math.PI * 2);
     }
     ctx.fill();
   }
@@ -5943,13 +6314,20 @@ function renderMap() {
     ctx.fillText(names[selIdx].replace(/_/g, ' '), sx, sy - 14);
   }
 
-  // ── Cuisine region labels ──
+  // ── Cuisine region labels (with TheMealDB sub-areas when zoomed) ──
   if (MAP_VIEW.scale > 0.3 && STATE.data && STATE.data.directions) {
     const cuisines = ['east_asian', 'western_atlantic', 'mediterranean', 'eastern_european',
       'southeast_asian', 'south_asian', 'latin_american', 'japanese'];
     const cuisineLabels = { east_asian:'East Asian', western_atlantic:'Western Atlantic',
       mediterranean:'Mediterranean', eastern_european:'Eastern European', southeast_asian:'SE Asian',
       south_asian:'South Asian', latin_american:'Latin American', japanese:'Japanese' };
+    // Build reverse cuisine → TheMealDB areas mapping
+    var areaByCuisine = {};
+    for (var area in MEALDB_AREA_CUISINE) {
+      var cc = MEALDB_AREA_CUISINE[area];
+      if (!areaByCuisine[cc]) areaByCuisine[cc] = [];
+      areaByCuisine[cc].push(area);
+    }
     const vecs = model.vectors;
     // Count ingredients per cuisine (above affinity threshold) and accumulate positions
     const counts = {}, sumX = {}, sumY = {};
@@ -5967,25 +6345,32 @@ function renderMap() {
       }
     }
     ctx.save();
-    ctx.font = 'bold 13px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     for (const c of cuisines) {
       if (counts[c] < 15) continue;
       const cx = sumX[c] / counts[c];
       const cy = sumY[c] / counts[c];
-      // Only draw if centroid is inside the visible canvas
       if (cx < -100 || cx > W + 100 || cy < -100 || cy > H + 100) continue;
-      // Background pill
+      // Main label
+      ctx.font = 'bold 13px Inter, sans-serif';
       const label = cuisineLabels[c];
       const tw = ctx.measureText(label).width;
       const px = 6;
       ctx.fillStyle = CUISINE_COLORS[c] + '30';
       ctx.beginPath();
-      ctx.roundRect(cx - tw/2 - px, cy - 10, tw + px*2, 20, 10);
+      ctx.roundRect(cx - tw/2 - px, cy - 12, tw + px*2, 24, 10);
       ctx.fill();
       ctx.fillStyle = CUISINE_COLORS[c];
-      ctx.fillText(label, cx, cy);
+      ctx.fillText(label, cx, cy + 1);
+      // TheMealDB sub-areas (shown when zoomed in enough)
+      if (MAP_VIEW.scale >= 0.8 && areaByCuisine[c]) {
+        var areas = areaByCuisine[c];
+        var sub = areas.slice(0, Math.min(4, areas.length)).join(' · ');
+        ctx.font = '9px Inter, sans-serif';
+        ctx.fillStyle = 'rgba(200,200,220,0.6)';
+        ctx.fillText(sub, cx, cy + 16);
+      }
     }
     ctx.restore();
   }
@@ -6020,44 +6405,10 @@ function renderMap() {
     method === 'force' ? 'Force-directed layout' :
     'PCA (dim 0 vs dim 1)'}`;
 
-  const tooltip = document.getElementById('pcaTooltip');
-
-  function handleHover(e) {
-    const r = canvas.getBoundingClientRect();
-    const mx = e.clientX - r.left;
-    const my = e.clientY - r.top;
-    let closest = -1;
-    let closestDist = 12;
-    for (let i = 0; i < screenPts.length; i++) {
-      const dx = screenPts[i].sx - mx;
-      const dy = screenPts[i].sy - my;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < closestDist) {
-        closestDist = d;
-        closest = i;
-      }
-    }
-    if (closest >= 0) {
-      tooltip.textContent = displayName(names[closest]);
-      tooltip.style.display = 'block';
-      const tw = tooltip.offsetWidth || 160;
-      const th = tooltip.offsetHeight || 26;
-      let lx = e.clientX + 12, ly = e.clientY - 10;
-      if (lx + tw > window.innerWidth - 8) lx = e.clientX - tw - 8;
-      if (ly + th > window.innerHeight - 8) ly = e.clientY - th - 8;
-      if (lx < 8) lx = 8;
-      if (ly < 8) ly = 8;
-      tooltip.style.left = lx + 'px';
-      tooltip.style.top = ly + 'px';
-      canvas.style.cursor = 'pointer';
-    } else {
-      tooltip.style.display = 'none';
-      canvas.style.cursor = 'crosshair';
-    }
-  }
-
-  canvas.onmousemove = handleHover;
-  canvas.onmouseleave = () => tooltip.style.display = 'none';
+  // Hover handler now uses spatial grid — bound once in setupMapInteractions
+  // handleHover removal: the handler was re-created every render and bound via
+  // canvas.onmousemove. It now lives in setupMapInteractions() and uses
+  // MAP_SPATIAL_GRID + window._lastNames for fast lookup.
 }
 
 // ── Map Interaction Setup (one-time) ──
@@ -6128,26 +6479,118 @@ function setupMapInteractions() {
     renderMap();
   });
 
-  // Click to select ingredient (uses latest screenPts via renderMap closure)
+  // Click to select ingredient (uses spatial grid for O(log n) lookup)
   canvas.addEventListener('click', (e) => {
     if (MAP_DRAG.dragged) return;
     const r = canvas.getBoundingClientRect();
     const mx = e.clientX - r.left;
     const my = e.clientY - r.top;
-    // screenPts is computed fresh each renderMap — we can't access it here.
-    // Instead, find the nearest ingredient using on-the-fly distance calculation.
-    if (!window._lastScreenPts || !window._lastNames) return;
+    if (!window._lastNames || !MAP_SPATIAL_GRID) return;
+    var sg = MAP_SPATIAL_GRID;
+    var gx = Math.floor(mx / sg.cellW);
+    var gy = Math.floor(my / sg.cellH);
+    if (gx < 0 || gx >= sg.gridS || gy < 0 || gy >= sg.gridS) return;
+    // Search clicked cell + 8 neighbors (Moore neighborhood)
     let closest = -1, closestDist = 20;
-    for (let i = 0; i < window._lastScreenPts.length; i++) {
-      const dx = window._lastScreenPts[i].sx - mx;
-      const dy = window._lastScreenPts[i].sy - my;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < closestDist) { closestDist = d; closest = i; }
+    for (var dy = -1; dy <= 1; dy++) {
+      for (var dx = -1; dx <= 1; dx++) {
+        var cy = gy + dy, cx = gx + dx;
+        if (cy < 0 || cy >= sg.gridS || cx < 0 || cx >= sg.gridS) continue;
+        var cell = sg.cells[cy] && sg.cells[cy][cx];
+        if (!cell) continue;
+        for (var ci = 0; ci < cell.length; ci++) {
+          var ddx = cell[ci].sx - mx, ddy = cell[ci].sy - my;
+          var dd = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (dd < closestDist) { closestDist = dd; closest = cell[ci].idx; }
+        }
+      }
     }
     if (closest >= 0) {
       selectIngredient(window._lastNames[closest]);
       document.getElementById('searchInput').value = window._lastNames[closest];
+    } else if (document.getElementById('nutrientOverlay').value === 'density') {
+      // Density mode click on empty area — show local density info
+      var densityPopup = document.getElementById('densityClickInfo');
+      if (!densityPopup) {
+        densityPopup = document.createElement('div');
+        densityPopup.id = 'densityClickInfo';
+        densityPopup.style.cssText = 'position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:0.7rem;color:var(--text2);z-index:10;box-shadow:0 4px 12px rgba(0,0,0,0.3);pointer-events:none;max-width:200px;';
+        canvas.parentElement.appendChild(densityPopup);
+      }
+      densityPopup.style.display = 'block';
+      // Find density at click position
+      var nutOverlay = document.getElementById('nutrientOverlay');
+      var dgCache = MAP_DENSITY_CACHE;
+      if (dgCache && dgCache.grid) {
+        var dgx = Math.floor(mx / dgCache.cellW);
+        var dgy = Math.floor(my / dgCache.cellH);
+        if (dgy >= 0 && dgy < dgCache.grid.length && dgx >= 0 && dgx < dgCache.grid[0].length) {
+          var densityVal = dgCache.grid[dgy][dgx];
+          var densityNorm = densityVal / dgCache.maxCount;
+          var densityPct = Math.round(densityNorm * 100);
+          var densityLabel = densityPct < 20 ? 'sparse' : densityPct < 40 ? 'low' : densityPct < 60 ? 'medium' : densityPct < 80 ? 'dense' : 'very dense';
+          densityPopup.innerHTML = '📍 Density: <strong>' + densityPct + '%</strong> (' + densityLabel + ')<br><span style="color:var(--text3)">' + Math.round(densityVal) + ' weighted points in this area</span>';
+        }
+      }
+      var ep = e.clientX - canvas.getBoundingClientRect().left + 12;
+      densityPopup.style.left = Math.min(ep, canvas.parentElement.clientWidth - 210) + 'px';
+      densityPopup.style.top = (e.clientY - canvas.getBoundingClientRect().top - 40) + 'px';
+      // Auto-hide after 3s
+      clearTimeout(densityPopup._hideTimer);
+      densityPopup._hideTimer = setTimeout(function() { if (densityPopup) densityPopup.style.display = 'none'; }, 3000);
     }
+  });
+
+  // Hover tooltip using spatial grid (bound once for performance)
+  canvas.addEventListener('mousemove', (e) => {
+    var tooltip = document.getElementById('pcaTooltip');
+    if (!tooltip || !window._lastNames || !MAP_SPATIAL_GRID) return;
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    var sg = MAP_SPATIAL_GRID;
+    var gx = Math.floor(mx / sg.cellW);
+    var gy = Math.floor(my / sg.cellH);
+    if (gx < 0 || gx >= sg.gridS || gy < 0 || gy >= sg.gridS) {
+      tooltip.style.display = 'none';
+      canvas.style.cursor = 'crosshair';
+      return;
+    }
+    let closest = -1, closestDist = 12;
+    for (var dy = -1; dy <= 1; dy++) {
+      for (var dx = -1; dx <= 1; dx++) {
+        var cy = gy + dy, cx = gx + dx;
+        if (cy < 0 || cy >= sg.gridS || cx < 0 || cx >= sg.gridS) continue;
+        var cell = sg.cells[cy] && sg.cells[cy][cx];
+        if (!cell) continue;
+        for (var ci = 0; ci < cell.length; ci++) {
+          var ddx = cell[ci].sx - mx, ddy = cell[ci].sy - my;
+          var dd = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (dd < closestDist) { closestDist = dd; closest = cell[ci].idx; }
+        }
+      }
+    }
+    if (closest >= 0) {
+      tooltip.textContent = displayName(window._lastNames[closest]);
+      tooltip.style.display = 'block';
+      const tw = tooltip.offsetWidth || 160;
+      const th = tooltip.offsetHeight || 26;
+      let lx = e.clientX + 12, ly = e.clientY - 10;
+      if (lx + tw > window.innerWidth - 8) lx = e.clientX - tw - 8;
+      if (ly + th > window.innerHeight - 8) ly = e.clientY - th - 8;
+      if (lx < 8) lx = 8;
+      if (ly < 8) ly = 8;
+      tooltip.style.left = lx + 'px';
+      tooltip.style.top = ly + 'px';
+      canvas.style.cursor = 'pointer';
+    } else {
+      tooltip.style.display = 'none';
+      canvas.style.cursor = 'crosshair';
+    }
+  });
+  canvas.addEventListener('mouseleave', () => {
+    var tooltip = document.getElementById('pcaTooltip');
+    if (tooltip) tooltip.style.display = 'none';
   });
 
   // Touch support
@@ -6786,7 +7229,7 @@ function exportSummary() {
   var subText = subs.map(function(s) { return '  • ' + s[0].replace(/_/g, ' ') + ' (' + (s[1]*100).toFixed(0) + '% sim)'; }).join('\n') || '  (none)';
 
   // Collect cuisine affinity
-  var cuisines = ['east_asian', 'western_atlantic', 'mediterranean', 'eastern_europeon', 'southeast_asian', 'south_asian', 'latin_american', 'japanese'];
+  var cuisines = ['east_asian', 'western_atlantic', 'mediterranean', 'eastern_european', 'southeast_asian', 'south_asian', 'latin_american', 'japanese'];
   var cuisineLabels = { east_asian:'East Asian', western_atlantic:'Western Atlantic', mediterranean:'Mediterranean', eastern_european:'Eastern European', southeast_asian:'SE Asian', south_asian:'South Asian', latin_american:'Latin American', japanese:'Japanese' };
   var cuisineLines = [];
   if (vec && STATE.data.directions) {

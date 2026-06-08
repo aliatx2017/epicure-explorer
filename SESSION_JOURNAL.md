@@ -592,3 +592,60 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 - **66/66 E2E tests pass**
 - GitHub repo: `aliatx2017/epicure-explorer`
 
+---
+
+## Session 12 — Map Performance, KDE Legend, Mobile UX
+
+**Focus:** Map canvas rendering optimization, spatial index for click/hover, KDE scatter accumulation, interactive density legend, mobile chef sidebar, +4 E2E tests.
+
+### What Was Done
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🗺️ | **Batch point rendering** | Color-grouped points: single beginPath + one fill() per color group instead of 1790 individual arc/fill calls |
+| **1** 🗺️ | **Spatial grid index** | 30×30 cell grid built after screenPts → click/hover checks 9 cells instead of 1790 points. Hover handler moved to setupMapInteractions (bound once, not re-created every frame) |
+| **1** 🗺️ | **KDE scatter optimization** | Point-to-cell KDE accumulation: O(n × r²) instead of O(cells × n). Each point scatters to nearby grid cells, ~90× fewer distance checks |
+| **2** 🌡️ | **Interactive KDE legend** | `nutrientBar` converted from CSS gradient to rendered canvas with exact 5-color density gradient + threshold marker line. Density info toggle explains colors. Clicking empty map area in density mode shows local density popup (auto-hides after 3s) |
+| **3** 📱 | **Mobile chef sidebar** | New `@media (max-width: 420px)` breakpoint: padding 12px (from 20px), font-size 0.75rem, tighter tags/sub-items. Chef-toggle button compacted. No horizontal overflow |
+| **4** ✅ | **4 new E2E tests** | Canvas content verification (sparse random sampling), KDE legend gradient rendering, density click info popup, chef sidebar mobile responsive at 420px |
+
+### Metrics Update
+
+| Metric | Session 11 | Session 12 |
+|--------|-----------|------------|
+| index.html lines | 7,312 | **~7,350** |
+| JS functions | ~154 | **~157** |
+| Tabs | 19 (4 categories) | **19 (4 categories)** |
+| File size | 392 KB | **~392 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **66/66 ✅** | **70/70 ✅** |
+
+---
+
+## Session 13 — TheMealDB + TheCocktailDB + 200-Cuisine Map Labels
+
+**Focus:** Adding free recipe providers (TheMealDB, TheCocktailDB) as Spoonacular fallbacks, enriching map cuisine labels with TheMealDB's 200+ area taxonomy.
+
+### What Was Done
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🌿 | **TheMealDB recipe provider** | `mealDBSearchRecipes()` searches by ingredient via `filter.php?i=...`. `mealDBGetRecipeInfo()` fetches full recipe via `lookup.php?i=...`. Shows thumbnails, ingredient list with measures, step-by-step instructions, YouTube links, source attribution. No API key needed (test key `1`) |
+| **2** 🔄 | **Spoonacular → TheMealDB fallback** | `renderSpoonacular()` shows "🌿 Use TheMealDB (Free)" button when no Spoonacular key. `useMealDBFallback()` wires recipe search button to TheMealDB, hides wine/nutrition sections with "needs API key" messages, adds attribution bar. `spoonSearchRecipes()` auto-degrades via `if (!SPOON_KEY) { mealDBSearchRecipes(...); return; }`. Preference persisted in localStorage |
+| **3** 🗺️ | **200-cuisine map labels** | `MEALDB_AREAS` (31 curated areas) + `MEALDB_AREA_CUISINE` (area → direction mapping). Map cuisine labels now show TheMealDB sub-areas beneath the main label when zoom ≥ 0.8× (e.g. "Mediterranean" with "Italian · Greek · Turkish" below it) |
+| **4** 🍸 | **TheCocktailDB integration** | `cocktailDBFetch()` + `searchCocktailDB()` + `showCocktailDBDetail()`. Cocktail tab's `runCocktail()` now calls `searchCocktailDB(spirit)` at end, showing real cocktail recipes with ingredients, instructions, glass type, YouTube links alongside embedding-based suggestions |
+| **5** ✅ | **2 new E2E tests** | Spoonacular tab shows TheMealDB fallback button, useMealDBFallback shows recipe search input. **72/72 tests pass** |
+
+### Metrics Update
+
+| Metric | Session 12 | Session 13 |
+|--------|-----------|------------|
+| index.html lines | ~7,350 | **~7,450** |
+| JS functions | ~157 | **~165** |
+| Tabs | 19 (4 categories) | **19 (4 categories)** |
+| File size | ~392 KB | **~395 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **70/70 ✅** | **72/72 ✅** |
+

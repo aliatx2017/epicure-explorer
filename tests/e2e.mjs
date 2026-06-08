@@ -773,6 +773,127 @@ async function main() {
         assert(txt.includes('%'), 'Density slider label missing %');
       }
     });
+    await test('Spatial grid + batch rendering — canvas has drawn points', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="core"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="map"]');
+      await sleep(2000);
+      // Select an ingredient so map renders with highlight
+      await page.evaluate(() => {
+        const input = document.getElementById('searchInput');
+        if (input) { input.value = 'chicken'; selectIngredient('chicken'); }
+      });
+      await sleep(1500);
+      const hasContent = await page.evaluate(() => {
+        const c = document.getElementById('pcaCanvas');
+        if (!c) return false;
+        const ctx = c.getContext('2d');
+        if (!ctx) return false;
+        const w = c.width, h = c.height;
+        if (w === 0 || h === 0) return false;
+        // Check canvas has been drawn (non-black/non-background pixels)
+        // Use sparse random sampling for speed
+        const bgThreshold = 30; // background is ~rgb(15,15,19), threshold at 30
+        for (let attempts = 0; attempts < 100; attempts++) {
+          const sx = Math.floor(Math.random() * w);
+          const sy = Math.floor(Math.random() * h);
+          const p = ctx.getImageData(sx, sy, 1, 1).data;
+          if (p[0] > bgThreshold || p[1] > bgThreshold || p[2] > bgThreshold) return true;
+        }
+        return false;
+      });
+      assert(hasContent, 'Canvas has no non-background pixels');
+    });
+    await test('KDE color legend canvas renders gradient', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="core"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="map"]');
+      await sleep(500);
+      await page.evaluate(() => {
+        const sel = document.getElementById('nutrientOverlay');
+        if (sel) sel.value = 'density';
+        if (typeof renderMap === 'function') renderMap();
+      });
+      await sleep(300);
+      const hasLegendContent = await page.evaluate(() => {
+        const bar = document.getElementById('nutrientBar');
+        if (!bar || !bar.getContext) return false;
+        const ctx = bar.getContext('2d');
+        const data = ctx.getImageData(0, 0, bar.width, bar.height).data;
+        for (let i = 0; i < Math.min(data.length, 200); i += 4) {
+          if (data[i] > 10 || data[i+1] > 10 || data[i+2] > 10) return true;
+        }
+        return false;
+      });
+      assert(hasLegendContent, 'KDE color legend canvas is empty');
+    });
+    await test('Density click info appears on map click', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="core"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="map"]');
+      await sleep(1000);
+      await page.evaluate(() => {
+        const sel = document.getElementById('nutrientOverlay');
+        if (sel) sel.value = 'density';
+        if (typeof renderMap === 'function') renderMap();
+      });
+      await sleep(300);
+      const canvas = await page.$('#pcaCanvas');
+      assert(canvas, 'No canvas for density click test');
+      const box = await canvas.boundingBox();
+      await page.mouse.click(box.x + 30, box.y + 30);
+      await sleep(200);
+      const popup = await page.$('#densityClickInfo');
+      assert(popup, 'Density click info popup not created');
+      const visible = await page.evaluate(el => el.style.display !== 'none', popup);
+      assert(visible, 'Density click info popup not visible');
+    });
+    await test('Chef sidebar mobile responsive at 420px', async () => {
+      await dismissTour(page);
+      await page.setViewportSize({ width: 420, height: 800 });
+      await sleep(200);
+      const toggle = await page.$('#chefToggle');
+      if (toggle) await toggle.click();
+      await sleep(300);
+      const sidebar = await page.$('#chefSidebar');
+      assert(sidebar, 'Chef sidebar missing on mobile');
+      const visible = await page.evaluate(el => el.classList.contains('visible'), sidebar);
+      assert(visible, 'Chef sidebar not visible after toggle on mobile');
+      const overflow = await page.evaluate(() => {
+        const s = document.getElementById('chefSidebar');
+        return s ? s.scrollWidth <= s.clientWidth + 2 : false;
+      });
+      assert(overflow, 'Chef sidebar has horizontal overflow on 420px viewport');
+      await page.evaluate(() => { if (window.closeChefToolkit) closeChefToolkit(); });
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await sleep(200);
+    });
+    await test('Spoonacular tab shows TheMealDB fallback button when no key', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="advanced"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="spoonacular"]');
+      await sleep(600);
+      // Check the fallback button exists
+      const mealdbBtn = await page.evaluate(() => {
+        const btns = document.querySelectorAll('button');
+        for (const b of btns) {
+          if (b.textContent.indexOf('TheMealDB') >= 0) return true;
+        }
+        return false;
+      });
+      assert(mealdbBtn, 'TheMealDB button not found in Spoonacular tab');
+    });
+    await test('useMealDBFallback shows recipe search', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { if (typeof useMealDBFallback === 'function') useMealDBFallback(); });
+      await sleep(300);
+      const input = await page.$('#spoonRecipeInput');
+      assert(input, 'Recipe input should be visible after TheMealDB fallback');
+    });
 
   } catch(e) {
     console.error('Harness error:', e.message);
