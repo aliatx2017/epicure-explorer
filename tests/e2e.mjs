@@ -213,7 +213,7 @@ async function main() {
       });
     }
 
-    // ───── 4. All 18 Tab Panels ─────
+    // ───── 4. All 19 Tab Panels ─────
     console.log('\n═══ 4. Tab Panel Rendering ═══');
     const tabs = [
       { tab: 'neighbours', cat: 'core' },
@@ -225,6 +225,7 @@ async function main() {
       { tab: 'games', cat: 'play' },
       { tab: 'arithmetic', cat: 'play' },
       { tab: 'cocktail', cat: 'play' },
+      { tab: 'builddish', cat: 'play' },
       { tab: 'analyzer', cat: 'analyze' },
       { tab: 'compare2', cat: 'analyze' },
       { tab: 'snap', cat: 'analyze' },
@@ -296,6 +297,7 @@ async function main() {
     });
 
     // 5c. Games
+    console.log('═══ 5c. Games ═══');
     await test('Games tab has game elements', async () => {
       await dismissTour(page);
       await page.click('.tab-cat[data-cat="play"]');
@@ -354,16 +356,7 @@ async function main() {
       assert(lbText.includes('Total'), 'Leaderboard missing total stats');
     });
 
-    // 5c. Build-A-Dish
-    await test('Build-A-Dish tab renders and accepts ingredients', async () => {
-      await dismissTour(page);
-      await page.click('.tab-cat[data-cat="play"]');
-      await sleep(150);
-      await page.click('.tab[data-tab="builddish"]');
-      await sleep(500);
-      const hasPanel = await page.$('#panel-builddish');
-      assert(!!hasPanel, 'No build dish panel');
-    });
+    // 5d. Build-A-Dish
     await test('Build-A-Dish chip interaction works', async () => {
       await dismissTour(page);
       await page.click('.tab-cat[data-cat="play"]');
@@ -390,7 +383,7 @@ async function main() {
       assert(!!results, 'No pairing results');
     });
 
-    // 5d. Cocktails, Arith
+    // 5e. Cocktails, Arith
     for (const tab of ['arithmetic', 'cocktail']) {
       await test(`${tab} tab has visible panel`, async () => {
         await dismissTour(page);
@@ -404,7 +397,7 @@ async function main() {
       });
     }
 
-    // 5e. Analyzer
+    // 5f. Analyzer
     await test('Analyzer parses ingredient text', async () => {
       await dismissTour(page);
       // Use evaluate to ensure clicks happen regardless of overlay
@@ -442,7 +435,7 @@ async function main() {
       }
     });
 
-    // 5f. Compare2
+    // 5g. Compare2
     await test('Compare2 renders two inputs', async () => {
       await dismissTour(page);
       await page.click('.tab[data-tab="compare2"]');
@@ -451,7 +444,7 @@ async function main() {
       assert(inputs.length >= 2, `Only ${inputs.length} inputs`);
     });
 
-    // 5g. Seasonal + Heatmap
+    // 5h. Seasonal + Heatmap
     await test('Seasonal heatmap toggle works', async () => {
       await dismissTour(page);
       await page.click('.tab[data-tab="seasonal"]');
@@ -480,7 +473,7 @@ async function main() {
       await sleep(300);
     });
 
-    // 5h. Spoonacular graceful degradation
+    // 5i. Spoonacular graceful degradation
     await test('Spoonacular shows degraded state without API key', async () => {
       await dismissTour(page);
       await page.evaluate(() => localStorage.removeItem('spoonacular_key'));
@@ -504,20 +497,6 @@ async function main() {
         }
       }
     });
-
-    // 5i. Ingredient2Vec, Food Agent, Trending, MealPlan
-    for (const tab of ['ingredient2vec', 'foodagent', 'trending', 'mealplan']) {
-      await test(`${tab} tab renders`, async () => {
-        await dismissTour(page);
-        await page.click('.tab[data-tab="' + tab + '"]');
-        await sleep(500);
-        const p = await page.$('#panel-' + tab);
-        if (p) {
-          const d = await page.evaluate(el => window.getComputedStyle(el).display, p);
-          assert(d !== 'none', `Panel ${tab} hidden`);
-        }
-      });
-    }
 
     // ───── 6. Chef's Toolkit ─────
     console.log('\n═══ 6. Chef\'s Toolkit ═══');
@@ -695,8 +674,8 @@ async function main() {
       assert(!!tl, 'No role="tablist"');
     });
 
-    // ───── 11. i18n ─────
-    console.log('\n═══ 11. i18n ═══');
+    // ───── 14. i18n ─────
+    console.log('\n═══ 14. i18n ═══');
     await test('i18n ingredient names display in Spanish', async () => {
       await dismissTour(page);
       // Select garlic programmatically first
@@ -727,7 +706,7 @@ async function main() {
     });
 
     // ───── 12. New Feature Coverage ─────
-    console.log('\n═══ 12. New Feature Coverage ═══');
+    console.log('\n═══ 15. New Feature Coverage ═══');
     await test('Chef Toolkit has QR code button', async () => {
       await dismissTour(page);
       await page.evaluate(() => { toggleChefToolkit && toggleChefToolkit(); });

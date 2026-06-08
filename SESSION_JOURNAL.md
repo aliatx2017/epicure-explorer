@@ -649,3 +649,57 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | Known bugs | **0** | **0** |
 | E2E tests | **70/70 ✅** | **72/72 ✅** |
 
+---
+
+## Session 14 — Bug Fix Pass + im2recipe Nutritional Integration
+
+**Focus:** Comprehensive bug/issue fix pass (Session 14), then im2recipe-Pytorch 35K nutritional data integration (Week 1).
+
+### Session 14a — Bug Fix Pass (HIGH/MEDIUM/LOW)
+
+| Fix | Severity | Detail |
+|-----|----------|--------|
+| **🐛 Missing `<div class="game-card">`** | 🔴 HIGH | Flavour Compass section was missing its opening `game-card` div, causing broken game grid layout |
+| **🐛 Dead GLP-1 intent chip path** | 🔴 HIGH | `applyIntent('diet', 'glp1')` referenced non-existent `glp1Filter` element and undefined `updateChefToolkit()` — now correctly calls `toggleGlpFilter()` |
+| **🐛 roundRect polyfill** | 🔴 HIGH | `ctx.roundRect()` threw TypeError on older browsers — added inline polyfill |
+| **🐛 Stale file size in docs** | 🟡 MEDIUM | GUIDE.md and README.md said 259 KB — actual is 422 KB |
+| **🐛 Unused variables removed** | 🟡 MEDIUM | `pcaAnimationId`, `DENSITY_INFO_VISIBLE`, `DENSITY_INFO_POPUP` cleaned up |
+| **🐛 Missing CSS class** | 🟡 MEDIUM | `.spoon-recipe-grid` CSS class added |
+| **🐛 Hardcoded Spoonacular limit** | 🟡 MEDIUM | `SPOON_DAILY_LIMIT` configurable via localStorage + UI field |
+| **🐛 Test file fixes** | 🟡 MEDIUM | "All 18 Tab Panels" → 19 with builddish; removed 4 redundant tests (72→68) |
+| **🐛 Redundant test removed** | 🟢 LOW | Build-Dish panel existence test removed (covered by 19-tab loop) |
+
+### Session 14b — im2recipe Week 1: Nutritional Integration
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🔬 | **`build_nutrition.py`** | USDA-derived nutrition DB for 500+ ingredients, food-group heuristics for all 1,790 Epicure ingredients, FSA traffic lights. Outputs im2recipe-Pytorch format |
+| **2** 📦 | **`data/epicure_nutrition.json`** | 789 KB — all 1,790 ingredients with `nutr_values_per100g`, `fsa_lights_per100g`, `nutr_per_100g_extended`. 409 exact USDA matches, 1,381 food-group estimated |
+| **3** 🗺️ | **Vocabulary bridge** | `data/nutrition_vocab.json` (114 KB) — 3,531 entries mapping im2recipe names ↔ Epicure canonical names |
+| **4** 🧠 | **FSA Health Direction** | `computeHealthDirection()` — computes embedding centroid of healthy (3+ green) vs indulgent (2+ red) ingredients, creates direction vector. `💚 FSA Health` in SLERP dropdown under `💪 Health` |
+| **5** 🥗 | **Recipe Nutrition tab** | 4th Recipe Explorer subtab (`🥗 Nutrition`). Shows per-ingredient FSA traffic lights when no 35K data loaded; shows per-recipe FSA scores when data is present |
+| **6** 📥 | **35K per-recipe importer** | `build_nutrition.py --import-im2recipe` — processes the im2recipe 35K JSON into `data/recipe_nutrition.json` |
+| **7** 🔗 | **Ingredient→Recipe index** | `det_ingrs.json` (1M+ Recipe1M detections) processed into `data/recipe_detections_slim.json` (2.1 MB) — 622 ingredients linked to nutrition recipes |
+| **8** 💾 | **Offline caching** | `sw.js` caches `epicure_nutrition.json`, `recipe_nutrition.json`, `recipe_detections_slim.json` |
+
+### What was downloaded (im2recipe data access)
+
+| File | Size | App derivative |
+|------|------|----------------|
+| `recipes_with_nutritional_info.json` | 213 MB | → `data/recipe_nutrition.json` (98 MB, 51,235 recipes) |
+| `det_ingrs.json` | 345 MB | → `data/recipe_detections_slim.json` (2.1 MB, 622 ingredients) |
+| `recipe1M_layers.tar.gz` | 381 MB | Not used (category hierarchy only) |
+
+### Metrics Update
+
+| Metric | Session 13 | Session 14 |
+|--------|-----------|------------|
+| index.html lines | ~7,450 | **8,025** |
+| JS functions | ~165 | **~163** |
+| Tabs | 19 (4 categories) | **19 (4 categories)** |
+| File size | ~395 KB | **~422 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **72/72 ✅** | **68/68 ✅** (4 redundant removed) |
+| Nutrition coverage | — | **1,790 ingredients** (FSA per-100g) + **51,235 recipes** (per-recipe FSA) |
+

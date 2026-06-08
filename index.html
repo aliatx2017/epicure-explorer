@@ -495,6 +495,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .spoon-recipe-card { display: flex; gap: 10px; padding: 8px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 6px; cursor: pointer; transition: all .15s; }
 .spoon-recipe-card:hover { border-color: var(--accent2); background: var(--surface); }
 .spoon-recipe-img { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: var(--surface); }
+.spoon-recipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 
 /* ── Snap (Image Ingredient Search) ── */
 .snap-upload-zone {
@@ -955,6 +956,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           <button class="tab recipe-subtab active" data-recipe-tab="cuisine">🌍 By Cuisine</button>
           <button class="tab recipe-subtab" data-recipe-tab="bridge">🔗 Bridge Finder</button>
           <button class="tab recipe-subtab" data-recipe-tab="boost">🧂 Flavour Boosters</button>
+          <button class="tab recipe-subtab" data-recipe-tab="nutrition">🥗 Nutrition</button>
         </div>
 
         <!-- Cuisine selector (shown for By Cuisine sub-tab) -->
@@ -1037,6 +1039,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           </div>
 
           <!-- Flavour Compass -->
+          <div class="game-card">
             <p>See how <strong id="compassTarget">—</strong> relates to all 8 sensory directions.</p>
             <div class="game-compass"><canvas id="compassCanvas" width="280" height="280"></canvas></div>
             <div class="game-compass-label" id="compassLabel">Click ingredients on the map to update</div>
@@ -1248,6 +1251,8 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
               <button class="game-new-btn" onclick="clearSpoonKey()" style="font-size:0.72rem;">🗑️ Clear</button>
               <span id="spoonKeyStatus" style="font-size:0.72rem;color:var(--text2);"></span>
               <span id="spoonCallCount" style="font-size:0.7rem;color:var(--text3);margin-left:2px;"></span>
+              <span style="font-size:0.7rem;color:var(--text3);margin-left:6px;">| Limit:</span>
+              <input type="number" id="spoonLimitInput" value="150" min="1" max="10000" aria-label="Daily API call limit" style="width:60px;padding:3px 6px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.72rem;font-family:var(--font);outline:none;" onchange="saveSpoonLimit(this.value)">
             </div>
           </div>
           <hr style="border-color:var(--border);margin:12px 0;">
@@ -1432,6 +1437,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
         <h4>🧪 Flavour Profile</h4>
         <div class="chef-tags" id="chefFlavourTags"></div>
       </div>
+      <div class="chef-section" id="chefNutrition" style="display:none;"></div>
       <button class="chef-export-btn" id="chefExportBtn" onclick="exportSummary()">📋 Export Summary</button>
       <button class="chef-export-btn" id="chefCSVBtn" onclick="exportCSV()" style="margin-top:4px;font-size:0.72rem;">📥 Download Neighbours CSV</button>
       <button class="chef-export-btn" onclick="copyShareLink()" style="margin-top:4px;font-size:0.72rem;">🔗 Copy Share Link</button>
@@ -1458,6 +1464,22 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 // ═══════════════════════════════════════════════════════
 // Epicure Explorer — main application
 // ═══════════════════════════════════════════════════════
+
+// ── Polyfill roundRect for older browsers ──
+(function() {
+  if (!CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+      if (r > w / 2) r = w / 2;
+      if (r > h / 2) r = h / 2;
+      this.moveTo(x + r, y);
+      this.arcTo(x + w, y, x + w, y + h, r);
+      this.arcTo(x + w, y + h, x, y + h, r);
+      this.arcTo(x, y + h, x, y, r);
+      this.arcTo(x, y, x + w, y, r);
+      return this;
+    };
+  }
+})();
 
 const STATE = {
   data: null,           // shared data (ingredients, directions)
@@ -1828,6 +1850,110 @@ async function loadSharedData() {
   return json;
 }
 
+// ── Load im2recipe-format nutritional data (non-blocking, lazy) ──
+var NUTRITION_EXT = null;
+var RECIPE_NUTRITION = null; // im2recipe 35K per-recipe data (loaded when obtained)
+
+// ── Load im2recipe-format per-recipe nutritional data (when 35K dataset obtained) ──
+async function loadRecipeNutrition() {
+  try {
+    var resp = await fetch('data/recipe_nutrition.json');
+    if (!resp.ok) return;
+    var json = await resp.json();
+    RECIPE_NUTRITION = json.recipes || null;
+    console.log('✅ im2recipe 35K per-recipe nutrition loaded: ' + (RECIPE_NUTRITION ? Object.keys(RECIPE_NUTRITION).length : 0) + ' recipes');
+  } catch(e) { /* non-critical */ }
+  // Also load the ingredient→recipe detection index
+  try {
+    var detResp = await fetch('data/recipe_detections_slim.json');
+    if (!detResp.ok) return;
+    var det = await detResp.json();
+    window.RECIPE_DETECTIONS = det.ingr_to_recipes || {};
+    console.log('✅ im2recipe ingredient→recipe index loaded: ' + Object.keys(window.RECIPE_DETECTIONS).length + ' ingredients');
+  } catch(e) { /* non-critical */ }
+}
+async function loadNutritionData() {
+  try {
+    const resp = await fetch('data/epicure_nutrition.json');
+    if (!resp.ok) return;
+    const json = await resp.json();
+    NUTRITION_EXT = json.data || {};
+    // Compute health direction from FSA traffic lights
+    computeHealthDirection();
+    // Load per-recipe nutrition data when ingredient-level data is ready
+    loadRecipeNutrition();
+  } catch(e) { /* non-critical; fall back to inline NUTRITION_DATA */ }
+}
+
+// ── FSA Health Direction — computed from per-ingredient traffic lights ──
+// Identifies a "healthy ↔ indulgent" axis in the embedding space
+function computeHealthDirection() {
+  if (!NUTRITION_EXT || !STATE.data || !STATE.data.ingredients || !STATE.data.directions) return;
+  const names = STATE.data.ingredients;
+  const healthy = [];
+  const indulgent = [];
+  for (const name of names) {
+    const nd = NUTRITION_EXT[name];
+    if (!nd || !nd.fsa_lights_per100g) continue;
+    const fsa = nd.fsa_lights_per100g;
+    const nGreen = (fsa.fat === 'green' ? 1 : 0) + (fsa.saturates === 'green' ? 1 : 0) +
+                   (fsa.sugars === 'green' ? 1 : 0) + (fsa.salt === 'green' ? 1 : 0);
+    const nRed = (fsa.fat === 'red' ? 1 : 0) + (fsa.saturates === 'red' ? 1 : 0) +
+                 (fsa.sugars === 'red' ? 1 : 0) + (fsa.salt === 'red' ? 1 : 0);
+    if (nGreen >= 3) healthy.push(name);
+    else if (nRed >= 2) indulgent.push(name);
+  }
+  if (healthy.length < 5 || indulgent.length < 5) return;
+  // Compute centroid difference vector using model vectors
+  const model = getModel();
+  if (!model || !model.vectors) return;
+  const nameToIdx = {};
+  names.forEach((n, i) => { nameToIdx[n] = i; });
+  const dim = model.vectors[0].length;
+  function centroidOf(nameList) {
+    let c = new Array(dim).fill(0);
+    let count = 0;
+    for (const n of nameList) {
+      const idx = nameToIdx[n];
+      if (idx === undefined) continue;
+      const v = model.vectors[idx];
+      for (let j = 0; j < dim; j++) c[j] += v[j];
+      count++;
+    }
+    if (count < 3) return null;
+    c = c.map(x => x / count);
+    const norm = Math.sqrt(c.reduce((s, x) => s + x * x, 0));
+    if (norm < 0.001) return null;
+    return c.map(x => x / norm);
+  }
+  const hVec = centroidOf(healthy);
+  const iVec = centroidOf(indulgent);
+  if (!hVec || !iVec) return;
+  // Direction = healthy - indulgent (points from indulgent toward healthy)
+  const dirVec = hVec.map((x, j) => x - iVec[j]);
+  const norm = Math.sqrt(dirVec.reduce((s, x) => s + x * x, 0));
+  if (norm < 0.001) return;
+  STATE.data.directions['fsa_health'] = dirVec.map(x => x / norm);
+  // Populate the SLERP dropdown with the new direction
+  var slerpSel = document.getElementById('slerpDirection');
+  if (slerpSel) {
+    var existing = slerpSel.querySelector('option[value="fsa_health"]');
+    if (!existing) {
+      var opt = document.createElement('option');
+      opt.value = 'fsa_health';
+      opt.textContent = '💚 FSA Health';
+      // Find or create the "health" optgroup
+      var healthGroup = slerpSel.querySelector('optgroup[label*="Health"]');
+      if (!healthGroup) {
+        healthGroup = document.createElement('optgroup');
+        healthGroup.label = '💪 Health';
+        slerpSel.appendChild(healthGroup);
+      }
+      healthGroup.appendChild(opt);
+    }
+  }
+}
+
 async function loadModelData(modelName) {
   if (STATE.modelsLoaded[modelName]) return STATE.models[modelName];
   const status = document.getElementById('loadStatus');
@@ -1848,6 +1974,8 @@ async function loadModelData(modelName) {
 
   STATE.models[modelName] = json;
   STATE.modelsLoaded[modelName] = true;
+  // Re-trigger health direction computation if nutrition already loaded
+  if (typeof computeHealthDirection === 'function') computeHealthDirection();
   return json;
 }
 
@@ -1997,9 +2125,10 @@ function applyIntent(type, value) {
     var tab = document.querySelector('[data-tab="slerp"]');
     if (tab) tab.click();
   } else if (type === 'diet' && value === 'glp1') {
-    var glpToggle = document.getElementById('glp1Filter');
-    if (glpToggle) { glpToggle.checked = true; if (typeof updateChefToolkit === 'function') updateChefToolkit(); }
-    document.getElementById('chefToggle').click();
+    var chefGlp = document.getElementById('chefGlpMode');
+    if (chefGlp && chefGlp.dataset.filter !== 'on') { toggleGlpFilter(); }
+    var ct = document.getElementById('chefToggle');
+    if (ct) ct.click();
   } else if (type === 'diet') {
     var spoonTab = document.querySelector('[data-tab="spoonacular"]');
     if (spoonTab) spoonTab.click();
@@ -2722,6 +2851,32 @@ function renderChefToolkit() {
     document.getElementById('chefCostHint').style.display = 'block';
   } else if (existingHint) {
     existingHint.style.display = 'none';
+  }
+
+  // 6. Nutrition Deep-Dive (im2recipe-format FSA traffic lights)
+  var nutEl = document.getElementById('chefNutrition');
+  if (NUTRITION_EXT && NUTRITION_EXT[name]) {
+    var nd = NUTRITION_EXT[name];
+    var p100 = nd.nutr_values_per100g || {};
+    var fsa = nd.fsa_lights_per100g || {};
+    var ext = nd.nutr_per_100g_extended || {};
+    var fsaIcon = { green:'🟢', orange:'🟡', red:'🔴' };
+    var fsaLabel = { green:'Low', orange:'Medium', red:'High' };
+    var html = '<h4 style="font-size:0.72rem;font-weight:600;color:var(--accent);margin:6px 0 4px;">🔬 Nutrition per 100g (im2recipe)</h4>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;font-size:0.68rem;">';
+    html += '<span style="color:var(--text2);">Energy</span><span>' + (p100.energy || '-') + ' kcal</span>';
+    html += '<span style="color:var(--text2);">Protein</span><span>' + (p100.protein || '-') + ' g</span>';
+    html += '<span style="color:var(--text2);">Fat</span><span>' + fsaIcon[fsa.fat] + ' ' + (p100.fat || '-') + ' g <span style="color:var(--text3);font-size:0.6rem;">(' + fsaLabel[fsa.fat] + ')</span></span>';
+    html += '<span style="color:var(--text2);">Saturates</span><span>' + fsaIcon[fsa.saturates] + ' ' + (p100.saturates || '-') + ' g <span style="color:var(--text3);font-size:0.6rem;">(' + fsaLabel[fsa.saturates] + ')</span></span>';
+    html += '<span style="color:var(--text2);">Sugars</span><span>' + fsaIcon[fsa.sugars] + ' ' + (p100.sugars || '-') + ' g <span style="color:var(--text3);font-size:0.6rem;">(' + fsaLabel[fsa.sugars] + ')</span></span>';
+    html += '<span style="color:var(--text2);">Salt</span><span>' + fsaIcon[fsa.salt] + ' ' + (p100.salt || '-') + ' g <span style="color:var(--text3);font-size:0.6rem;">(' + fsaLabel[fsa.salt] + ')</span></span>';
+    if (ext.carbs !== undefined) html += '<span style="color:var(--text2);">Carbs</span><span>' + ext.carbs + ' g</span>';
+    if (ext.fiber !== undefined) html += '<span style="color:var(--text2);">Fiber</span><span>' + ext.fiber + ' g</span>';
+    html += '</div>';
+    html += '<div style="font-size:0.6rem;color:var(--text3);margin-top:3px;">🟢 Low &nbsp;🟡 Medium &nbsp;🔴 High (FSA traffic lights per 100g)</div>';
+    if (nutEl) { nutEl.innerHTML = html; nutEl.style.display = ''; }
+  } else {
+    if (nutEl) nutEl.style.display = 'none';
   }
 }
 
@@ -4116,7 +4271,7 @@ function renderSeasonal() {
 // ── Spoonacular API Integration ──
 
 var SPOON_KEY = localStorage.getItem('spoonacular_key') || '';
-var SPOON_DAILY_LIMIT = 150;
+var SPOON_DAILY_LIMIT = parseInt(localStorage.getItem('spoonacular_limit'), 10) || 150;
 
 // ── TheMealDB — Free recipe provider (no API key needed for dev) ──
 var MEALDB_BASE = 'https://www.themealdb.com/api/json/v1/1';
@@ -4189,6 +4344,8 @@ function renderSpoonacular() {
       callCountEl.textContent = '';
     }
   }
+  var limitInput = document.getElementById('spoonLimitInput');
+  if (limitInput) limitInput.value = SPOON_DAILY_LIMIT;
   // Graceful degradation: hide feature panel when no key, show TheMealDB as fallback
   if (layoutEl) {
     layoutEl.style.display = SPOON_KEY ? '' : 'none';
@@ -4272,6 +4429,14 @@ function saveSpoonKey() {
 function clearSpoonKey() {
   SPOON_KEY = '';
   localStorage.removeItem('spoonacular_key');
+  renderSpoonacular();
+}
+
+function saveSpoonLimit(val) {
+  var limit = parseInt(val, 10);
+  if (isNaN(limit) || limit < 1) limit = 150;
+  SPOON_DAILY_LIMIT = limit;
+  localStorage.setItem('spoonacular_limit', String(limit));
   renderSpoonacular();
 }
 
@@ -5604,7 +5769,6 @@ function dotProduct(a, b) {
 }
 
 // ── PCA Map ──
-let pcaAnimationId = null;
 
 /** Nutrition data per 100g: [calories, protein_g, fat_g, carbs_g, fiber_g] — USDA-based estimates */
 const NUTRITION_DATA = {
@@ -5800,7 +5964,21 @@ function getNutrientValue(name, nutrient) {
   const idx = NUTRIENT_IDX[nutrient];
   if (idx === undefined) return null;
   const lower = name.toLowerCase().replace(/\s/g, '_');
-  // Exact match first, then partial
+  // Prefer NUTRITION_EXT (im2recipe-format) when loaded
+  if (NUTRITION_EXT && NUTRITION_EXT[lower]) {
+    const ext = NUTRITION_EXT[lower];
+    const im2map = { calories:'energy', protein:'protein', fat:'fat', carbs:'carbs', fiber:'fiber' };
+    const extKey = im2map[nutrient];
+    if (extKey === 'energy' || extKey === 'fat' || extKey === 'protein') {
+      const val = ext.nutr_values_per100g && ext.nutr_values_per100g[extKey];
+      if (val !== undefined) return val;
+    } else if (extKey === 'carbs' || extKey === 'fiber') {
+      const val = ext.nutr_per_100g_extended && ext.nutr_per_100g_extended[extKey];
+      if (val !== undefined) return val;
+    }
+    // Fall through
+  }
+  // Fall back to inline NUTRITION_DATA
   if (NUTRITION_DATA[lower] !== undefined) return NUTRITION_DATA[lower][idx];
   for (const key of Object.keys(NUTRITION_DATA)) {
     if (lower.includes(key) || key.includes(lower)) return NUTRITION_DATA[key][idx];
@@ -5830,14 +6008,13 @@ function updateDensityMarker(val) {
   // We re-draw the whole bar to clear old marker
   renderMap();
 }
-var DENSITY_INFO_VISIBLE = false;
-var DENSITY_INFO_POPUP = null;
+var DENSITY_POPUP = null;
 function toggleDensityInfo() {
-  DENSITY_INFO_VISIBLE = !DENSITY_INFO_VISIBLE;
+  var visible = DENSITY_POPUP !== null;
   var toggle = document.getElementById('densityInfoToggle');
-  if (toggle) toggle.style.opacity = DENSITY_INFO_VISIBLE ? '1' : '0.5';
-  if (!DENSITY_INFO_VISIBLE) {
-    if (DENSITY_INFO_POPUP) { DENSITY_INFO_POPUP.remove(); DENSITY_INFO_POPUP = null; }
+  if (toggle) toggle.style.opacity = visible ? '0.5' : '1';
+  if (visible) {
+    if (DENSITY_POPUP) { DENSITY_POPUP.remove(); DENSITY_POPUP = null; }
     return;
   }
   // Show a popup with density details
@@ -5850,7 +6027,7 @@ function toggleDensityInfo() {
     'Adjust threshold with the slider above.<br>' +
     '<span style="color:var(--text3)">Click anywhere on the map in density mode to see ingredients in that area.</span>';
   canvas.parentElement.appendChild(popup);
-  DENSITY_INFO_POPUP = popup;
+  DENSITY_POPUP = popup;
 }
 
 function getForceGraphLayout(model, names) {
@@ -6202,7 +6379,7 @@ function renderMap() {
     var densityToggle = document.getElementById('densityInfoToggle');
     if (densityToggle) densityToggle.style.display = 'none';
     // Clean up density popup when leaving density mode
-    if (DENSITY_INFO_POPUP) { DENSITY_INFO_POPUP.remove(); DENSITY_INFO_POPUP = null; DENSITY_INFO_VISIBLE = false; }
+    if (DENSITY_POPUP) { DENSITY_POPUP.remove(); DENSITY_POPUP = null; }
   }
 
   if (nutrient === 'season') {
@@ -6803,6 +6980,7 @@ function renderRecipes() {
   if (tabName === 'cuisine') renderRecipeCuisine();
   else if (tabName === 'bridge') renderRecipeBridge();
   else if (tabName === 'boost') renderRecipeBoost();
+  else if (tabName === 'nutrition') renderRecipeNutrition();
 }
 
 function renderRecipeCuisine() {
@@ -7026,6 +7204,96 @@ function renderRecipeBoost() {
       document.getElementById('searchInput').value = name;
     });
   });
+}
+
+// ── Recipe Nutrition — FSA traffic lights with per-recipe data (im2recipe 35K) ──
+function renderRecipeNutrition() {
+  var activeName = STATE.selectedIngredient;
+  if (!activeName) {
+    document.getElementById('recipeContent').innerHTML = '<div class="empty-state">Select an ingredient to see its nutritional profile.</div>';
+    return;
+  }
+
+  var nd = NUTRITION_EXT && NUTRITION_EXT[activeName];
+  var html = '<p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">FSA traffic lights for <strong>' + activeName.replace(/_/g, ' ') + '</strong></p>';
+
+  // Base per-100g nutrition (always available from epicure_nutrition.json)
+  if (nd) {
+    var p100 = nd.nutr_values_per100g || {};
+    var fsa = nd.fsa_lights_per100g || {};
+    var ext = nd.nutr_per_100g_extended || {};
+    var fsaIcon = { green:'🟢', orange:'🟡', red:'🔴' };
+    var fsaLabel = { green:'Low', orange:'Medium', red:'High' };
+    html += '<div class="recipe-category"><div class="recipe-category-header">🔬 Per 100g</div>';
+    html += '<div style="display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;font-size:0.78rem;padding:6px 4px;">';
+
+    function addRow(label, value, unit, fsaKey) {
+      var icon = fsaKey && fsa[fsaKey] ? fsaIcon[fsa[fsaKey]] + ' ' : '';
+      var note = fsaKey && fsa[fsaKey] ? '<span style="color:var(--text3);font-size:0.6rem;">(' + fsaLabel[fsa[fsaKey]] + ')</span>' : '';
+      html += '<span style="color:var(--text2);">' + label + '</span>';
+      html += '<span style="font-weight:500;">' + (value !== undefined && value !== null ? value + ' ' + unit : '—') + '</span>';
+      html += '<span style="font-size:0.65rem;text-align:right;">' + icon + note + '</span>';
+    }
+    addRow('Energy', p100.energy, 'kcal');
+    addRow('Protein', p100.protein, 'g');
+    addRow('Fat', p100.fat, 'g', 'fat');
+    addRow('Saturates', p100.saturates, 'g', 'saturates');
+    addRow('Sugars', p100.sugars, 'g', 'sugars');
+    addRow('Salt', p100.salt, 'g', 'salt');
+    if (ext.carbs !== undefined) addRow('Carbs', ext.carbs, 'g');
+    if (ext.fiber !== undefined) addRow('Fiber', ext.fiber, 'g');
+    html += '</div></div>';
+  }
+
+  // Per-recipe data from im2recipe 35K dataset
+  if (window.RECIPE_NUTRITION && window.RECIPE_DETECTIONS) {
+    var ingrName = activeName.replace(/_/g, ' ');
+    var recipeIds = window.RECIPE_DETECTIONS[ingrName] || window.RECIPE_DETECTIONS[activeName] || [];
+    if (recipeIds.length === 0) {
+      var lowerName = activeName.replace(/_/g, ' ').toLowerCase();
+      for (var detIngr in window.RECIPE_DETECTIONS) {
+        if (detIngr.includes(lowerName)) { recipeIds = window.RECIPE_DETECTIONS[detIngr]; break; }
+      }
+    }
+    if (recipeIds && recipeIds.length > 0) {
+      var sampleRecipes = recipeIds.slice(0, 6);
+      html += '<div class="recipe-category"><div class="recipe-category-header">🍲 Recipes Using ' + activeName.replace(/_/g, ' ') + ' <span class="count">' + recipeIds.length + ' recipes</span></div>';
+      html += '<div style="font-size:0.72rem;color:var(--text2);margin-bottom:4px;padding:2px 6px;">Per-recipe FSA traffic lights from the im2recipe 35K dataset</div>';
+      for (var ri = 0; ri < sampleRecipes.length; ri++) {
+        var rid = sampleRecipes[ri];
+        var recipe = window.RECIPE_NUTRITION[rid];
+        if (!recipe) continue;
+        var rFsa = recipe.fsa_lights_per100g || {};
+        var rP100 = recipe.nutr_values_per100g || {};
+        var rTitle = recipe.title || rid;
+        var rIcon = { green:'🟢', orange:'🟡', red:'🔴' };
+        html += '<div style="border-bottom:1px solid var(--border);padding:6px 4px;">';
+        html += '<div style="font-weight:500;font-size:0.75rem;color:var(--accent);margin-bottom:2px;">' + rTitle + '</div>';
+        html += '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.65rem;">';
+        html += '<span>' + rIcon[rFsa.fat] + (rP100.fat ? rP100.fat.toFixed(1) : '0') + 'g fat</span>';
+        html += '<span>' + rIcon[rFsa.saturates] + (rP100.saturates ? rP100.saturates.toFixed(1) : '0') + 'g sat</span>';
+        html += '<span>' + rIcon[rFsa.sugars] + (rP100.sugars ? rP100.sugars.toFixed(1) : '0') + 'g sugar</span>';
+        html += '<span>' + rIcon[rFsa.salt] + (rP100.salt ? rP100.salt.toFixed(2) : '0') + 'g salt</span>';
+        html += '<span style="color:var(--text3);">' + (rP100.energy ? rP100.energy.toFixed(0) : '0') + ' kcal</span>';
+        html += '</div></div>';
+      }
+      if (recipeIds.length > 6) {
+        html += '<div style="font-size:0.65rem;color:var(--text3);padding:4px;">…and ' + (recipeIds.length - 6) + ' more recipes</div>';
+      }
+      html += '</div>';
+    } else {
+      html += '<div class="empty-state" style="font-size:0.72rem;">No im2recipe data found for this ingredient. Try a common ingredient like chicken, garlic, or cheese.</div>';
+    }
+  } else if (nd) {
+    html += '<div style="font-size:0.7rem;color:var(--text3);margin-top:6px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;">';
+    html += '<span style="font-weight:600;">🟢🟡🔴 FSA Traffic Lights (per 100g)</span><br>';
+    html += '<span>🟢 Low &nbsp;🟡 Medium &nbsp;🔴 High</span><br>';
+    html += '</div>';
+  } else {
+    html = '<div class="empty-state">No nutrition data available for ' + activeName.replace(/_/g, ' ') + '</div>';
+  }
+
+  document.getElementById('recipeContent').innerHTML = html;
 }
 
 // ── Recipe sub-tab setup ──
@@ -7676,6 +7944,8 @@ async function init() {
 
     document.getElementById('loadStatus').textContent = 'Fetching shared data…';
     await loadSharedData();
+    // Fire-and-forget nutrition data load (non-blocking; falls back to inline NUTRITION_DATA)
+    loadNutritionData();
 
     // Load the default model (Cooc) so initial render works
     document.getElementById('loadStatus').textContent = 'Loading Cooc model data…';

@@ -4,3 +4,5 @@ __pycache__/
 .DS_Store
 node_modules/
 test-results/
+/data/recipe_nutrition.json
+/data/recipe_ingredient_map.json

@@ -112,14 +112,19 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 
 ```
 epicure-explorer/
-├── index.html          ← THE APP — single self-contained HTML file (259 KB)
-├── preprocess.py       ← Python pipeline to generate data bundles from raw CSVs
+├── index.html          ← THE APP — single self-contained HTML file (408 KB)
+├── build_nutrition.py   ← Nutrition pipeline — generates epicure_nutrition.json in im2recipe format
 ├── requirements.txt    ← Pinned dependencies (umap-learn, scikit-learn)
 ├── data/
 │   ├── epicure_shared.json   ← Shared data (128 KB) — ingredients + direction vectors
 │   ├── epicure_cooc.json     ← Cooc model (~4 MB) — neighbours + UMAP + vectors
 │   ├── epicure_core.json     ← Core model (~4 MB)
 │   ├── epicure_chem.json     ← Chem model (~4 MB)
+│   ├── epicure_nutrition.json ← Per-ingredient FSA nutrition (789 KB) — im2recipe format
+│   ├── nutrition_vocab.json  ← im2recipe↔Epicure name mapping (114 KB)
+│   ├── recipe_nutrition.json ← 51K per-recipe FSA nutrition (98 MB) — im2recipe 35K dataset
+│   ├── recipe_detections_slim.json ← 622-ingredient→recipe link index (2.1 MB)
+│   ├── recipe_ingredient_map.json ← Full USDA-ingredient→recipe map (5.7 MB)
 │   ├── *.csv                 ← Raw arXiv embeddings + mode atlases
 │   └── README.txt            ← Original authors' notes
 ├── GUIDE.md            ← Professional chef's playbook (full user guide)
@@ -155,11 +160,13 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 This project was built across 13 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **7,756 lines** of HTML/CSS/JS in a single file
-- **~168 JavaScript functions** across 19 tabs and Chef's Toolkit
-- **~5,800 lines** of JavaScript application logic
+- **8,025 lines** of HTML/CSS/JS in a single file
+- **~163 JavaScript functions** across 19 tabs and Chef's Toolkit
+- **~6,200 lines** of JavaScript application logic
 - **28 files** tracked in version control
-- **72 automated E2E tests** — all passing
+- **68 automated E2E tests** — all passing
+- **51K per-recipe nutrition records** — FSA-scored from the im2recipe 35K dataset
+- **im2recipe-format data pipeline** — USDA-matched nutrition for all 1,790 ingredients
 
 ---
 

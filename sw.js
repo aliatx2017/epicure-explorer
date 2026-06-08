@@ -4,6 +4,9 @@ const STATIC = [
   './',
   './index.html',
   './data/epicure_shared.json',
+  './data/epicure_nutrition.json',
+  './data/recipe_nutrition.json',
+  './data/recipe_detections_slim.json',
 ];
 
 self.addEventListener('install', function(e) {

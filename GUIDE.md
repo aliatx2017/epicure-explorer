@@ -32,6 +32,7 @@ This is not a recipe database. This is a **flavour relationship engine** — the
    - [📈 Trending — What's Trending Panel](#317--trending)
    - [💊 Meal Plan — GLP-1 Meal Plan Generator](#318--meal-plan)
    - [👨‍🍳 Build-A-Dish — Ingredient Composition Studio](#319--build-a-dish)
+   - [🔬 Nutrition Deep-Dive & FSA Health Direction](#320--nutrition-deep-dive--fsa-health-direction)
 4. [Professional Workflows & Strategies](#4-professional-workflows--strategies)
 5. [Troubleshooting](#5-troubleshooting)
    - [Force-Directed Map — Fixed](#51-force-directed-map--fixed)
@@ -44,9 +45,11 @@ This is not a recipe database. This is a **flavour relationship engine** — the
    - [Seasonal Heatmap](#58-seasonal-heatmap)
    - [Spoonacular Graceful Degradation](#59-spoonacular-graceful-degradation)
    - [Map Gesture Hint (Mobile)](#510-map-gesture-hint-mobile)
-   - [Density Threshold Slider](#511-density-threshold-slider)
-   - [QR Code Share](#512-qr-code-share)
-   - [ℹ️ Ingredient Name Translation](#513-ingredient-name-translation)
+   - [Density Threshold Slider](#517-density-threshold-slider)
+   - [QR Code Share](#518-qr-code-share)
+   - [ℹ️ Ingredient Name Translation](#519-ingredient-name-translation)
+   - [Nutrition Data Not Loading](#520-nutrition-data-not-loading)
+   - [FSA Health Direction Not in SLERP Dropdown](#521-fsa-health-direction-not-in-slerp-dropdown)
 
 ---
 
@@ -56,7 +59,7 @@ This is not a recipe database. This is a **flavour relationship engine** — the
 
 ```
 epicure-explorer/
-├── index.html          ← THE WEB APP — single self-contained HTML file (259 KB)
+├── index.html          ← THE WEB APP — single self-contained HTML file (408 KB)
 ├── preprocess.py       ← Python script that generates the data bundle
 ├── requirements.txt    ← Pinned Python dependencies (umap-learn, scikit-learn, etc.)
 ├── data/
@@ -122,7 +125,7 @@ index.html
 | `factor_top_alignments_ica_*.csv` | ~1.6–1.7 KB each | FastICA factor ↔ supervised label alignments |
 | `vocab.csv` | 43 KB | Cross-model `node_id` mapping (see `data/README.txt` for notes) |
 | `README.txt` | 1.7 KB | Original authors' notes on the supplementary bundle: raw-vs-normalised, compound-node omission, quick-load snippet |
-| Nutrition database (embedded in `index.html`) | ~8 KB (gzipped) | 416 ingredients × 5 nutrients (calories, protein, fat, carbs, fiber) — USDA-based estimates per 100g, used for heatmap overlay on the Map tab |
+| Nutrition database (embedded in `index.html`) | ~8 KB (gzipped) | 416 ingredients × 5 nutrients (calories, protein, fat, carbs, fiber) — inline fallback for heatmap overlay; extended data from `epicure_nutrition.json` covers all 1,790 ingredients with FSA traffic lights |
 
 ### 1.4 App Architecture (index.html)
 
@@ -846,6 +849,30 @@ A polar radar chart showing how the selected ingredient relates to all 8 sensory
 **How it works:** The embedding centroid of all selected ingredients is computed (vector average). All other ingredients are scored by cosine similarity to this centroid. The highest-scoring ingredients represent flavours that naturally complement the combination — they're the embeddings' best guess at "what goes with everything you've chosen."
 
 **Professional use case:** A chef has a base of chicken, garlic, and olive oil. Build-A-Dish might suggest rosemary, lemon, white_wine, and thyme — the embedding space recognizes this as a classic Mediterranean poultry profile and fills in the expected companions.
+
+### 3.20 🔬 Nutrition Deep-Dive & FSA Health Direction
+
+**What it is:** For every ingredient, the app shows a **Nutrition Deep-Dive** card in the Chef's Toolkit sidebar with FSA traffic lights (🟢🟡🔴) per 100g for energy, protein, fat, saturates, sugars, salt, carbs, and fiber. An additional **🥗 Nutrition** subtab in the Recipe Explorer shows per-recipe FSA scores from the im2recipe 35K dataset (51K+ recipes). A **💚 FSA Health** SLERP-able direction vector lets you rotate any ingredient toward healthier alternatives.
+
+**How it works:** The nutrition data comes from the im2recipe-Pytorch 35K per-recipe dataset (MIT license), matched via USDA FoodData Central. The app's `build_nutrition.py` pipeline (45 KB) covers all 1,790 Epicure ingredients with 409 exact USDA matches and 1,381 food-group-heuristic estimates. When the 35K per-recipe dataset was obtained (via Recipe1M data access), `build_nutrition.py --import-im2recipe` indexed all 51,235 recipes with their per-recipe FSA traffic lights.
+
+**Where to find it:**
+- **Chef's Toolkit Pro** → scroll to the **🔬 Nutrition per 100g (im2recipe)** section — shows the ingredient's FSA traffic light breakdown
+- **Recipe Explorer** → click the **🥗 Nutrition** subtab — shows per-100g base nutrition + sample recipes with per-recipe FSA scores
+- **Direction (SLERP)** → new **💪 Health** optgroup with **💚 FSA Health** direction — rotate any ingredient toward healthier alternatives
+
+**FSA thresholds (UK Food Standards Agency, per 100g):**
+| Category | 🟢 Low | 🟡 Medium | 🔴 High |
+|----------|--------|-----------|--------|
+| Fat | ≤ 3g | ≤ 17.5g | > 17.5g |
+| Saturates | ≤ 1.5g | ≤ 5g | > 5g |
+| Sugars | ≤ 5g | ≤ 22.5g | > 22.5g |
+| Salt | ≤ 0.3g | ≤ 1.5g | > 1.5g |
+
+**Professional use case:** A chef developing a health-conscious menu can SLERP an indulgent ingredient (e.g. butter) toward `💚 FSA Health` — the resulting substitutions trend toward lower-fat, lower-salt alternatives (olive oil, avocado, yogurt) that preserve the culinary role while improving the FSA profile. The per-recipe nutrition tab then shows real-world recipes using each substitution, with their actual FSA scores.
+
+**Technical note:** The `build_nutrition.py` pipeline is designed to accept the actual im2recipe 35K nutritional dataset. When the Recipe1M data access form is submitted and the JSON is placed at `data/im2recipe_recipes.json`, running `python3 build_nutrition.py --import-im2recipe` generates the per-recipe index. The app auto-detects the new data on next reload.
+
 ## 4. Professional Workflows & Strategies
 
 This section is written for the professional kitchen. Each workflow is a complete, end-to-end strategy that combines multiple app features to solve a real culinary problem.
@@ -1019,7 +1046,7 @@ The embedding space opens the door to features that are **architecturally possib
 - **Graph-RAG Chef Assistant:** Natural-language query over the full embedding space — "What replaces eggs in a gluten-free brunch?"
 - **MCP-Native Architecture:** Expose the embedding space as an MCP server so any AI assistant can query your food intelligence layer
 
-> **Already shipped:** GLP-1 Diet Mode (💊 badge + 💚 filter toggle), Explainable Substitutions (💡 "Why This Substitute?" panel), Nutrition Heatmap Overlay (🔥 colour-coded UMAP), Flavour Arithmetic Explorer (🧮 visual chip UI with history), Cocktail Mixology (🍸 spirit + mixer → drink intelligence), Seasonal Calendar (🗓️ peak-season browser + map overlay), Spoonacular API (🌐 live recipe search, nutrition, wine pairing), Snap→Ingredient Search (📸 food photo → classify → explore), Ingredient2Vec API (🔬 nearest-neighbour + arithmetic), Food Agent (🤖 natural language → ingredient match), Trending panel (📈 seasonal + rarity + GLP-1 signals), and GLP-1 Meal Plan Generator (💊 7-day plan from embedding clusters) — see §3.4, §3.8, §3.10–§3.18 for details.
+> **Already shipped:** GLP-1 Diet Mode (💊 badge + 💚 filter toggle), Explainable Substitutions (💡 "Why This Substitute?" panel), Nutrition Deep-Dive (🔬 per-ingredient FSA traffic lights), FSA Health Direction (💚 healthy↔indulgent SLERP vector), Per-Recipe Nutrition (🥗 51K recipe FSA scores in Recipe tab), Nutrition Heatmap Overlay (🔥 colour-coded UMAP), Flavour Arithmetic Explorer (🧮 visual chip UI with history), Cocktail Mixology (🍸 spirit + mixer → drink intelligence), Seasonal Calendar (🗓️ peak-season browser + map overlay), Spoonacular API (🌐 live recipe search, nutrition, wine pairing), Snap→Ingredient Search (📸 food photo → classify → explore), Ingredient2Vec API (🔬 nearest-neighbour + arithmetic), Food Agent (🤖 natural language → ingredient match), Trending panel (📈 seasonal + rarity + GLP-1 signals), and GLP-1 Meal Plan Generator (💊 7-day plan from embedding clusters) — see §3.4, §3.8, §3.10–§3.20 for details.
 >
 > **Bug fix:** Force-Directed graph projection now works — `getForceGraphLayout()` implements a Fruchterman-Reingold spring-force layout from top-15 neighbour edges. See §3.4 and §5.1.
 
@@ -1174,7 +1201,7 @@ When no Spoonacular API key is saved, the Spoonacular tab now shows a friendly *
 
 On touch devices, the first visit to the Map tab shows a subtle overlay: "Drag to pan · Pinch to zoom · Double-tap to reset". It fades out after 4 seconds and never appears again (tracked via `localStorage`).
 
-### 5.11 Density Threshold Slider
+### 5.17 Density Threshold Slider
 
 When the **🔬 Density** overlay is selected on the Map tab, a **Min%** slider appears next to the overlay dropdown. It controls the minimum intensity threshold for KDE heatmap cells:
 
@@ -1184,7 +1211,7 @@ When the **🔬 Density** overlay is selected on the Map tab, a **Min%** slider 
 
 The slider range is 0–10% in 0.5% steps. Use it to declutter the density heatmap when zoomed in, or to see subtle clustering patterns at low thresholds.
 
-### 5.12 QR Code Share
+### 5.18 QR Code Share
 
 The Chef's Toolkit sidebar includes a **"📱 Show QR Code"** button. Click it to open a modal overlay with a scannable QR code encoding the current deep-link URL (`#tab=...&model=...&ingredient=...`). This lets you:
 
@@ -1194,7 +1221,7 @@ The Chef's Toolkit sidebar includes a **"📱 Show QR Code"** button. Click it t
 
 The QR generation is fully inline — no external dependencies, no network calls, works offline.
 
-### 5.13 ℹ️ Ingredient Name Translation
+### 5.19 ℹ️ Ingredient Name Translation
 
 The app's i18n system has been extended from UI strings to **ingredient names** themselves. When a non-English language is selected (🇪🇸 ES, 🇫🇷 FR, 🇨🇳 中文, 🇯🇵 日本語), ~120 commonly viewed ingredients display in the local language throughout the app:
 
@@ -1205,3 +1232,23 @@ The app's i18n system has been extended from UI strings to **ingredient names** 
 - **Flavour Compass target** — translated name
 
 Fallback: If an ingredient has no translation in the current language, its English underscored name is displayed with underscores converted to spaces.
+
+### 5.20 Nutrition Data Not Loading
+
+**Symptom:** Chef's Toolkit shows no "🔬 Nutrition per 100g" section, or the Recipe tab's "🥗 Nutrition" subtab shows "Nutrition data loading…"
+
+**Possible causes:**
+- `data/epicure_nutrition.json` is missing or wasn't fetched (check browser console for 404)
+- For per-recipe data, `data/recipe_nutrition.json` and `data/recipe_detections_slim.json` must be present
+
+**Fix:**
+- Verify files exist: `ls -la data/epicure_nutrition.json data/recipe_nutrition.json data/recipe_detections_slim.json`
+- Regenerate per-ingredient data: `python3 build_nutrition.py`
+- Process per-recipe data (requires im2recipe 35K dataset): `python3 build_nutrition.py --import-im2recipe`
+- The `loadNutritionData()` call is fire-and-forget — if the file isn't available, the app falls back to inline `NUTRITION_DATA` (165 ingredients)
+
+### 5.21 FSA Health Direction Not in SLERP Dropdown
+
+**Symptom:** The "💚 FSA Health" option doesn't appear in the Direction (SLERP) tab.
+
+**Fix:** The health direction is computed on-the-fly when both `epicure_nutrition.json` and model vectors are loaded. If you're seeing it, open the SLERP tab and select any seed ingredient — the direction should appear. It requires at least 5 healthy ingredients (3+ green lights) and 5 indulgent ingredients (2+ red lights) in the nutrition data to create a stable centroid vector.
