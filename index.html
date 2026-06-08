@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Epicure Explorer — Navigating Food Ingredient Embeddings</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+<title>Epicure Explorer — Discover Flavour Relationships</title>
 <style>
 /* ── Reset & Variables ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,7 +15,7 @@
   --border: #2e2e4a;
   --text: #e8e8f0;
   --text2: #9999b8;
-  --text3: #6b6b8a;
+  --text3: #8a8aad;
   --accent: #c084fc;
   --accent2: #8b5cf6;
   --green: #4ade80;
@@ -39,6 +40,7 @@ header { display: flex; align-items: center; justify-content: space-between; fle
 header h1 { font-size: 1.4rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
 header h1 .icon { font-size: 1.6rem; }
 header .subtitle { color: var(--text2); font-size: 0.85rem; }
+header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top: 2px; }
 .header-actions { display: flex; gap: 8px; align-items: center; }
 
 /* ── Model Tabs ── */
@@ -51,6 +53,7 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 
 /* ── Search ── */
 .search-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.input-group-label { font-size: 0.72rem; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.4px; min-width: fit-content; }
 .search-box { position: relative; flex: 1; min-width: 220px; }
 .search-box input { width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.9rem; font-family: var(--font); outline: none; transition: border .2s; }
 .search-box input:focus { border-color: var(--accent2); }
@@ -64,12 +67,64 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 /* ── Panels ── */
 .main-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
+/* ── App Footer ── */
+.app-footer {
+  margin-top: 24px; padding: 12px 16px; border-top: 1px solid var(--border);
+  font-size: 0.72rem; color: var(--text3, var(--text2));
+  display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+}
+.app-footer a { color: var(--accent); text-decoration: none; }
+.app-footer a:hover { text-decoration: underline; }
+.app-footer-sep { color: var(--border); margin: 0 2px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  body { padding: 12px; }
+  header { flex-direction: column; align-items: flex-start; }
+  header h1 { font-size: 1.15rem; }
+  .model-tabs { align-self: stretch; }
+  .model-tab { flex: 1; text-align: center; padding: 7px 8px; font-size: 0.75rem; }
+  .search-row { flex-direction: column; align-items: stretch; }
+  .search-box { min-width: 0; }
+  .tab-cat { font-size: 0.72rem; padding: 5px 10px; }
+  .tab { font-size: 0.72rem; padding: 5px 10px; }
+  .panel { padding: 12px; }
+  #pcaCanvas { height: 300px; }
+  .chef-sidebar { width: 100%; max-width: 100vw; }
+  .neighbour-grid { grid-template-columns: 1fr 1fr; }
+  .game-grid { grid-template-columns: 1fr; }
+  .seasonal-grid { grid-template-columns: 1fr 1fr; }
+  .cocktail-layout { grid-template-columns: 1fr; }
+  .spoon-layout { grid-template-columns: 1fr; }
+  .compare-table { font-size: 0.75rem; }
+  .slerp-controls { flex-direction: column; }
+  .header-actions { width: 100%; }
+  .header-actions .model-tabs { flex: 1; }
+}
+@media (max-width: 480px) {
+  body { padding: 8px; }
+  .neighbour-grid { grid-template-columns: 1fr; }
+  .seasonal-grid { grid-template-columns: 1fr; }
+  .tab { font-size: 0.68rem; padding: 4px 8px; }
+  #pcaCanvas { height: 220px; }
+}
+
 .tabs { display: flex; gap: 4px; background: var(--surface); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 12px; flex-wrap: wrap; }
+.tabs .tab.hidden-cat { display: none; }
+.tab-categories { display: flex; gap: 4px; margin-bottom: 4px; flex-wrap: wrap; }
+.tab-cat {
+  padding: 6px 16px; border-radius: var(--radius-sm); border: none;
+  background: transparent; color: var(--text2); font-size: 0.78rem;
+  font-family: var(--font); cursor: pointer; transition: all .2s; font-weight: 500;
+}
+.tab-cat:hover { color: var(--text); background: var(--surface2); }
+.tab-cat.active { background: var(--accent2); color: #fff; }
 .tab { padding: 7px 16px; border-radius: 6px; border: none; background: transparent; color: var(--text2); font-size: 0.8rem; font-family: var(--font); cursor: pointer; transition: all .2s; font-weight: 500; }
 .tab:hover { color: var(--text); }
 .tab.active { background: var(--surface2); color: var(--accent); }
 
-.panel { background: var(--surface); border-radius: var(--radius); padding: 18px; border: 1px solid var(--border); }
+.panel { background: var(--surface); border-radius: var(--radius); padding: 18px; border: 1px solid var(--border); transition: opacity .2s ease; }
+.panel.fading { opacity: 0; }
 .panel h2 { font-size: 1rem; font-weight: 600; margin-bottom: 14px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
 .panel-section { margin-bottom: 16px; }
 .panel-section:last-child { margin-bottom: 0; }
@@ -132,10 +187,19 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 .dir-card .sim { font-size: 0.75rem; color: var(--accent); }
 
 /* ── Loading ── */
-.loading { text-align: center; padding: 60px 20px; color: var(--text2); }
+.loading { text-align: center; padding: 40px 20px; color: var(--text2); }
 .loading .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 16px; }
+.loading-title { font-size: 1.2rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.loading-subtitle { font-size: 0.85rem; color: var(--text2); margin-bottom: 20px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading .status { font-size: 0.9rem; margin-top: 8px; }
+.loading .status { font-size: 0.8rem; margin-top: 12px; color: var(--accent); }
+.skeleton-layout { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.skeleton { background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: var(--radius-sm); }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-header { height: 32px; width: 60%; }
+.skeleton-tabs { height: 28px; width: 80%; }
+.skeleton-search { height: 40px; width: 100%; }
+.skeleton-panel { height: 200px; width: 100%; }
 
 /* ── Misc ── */
 .fade-in { animation: fadeIn .3s ease; }
@@ -173,14 +237,27 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 
 .chef-sidebar {
   display: none;
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: 360px;
+  max-width: 90vw;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-top: 12px;
+  border-left: 1px solid var(--border);
+  padding: 20px;
+  overflow-y: auto;
+  z-index: 100;
   font-size: 0.82rem;
+  box-shadow: -8px 0 30px rgba(0,0,0,0.5);
+  transform: translateX(100%);
+  transition: transform .25s ease;
 }
-.chef-sidebar.visible { display: block; }
+.chef-sidebar.visible { display: block; transform: translateX(0); }
+.chef-sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.chef-sidebar-header h3 { margin: 0; }
+.chef-close-btn { background: transparent; border: none; color: var(--text2); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: all .15s; }
+.chef-close-btn:hover { color: var(--text); background: var(--surface2); }
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99; }
+.sidebar-backdrop.visible { display: block; }
 .chef-sidebar h3 { font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 .chef-sidebar .chef-section { margin-bottom: 12px; }
 .chef-sidebar .chef-section:last-child { margin-bottom: 0; }
@@ -447,6 +524,22 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 .proj-controls select:focus { border-color: var(--accent2); }
 .proj-controls label { font-size: 0.78rem; color: var(--text2); }
 
+/* ── Map Search ── */
+.map-search-row { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+.map-search-input {
+  flex: 1; max-width: 320px; padding: 6px 10px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--surface2); color: var(--text);
+  font-size: 0.82rem; font-family: var(--font); outline: none;
+}
+.map-search-input:focus { border-color: var(--accent2); }
+.map-search-btn {
+  padding: 6px 14px; border-radius: var(--radius-sm); border: none;
+  background: var(--accent); color: #fff; font-size: 0.78rem; cursor: pointer;
+  font-family: var(--font);
+}
+.map-search-btn:hover { filter: brightness(1.15); }
+.map-search-msg { font-size: 0.75rem; color: var(--text2); margin-left: 4px; }
+
 /* ── Recipe Explorer ── */
 .recipe-subtabs { margin-bottom: 12px; }
 .recipe-category { margin-bottom: 14px; }
@@ -504,7 +597,14 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
   <!-- Loading -->
   <div class="loading" id="loading">
     <div class="spinner"></div>
-    <div>Loading Epicure Explorer…</div>
+    <div class="loading-title">Epicure Explorer</div>
+    <div class="loading-subtitle">Loading 1,790 ingredients…</div>
+    <div class="skeleton-layout">
+      <div class="skeleton skeleton-header"></div>
+      <div class="skeleton skeleton-tabs"></div>
+      <div class="skeleton skeleton-search"></div>
+      <div class="skeleton skeleton-panel"></div>
+    </div>
     <div class="status" id="loadStatus">Fetching shared data</div>
   </div>
 
@@ -513,7 +613,8 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
     <header>
       <div>
         <h1><span class="icon">🍽️</span> Epicure Explorer</h1>
-        <div class="subtitle">Navigating the Emergent Geometry of Food Ingredient Embeddings · <a href="https://arxiv.org/abs/2605.22391" target="_blank">arXiv:2605.22391</a></div>
+        <div class="subtitle">Discover flavour relationships · Find perfect substitutes · Explore 1,790 ingredients</div>
+        <div class="subtitle-academic"><a href="https://arxiv.org/abs/2605.22391" target="_blank">arXiv:2605.22391</a> — Radzikowski &amp; Chen (2026)</div>
       </div>
       <div class="header-actions">
         <div class="model-tabs" id="modelTabs">
@@ -527,6 +628,7 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 
     <!-- Search -->
     <div class="search-row">
+      <label class="input-group-label">🔍 Find an ingredient</label>
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search ingredients… (e.g. miso, chocolate, olive_oil)" autocomplete="off" aria-label="Search ingredients">
         <div class="search-dropdown" id="searchDropdown"></div>
@@ -536,31 +638,42 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 
     <!-- Describe a Dish -->
     <div class="describe-row">
-      <input type="text" id="describeInput" placeholder="✏️ Describe a dish… (e.g. \"creamy garlic pasta with mushrooms\")" autocomplete="off" aria-label="Describe a dish">
+      <label class="input-group-label">✏️ Describe any dish</label>
+      <input type="text" id="describeInput" placeholder="e.g. \"creamy garlic pasta with mushrooms\"" autocomplete="off" aria-label="Describe a dish">
       <span id="describeStatus" style="font-size:0.75rem;color:var(--text2);"></span>
     </div>
     <div class="describe-results" id="describeResults"></div>
 
     <!-- Result Tabs -->
-    <div class="tabs" id="resultTabs">
-      <button class="tab active" data-tab="neighbours">🔗 Neighbours</button>
-      <button class="tab" data-tab="compare">⚖️ Compare</button>
-      <button class="tab" data-tab="slerp">🎯 Direction</button>
-      <button class="tab" data-tab="map">🗺️ Map</button>
-      <button class="tab" data-tab="modes">🏷️ Modes</button>
-      <button class="tab" data-tab="recipes">🍲 Recipes</button>
-      <button class="tab" data-tab="games">🎮 Games</button>
-      <button class="tab" data-tab="snap">📸 Snap</button>
-      <button class="tab" data-tab="analyzer">🍽️ Analyzer</button>
-      <button class="tab" data-tab="compare2">⚔️ Compare 2</button>
-      <button class="tab" data-tab="arithmetic">🧮 Arith</button>
-      <button class="tab" data-tab="cocktail">🍸 Cocktails</button>
-      <button class="tab" data-tab="seasonal">🗓️ Seasonal</button>
-      <button class="tab" data-tab="spoonacular">🌐 Spoonacular</button>
-      <button class="tab" data-tab="ingredient2vec">🔬 Ingredient2Vec</button>
-      <button class="tab" data-tab="foodagent">🤖 Food Agent</button>
-      <button class="tab" data-tab="trending">📈 Trending</button>
-      <button class="tab" data-tab="mealplan">💊 Meal Plan</button>
+    <div class="tab-categories" id="tabCategories" role="tablist" aria-label="Tab categories">
+      <button class="tab-cat active" data-cat="core" role="tab" aria-selected="true">🧠 Core</button>
+      <button class="tab-cat" data-cat="play" role="tab" aria-selected="false">🎮 Play</button>
+      <button class="tab-cat" data-cat="analyze" role="tab" aria-selected="false">🔬 Analyze</button>
+      <button class="tab-cat" data-cat="advanced" role="tab" aria-selected="false">🚀 Advanced</button>
+    </div>
+    <div class="tabs" id="resultTabs" role="tablist" aria-label="Feature tabs">
+      <!-- Core -->
+      <button class="tab active" data-tab="neighbours" data-cat="core">🔗 Neighbours</button>
+      <button class="tab" data-tab="compare" data-cat="core">⚖️ Compare</button>
+      <button class="tab" data-tab="slerp" data-cat="core">🎯 Direction</button>
+      <button class="tab" data-tab="map" data-cat="core">🗺️ Map</button>
+      <button class="tab" data-tab="modes" data-cat="core">🏷️ Modes</button>
+      <button class="tab" data-tab="recipes" data-cat="core">🍲 Recipes</button>
+      <!-- Play -->
+      <button class="tab" data-tab="games" data-cat="play">🎮 Games</button>
+      <button class="tab" data-tab="arithmetic" data-cat="play">🧮 Arith</button>
+      <button class="tab" data-tab="cocktail" data-cat="play">🍸 Cocktails</button>
+      <!-- Analyze -->
+      <button class="tab" data-tab="analyzer" data-cat="analyze">🍽️ Analyzer</button>
+      <button class="tab" data-tab="compare2" data-cat="analyze">⚔️ Compare 2</button>
+      <button class="tab" data-tab="snap" data-cat="analyze">📸 Snap</button>
+      <button class="tab" data-tab="seasonal" data-cat="analyze">🗓️ Seasonal</button>
+      <!-- Advanced -->
+      <button class="tab" data-tab="spoonacular" data-cat="advanced">🌐 Spoonacular</button>
+      <button class="tab" data-tab="ingredient2vec" data-cat="advanced">🔬 I2Vec</button>
+      <button class="tab" data-tab="foodagent" data-cat="advanced">🤖 Food Agent</button>
+      <button class="tab" data-tab="trending" data-cat="advanced">📈 Trending</button>
+      <button class="tab" data-tab="mealplan" data-cat="advanced">💊 Meal Plan</button>
     </div>
 
     <!-- Panels -->
@@ -662,6 +775,11 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
             <span id="nutrientStatus" style="font-size:0.7rem;color:var(--text2);margin-left:6px;"></span>
           </div>
           <p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">2D projection of the 300-D embedding space. Switch methods to see different geometric perspectives. Hover over points to identify ingredients. Select a nutrient or season overlay to colour-code the map.</p>
+          <div class="map-search-row">
+            <input type="text" id="mapSearch" placeholder="🔍 Find ingredient on map…" class="map-search-input">
+            <button id="mapSearchBtn" class="map-search-btn">Find</button>
+            <span id="mapSearchMsg" class="map-search-msg"></span>
+          </div>
           <div class="pca-container">
             <canvas id="pcaCanvas"></canvas>
           </div>
@@ -1118,9 +1236,16 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
     </div>  <!-- close panel-mealplan -->
     </div>  <!-- close .main-grid -->
 
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeChefToolkit()"></div>
+
     <!-- Chef's Toolkit Sidebar -->
     <div class="chef-sidebar" id="chefSidebar">
-      <h3>👨‍🍳 Chef's Toolkit — <span id="chefIngredientName">—</span></h3>
+      <div class="chef-sidebar-header">
+        <h3>👨‍🍳 Chef's Toolkit</h3>
+        <button class="chef-close-btn" onclick="closeChefToolkit()" aria-label="Close Chef's Toolkit">✕</button>
+      </div>
+      <h4 style="margin-bottom:10px;font-size:0.8rem;color:var(--accent);"><span id="chefIngredientName">—</span></h4>
       <div class="chef-section">
         <h4>🥗 Dietary Profile</h4>
         <div class="chef-tags" id="chefDietaryTags"></div>
@@ -1138,6 +1263,16 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
         <div class="chef-tags" id="chefFlavourTags"></div>
       </div>
       <button class="chef-export-btn" id="chefExportBtn" onclick="exportSummary()">📋 Export Summary</button>
+    </div>
+
+    <div class="app-footer">
+      <span>🍽️ Epicure Explorer</span>
+      <span class="app-footer-sep">·</span>
+      <span>Embeddings: <a href="https://arxiv.org/abs/2605.22391" target="_blank" rel="noopener">Radzikowski &amp; Chen (2026)</a> — <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></span>
+      <span class="app-footer-sep">·</span>
+      <span>Nutrition: <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noopener">USDA FoodData Central</a></span>
+      <span class="app-footer-sep">·</span>
+      <span><a href="https://github.com/aliatx2017/epicure-explorer" target="_blank" rel="noopener">GitHub</a></span>
     </div>
   </div>
 </div>
@@ -1158,6 +1293,37 @@ const STATE = {
   selectedIdx: -1,
   currentTab: 'neighbours',
 };
+
+// Map viewport state for zoom/pan
+const MAP_VIEW = { scale: 1, panX: 0, panY: 0 };
+// Map search pulse animation state
+const MAP_PULSE = { active: false, idx: -1, start: 0 };
+
+// ── Empty-state helper — shows a placeholder when no ingredient is selected ──
+const TAB_DESCRIPTIONS = {
+  neighbours: 'Search for an ingredient above to see its nearest neighbours ranked by similarity.',
+  compare: 'Search for an ingredient to compare its neighbours across all three embedding models.',
+  slerp: 'Search for an ingredient to rotate it toward a sensory or cuisine direction.',
+  modes: 'Search for an ingredient to see its culinary mode memberships and cuisine filters.',
+  recipes: 'Search for an ingredient to explore cuisine browser, bridge finder, and flavour boosters.',
+  games: 'Search for an ingredient to test your flavour knowledge with games.',
+  analyzer: 'Type a comma-separated list of ingredients to analyze their dietary profile and flavour notes.',
+  compare2: 'Select two ingredients to compare their flavour profiles side by side.',
+  arithmetic: 'Add ingredient chips to perform flavour arithmetic and discover new combinations.',
+  cocktail: 'Select a spirit and mixers to discover cocktail embedding-space neighbours.',
+  seasonal: 'Browse 149 ingredients by peak season.',
+  spoonacular: 'Enter a Spoonacular API key to search recipes, get nutrition data, and find wine pairings.',
+  ingredient2vec: 'Query nearest neighbours or run flavour arithmetic using the ingredient embedding API.',
+  foodagent: 'Describe what you\'re looking for in natural language and let the Food Agent find matches.',
+  trending: 'See what\'s trending — seasonal, rare, and diet-friendly ingredient signals.',
+  mealplan: 'Generate a 7-day GLP-1-friendly meal plan from embedding clusters.',
+};
+function showEmptyState(containerId, tabKey) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const desc = TAB_DESCRIPTIONS[tabKey] || '';
+  el.innerHTML = `<div class="empty-state"><div class="big">🔍</div><p style="margin-bottom: 6px;"><strong>No ingredient selected</strong></p><p style="font-size:0.8rem;color:var(--text2);max-width:400px;margin:0 auto;">${desc}</p></div>`;
+}
 
 // ── Data Loading (lazy per model) ──
 
@@ -1346,6 +1512,10 @@ function selectIngredient(name) {
   STATE.selectedIdx = idx;
 
   document.getElementById('selectedIngredient').textContent = `✓ ${name.replace(/_/g, ' ')}`;
+
+  // Update URL hash with ingredient
+  const hashTab = STATE.currentTab || 'neighbours';
+  window.history.replaceState(null, '', `#tab=${hashTab}&model=${STATE.currentModel}&ingredient=${name}`);
 
   renderAll();
 }
@@ -1543,12 +1713,21 @@ const SENSORY_COLORS = {
 
 function toggleChefToolkit() {
   const sidebar = document.getElementById('chefSidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
   const toggle = document.getElementById('chefToggle');
+  const isOpening = !sidebar.classList.contains('visible');
   sidebar.classList.toggle('visible');
+  backdrop.classList.toggle('visible');
   toggle.classList.toggle('active');
-  if (sidebar.classList.contains('visible') && STATE.selectedIngredient) {
+  if (isOpening && STATE.selectedIngredient) {
     renderChefToolkit();
   }
+}
+
+function closeChefToolkit() {
+  document.getElementById('chefSidebar').classList.remove('visible');
+  document.getElementById('sidebarBackdrop').classList.remove('visible');
+  document.getElementById('chefToggle').classList.remove('active');
 }
 
 // ── Molecular Flavour Notes — derived from sensory direction combos ──
@@ -2891,9 +3070,37 @@ function setupDescribeDish() {
 // ── Map Controls — Projection Method Switching ──
 
 function setupMapControls() {
+  setupMapInteractions();
   const projSelect = document.getElementById('projMethod');
   if (projSelect) {
-    projSelect.addEventListener('change', renderMap);
+    projSelect.addEventListener('change', () => {
+      MAP_VIEW.scale = 1;
+      MAP_VIEW.panX = 0;
+      MAP_VIEW.panY = 0;
+      renderMap();
+    });
+  }
+
+  // Map search — find ingredient and center on it
+  const mapSearch = document.getElementById('mapSearch');
+  const mapSearchBtn = document.getElementById('mapSearchBtn');
+  if (mapSearch && mapSearchBtn) {
+    function doMapSearch() {
+      const q = mapSearch.value.trim().toLowerCase().replace(/\s+/g, '_');
+      if (!q) return;
+      // Try exact match first, then partial
+      const names = STATE.data ? STATE.data.ingredients : [];
+      let match = names.find(n => n === q);
+      if (!match) match = names.find(n => n.includes(q));
+      if (!match) match = names.find(n => n.replace(/_/g, ' ').includes(q));
+      if (match) {
+        mapSearchAndFocus(match);
+      } else {
+        document.getElementById('mapSearchMsg').textContent = '❌ No ingredient found';
+      }
+    }
+    mapSearchBtn.addEventListener('click', doMapSearch);
+    mapSearch.addEventListener('keydown', (e) => { if (e.key === 'Enter') doMapSearch(); });
   }
 }
 
@@ -3464,7 +3671,7 @@ function renderAll() {
 
 // ── Neighbours ──
 function renderNeighbours() {
-  if (STATE.selectedIdx < 0 || !STATE.modelsLoaded[STATE.currentModel]) return;
+  if (STATE.selectedIdx < 0 || !STATE.modelsLoaded[STATE.currentModel]) { showEmptyState('neighbourGrid', 'neighbours'); return; }
   const model = getModel();
   const neighbours = model.neighbours[STATE.selectedIdx];
   const names = STATE.data.ingredients;
@@ -3508,7 +3715,7 @@ function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
 // ── Compare ──
 function renderCompare() {
-  if (STATE.selectedIdx < 0) return;
+  if (STATE.selectedIdx < 0) { showEmptyState('compareBody', 'compare'); return; }
   // For compare we need all 3 models — load what's available
   const names = STATE.data.ingredients;
   const idx = STATE.selectedIdx;
@@ -3539,7 +3746,7 @@ function renderCompare() {
 
 // ── SLERP ──
 function renderSlerp() {
-  if (STATE.selectedIdx < 0 || !STATE.modelsLoaded[STATE.currentModel]) return;
+  if (STATE.selectedIdx < 0 || !STATE.modelsLoaded[STATE.currentModel]) { showEmptyState('slerpResults', 'slerp'); return; }
   const modelName = STATE.currentModel;
   const model = getModel();
   const vec = model.vectors[STATE.selectedIdx];
@@ -3940,6 +4147,66 @@ function getForceGraphLayout(model, names) {
   return pos;
 }
 
+// ── Map Search — find, center, and pulse-highlight an ingredient ──
+function mapSearchAndFocus(name) {
+  if (!STATE.modelsLoaded[STATE.currentModel] || !STATE.data) return;
+  const model = getModel();
+  const names = STATE.data.ingredients;
+  const idx = names.indexOf(name);
+  if (idx < 0) {
+    document.getElementById('mapSearchMsg').textContent = '❌ Not found';
+    return;
+  }
+
+  const method = document.getElementById('projMethod').value;
+  let pcaData;
+  if (method === 'umap') pcaData = model.pca;
+  else if (method === 'force') pcaData = getForceGraphLayout(model, names);
+  else { const v = model.vectors; pcaData = v.map(vv => [vv[0], vv[1]]); }
+
+  let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity;
+  for (const [x, y] of pcaData) {
+    if (x < xMin) xMin = x; if (x > xMax) xMax = x;
+    if (y < yMin) yMin = y; if (y > yMax) yMax = y;
+  }
+
+  const canvas = document.getElementById('pcaCanvas');
+  const W = canvas.parentElement.clientWidth;
+  const H = 480;
+  const pad = 0.1, xRange = xMax - xMin || 1, yRange = yMax - yMin || 1;
+  const [x, y] = pcaData[idx];
+  const ux = ((x - xMin) / xRange * (1 - 2 * pad) + pad);
+  const uy = ((y - yMin) / yRange * (1 - 2 * pad) + pad);
+
+  MAP_VIEW.scale = 3;
+  MAP_VIEW.panX = W / 2 - ux * W * MAP_VIEW.scale;
+  MAP_VIEW.panY = H / 2 - uy * H * MAP_VIEW.scale;
+
+  selectIngredient(name);
+  document.getElementById('searchInput').value = name;
+  document.getElementById('mapSearch').value = name.replace(/_/g, ' ');
+  document.getElementById('mapSearchMsg').textContent = '';
+
+  renderMap();
+
+  // Start pulse
+  MAP_PULSE.active = true;
+  MAP_PULSE.idx = idx;
+  MAP_PULSE.start = performance.now();
+  requestAnimationFrame(pulseLoop);
+}
+
+function pulseLoop(now) {
+  const elapsed = now - MAP_PULSE.start;
+  if (!MAP_PULSE.active || elapsed > 2000) {
+    MAP_PULSE.active = false;
+    renderMap();
+    return;
+  }
+  renderMap();
+  requestAnimationFrame(pulseLoop);
+}
+
 function renderMap() {
   if (!STATE.modelsLoaded[STATE.currentModel]) return;
   const model = getModel();
@@ -3992,12 +4259,15 @@ function renderMap() {
 
   function toScreen(x, y) {
     return {
-      sx: ((x - xMin) / xRange * (1 - 2 * pad) + pad) * W,
-      sy: ((y - yMin) / yRange * (1 - 2 * pad) + pad) * H,
+      sx: (((x - xMin) / xRange * (1 - 2 * pad) + pad) * W) * MAP_VIEW.scale + MAP_VIEW.panX,
+      sy: (((y - yMin) / yRange * (1 - 2 * pad) + pad) * H) * MAP_VIEW.scale + MAP_VIEW.panY,
     };
   }
 
   const screenPts = pcaData.map(([x, y]) => toScreen(x, y));
+  // Store for click handler in setupMapInteractions
+  window._lastScreenPts = screenPts;
+  window._lastNames = names;
 
   // Nutrient overlay
   const nutrient = document.getElementById('nutrientOverlay').value;
@@ -4080,7 +4350,82 @@ function renderMap() {
     ctx.fillText(names[selIdx].replace(/_/g, ' '), sx, sy - 14);
   }
 
-  document.getElementById('pcaStatus').textContent = `${names.length} ingredients · ${capitalize(STATE.currentModel)} model · UMAP projection`;
+  // ── Cuisine region labels ──
+  if (MAP_VIEW.scale > 0.3 && STATE.data && STATE.data.directions) {
+    const cuisines = ['east_asian', 'western_atlantic', 'mediterranean', 'eastern_european',
+      'southeast_asian', 'south_asian', 'latin_american', 'japanese'];
+    const cuisineLabels = { east_asian:'East Asian', western_atlantic:'Western Atlantic',
+      mediterranean:'Mediterranean', eastern_european:'Eastern European', southeast_asian:'SE Asian',
+      south_asian:'South Asian', latin_american:'Latin American', japanese:'Japanese' };
+    const vecs = model.vectors;
+    // Count ingredients per cuisine (above affinity threshold) and accumulate positions
+    const counts = {}, sumX = {}, sumY = {};
+    cuisines.forEach(c => { counts[c] = 0; sumX[c] = 0; sumY[c] = 0; });
+    for (let i = 0; i < vecs.length; i++) {
+      let bestC = null, bestSim = 0.15;
+      for (const c of cuisines) {
+        const sim = dotProduct(vecs[i], STATE.data.directions[c]);
+        if (sim > bestSim) { bestSim = sim; bestC = c; }
+      }
+      if (bestC && screenPts[i]) {
+        counts[bestC]++;
+        sumX[bestC] += screenPts[i].sx;
+        sumY[bestC] += screenPts[i].sy;
+      }
+    }
+    ctx.save();
+    ctx.font = 'bold 13px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (const c of cuisines) {
+      if (counts[c] < 15) continue;
+      const cx = sumX[c] / counts[c];
+      const cy = sumY[c] / counts[c];
+      // Only draw if centroid is inside the visible canvas
+      if (cx < -100 || cx > W + 100 || cy < -100 || cy > H + 100) continue;
+      // Background pill
+      const label = cuisineLabels[c];
+      const tw = ctx.measureText(label).width;
+      const px = 6;
+      ctx.fillStyle = CUISINE_COLORS[c] + '30';
+      ctx.beginPath();
+      ctx.roundRect(cx - tw/2 - px, cy - 10, tw + px*2, 20, 10);
+      ctx.fill();
+      ctx.fillStyle = CUISINE_COLORS[c];
+      ctx.fillText(label, cx, cy);
+    }
+    ctx.restore();
+  }
+
+  // ── Search pulse ring ──
+  if (MAP_PULSE.active && MAP_PULSE.idx >= 0 && screenPts[MAP_PULSE.idx]) {
+    const elapsed = performance.now() - MAP_PULSE.start;
+    if (elapsed < 2000) {
+      const { sx, sy } = screenPts[MAP_PULSE.idx];
+      const rings = [
+        { offset: 0, duration: 1200 },
+        { offset: 350, duration: 1200 },
+      ];
+      ctx.save();
+      for (const r of rings) {
+        const t = (elapsed - r.offset) / r.duration;
+        if (t < 0 || t > 1) continue;
+        const radius = 8 + t * 35;
+        const alpha = (1 - t) * 0.7;
+        ctx.beginPath();
+        ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(192, 132, 252, ${alpha})`;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+
+  document.getElementById('pcaStatus').textContent = `${names.length} ingredients · ${capitalize(STATE.currentModel)} model · ${
+    method === 'umap' ? 'UMAP projection' :
+    method === 'force' ? 'Force-directed layout' :
+    'PCA (dim 0 vs dim 1)'}`;
 
   const tooltip = document.getElementById('pcaTooltip');
 
@@ -4102,8 +4447,15 @@ function renderMap() {
     if (closest >= 0) {
       tooltip.textContent = names[closest].replace(/_/g, ' ');
       tooltip.style.display = 'block';
-      tooltip.style.left = (e.clientX + 12) + 'px';
-      tooltip.style.top = (e.clientY - 10) + 'px';
+      const tw = tooltip.offsetWidth || 160;
+      const th = tooltip.offsetHeight || 26;
+      let lx = e.clientX + 12, ly = e.clientY - 10;
+      if (lx + tw > window.innerWidth - 8) lx = e.clientX - tw - 8;
+      if (ly + th > window.innerHeight - 8) ly = e.clientY - th - 8;
+      if (lx < 8) lx = 8;
+      if (ly < 8) ly = 8;
+      tooltip.style.left = lx + 'px';
+      tooltip.style.top = ly + 'px';
       canvas.style.cursor = 'pointer';
     } else {
       tooltip.style.display = 'none';
@@ -4113,32 +4465,132 @@ function renderMap() {
 
   canvas.onmousemove = handleHover;
   canvas.onmouseleave = () => tooltip.style.display = 'none';
+}
 
-  canvas.onclick = (e) => {
+// ── Map Interaction Setup (one-time) ──
+const MAP_DRAG = { start: null, panStart: null, dragged: false };
+let mapInteractionSetup = false;
+function setupMapInteractions() {
+  if (mapInteractionSetup) return;
+  mapInteractionSetup = true;
+
+  const canvas = document.getElementById('pcaCanvas');
+  if (!canvas) return;
+
+  // Drag-to-pan (mousedown on canvas, mousemove/mouseup on window)
+  canvas.addEventListener('mousedown', (e) => {
+    MAP_DRAG.start = { x: e.clientX, y: e.clientY };
+    MAP_DRAG.panStart = { x: MAP_VIEW.panX, y: MAP_VIEW.panY };
+    MAP_DRAG.dragged = false;
+    canvas.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!MAP_DRAG.start) return;
+    MAP_DRAG.dragged = true;
+    MAP_VIEW.panX = MAP_DRAG.panStart.x + (e.clientX - MAP_DRAG.start.x);
+    MAP_VIEW.panY = MAP_DRAG.panStart.y + (e.clientY - MAP_DRAG.start.y);
+    renderMap();
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!MAP_DRAG.start) return;
+    MAP_DRAG.start = null;
+    canvas.style.cursor = 'crosshair';
+  });
+
+  // Wheel zoom (centered on cursor)
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
     const r = canvas.getBoundingClientRect();
     const mx = e.clientX - r.left;
     const my = e.clientY - r.top;
-    let closest = -1;
-    let closestDist = 20;
-    for (let i = 0; i < screenPts.length; i++) {
-      const dx = screenPts[i].sx - mx;
-      const dy = screenPts[i].sy - my;
+    const oldScale = MAP_VIEW.scale;
+    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    const newScale = Math.min(Math.max(oldScale * factor, 0.5), 20);
+    MAP_VIEW.panX = mx - (mx - MAP_VIEW.panX) * (newScale / oldScale);
+    MAP_VIEW.panY = my - (my - MAP_VIEW.panY) * (newScale / oldScale);
+    MAP_VIEW.scale = newScale;
+    renderMap();
+  }, { passive: false });
+
+  // Double-click reset
+  canvas.addEventListener('dblclick', () => {
+    MAP_VIEW.scale = 1;
+    MAP_VIEW.panX = 0;
+    MAP_VIEW.panY = 0;
+    renderMap();
+  });
+
+  // Click to select ingredient (uses latest screenPts via renderMap closure)
+  canvas.addEventListener('click', (e) => {
+    if (MAP_DRAG.dragged) return;
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left;
+    const my = e.clientY - r.top;
+    // screenPts is computed fresh each renderMap — we can't access it here.
+    // Instead, find the nearest ingredient using on-the-fly distance calculation.
+    if (!window._lastScreenPts || !window._lastNames) return;
+    let closest = -1, closestDist = 20;
+    for (let i = 0; i < window._lastScreenPts.length; i++) {
+      const dx = window._lastScreenPts[i].sx - mx;
+      const dy = window._lastScreenPts[i].sy - my;
       const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < closestDist) {
-        closestDist = d;
-        closest = i;
-      }
+      if (d < closestDist) { closestDist = d; closest = i; }
     }
     if (closest >= 0) {
-      selectIngredient(names[closest]);
-      document.getElementById('searchInput').value = names[closest];
+      selectIngredient(window._lastNames[closest]);
+      document.getElementById('searchInput').value = window._lastNames[closest];
     }
-  };
+  });
+
+  // Touch support
+  let touchStartDist = null, touchStartScale = 1, touchPanStart = null;
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      const t = e.touches[0];
+      MAP_DRAG.start = { x: t.clientX, y: t.clientY };
+      MAP_DRAG.panStart = { x: MAP_VIEW.panX, y: MAP_VIEW.panY };
+      MAP_DRAG.dragged = false;
+    } else if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      touchStartDist = Math.sqrt(dx * dx + dy * dy);
+      touchStartScale = MAP_VIEW.scale;
+      touchPanStart = { x: MAP_VIEW.panX, y: MAP_VIEW.panY };
+    }
+  }, { passive: true });
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 1 && MAP_DRAG.start) {
+      const t = e.touches[0];
+      MAP_DRAG.dragged = true;
+      MAP_VIEW.panX = MAP_DRAG.panStart.x + (t.clientX - MAP_DRAG.start.x);
+      MAP_VIEW.panY = MAP_DRAG.panStart.y + (t.clientY - MAP_DRAG.start.y);
+      renderMap();
+    } else if (e.touches.length === 2 && touchStartDist) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const factor = dist / touchStartDist;
+      const newScale = Math.min(Math.max(touchStartScale * factor, 0.5), 20);
+      const r = canvas.getBoundingClientRect();
+      const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left;
+      const my = (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top;
+      MAP_VIEW.panX = mx - (mx - touchPanStart.x) * (newScale / MAP_VIEW.scale);
+      MAP_VIEW.panY = my - (my - touchPanStart.y) * (newScale / MAP_VIEW.scale);
+      MAP_VIEW.scale = newScale;
+      renderMap();
+    }
+  }, { passive: true });
+  canvas.addEventListener('touchend', () => {
+    MAP_DRAG.start = null;
+    touchStartDist = null;
+  }, { passive: true });
 }
 
 // ── Modes (with filtering) ──
 function renderModes() {
-  if (STATE.selectedIdx < 0 || !STATE.modelsLoaded[STATE.currentModel]) return;
+  if (STATE.selectedIdx < 0 || !STATE.modelsLoaded[STATE.currentModel]) { showEmptyState('modeContent', 'modes'); return; }
 
   // If cross-mode search is active, render that instead
   const crossQuery = document.getElementById('crossModeSearch').value;
@@ -4567,15 +5019,61 @@ function setupRecipeControls() {
   }
 }
 function setupTabs() {
+  // Category tab switching
+  document.querySelectorAll('.tab-cat').forEach(cat => {
+    cat.setAttribute('role', 'tab');
+    cat.addEventListener('click', () => {
+      document.querySelectorAll('.tab-cat').forEach(c => {
+        c.classList.remove('active');
+        c.setAttribute('aria-selected', 'false');
+      });
+      cat.classList.add('active');
+      cat.setAttribute('aria-selected', 'true');
+      const catName = cat.dataset.cat;
+      // Show/hide sub-tabs
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.toggle('hidden-cat', t.dataset.cat !== catName);
+      });
+      // If current tab is hidden, switch to first visible tab in this category
+      const activeTab = document.querySelector('.tab.active');
+      if (!activeTab || activeTab.classList.contains('hidden-cat')) {
+        const first = document.querySelector('.tab:not(.hidden-cat)');
+        if (first) first.click();
+      }
+    });
+    // Keyboard arrow navigation on category tabs
+    cat.addEventListener('keydown', (e) => {
+      const cats = Array.from(document.querySelectorAll('.tab-cat'));
+      const idx = cats.indexOf(cat);
+      let nextIdx = -1;
+      if (e.key === 'ArrowRight') nextIdx = (idx + 1) % cats.length;
+      else if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + cats.length) % cats.length;
+      if (nextIdx >= 0) { e.preventDefault(); cats[nextIdx].click(); cats[nextIdx].focus(); }
+    });
+  });
+  // Trigger initial category filter
+  const activeCat = document.querySelector('.tab-cat.active');
+  if (activeCat) activeCat.click();
+
+  // Sub-tab switching
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.removeAttribute('aria-selected');
+      });
       tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
       STATE.currentTab = tab.dataset.tab;
 
       document.querySelectorAll('.main-grid > .panel').forEach(p => p.style.display = 'none');
       const panel = document.getElementById(`panel-${tab.dataset.tab}`);
       if (panel) panel.style.display = 'block';
+
+      // Update URL hash for deep-linking
+      let hash = `#tab=${tab.dataset.tab}&model=${STATE.currentModel}`;
+      if (STATE.selectedIngredient) hash += `&ingredient=${STATE.selectedIngredient}`;
+      history.replaceState(null, '', hash);
 
       // Ensure model data is loaded for this tab
       const activeModel = STATE.currentModel;
@@ -4631,7 +5129,16 @@ function setupModelTabs() {
         tab.querySelector('.spinner-small')?.remove();
       }
 
-      renderAll();
+      // Fade panels for smooth model switch
+      document.querySelectorAll('.main-grid > .panel').forEach(p => p.classList.add('fading'));
+      setTimeout(() => {
+        renderAll();
+        document.querySelectorAll('.main-grid > .panel').forEach(p => p.classList.remove('fading'));
+      }, 150);
+      // Reset map viewport when switching models
+      MAP_VIEW.scale = 1;
+      MAP_VIEW.panX = 0;
+      MAP_VIEW.panY = 0;
     });
   });
 }
@@ -4862,9 +5369,40 @@ async function init() {
     setupSpoonacular();
     setupSnapTab();
 
-    // Pre-select miso so content renders on page load
-    selectIngredient('miso');
-    document.getElementById('searchInput').value = 'miso';
+    // Parse URL hash for deep-linking
+    const hash = window.location.hash;
+    if (hash) {
+      const params = new URLSearchParams(hash.slice(1));
+      const hashTab = params.get('tab');
+      const hashModel = params.get('model');
+      const hashIngredient = params.get('ingredient');
+
+      if (hashModel) {
+        const modelTab = document.querySelector(`.model-tab[data-model="${hashModel}"]`);
+        if (modelTab) modelTab.click();
+      }
+
+      if (hashIngredient && STATE.data.ingredients.includes(hashIngredient)) {
+        // Need to wait for model data too, handled via lazy-load in model click
+        setTimeout(() => {
+          selectIngredient(hashIngredient);
+          document.getElementById('searchInput').value = hashIngredient;
+        }, 100);
+      } else {
+        // Pre-select miso so content renders on page load
+        selectIngredient('miso');
+        document.getElementById('searchInput').value = 'miso';
+      }
+
+      if (hashTab) {
+        const tab = document.querySelector(`.tab[data-tab="${hashTab}"]`);
+        if (tab) setTimeout(() => tab.click(), 200);
+      }
+    } else {
+      // Pre-select miso so content renders on page load
+      selectIngredient('miso');
+      document.getElementById('searchInput').value = 'miso';
+    }
 
     renderAll();
 

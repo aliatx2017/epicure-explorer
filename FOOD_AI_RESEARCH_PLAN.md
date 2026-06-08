@@ -22,9 +22,12 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 
 ---
 
-> **🧭 Implementation Status — June 2026 (Session 5: Bug-Fix Audit)**
+> **🧭 Implementation Status — July 2026 (Session 8: Full Design Audit)**
 > 
-> Month 1 & Month 2 features are **fully shipped** in `index.html` (~4,957 lines, ~259 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
+> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~5,430 lines, ~280 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
+> 
+> **Session 7 (June 2026):** Map zoom + pan + cuisine region labels + touch support (Phase 2 completed)
+> **Session 8 (July 2026):** Full UI/UX design audit — tab categorization, empty states, Chef overlay drawer, deep-link URLs, responsive breakpoints, ARIA/keyboard navigation, skeleton loading, contrast fix, favicon, smart tooltip, input labels, model-switch animation, all tested via Playwright
 > 
 > | Area | Status | Notes |
 > |------|--------|-------|
@@ -48,6 +51,18 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 > | `getForceGraphLayout()` | ✅ Fixed | Fruchterman-Reingold spring-force layout using top-15 neighbour edges |
 | Export Summary (📋) | ✅ Live | Clipboard export of ingredient intelligence: substitutes, cuisine, flavour profile, GLP-1 |
 | Onboarding Tour (🎓) | ✅ Live | 5-step guided walkthrough overlay on first visit |
+| Map Zoom & Pan | ✅ Session 7 | Scroll-wheel zoom, drag pan, double-click reset |
+| Cuisine Region Labels | ✅ Session 7 | 8 cuisine centroids on map canvas |
+| Map Touch Support | ✅ Session 7 | Single-finger pan, two-finger pinch zoom |
+| Tab Categorization | ✅ Session 8 | 18 tabs grouped into Core/Play/Analyze/Advanced |
+| Empty States | ✅ Session 8 | Contextual placeholders for all panels |
+| Chef Overlay Drawer | ✅ Session 8 | Slide-out sidebar with backdrop close |
+| Deep-Link URL Hashes | ✅ Session 8 | Shareable #tab=map&model=chem&ingredient=miso |
+| Responsive Design | ✅ Session 8 | Breakpoints at 768px and 480px |
+| ARIA + Keyboard Nav | ✅ Session 8 | Tab roles + arrow key navigation |
+| Skeleton Loading | ✅ Session 8 | Shimmer-animated placeholder layout |
+| Contrast Fix | ✅ Session 8 | --text3 bumped for WCAG AA compliance |
+| Smart Tooltip | ✅ Session 8 | Edge-avoiding map tooltip |
 
 ## Section 1: The Most Actionable Findings
 

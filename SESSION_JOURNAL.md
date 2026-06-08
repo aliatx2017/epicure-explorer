@@ -5,7 +5,9 @@
 **Session 3:** June 8, 2026 (eval) — Codebase truth audit, SESSION_JOURNAL.md refresh  
 **Session 4:** June 14, 2026 — Force-graph fix + Month 3 features shipped (Ingredient2Vec, Food Agent, Trending, GLP-1 Meal Plan)
 **Session 5:** June 2026 — 12-bug audit & fix pass across all Month 3 features + force-graph + CSS
-**Session 6:** June 2026 — Chef workflow features: Export Summary, onboarding tour, GitHub publish, README, README.md, full chef review
+**Session 6:** June 2026 — Chef workflow features: Export Summary, onboarding tour, GitHub publish, README, full chef review
+**Session 7:** June 2026 — Map zoom, pan, cuisine region labels, touch support (Phase 2 completed)
+**Session 8:** July 2026 — Full design audit: tab categories, empty states, Chef overlay drawer, deep-link URLs, responsive, ARIA+keyboard, skeleton loading + licensing cleanup
 
 ---
 
@@ -99,18 +101,21 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 
 ## Key Metrics Over Time
 
-| Metric | Session 1 Start | After Session 1 | After Session 2 | Session 3 (audit) | Session 3 (code) | Session 4 | Session 5 | Session 6 |
-|--------|----------------|----------------|----------------|-------------------|-------------------|-----------|-----------|-----------|
-| index.html lines | ~2,290 | ~3,930 | ~3,848 | 3,848 | **4,165** | **4,667** | **4,686** | **4,957** |
-| JS functions | ~35 | ~45 | ~46 | 92 | **99** | **~113** | **~113** | **~116** |
-| `aria-label` attributes on `<input>` | 0 | 21 | 21 | 21 | 21 | 26 | **26** | **26** |
-| Automated test pass rate | — | 26/26 | 26/26 | — | — | — | — |
-| Console errors on load | ReferenceError | 0 | 0 | 0 | 0 | 0 | **0** | **0** |
-| GLP-1 filter persistence | Reset on re-render | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved |
-| GUIDE.md ToC tabs | 9 | — | 13 | 13 | 13 | 13 | **18** | **18** |
-| Tabs | 13 | 13 | 13 | 13 | **14** | **18** | **18** | **18** |
-| Month 3 items shipped | — | — | — | — | 0/5 | **5/5 ✅** | **5/5 ✅** | **5/5 ✅** |
-| Known bugs count | — | — | — | — | 1 (force-graph) | ~8+ uncovered | **0 fixed** | **0** |
+| Metric | Session 1 Start | After Session 1 | After Session 2 | Session 3 (audit) | Session 3 (code) | Session 4 | Session 5 | Session 6 | Session 7 |
+|--------|----------------|----------------|----------------|-------------------|-------------------|-----------|-----------|-----------|-----------|
+| index.html lines | ~2,290 | ~3,930 | ~3,848 | 3,848 | **4,165** | **4,667** | **4,686** | **4,957** | **5,055** |
+| JS functions | ~35 | ~45 | ~46 | 92 | **99** | **~113** | **~113** | **~116** | **~112** |
+| `aria-label` attributes on `<input>` | 0 | 21 | 21 | 21 | 21 | 26 | **26** | **26** | **26** |
+| Automated test pass rate | — | 26/26 | 26/26 | — | — | — | — | — |
+| Console errors on load | ReferenceError | 0 | 0 | 0 | 0 | 0 | **0** | **0** | **0** |
+| GLP-1 filter persistence | Reset on re-render | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved |
+| GUIDE.md ToC tabs | 9 | — | 13 | 13 | 13 | 13 | **18** | **18** | **18** |
+| Tabs | 13 | 13 | 13 | 13 | **14** | **18** | **18** | **18** | **18** |
+| Month 3 items shipped | — | — | — | — | 0/5 | **5/5 ✅** | **5/5 ✅** | **5/5 ✅** | **5/5 ✅** |
+| Known bugs count | — | — | — | — | 1 (force-graph) | ~8+ uncovered | **0 fixed** | **0** | **0** |
+| Map zoom/pan | — | — | — | — | ❌ Static | ❌ Static | ❌ Static | ❌ Static | **✅ Zoom+Pan** |
+| Cuisine region labels | — | — | — | — | ❌ | ❌ | ❌ | ❌ | **✅ 8 labels** |
+| Touch support | — | — | — | — | ❌ | ❌ | ❌ | ❌ | **✅ Drag+Pinch** |
 
 ---
 
@@ -194,24 +199,23 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 
 ## Session 6 — Chef Workflow & GitHub Launch
 
-**Focus:** Chef's review, Export Summary, onboarding tour, README, GitHub publishing. Scoped Phases 2–7 for future sessions.
+**Focus:** Chef's review, Export Summary, onboarding tour, README, GitHub publishing.
 
 ### What Was Done
 
 | Item | Detail |
 |------|--------|
-| **Chef's review** | Full professional chef audit across 10 dimensions — design, 18 tabs, Chef's Toolkit, games, map, seasonal, missing pro features. Priority matrix with effort/impact ratings. |
-| **📋 Export Summary** | Added to Chef's Toolkit sidebar — copies formatted ingredient summary (name, model, GLP-1, 5 substitutes, cuisine affinity, flavour profile) to clipboard with visual feedback |
-| **🎓 Onboarding Tour** | 5-step guided walkthrough (Search → Toolkit → Tabs → Map → Describe a Dish) with overlay highlight, progress dots, Next/Skip. Fires 1.5s after first load, once per user (localStorage) |
-| **README.md** | Created with overview, quick start, 18-tab feature table, architecture, 3-model explainer, dev stats, license |
-| **GitHub repo** | Created `aliatx2017/epicure-explorer` (public). Precomputed JSON bundles included for clone-and-run. All 5 session commits pushed. |
-| **Bug fixes** | Existing fix for `exportSummary` cuisine key typo (eastern_european → eastern_europeon in cuisine list) |
+| **Chef's review** | Full professional chef audit across 10 dimensions — design, 18 tabs, Chef's Toolkit, games, map, seasonal, missing pro features. |
+| **📋 Export Summary** | Added to Chef's Toolkit sidebar — copies formatted ingredient summary to clipboard with visual feedback |
+| **🎓 Onboarding Tour** | 5-step guided walkthrough with overlay highlight, progress dots, Next/Skip. Fires once per user (localStorage) |
+| **README.md** | Created with overview, quick start, 18-tab feature table, architecture, 3-model explainer |
+| **GitHub repo** | Created `aliatx2017/epicure-explorer` (public). Precomputed JSON bundles included |
+| **Bug fixes** | Fixed `exportSummary` cuisine key typo (eastern_europeon → eastern_european) |
 
-### Phases Scoped for Future Sessions
+### Remaining Scoped Phases
 
 | Phase | Feature | Effort |
 |-------|---------|--------|
-| 2 | Map zoom + pan + region labels | Medium |
 | 3 | Seasonal month heatmap | Medium |
 | 4 | Games interactivity upgrade | Medium |
 | 5 | Build-A-Dish mode | High |
@@ -223,7 +227,136 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | Metric | Session 5 | Session 6 |
 |--------|-----------|-----------|
 | index.html lines | 4,686 | **4,957** |
-| JS functions | ~113 | **~116** (export + tour + helpers) |
+| JS functions | ~113 | **~116** |
 | Tabs | 18 | **18** |
 | Console errors on load | 0 | **0** |
 | Known bugs remaining | **0** | **0** |
+
+---
+
+## Session 7 — Map Zoom, Pan, Region Labels
+
+**Focus:** Adding zoom, pan, double-click reset, cuisine region labels, and touch support to the Map tab.
+
+### What Was Done
+
+| Feature | Detail |
+|---------|--------|
+| **🔍 Zoom** | Scroll-wheel zoom centered on cursor, clamped 0.5×–20×, with stable cursor-under-pointer behavior |
+| **✋ Pan** | Drag-to-pan via mousedown/mousemove/mouseup with click-vs-drag disambiguation |
+| **🔄 Reset** | Double-click resets to initial view (scale=1, panX=0, panY=0) |
+| **🏷️ Cuisine Region Labels** | Each ingredient classified to its dominant cuisine (max dot-product above 0.15). Centroids computed in the current projection space. Coloured pill labels drawn on canvas (hidden when zoomed out < 0.3×) |
+| **📱 Touch Support** | Single-finger drag to pan, two-finger pinch to zoom |
+| **🔄 Projection/Model Reset** | View resets when projection method or model is switched |
+| **♻️ Architecture** | Event listeners attached once via `setupMapInteractions()`, avoiding accumulation bug. `MAP_VIEW` and `MAP_DRAG` states at module level |
+
+### Key Metrics Update
+
+| Metric | Session 6 | Session 7 |
+|--------|-----------|-----------|
+| index.html lines | 4,957 | **5,055** |
+| JS functions | ~116 | **~112** (consolidated event wiring into setupMapInteractions) |
+| Tabs | 18 | **18** |
+| Console errors on load | **0** | **0** |
+| Known bugs remaining | **0** | **0** |
+| Map zoom/pan | ❌ Static | ✅ Zoom + pan + reset |
+| Cuisine region labels | ❌ None | ✅ 8 cuisine centroids |
+| Touch support | ❌ None | ✅ Drag + pinch-zoom |
+
+---
+
+## Session 8 — Full Design Audit & Polish
+
+**Focus:** Comprehensive UI/UX design audit — 16 improvements across accessibility, responsive, navigation, and discoverability.
+
+### What Was Done
+
+#### Phase 1 — Quick Fixes
+| Fix | Detail |
+|-----|--------|
+| **🎨 Contrast fix** | `--text3: #6b6b8a` → `#8a8aad` for WCAG AA compliance |
+| **🍽️ Favicon** | SVG emoji favicon — shows 🍽️ in browser tab |
+| **📝 Tagline** | Changed from academic subtitle to human-readable: "Discover flavour relationships · Find perfect substitutes · Explore 1,790 ingredients" |
+| **🖱️ Smart tooltip** | Map tooltip avoids clipping off right/bottom screen edges |
+| **🏷️ Input labels** | "🔍 Find an ingredient" / "✏️ Describe any dish" labels above search/describe inputs |
+| **🎞️ Model-switch animation** | 200ms panel fade on model change |
+
+#### Phase 2 — Empty States
+| Panel | Before | After |
+|-------|--------|-------|
+| All 6 core panels | Silent return (blank box) | Contextual placeholder: "🔍 No ingredient selected — Search for an ingredient to see..." |
+
+#### Phase 3 — Tab Categorization
+| Before | After |
+|--------|-------|
+| 18 flat tabs wrapping 6+ rows | 4 categories (🧠 Core / 🎮 Play / 🔬 Analyze / 🚀 Advanced) with filtering sub-bar |
+
+#### Phase 4 — Chef's Toolkit Overlay
+| Before | After |
+|--------|-------|
+| Static sidebar below content | Fixed overlay drawer: slides from right, backdrop click-to-close, 250ms animation |
+
+#### Phase 5 — Deep-Link URLs
+| Before | After |
+|--------|-------|
+| No shareable state | `#tab=map&model=chem&ingredient=miso` — updates on every interaction, restored on page load |
+
+#### Phase 6 — Responsive Design
+| Breakpoint | Adjustments |
+|------------|-------------|
+| 768px (tablet) | Stacked header, column search, 2-col grids, 300px map, compact model tabs |
+| 480px (mobile) | 1-col grids, 220px map, compact tab/category buttons |
+
+#### Phase 7 — Accessibility
+| Feature | Detail |
+|---------|--------|
+| ARIA roles | `role="tablist"`, `role="tab"`, `aria-selected` on all tabs |
+| Keyboard nav | ArrowLeft/ArrowRight on category tabs |
+
+#### Phase 8 — Loading Screen
+| Before | After |
+|--------|-------|
+| Spinner + text | Skeleton layout with shimmer animation (header/tabs/search/panel shapes) |
+
+### Key Metrics Update
+
+| Metric | Session 7 | Session 8 |
+|--------|-----------|-----------|
+| index.html lines | 5,055 | **5,430** |
+| JS functions | ~112 | **~112** (helper additions, no net increase) |
+| Tabs | 18 | **18 (grouped into 4 categories)** |
+| Console errors on load | **0** | **0** |
+| Known bugs remaining | **0** | **0** |
+| Empty states | ❌ None | ✅ All 6 core panels |
+| Tab organization | Flat 18 | ✅ 4 categories with filtering |
+| Chef's Toolkit | Static sidebar | ✅ Overlay drawer |
+| Deep-link URLs | ❌ None | ✅ Hash-based |
+| Responsive | ❌ None | ✅ 768px + 480px |
+| ARIA / Keyboard | ❌ None | ✅ Roles + arrow nav |
+| Skeleton loading | ❌ Spinner | ✅ Shimmer layout |
+
+### Open Items & Future Plans
+
+#### Remaining Scoped Phases (from Session 6)
+| Phase | Feature | Effort | Priority |
+|-------|---------|--------|----------|
+| 3 | Seasonal month heatmap (month-by-month ingredient heatmap) | Medium | Medium |
+| 4 | Games interactivity upgrade (more game modes, leaderboard) | Medium | Low |
+| 5 | Build-A-Dish mode (compose ingredient combinations with flavour preview) | High | Medium |
+| 6 | Semantic Describe a Dish (upgrade natural-language parsing with semantic understanding) | Medium | Low |
+
+#### Newly Identified Opportunities
+| Item | Effort | Notes |
+|------|--------|-------|
+| **PWA manifest** | Very low | `manifest.json` for "Add to Home Screen" on mobile |
+| **Seasonal heatmap** | Medium | Month-by-month ingredient availability heatmap (Phase 3) |
+| **i18n / multi-language** | High | Ingredient names and UI in multiple languages |
+| **Performance optimization** | Medium | Virtualize neighbour lists for large screens, lazy point rendering on map |
+| **Export/Share workflows** | Medium | Export ingredient pairing as image, share deep-link via QR |
+| **Service worker caching** | Medium | Cache JSON bundles for offline use after first load |
+
+#### Known Non-Issues
+- **Force-graph layout** — fully fixed since Session 4
+- **GLP-1 filter persistence** — preserved since Session 1
+- **Console errors on load** — zero since Session 1
+- **All data attribution** — MIT license + CC BY 4.0 credits + USDA attribution in footer and JSON metadata

@@ -29,7 +29,18 @@ Then open **http://localhost:8080** in any modern browser. No build step, no npm
 
 ---
 
-## Features — 18 Tabs
+## Features — 18 Tabs (4 Categories)
+
+Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analyze** | 🚀 **Advanced**
+
+| Category | Tabs |
+|----------|------|
+| **🧠 Core** | Neighbours, Compare, Direction (SLERP), Map, Modes, Recipes |
+| **🎮 Play** | Games, Arith (Flavour Arithmetic), Cocktails |
+| **🔬 Analyze** | Analyzer, Compare 2, Snap, Seasonal |
+| **🚀 Advanced** | Spoonacular, Ingredient2Vec, Food Agent, Trending, Meal Plan |
+
+### Tab Detail
 
 ### Core Ingredient Intelligence
 | Tab | What It Does |
@@ -37,7 +48,7 @@ Then open **http://localhost:8080** in any modern browser. No build step, no npm
 | **🔗 Neighbours** | Top-25 nearest ingredients ranked by cosine similarity |
 | **⚖️ Compare** | Side-by-side neighbour lists across all 3 models |
 | **🎯 Direction (SLERP)** | Rotate an ingredient toward a sensory/cuisine direction |
-| **🗺️ Map** | 2D projection (UMAP/PCA/Force-Directed) with nutrition heatmap overlay |
+| **🗺️ Map** | 2D projection (UMAP/PCA/Force-Directed) with zoom/pan/search, cuisine region labels, nutrition heatmap overlay |
 | **🏷️ Modes** | GMM culinary mode memberships with cuisine-group filters |
 | **🍲 Recipes** | Cuisine browser, bridge finder, flavour boosters |
 
@@ -69,6 +80,15 @@ Then open **http://localhost:8080** in any modern browser. No build step, no npm
 | Feature | What It Does |
 |---------|-------------|
 | **👨‍🍳 Chef's Toolkit Pro** | Dietary profile, substitutes with "Why This Substitute?" explanations, cuisine affinity, molecular notes, GLP-1 filter, cost/waste/seasonal hints |
+| **🔍 Map Search** | Find any ingredient on the 2D map — auto-centers, zooms, and pulses |
+
+### UI/UX Highlights
+- **Tab categorization** — 18 tabs grouped into 4 categories with filtering bar
+- **Responsive design** — works on desktop, tablet, and mobile
+- **Deep-link URLs** — shareable `#tab=map&model=chem&ingredient=miso` links
+- **Keyboard & screen-reader** — ARIA roles, arrow key navigation
+- **Skeleton loading** — shimmer placeholder layout during data fetch
+- **Empty states** — contextual guidance when no ingredient is selected
 
 ---
 
@@ -116,16 +136,21 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 
 ## Development
 
-This project was built across 5 development sessions (June 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
+This project was built across 8 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **4,686 lines** of HTML/CSS/JS in a single file
-- **~96 JavaScript functions** across 18 tabs and 1 toolbar
-- **~3,560 lines** of JavaScript application logic
-- **22 files** tracked in version control
+- **5,430 lines** of HTML/CSS/JS in a single file
+- **~112 JavaScript functions** across 18 tabs and Chef's Toolkit
+- **~4,100 lines** of JavaScript application logic
+- **24 files** tracked in version control
 
 ---
 
 ## License
 
-The code in this repository is provided for educational and research purposes. The Epicure embedding data is CC BY 4.0 per the original paper. Spoonacular API usage requires a free API key from spoonacular.com and is subject to their terms of service.
+## License
+
+- **Code:** [MIT](LICENSE) — Epicure Explorer contributors
+- **Embeddings:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — Radzikowski & Chen (2026), [arXiv:2605.22391](https://arxiv.org/abs/2605.22391)
+- **Nutrition data:** [USDA FoodData Central](https://fdc.nal.usda.gov/) (public domain)
+- **Spoonacular API:** Subject to [Spoonacular terms of service](https://spoonacular.com/food-api) — requires a free API key

@@ -112,11 +112,11 @@ index.html
 
 ### 1.4 App Architecture (index.html)
 
-The entire application is a **single HTML file** containing:
+The entire application is a **single HTML file** (5,430 lines) containing:
 
-- **CSS** (~470 lines) — dark theme, responsive grid, panel layout, card components, canvas styling, mode filter controls, game cards, chef sidebar, describe-dish input, snap upload zone, accessibility (aria-label) support
-- **HTML** (~650 lines) — shell structure with 18 tab panels, search bar, model switcher, mode filter bar, games panel, chef's toolkit sidebar, describe-dish input row, snap upload/preview area, accessibility labels (26 `aria-label` attributes, `<label for="">` bindings on comparator inputs)
-- **JavaScript** (~3,560 lines) — all application logic, organised as:
+- **CSS** (~570 lines) — dark theme, responsive grid, panel layout, card components, canvas styling, mode filter controls, game cards, chef sidebar overlay, describe-dish input, snap upload zone, tab category bar, skeleton loading screen, responsive breakpoints, accessibility support
+- **HTML** (~730 lines) — shell structure with 18 tab panels grouped into 4 categories, search bar, model switcher, mode filter bar, games panel, chef's toolkit overlay drawer, describe-dish input row, snap upload/preview area, accessibility labels, credit footer
+- **JavaScript** (~4,100 lines) — all application logic, organised as:
 
 | Function | Purpose |
 |---|---|
@@ -139,7 +139,9 @@ The entire application is a **single HTML file** containing:
 | `explainSubstitute()` / `toggleSubExplain()` | "Why This Substitute?" explanation panel: shared molecular notes, aligned sensory directions, cuisine overlap |
 | `describeDish()` / `setupDescribeDish()` | Free-text input → keyword tokenization → vector centroid → ingredient suggestions |
 | `getForceGraphLayout()` | Fruchterman-Reingold spring-force layout from top-15 neighbour edges, initialised from UMAP coords, 35 iterations with cooling. Used by `renderMap()` when "Force-Directed" is selected. |
-| `setupMapControls()` | Projection switcher (UMAP / PCA / Force-Directed) + nutrient overlay handler |
+| `setupMapInteractions()` | One-time canvas event setup: wheel zoom, drag pan, double-click reset, click-to-select, touch drag+pinch. Avoids listener accumulation. |
+| `mapSearchAndFocus()` / `pulseLoop()` | Search-to-highlight on map: finds ingredient, centers view at 3× zoom, plays 2s expanding ring pulse animation |
+| `setupMapControls()` | Projection switcher (UMAP / PCA / Force-Directed) + nutrient overlay handler + map search wiring |
 | `getNutrientValue()` / `nutrientToColor()` | Nutrition heatmap colour coding from 416-ingredient per-100g database |
 | `renderArithChips()` / `addArithChip()` / `removeArithChip()` | Flavour Arithmetic Explorer: visual chip UI — click ingredients from search dropdown, remove with ✕, auto-computes centroid on change |
 | `saveArithHistory()` / `renderArithHistory()` / `loadArithHistory()` | Expression history (up to 6 recent) — click any to reload that ingredient combination |
@@ -156,23 +158,25 @@ The entire application is a **single HTML file** containing:
 | `runFoodAgent()` | Food Agent: natural language query → token matching → centroid search → ranked ingredient suggestions |
 | `renderTrending()` | Trending panel: seasonal + rarity (avg neighbour distance) + GLP-1 trend scoring → top 30 + seasonal spotlight |
 | `renderMealPlan()` | GLP-1 Meal Plan: cluster GLP-1-friendly ingredients by embedding similarity → 7-day meal table with calorie targets |
-| `setupTabs()` / `setupModelTabs()` | Tab switching + lazy model switching |
+| `setupTabs()` / `setupModelTabs()` | Tab switching with category filtering (4 groups: Core/Play/Analyze/Advanced), lazy model switching, URL hash deep-linking, ARIA roles + keyboard arrow navigation |
+| `showEmptyState()` | Centralised empty-state helper — renders contextual placeholder text for all 18 panels when no ingredient is selected |
+| `closeChefToolkit()` | Close the Chef's Toolkit overlay drawer and backdrop |
 
 The **lazy-loading** architecture means initial load is only 128 KB (`epicure_shared.json`). Model data (~4 MB each) is fetched only when the user switches to that model tab. This makes the app feel instant on desktop and friendly on mobile connections.
 
 ### 1.5 Accessibility
 
-The app includes accessibility improvements implemented during the June 2026 maintenance cycle:
+The app includes accessibility improvements implemented during June 2026 maintenance cycles:
 
 | Feature | Implementation | Coverage |
 |---------|---------------|----------|
 | **`aria-label` attributes** | Every `<input>` element has a descriptive `aria-label` | 26 inputs across all tabs |
 | **Label bindings** | `<label for="">` attributes associate labels with their inputs | Comparator (Compare 2) ingredient fields |
-| **Keyboard navigation** | Tab order follows visual layout; all interactive elements are keyboard-focusable | Full app |
-| **Colour contrast** | Dark theme with high-contrast text (white on `#1e1e2e` / `#2d2d3d` backgrounds) | Entire UI |
+| **ARIA roles** | `role="tablist"`, `role="tab"`, `aria-selected` toggled dynamically | All 4 category tabs + 18 sub-tabs |
+| **Keyboard navigation** | ArrowLeft/ArrowRight navigation on category tabs. Tab order follows visual layout. | Category tabs |
+| **Colour contrast** | Dark theme with high-contrast text (`--text3` at #8a8aad, above WCAG AA threshold) | Entire UI |
 | **Error states** | Missing features (Spoonacular without API key) show clear error messages rather than silent failure | Conditional |
-
-Future work: Add `role` attributes to interactive panels, `aria-live` regions for dynamic content (search results, game scores), and focus management for tab switching.
+| **Smart tooltip** | Map tooltip repositions to avoid clipping off right/bottom viewport edges | Map tab hover |
 
 ---
 
@@ -335,10 +339,15 @@ Unlike PCA, UMAP preserves local neighbourhood structure, producing tighter, mor
      - 🔥 **Calories**, 🥩 **Protein**, 🧈 **Fat**, 🌾 **Carbs**, 🥬 **Fiber**
    - **🗓️ Season** — points coloured by peak season (green=spring, yellow=summer, orange=autumn, blue=winter)
 4. The legend shows the colour gradient with min/max values for the selected nutrient
-5. **Hover** over any point to see its ingredient name (tooltip)
-6. **Click** any point to select that ingredient — all other tabs update
-7. The selected ingredient is highlighted in **purple** with a white ring and label
-8. Switch models (Cooc/Core/Chem) to see how the geometry changes
+5. **Search** — type an ingredient name in the 🔍 Find on map input and press Enter or click Find. The view centers at 3× zoom with a purple pulse ring animation for 2 seconds
+6. **Hover** over any point to see its ingredient name (tooltip repositions to avoid screen edges)
+7. **Click** any point to select that ingredient — all other tabs update
+8. **Drag** to pan around the map
+9. **Scroll wheel** to zoom in/out (0.5×–20×), centered on cursor position
+10. **Double-click** to reset zoom/pan to initial view
+11. The selected ingredient is highlighted in **purple** with a white ring and label
+12. **Touch:** single-finger drag to pan, two-finger pinch to zoom
+13. Switch models (Cooc/Core/Chem) to see how the geometry changes (viewport resets automatically)
 
 **What to look for:**
 - **Clusters** — ingredients that group together in the projection are nearby in the original 300-D space
@@ -348,10 +357,12 @@ Unlike PCA, UMAP preserves local neighbourhood structure, producing tighter, mor
 - **Nutrition heatmap insight** — enable the nutrition overlay to see how ingredients with similar nutritional profiles form cross-cuisine clusters (e.g., low-calorie vegetables cluster together regardless of cuisine origin; high-fat ingredients like oils, nuts, and fatty meats occupy a separate region)
 
 **Canvas features:**
-- Canvas is 480px tall, fills the panel width
+- Canvas is 480px tall (300px on tablets, 220px on mobile), fills the panel width
 - High-DPI rendering (respects devicePixelRatio)
 - Points are 2.5px radius (semi-transparent); selected is 8px with stroke
-- Hover threshold: 12px; click threshold: 20px
+- Hover threshold: 12px; click threshold: 20px (drag movements over 2px are treated as pan, not click)
+- Region labels: cuisine centroids auto-computed and drawn as coloured pill labels when zoomed in above 0.3×
+- Status bar dynamically shows the active projection method (UMAP / Force-Directed / PCA)
 
 ### 3.5 🏷️ Modes
 
@@ -511,11 +522,12 @@ A polar radar chart showing how the selected ingredient relates to all 8 sensory
 
 ### 3.8 👨‍🍳 Chef's Toolkit Pro — Ingredient Intelligence Hub
 
-**What it does:** A toggleable sidebar that has evolved into a professional ingredient intelligence hub. Six data sections — including molecular flavour notes, a substitution context toggle, GLP-1 dietary mode, explainable substitutions, cross-culture bridge analysis, and cost/waste reduction hints — all computed from the embedding space and built-in heuristics. No external API calls.
+**What it does:** A slide-out overlay drawer that serves as a professional ingredient intelligence hub. It slides in from the right with a dimmed backdrop — click the backdrop or the close button to dismiss. Six data sections — including molecular flavour notes, a substitution context toggle, GLP-1 dietary mode, explainable substitutions, cross-culture bridge analysis, and cost/waste reduction hints — all computed from the embedding space and built-in heuristics. No external API calls.
 
 **How to use:**
-1. Click the **"👨‍🍳 Chef's Toolkit"** button in the header to toggle the sidebar
-2. Select any ingredient to see its complete intelligence profile
+1. Click the **"👨‍🍳 Chef's Toolkit"** button in the header to open the overlay
+2. Click the backdrop or the **✕** button to close
+3. Select any ingredient to see its complete intelligence profile
 
 **The sidebar shows six sections:**
 
