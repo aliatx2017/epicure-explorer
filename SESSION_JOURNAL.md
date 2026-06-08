@@ -756,3 +756,44 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | theme-color sync | ❌ hardcoded | ✅ dark/light toggle updates meta |
 | Canvas aria-label | ❌ missing | ✅ descriptive label added |
 
+---
+
+## Session 15b — Docs Refresh, Metrics Audit & Final Wrap
+
+**Focus:** Comprehensive documentation audit: fix stale metrics across all docs, append session journal entry, refresh handoff doc, commit and push.
+
+### What Was Done
+
+| Item | Detail |
+|------|--------|
+| **🔍 Metrics audit** | Verified: index.html 8,060 lines, 424 KB, 176 JS functions, 686 CSS lines, ~6,595 JS script lines. 68/68 E2E tests pass. 0 console errors, 0 known bugs. |
+| **📝 NEXT_SESSION.md** | Rewritten with fresh line/function/CSS/JS counts. Added cache versioning (`'epicure-v1'` hardcoded) as #1 open technical debt. Updated test gap table. |
+| **📖 README.md** | Fixed stale JS function count (163→176) and JS logic lines (~6,200→~6,595). |
+| **📘 GUIDE.md** | Fixed architecture metrics: 7,756→8,060 lines, CSS ~650→686, HTML ~780→~775, JS ~5,000→~6,595. |
+| **📗 SESSION_JOURNAL.md** | Added this entry (Session 15b). |
+| **📦 Git** | Committed all doc changes as `438ffbe`, pushed to `origin/main`. |
+
+### Metrics Update
+
+| Metric | Session 15 | Session 15b |
+|--------|-----------|-------------|
+| index.html lines | 8,060 | **8,060** (unchanged) |
+| JS functions | ~163 | **176** (corrected count) |
+| CSS lines | — | **~686** (first measured) |
+| JS script lines | — | **~6,595** (first measured) |
+| File size | ~425 KB | **~424 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **68/68 ✅** | **68/68 ✅** |
+| GUIDE.md metrics | Stale (7,756) | ✅ **Corrected** (8,060) |
+| README.md function count | ~163 | **176** |
+| NEXT_SESSION.md | Sessions 14→15 delta | ✅ **Fresh handoff with gaps** |
+| Cache versioning | Unaddressed | **⚠️ Still open — `'epicure-v1'` hardcoded** |
+
+### State at Session End
+
+- All docs updated with verified metrics
+- 68/68 E2E tests pass, 0 bugs, 0 console errors
+- Cache versioning remains the single highest-priority technical debt
+- `origin/main` up to date
+

@@ -1,8 +1,8 @@
 # Next Session — Starting Point
 
 **Branch:** `main`  
-**Last commit:** Session 15 — Safety, perf, a11y, seasonal data extraction  
-**All 68 E2E tests pass · 0 console errors · 0 known bugs**
+**Last commit:** `483ef25` — Session 15: Safety, perf, a11y, seasonal data extraction  
+**All 68 E2E tests pass · 0 console errors · 0 known bugs · Working tree clean**
 
 ---
 
@@ -11,20 +11,23 @@
 | Metric | Value |
 |--------|-------|
 | `index.html` lines | **8,060** |
-| JS functions | **~163** |
+| JS functions | **176** (named functions) |
 | Tabs | **19** (4 categories) |
-| File size | **425 KB** |
+| File size | **424 KB** |
 | Console errors | **0** |
 | Known bugs | **0** |
 | E2E tests | **68/68 ✅** |
 | Languages | EN, ES, FR, 中文, 日本語 |
 | Nutrition data | **1,790 ingredients** (FSA per-100g) + **51,235 recipes** (per-recipe FSA) |
 | PWA icons | **192×192 + 512×512 PNG** (purple plate/fork) |
-| Seasonal data | **149 entries** — now data-driven from `epicure_shared.json` |
+| Seasonal data | **149 entries** — data-driven from `epicure_shared.json` |
+| CSS | **~686 lines** |
+| JavaScript (script block) | **~6,595 lines** |
+| SW cache key | Hardcoded `'epicure-v1'` — **no automatic invalidation** |
 
 ---
 
-## What Session 15 Shipped
+## What the Last Session Shipped
 
 | Phase | Feature | Detail |
 |-------|---------|--------|
@@ -53,24 +56,25 @@
 ### Unstarted Opportunities — Still Open
 | Item | Effort | Notes |
 |------|--------|-------|
-| **Recipe generation (LLM)** | High | Needs backend — FastAPI/Node server, API key management, cost control |
-| **Ingredient2Vec REST API** | High | Server-side project: auth, rate-limiting, billing |
+| **Recipe generation (LLM)** | 🔴 High | Needs backend — FastAPI/Node server, API key management, cost control |
+| **Ingredient2Vec REST API** | 🔴 High | Server-side project: auth, rate-limiting, billing |
+| **Hash-based cache versioning** | 🟢 Low | `sw.js` uses hardcoded `'epicure-v1'` — no auto-invalidation when data files change. Recommend date-stamp or hash-of-data-files approach. |
 
 ### Test Coverage Gaps
 | Area | Gap | Notes |
 |------|-----|-------|
 | 5 tabs lack feature tests | Snap, Neighbours, Compare, Modes, Recipes | Only "panel renders" checked |
-| Error states untested | API 429/500, offline, model-not-loaded | Graceful paths, low risk |
-| Nutrition tab untested | No E2E for FSA display or per-recipe data | New feature, manual check only |
+| Error states untested | API 429/500, offline, model-not-loaded | Graceful paths exist, low risk |
+| Nutrition tab untested | No E2E for FSA display or per-recipe data | Manual check only |
 | i18n coverage | Only Spanish tested; FR/zh/ja never verified | |
 
-### New Candidate Improvements (from Session 15 audit)
-| Item | Effort | Priority | Notes |
-|------|--------|----------|-------|
-| **Deduplicate `dotProduct` calls** | Low | Low | Computed in ~30 places; extract to shared helper? Already one shared `dotProduct()` function — callers could be audit-checked |
-| **Move remaining hardcoded data** | Medium | Low | `NUTRITION_DATA` (~1,790 inline entries), cuisine keyword lists, direction names could move to `epicure_shared.json` |
-| **Test error states** | Medium | Medium | E2E tests for load failure, network offline, API 429 |
-| **i18n coverage for all 5 languages** | Low | Low | Only Spanish verified in E2E; add FR/zh/ja assertions |
+### Low-Priority Polish
+| Item | Effort | Notes |
+|------|--------|-------|
+| **Audit `dotProduct` callsites** | 🟢 Low | Centralized helper exists; 38 callers could be checked for consistency |
+| **Move remaining hardcoded data** | 🟡 Medium | `NUTRITION_DATA` (~104 lines) inline — compact, but could move to `epicure_shared.json` |
+| **Test error states** | 🟡 Medium | E2E for load failure, network offline, API 429 |
+| **i18n test coverage for FR/zh/ja** | 🟢 Low | Only Spanish verified in E2E |
 
 ### Future Architectural Directions (Separate Project)
 - Ingredient2Vec REST API + OpenAPI spec (requires server)

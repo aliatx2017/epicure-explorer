@@ -163,8 +163,8 @@ This project was built across 15 development sessions (June–July 2026). See [`
 
 ### Quick Stats
 - **8,060 lines** of HTML/CSS/JS in a single file
-- **~163 JavaScript functions** across 19 tabs and Chef's Toolkit
-- **~6,200 lines** of JavaScript application logic
+- **~176 JavaScript functions** across 19 tabs and Chef's Toolkit
+- **~6,595 lines** of JavaScript application logic
 - **31 files** tracked in version control
 - **68 automated E2E tests** — all passing
 - **51K per-recipe nutrition records** — FSA-scored from the im2recipe 35K dataset
