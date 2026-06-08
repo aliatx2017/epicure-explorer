@@ -1,8 +1,8 @@
 # Next Session — Starting Point
 
 **Branch:** `main`  
-**Last commit:** Session 10 (feedback-driven polish sprint)  
-**All 57 E2E tests pass · 0 console errors · 0 known bugs**
+**Last commit:** Session 11 (remaining phases + unstarted opps sprint)  
+**All 66 E2E tests pass · 0 console errors · 0 known bugs**
 
 ---
 
@@ -10,57 +10,47 @@
 
 | Metric | Value |
 |--------|-------|
-| `index.html` lines | **6,343** |
-| JS functions | **136** |
-| Tabs | 18 (4 categories) |
-| File size | 339 KB |
+| `index.html` lines | **7,312** |
+| JS functions | **~154** |
+| Tabs | **19** (4 categories) |
+| File size | 392 KB |
 | Console errors | **0** |
 | Known bugs | **0** |
-| E2E tests | **57/57 ✅** |
+| E2E tests | **66/66 ✅** |
 | Languages | EN, ES, FR, 中文, 日本語 |
 
 ---
 
-## What Session 10 Shipped
+## What Session 11 Shipped
 
-- Spoonacular call tracking + 429 handling
-- Offline banner + offline-aware API calls
-- 50+ search aliases (coriander→cilantro, etc.)
-- Density heatmap overlay on Map
-- CSV neighbour export, Map PNG export, share link
-- 5-language i18n (UI strings only)
-- Search intent detection (cuisine/diet/nutrition keywords)
-- Usage analytics (localStorage-based, privacy-preserving)
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **4** 🎮 | **Games upgrade** | Cuisine ID game mode, localStorage leaderboard w/ win/loss/stats, game mode selector, 3 E2E tests |
+| **5** 👨‍🍳 | **Build-A-Dish** | Multi-ingredient chip selector, centroid pairing suggestions, flavour profile radar chart, dietary flags, 2 E2E tests |
+| **6** 🧠 | **Semantic Describe a Dish** | 5-stage matching (exact→alias→fuzzy→descriptive-word→embedding), confidence %, Build-A-Dish button, 2 E2E tests |
+| **7** 🗺️ | **Map heatmap & perf** | Density threshold slider, zoom-adaptive KDE grid, KDE caching, RAF-coalesced rendering |
+| **8** 📱 | **QR code share** | Inline zero-dependency QR generator, Show QR Code button in Chef's Toolkit |
+| **9** 🌐 | **i18n ingredient names** | ~120 ingredient translations in ES/FR/zh/ja, trIngredient/displayName helpers wired into key UI, 1 E2E test |
 
 ---
 
 ## Open Items & Gaps for Next Session
 
-### Remaining Scoped Phases (from Sessions 6/9)
-| Phase | Feature | Effort | Priority |
-|-------|---------|--------|----------|
-| 4 | Games interactivity upgrade (more game modes, leaderboard) | Medium | Low |
-| 5 | Build-A-Dish mode (compose ingredient combinations with flavour preview) | High | Medium |
-| 6 | Semantic Describe a Dish (upgrade natural-language parsing with semantic understanding) | Medium | Low |
+### Remaining Scoped Phases
+All 3 remaining phases from Sessions 6/9 have been **shipped** in Session 11.
 
-### Unstarted Opportunities
+### Unstarted Opportunities — Still Open
 | Item | Effort | Notes |
 |------|--------|-------|
-| **Performance optimization** | Medium | Larger-scale virtualized rendering for map |
-| **Export/Share workflows** | Medium | Export pairing as image, share via QR |
-| **i18n ingredient names** | High | Translate ingredient names themselves (not just UI), leveraging Epicure's 7-language data |
-| **Map heatmap improvements** | Low | Dynamic density threshold slider, zoom-adaptive grid resolution |
-| **Recipe generation (LLM)** | High | Needs backend — requires FastAPI/Node server, API key management, cost control |
+| **Performance optimization** | Medium | Larger-scale virtualized rendering for map (currently only viewport culling) |
+| **Recipe generation (LLM)** | High | Needs backend — FastAPI/Node server, API key management, cost control |
 | **Ingredient2Vec REST API** | High | Server-side project: auth, rate-limiting, billing |
+| **Map heatmap further improvements** | Low | Dynamic KDE colour scale editor, legend click-to-filter |
 
 ### Feedback Items Not Yet Addressed
 | Item | Notes |
 |------|-------|
 | Mobile UX — chef sidebar may clip on very small phones | Current `max-width: 90vw` with 768px breakpoint `width: 100%` — test on actual small devices |
-| No "remaining calls" display was missing — now shipped ✅ | |
-| Offline state was not communicated — now shipped ✅ | |
-| No density heatmap — now shipped ✅ | |
-| No CSV/PNG/share exports — now shipped ✅ | |
 
 ### Future Architectural Directions (Separate Project)
 - Ingredient2Vec REST API + OpenAPI spec (requires server)
@@ -82,5 +72,5 @@ python3 -m http.server 8080
 
 ```bash
 cd epicure-explorer
-node tests/e2e.mjs   # 57 tests, ~45s
+node tests/e2e.mjs   # 66 tests, ~50s
 ```

@@ -12,7 +12,7 @@ This is not a recipe database. This is a **flavour relationship engine** — the
 
 1. [Architecture & File Structure](#1-architecture--file-structure)
 2. [Quick Start & Launch](#2-quick-start--launch)
-3. [Feature Walkthrough — 18 Professional Modules](#3-feature-walkthrough--18-professional-modules)
+3. [Feature Walkthrough — 19 Professional Modules](#3-feature-walkthrough--19-professional-modules)
    - [🔗 Neighbours — Flavour-Proximity Radar](#31--neighbours)
    - [⚖️ Compare — Model Divergence Analysis](#32--compare)
    - [🎯 Direction (SLERP) — Flavour Rotation](#33--direction-slerp)
@@ -31,6 +31,7 @@ This is not a recipe database. This is a **flavour relationship engine** — the
    - [🤖 Food Agent — Natural Language Ingredient Search](#316--food-agent)
    - [📈 Trending — What's Trending Panel](#317--trending)
    - [💊 Meal Plan — GLP-1 Meal Plan Generator](#318--meal-plan)
+   - [👨‍🍳 Build-A-Dish — Ingredient Composition Studio](#319--build-a-dish)
 4. [Professional Workflows & Strategies](#4-professional-workflows--strategies)
 5. [Troubleshooting](#5-troubleshooting)
    - [Force-Directed Map — Fixed](#51-force-directed-map--fixed)
@@ -43,6 +44,9 @@ This is not a recipe database. This is a **flavour relationship engine** — the
    - [Seasonal Heatmap](#58-seasonal-heatmap)
    - [Spoonacular Graceful Degradation](#59-spoonacular-graceful-degradation)
    - [Map Gesture Hint (Mobile)](#510-map-gesture-hint-mobile)
+   - [Density Threshold Slider](#511-density-threshold-slider)
+   - [QR Code Share](#512-qr-code-share)
+   - [ℹ️ Ingredient Name Translation](#513-ingredient-name-translation)
 
 ---
 
@@ -247,7 +251,7 @@ This reads the raw CSV files from `data/` and writes `data/epicure_shared.json` 
 
 ---
 
-## 3. Feature Walkthrough — The 18 Tabs
+## 3. Feature Walkthrough — The 19 Tabs
 
 ### 3.1 🔗 Neighbours
 
@@ -497,17 +501,40 @@ A professional tool for discovering **cross-cultural bridge ingredients** — in
 A quiz that shows an ingredient and asks: "Which of these 4 options is the closest embedding neighbour?"
 
 **How to play:**
-1. Switch to the Games tab
+1. Switch to the Games tab (🎮 Play category)
 2. A random ingredient is chosen (e.g. "miso"), and 4 options are shown
 3. Click the ingredient you think is the closest neighbour
 4. Correct answers turn **green**; wrong answers turn **red** with the correct answer revealed
 5. Click **"New Question"** for another round
-6. Your **score** tracks correct answers across the session
+6. Your **stats** (won/played, streak) are tracked in the leaderboard and persist across sessions via localStorage
 
 **What to look for:**
 - The closest neighbour is **not always obvious** — embeddings capture subtle semantic relationships
 - Cooc neighbours are recipe companions; Chem neighbours are flavour-profile peers
 - The game works with any model — switch to Cooc/Core/Chem to change the challenge
+
+#### 🌍 ID the Cuisine
+
+A quiz that shows 3–4 ingredients and asks: "Which cuisine do these belong to?"
+
+**How to play:**
+1. Click **"🌍 ID the Cuisine"** in the game mode selector bar
+2. 3–4 ingredients from a random cuisine are displayed (e.g. "miso, soy_sauce, nori")
+3. Choose from 4 cuisine options (East Asian, Western Atlantic, Mediterranean, Eastern European, SE Asian, South Asian, Latin American, Japanese)
+4. Correct answers turn **green**; wrong answers turn **red** with the correct cuisine revealed
+5. Click **"New Question"** for another round
+6. Stats are tracked separately from Guess the Neighbour
+
+**How it works:** The embedding's 8 cuisine direction vectors score every ingredient. Ingredients with a dot-product > 0.15 against a cuisine vector are candidates — this reliably identifies cuisine-affiliated ingredients.
+
+#### 🗄️ Game Leaderboard
+
+Three stat cards show your performance:
+- **🔮 Neighbour** — won/played, best streak for Guess the Neighbour
+- **🌍 Cuisine ID** — won/played, best streak for Cuisine ID
+- **🏆 Total** — combined win rate percentage
+
+The leaderboard auto-updates after every guess and is persisted in localStorage under the key `epicure_games`.
 
 #### 🧭 Flavour Compass
 
@@ -798,7 +825,27 @@ A polar radar chart showing how the selected ingredient relates to all 8 sensory
 
 **How it works:** GLP-1-friendly ingredients are clustered by embedding similarity. Each meal picks two ingredients from the same cluster, ensuring complementary flavours. Meals cycle through clusters deterministically for variety.
 
+### 3.19 👨‍🍳 Build-A-Dish — Ingredient Composition Studio
 
+**What it does:** Combine 2–6 ingredients and discover what the embedding space suggests to complete your dish. Shows centroid-based pairings, a flavour profile radar chart, category breakdown, and dietary flags.
+
+**How to use:**
+1. Switch to the **👨‍🍳 Build Dish** tab (🎮 Play category)
+2. Start typing an ingredient in the chip input — an autocomplete dropdown shows matching names
+3. Press Enter or click a suggestion to add it as a chip (up to 6)
+4. Click **🔍 Find Pairings** to run the analysis
+5. The results panel shows:
+   - **Top 12 suggested additions** — ingredients whose vectors are closest to the computed centroid
+   - **🧭 Flavour Profile** — a radar chart of the combined dish's 8 sensory directions
+   - **📦 Category breakdown** — colour-coded badges showing ingredient categories (Produce, Protein, Spice, etc.)
+   - **🏷️ Dietary flags** — GLP-1 Friendly, Vegan, High Protein badges when applicable
+6. Click any suggested ingredient to explore its full profile
+7. Click **📋 Copy Ingredients** to copy the list to your clipboard
+8. Click **🗑️ Clear All** to start fresh
+
+**How it works:** The embedding centroid of all selected ingredients is computed (vector average). All other ingredients are scored by cosine similarity to this centroid. The highest-scoring ingredients represent flavours that naturally complement the combination — they're the embeddings' best guess at "what goes with everything you've chosen."
+
+**Professional use case:** A chef has a base of chicken, garlic, and olive oil. Build-A-Dish might suggest rosemary, lemon, white_wine, and thyme — the embedding space recognizes this as a classic Mediterranean poultry profile and fills in the expected companions.
 ## 4. Professional Workflows & Strategies
 
 This section is written for the professional kitchen. Each workflow is a complete, end-to-end strategy that combines multiple app features to solve a real culinary problem.
@@ -1126,3 +1173,35 @@ When no Spoonacular API key is saved, the Spoonacular tab now shows a friendly *
 ### 5.16 Map Gesture Hint (Mobile)
 
 On touch devices, the first visit to the Map tab shows a subtle overlay: "Drag to pan · Pinch to zoom · Double-tap to reset". It fades out after 4 seconds and never appears again (tracked via `localStorage`).
+
+### 5.11 Density Threshold Slider
+
+When the **🔬 Density** overlay is selected on the Map tab, a **Min%** slider appears next to the overlay dropdown. It controls the minimum intensity threshold for KDE heatmap cells:
+
+- **0%** — all cells rendered (noisiest, shows background density everywhere)
+- **2%** (default) — hides sparse cells, shows only meaningful clusters
+- **10%** — only the densest hotspots remain visible
+
+The slider range is 0–10% in 0.5% steps. Use it to declutter the density heatmap when zoomed in, or to see subtle clustering patterns at low thresholds.
+
+### 5.12 QR Code Share
+
+The Chef's Toolkit sidebar includes a **"📱 Show QR Code"** button. Click it to open a modal overlay with a scannable QR code encoding the current deep-link URL (`#tab=...&model=...&ingredient=...`). This lets you:
+
+- Share the current view with colleagues by scanning from another device
+- Save the QR code as a PNG via screenshot
+- Close the modal by clicking the backdrop or the Close button
+
+The QR generation is fully inline — no external dependencies, no network calls, works offline.
+
+### 5.13 ℹ️ Ingredient Name Translation
+
+The app's i18n system has been extended from UI strings to **ingredient names** themselves. When a non-English language is selected (🇪🇸 ES, 🇫🇷 FR, 🇨🇳 中文, 🇯🇵 日本語), ~120 commonly viewed ingredients display in the local language throughout the app:
+
+- **Selected ingredient label** — shows the translated name
+- **Chef's Toolkit title** — translated ingredient name at the top of the sidebar
+- **Map tooltip** — translated name on hover over map points
+- **Neighbour substitution list** — translated ingredient names
+- **Flavour Compass target** — translated name
+
+Fallback: If an ingredient has no translation in the current language, its English underscored name is displayed with underscores converted to spaces.

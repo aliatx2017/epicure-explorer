@@ -490,14 +490,14 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 
 ### Key Metrics Over Time
 
-| Metric | Session 9 | Session 10 |
-|--------|-----------|------------|
-| index.html lines | 5,755 | **6,343** |
-| JS functions | ~117 | **136** |
-| Tabs | 18 (4 categories) | 18 (4 categories) |
-| Console errors on load | **0** | **0** |
-| Known bugs | **0** | **0** |
-| E2E tests | **57/57** | **57/57** |
+| Metric | Session 9 | Session 10 | Session 11 |
+|--------|-----------|------------|------------|
+| index.html lines | 5,755 | **6,343** | **7,312** |
+| JS functions | ~117 | **136** | **~154** |
+| Tabs | 18 (4 categories) | 18 (4 categories) | **19 (4 categories)** |
+| Console errors on load | **0** | **0** | **0** |
+| Known bugs | **0** | **0** | **0** |
+| E2E tests | **57/57** | **57/57** | **66/66** |
 
 ### State at Session End
 
@@ -505,5 +505,90 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 - 598 lines added to index.html (588 net growth after minor removals)
 - Zero console errors, zero known bugs
 - 57/57 E2E tests pass
+- GitHub repo: `aliatx2017/epicure-explorer`
+
+---
+
+## Session 11 — Remaining Phases + Unstarted Opportunities Sprint
+
+**Focus:** Shipped all remaining scoped phases (4, 5, 6) and 3 unstarted opportunities (map heatmap perf, QR exports, i18n ingredient names).
+
+### What Was Done
+
+#### Phase 4 — Games Interactivity Upgrade
+| Feature | Detail |
+|---------|--------|
+| **🗄️ localStorage leaderboard** | Persists win/loss, best streak, current streak per game mode across sessions |
+| **🌍 Cuisine ID game mode** | Shows 3–4 ingredients from a random cuisine (dotProduct > 0.15), player picks from 8 cuisine options |
+| **🎮 Game mode selector** | Tab bar toggling between Guess-the-Neighbour and Cuisine ID |
+| **📊 Stats cards** | 3-card leaderboard (Neighbour/Cuisine/Total) in games panel |
+| **✅ 3 E2E tests** | Game UI renders, Cuisine ID mode, stats persistence |
+
+#### Phase 5 — Build-A-Dish Mode
+| Feature | Detail |
+|---------|--------|
+| **👨‍🍳 New tab button** | "👨‍🍳 Build Dish" in Play category (19th tab) |
+| **🏷️ Multi-ingredient chip selector** | Autocomplete dropdown, chip tokens (max 6), Enter/click to add, ✕ to remove |
+| **🧮 Centroid pairings** | Computes embedding centroid of selected ingredients → top-12 suggested additions |
+| **🧭 Flavour profile compass** | 200×200 radar chart drawn from centroid's 8 sensory direction scores |
+| **🥗 Category breakdown** | Auto-categorizes ingredients into produce/protein/spice/dairy/grain/condiment |
+| **🏷️ Dietary flags** | GLP-1, Vegan, High Protein detection via keyword matching |
+| **📋 Copy ingredients button** | One-click clipboard copy of ingredient list |
+| **🔗 Deep-link support** | Tab wiring in `setupTabs()` |
+| **✅ 2 E2E tests** | Panel renders, chip interaction + pairing results |
+
+#### Phase 6 — Semantic Describe a Dish
+| Feature | Detail |
+|---------|--------|
+| **🧠 5-stage matching pipeline** | (1) Multi-word phrase + alias → (2) Individual alias + exact → (3) Fuzzy substring → (4) Descriptive-word→embedding direction → (5) Broad embedding scan |
+| **🔤 Improved tokenization** | Handles accented chars (à-ÿ, æ, œ), hyphens→spaces, possessive removal |
+| **📊 Confidence badges** | Each tag shows match % with color coding: green=exact, purple=fuzzy, yellow=semantic |
+| **👨‍🍳 Build-A-Dish button** | "Open in Build-A-Dish" button populates the new Build Dish tab |
+| **✅ 2 E2E tests** | Confidence percentages, Build-A-Dish button present |
+
+#### Phase 7 — Map Heatmap & Performance
+| Feature | Detail |
+|---------|--------|
+| **🎚️ Density threshold slider** | User-controlled 0–10% minimum intensity for KDE cells, live label update |
+| **🔍 Zoom-adaptive grid** | `GRID_X/Y` scales inversely with `MAP_VIEW.scale` (finer at high zoom) |
+| **💾 KDE grid caching** | `MAP_DENSITY_CACHE` keyed on zoom + pan to avoid recomputation on every frame |
+| **⚡ RAF coalescing** | `MAP_RENDER_PENDING` flag batches multiple renderMap() calls per frame |
+
+#### Phase 8 — Export/Share Workflows
+| Feature | Detail |
+|---------|--------|
+| **📱 Inline QR code generator** | Zero-dependency, version-adaptive byte-mode encoding with Reed-Solomon EC. `generateQRCode()` + `showQRCode()` functions |
+| **🖼️ QR overlay modal** | Centered popup with canvas QR, scan-to-share text, close button + backdrop dismiss |
+| **🔘 QR button in Chef's Toolkit** | "📱 Show QR Code" button alongside share link |
+
+#### Phase 9 — i18n Ingredient Names
+| Feature | Detail |
+|---------|--------|
+| **📖 Translation tables** | ~120 common ingredient names in ES, FR, 中文, 日本語 (`INGREDIENT_TRANSLATIONS`) |
+| **🔤 `trIngredient(name)` / `displayName(name)`** | Helpers with English fallback, underscore-to-space conversion |
+| **🔗 Wired into key UI** | Selected ingredient label, Chef's Toolkit name, map tooltip, compass target, neighbour substitutions |
+| **🔄 `setLanguage()` refresh** | Re-renders ingredient names when language is switched |
+| **✅ 1 E2E test** | Spanish ingredient names displayed correctly |
+
+### Metrics Update
+
+| Metric | Session 10 | Session 11 |
+|--------|-----------|------------|
+| index.html lines | 6,343 | **7,312** |
+| JS functions | ~136 | **~154** |
+| Tabs | 18 (4 categories) | **19 (4 categories)** |
+| File size | 339 KB | **392 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **57/57 ✅** | **66/66 ✅** |
+| Languages | 5 (UI only) | **5 (UI + ingredient names)** |
+
+### State at Session End
+
+- All 3 remaining scoped phases (4, 5, 6) shipped
+- All 3 unstarted opportunities shipped (map heatmap, QR exports, i18n ingredient names)
+- 969 lines added, ~154 functions, 392 KB
+- Zero console errors, zero known bugs
+- **66/66 E2E tests pass**
 - GitHub repo: `aliatx2017/epicure-explorer`
 

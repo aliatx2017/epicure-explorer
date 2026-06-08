@@ -23,14 +23,15 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 ---
 
 
-> **🧭 Implementation Status — July 2026 (Session 10: Polish Sprint)**
+> **🧭 Implementation Status — July 2026 (Session 11: Remaining Phases + Unstarted Opps)**
 > 
-> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~6,343 lines, ~339 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
+> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~7,312 lines, ~392 KB, zero-dependency single-file app). All 3 remaining scoped phases (4, 5, 6) and 3 unstarted opportunities shipped. See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
 > 
 > **Session 7 (June 2026):** Map zoom + pan + cuisine region labels + touch support (Phase 2 completed)
 > **Session 8 (July 2026):** Full UI/UX design audit — tab categories, empty states, Chef overlay drawer, deep-link URLs, responsive, ARIA+keyboard, skeleton loading
 > **Session 9 (June 2026):** 10-feature sprint: PWA manifest, dark mode, Spoonacular graceful degradation, map gesture hint, cross-model consensus, unified smart search, molecular fingerprint card, seasonal heatmap (Phase 3 shipped), Service Worker + offline, map viewport culling. 57/57 E2E tests pass. Repo pushed.
 > **Session 10 (July 2026):** Feedback-driven polish sprint: Spoonacular call tracking + 429 handling, offline banner, 50+ search aliases, density heatmap overlay, CSV/PNG/share exports, 5-language i18n (EN/ES/FR/中文/日本語), semantic search intent detection, usage analytics, offline-aware APIs. 57/57 E2E tests pass.
+> **Session 11 (July 2026):** Remaining phases + unstarted opportunities: Games upgrade (Cuisine ID, leaderboard), Build-A-Dish, semantic Describe a Dish (5-stage matching, confidence), density threshold slider, zoom-adaptive KDE, RAF coalescing, QR code share, i18n ingredient names. 66/66 E2E tests pass.
 > 
 > | Area | Status | Notes |
 > |------|--------|-------|
@@ -76,6 +77,14 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 > | Seasonal Heatmap (Phase 3) | ✅ Session 9 | Month-by-month ingredient availability grid |
 > | Service Worker + Offline | ✅ Session 9 | sw.js caches index.html + model data |
 > | Map Viewport Culling | ✅ Session 9 | Off-screen points skipped during render |
+> | Games Upgrade (Phase 4) | ✅ Session 11 | Cuisine ID mode, localStorage leaderboard, mode selector |
+> | Build-A-Dish (Phase 5) | ✅ Session 11 | Multi-ingredient chip selector, centroid pairings, flavour compass, diet flags |
+> | Semantic Describe a Dish (Phase 6) | ✅ Session 11 | 5-stage matching, confidence badges, alias-aware, Build-A-Dish button |
+> | Density Threshold Slider | ✅ Session 11 | User-controlled 0–10% KDE min intensity |
+> | Zoom-Adaptive KDE Grid | ✅ Session 11 | Grid resolution scales with map zoom |
+> | KDE Caching + RAF Coalescing | ✅ Session 11 | Cached computation, batched renderMap frames |
+> | QR Code Share | ✅ Session 11 | Inline zero-dep QR generator in Chef's Toolkit |
+> | i18n Ingredient Names | ✅ Session 11 | ~120 ingredient translations in ES/FR/zh/ja |
 
 ## Section 1: The Most Actionable Findings
 

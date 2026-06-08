@@ -29,14 +29,14 @@ Then open **http://localhost:8080** in any modern browser. No build step, no npm
 
 ---
 
-## Features — 18 Tabs (4 Categories)
+## Features — 19 Tabs (4 Categories)
 
 Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analyze** | 🚀 **Advanced**
 
 | Category | Tabs |
 |----------|------|
 | **🧠 Core** | Neighbours, Compare, Direction (SLERP), Map, Modes, Recipes |
-| **🎮 Play** | Games, Arith (Flavour Arithmetic), Cocktails |
+| **🎮 Play** | Games, **Build Dish**, Arith (Flavour Arithmetic), Cocktails |
 | **🔬 Analyze** | Analyzer, Compare 2, Snap, Seasonal |
 | **🚀 Advanced** | Spoonacular, Ingredient2Vec, Food Agent, Trending, Meal Plan |
 
@@ -55,12 +55,13 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 ### Creative & Analytical Tools
 | Tab | What It Does |
 |-----|-------------|
-| **🎮 Games** | "Guess the Neighbour" quiz + "Flavour Compass" radar chart |
+| **🎮 Games** | Two modes: "Guess the Neighbour" + "Cuisine ID" with localStorage leaderboard, plus "Flavour Compass" radar chart |
+| **👨‍🍳 Build Dish** | Multi-ingredient chip selector → centroid pairings + flavour profile compass + dietary flags |
 | **🍽️ Analyzer** | Comma-separated ingredient list → dietary + flavour + category analysis |
 | **⚔️ Compare 2** | Side-by-side ingredient comparison |
 | **🧮 Arith** | Visual chip-based flavour arithmetic builder with history |
 | **🍸 Cocktails** | Spirit + mixer → cocktail suggestions from embedding centroid |
-| **🗓️ Seasonal** | 149-ingredient peak-season browser + map overlay |
+| **🗓️ Seasonal** | 149-ingredient peak-season browser + heatmap grid |
 
 ### Month 3 — Differentiators
 | Tab | What It Does |
@@ -84,6 +85,7 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 | **🧬 Molecular Fingerprint** | Compound intensity bars showing active flavour compound categories |
 | **🔬 Cross-Model Consensus** | Substitute scores compared across all 3 embedding models |
 | **🌙 Dark Mode** | Toggle between dark and light themes, persisted across sessions |
+| **📱 QR Code Share** | Generate a scannable QR code for the current deep-link view |
 
 ### Infrastructure
 | Feature | What It Does |
@@ -91,14 +93,16 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 | **📱 PWA Manifest** | "Add to Home Screen" on mobile with inline data URI manifest |
 | **📴 Service Worker** | Offline caching of app shell and model data JSONs |
 | **⚡ Viewport Culling** | Only renders visible map points during pan/zoom |
+| **⚡ RAF Coalescing** | Batch-coalesced map renders for smooth pan/zoom interactions |
 
 ### UI/UX Highlights
-- **Tab categorization** — 18 tabs grouped into 4 categories with filtering bar
+- **Tab categorization** — 19 tabs grouped into 4 categories with filtering bar
 - **Responsive design** — works on desktop, tablet, and mobile
 - **Deep-link URLs** — shareable `#tab=map&model=chem&ingredient=miso` links
 - **Keyboard & screen-reader** — ARIA roles, arrow key navigation
 - **Skeleton loading** — shimmer placeholder layout during data fetch
 - **Empty states** — contextual guidance when no ingredient is selected
+- **🌐 i18n** — UI in 5 languages (EN/ES/FR/中文/日本語) with ingredient name translations for ~120 common ingredients
 
 ---
 
@@ -149,11 +153,11 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 This project was built across 10 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **6,343 lines** of HTML/CSS/JS in a single file
-- **~136 JavaScript functions** across 18 tabs and Chef's Toolkit
-- **~4,700 lines** of JavaScript application logic
+- **7,312 lines** of HTML/CSS/JS in a single file
+- **~154 JavaScript functions** across 19 tabs and Chef's Toolkit
+- **~5,500 lines** of JavaScript application logic
 - **28 files** tracked in version control
-- **57 automated E2E tests** — all passing
+- **66 automated E2E tests** — all passing
 
 ---
 

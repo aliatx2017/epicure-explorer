@@ -350,6 +350,21 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .game-compass canvas { width: 100%; height: 100%; border-radius: var(--radius-sm); background: var(--bg); }
 .game-compass-label { text-align: center; font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-top: 6px; }
 
+/* ── Game Mode Selector & Leaderboard ── */
+.game-mode-bar { display: flex; gap: 6px; margin-bottom: 10px; }
+.game-mode-btn { padding: 5px 14px; border-radius: 99px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 0.72rem; font-family: var(--font); cursor: pointer; transition: all .15s; }
+.game-mode-btn.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+.game-mode-btn:hover:not(.active) { border-color: var(--accent2); color: var(--text); }
+.game-leaderboard { margin-bottom: 10px; }
+.lb-grid { display: flex; gap: 6px; }
+.lb-card { flex: 1; background: var(--surface2); border-radius: var(--radius-sm); padding: 8px 10px; border: 1px solid var(--border); text-align: center; }
+.lb-icon { font-size: 1rem; margin-bottom: 2px; }
+.lb-label { font-size: 0.62rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.lb-row { font-size: 0.68rem; color: var(--text2); line-height: 1.6; }
+.lb-row strong { color: var(--accent); }
+.lb-total { border-color: var(--accent2); }
+.lb-total .lb-row strong { color: var(--green); }
+
 /* ── Fusion Explorer ── */
 .fusion-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
 .fusion-select { padding: 5px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.75rem; font-family: var(--font); outline: none; cursor: pointer; flex: 1; min-width: 100px; }
@@ -393,10 +408,26 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .arith-add-box { position: relative; min-width: 160px; flex: 1; }
 .arith-add-box input { width: 100%; padding: 5px 10px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.72rem; font-family: var(--font); outline: none; box-sizing: border-box; }
 .arith-add-box input:focus { border-color: var(--accent2); }
+
+/* ── QR Code Overlay ── */
+.qr-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+.qr-popup { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 .arith-dropdown { position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); max-height: 200px; overflow-y: auto; display: none; margin-top: 2px; }
 .arith-dropdown.show { display: block; }
 .arith-dropdown .item { padding: 5px 10px; font-size: 0.7rem; cursor: pointer; color: var(--text); transition: background .1s; }
 .arith-dropdown .item:hover, .arith-dropdown .item.highlighted { background: var(--surface2); color: var(--accent); }
+
+/* ── Build-A-Dish ── */
+.build-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid var(--border); min-height: 42px; margin-bottom: 6px; }
+.build-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px 3px 12px; border-radius: 99px; font-size: 0.75rem; background: #4ade8022; border: 1px solid #4ade8044; color: #4ade80; font-weight: 500; }
+.build-chip-x { cursor: pointer; opacity: 0.5; font-size: 0.65rem; transition: opacity .15s; padding: 0 2px; }
+.build-chip-x:hover { opacity: 1; color: #f87171; }
+.build-add-box { position: relative; min-width: 160px; flex: 1; }
+.build-add-box input { width: 100%; padding: 5px 10px; border-radius: 99px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.72rem; font-family: var(--font); outline: none; box-sizing: border-box; }
+.build-add-box input:focus { border-color: var(--accent2); }
+.build-dropdown { position: absolute; top: 100%; left: 0; right: 0; z-index: 20; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); max-height: 200px; overflow-y: auto; display: block; margin-top: 2px; }
+.build-dd-item { padding: 5px 10px; font-size: 0.7rem; cursor: pointer; color: var(--text); transition: background .1s; }
+.build-dd-item:hover { background: var(--surface2); color: var(--accent); }
 .arith-toolbar { display: flex; gap: 6px; align-items: center; margin-bottom: 10px; }
 .arith-history { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; min-height: 0; }
 .arith-history-item { padding: 2px 8px; border-radius: 99px; font-size: 0.62rem; background: var(--surface); border: 1px solid var(--border); color: var(--text2); cursor: pointer; transition: all .15s; }
@@ -731,6 +762,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
       <button class="tab" data-tab="recipes" data-cat="core">🍲 Recipes</button>
       <!-- Play -->
       <button class="tab" data-tab="games" data-cat="play">🎮 Games</button>
+      <button class="tab" data-tab="builddish" data-cat="play">👨‍🍳 Build Dish</button>
       <button class="tab" data-tab="arithmetic" data-cat="play">🧮 Arith</button>
       <button class="tab" data-tab="cocktail" data-cat="play">🍸 Cocktails</button>
       <!-- Analyze -->
@@ -844,6 +876,11 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
               <option value="fiber">🥬 Fiber</option>
             </select>
             <span id="nutrientStatus" style="font-size:0.7rem;color:var(--text2);margin-left:6px;"></span>
+            <span id="densitySliderWrap" style="display:none;align-items:center;gap:4px;margin-left:6px;">
+              <span style="font-size:0.65rem;color:var(--text2);">Min%</span>
+              <input type="range" id="densityThreshold" min="0" max="10" value="2" step="0.5" style="width:60px;height:4px;" oninput="document.getElementById('densityThresholdLabel').textContent=this.value+'%'" onchange="renderMap()" aria-label="Density threshold">
+              <span id="densityThresholdLabel" style="font-size:0.65rem;color:var(--text2);min-width:20px;">2%</span>
+            </span>
           </div>
           <p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">2D projection of the 300-D embedding space. Switch methods to see different geometric perspectives. Hover over points to identify ingredients. Select a nutrient or season overlay to colour-code the map.</p>
           <div class="map-search-row">
@@ -957,17 +994,38 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
       <h2>🎮 Mini-Games</h2>
       <div class="panel-section">
         <p style="font-size:0.85rem;color:var(--text2);margin-bottom:12px;">Test your culinary intuition. These games use the embedding space to challenge your knowledge of ingredient relationships.</p>
+
+        <!-- Game Mode Selector -->
+        <div class="game-mode-bar">
+          <button class="game-mode-btn active" data-mode="neighbour" onclick="switchGameMode('neighbour')">🔮 Guess Neighbour</button>
+          <button class="game-mode-btn" data-mode="cuisine" onclick="switchGameMode('cuisine')">🌍 ID the Cuisine</button>
+        </div>
+
+        <!-- Score + Leaderboard Summary -->
+        <div class="game-score" id="gameScore">🏆 Won 0/0  ·  🔥 0 streak</div>
+        <div class="game-leaderboard" id="gameLeaderboard"></div>
+
         <div class="game-grid">
-          <div class="game-card">
+          <!-- Guess the Neighbour -->
+          <div class="game-card" id="neighbourGameArea">
             <h3>🔮 Guess the Neighbour</h3>
             <p>Which ingredient is the closest embedding neighbour of <strong id="guessTarget">—</strong>?</p>
-            <div class="game-score" id="guessScore">Score: 0</div>
             <div class="game-options" id="guessOptions"></div>
             <div class="game-hint" id="guessHint"></div>
-            <button class="game-new-btn" onclick="newGuessGame()">🔄 New Question</button>
+            <button class="game-new-btn" onclick="newNeighbourGame()">🔄 New Question</button>
           </div>
-          <div class="game-card">
-            <h3>🧭 Flavour Compass</h3>
+
+          <!-- Cuisine ID -->
+          <div class="game-card" id="cuisineGameArea" style="display:none;">
+            <h3>🌍 ID the Cuisine</h3>
+            <p>What cuisine do <strong id="cuisineTarget">these ingredients</strong> belong to?</p>
+            <div style="font-size:0.85rem;color:var(--accent);margin-bottom:8px;font-weight:500;" id="cuisineIngredients">—</div>
+            <div class="game-options" id="cuisineOptions"></div>
+            <div class="game-hint" id="cuisineHint"></div>
+            <button class="game-new-btn" onclick="newCuisineGame()">🔄 New Question</button>
+          </div>
+
+          <!-- Flavour Compass -->
             <p>See how <strong id="compassTarget">—</strong> relates to all 8 sensory directions.</p>
             <div class="game-compass"><canvas id="compassCanvas" width="280" height="280"></canvas></div>
             <div class="game-compass-label" id="compassLabel">Click ingredients on the map to update</div>
@@ -1116,6 +1174,32 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
             <span class="cocktail-preset" onclick="loadCocktailPreset('vodka','tomato_juice','worcestershire_sauce','lemon')">🍹 Bloody Mary</span>
           </div>
           <div id="cocktailResults"><div class="empty-state" style="font-size:0.8rem;padding:8px;">Pick a spirit and add mixers to discover cocktail-adjacent ingredients.</div></div>
+        </div>
+      </div>
+
+      <!-- 👨‍🍳 Build-A-Dish Panel -->
+      <div class="panel" id="panel-builddish" style="display:none">
+        <h2>👨‍🍳 Build-A-Dish</h2>
+        <div class="panel-section">
+          <p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">Combine 2–6 ingredients and discover what the embedding space suggests to fill out your dish. Add chips below to build your flavour profile.</p>
+          <div class="build-chips" id="buildChips">
+            <div class="build-add-box">
+              <input type="text" id="buildInput" placeholder="Type an ingredient and press Enter…" autocomplete="off" aria-label="Build-A-Dish ingredient">
+              <div class="build-dropdown" id="buildDropdown"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;">
+            <button class="game-new-btn" onclick="runBuildDish()" id="buildRunBtn" disabled>🔍 Find Pairings</button>
+            <button class="game-new-btn" onclick="clearBuildDish()">🗑️ Clear All</button>
+            <button class="game-new-btn" onclick="copyBuildDishIngredients()" id="buildCopyBtn" style="display:none;">📋 Copy Ingredients</button>
+          </div>
+          <div id="buildResults"><div class="empty-state" style="font-size:0.8rem;padding:8px;">Add 2–6 ingredients to discover suggested pairings and your dish's flavour profile.</div></div>
+          <div id="buildFlavourProfile" style="margin-top:10px;display:none;">
+            <h3 style="font-size:0.8rem;color:var(--text2);margin-bottom:6px;">🧭 Flavour Profile</h3>
+            <canvas id="buildCompassCanvas" width="200" height="200" style="width:200px;height:200px;display:block;margin:0 auto;"></canvas>
+            <div id="buildNutritionSummary" style="margin-top:8px;font-size:0.75rem;color:var(--text2);"></div>
+            <div id="buildDietFlags" style="margin-top:4px;font-size:0.7rem;display:flex;gap:4px;flex-wrap:wrap;"></div>
+          </div>
         </div>
       </div>
 
@@ -1340,6 +1424,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
       <button class="chef-export-btn" id="chefExportBtn" onclick="exportSummary()">📋 Export Summary</button>
       <button class="chef-export-btn" id="chefCSVBtn" onclick="exportCSV()" style="margin-top:4px;font-size:0.72rem;">📥 Download Neighbours CSV</button>
       <button class="chef-export-btn" onclick="copyShareLink()" style="margin-top:4px;font-size:0.72rem;">🔗 Copy Share Link</button>
+      <button class="chef-export-btn" onclick="showQRCode()" style="margin-top:4px;font-size:0.72rem;">📱 Show QR Code</button>
     </div>
 
     <div class="app-footer">
@@ -1377,6 +1462,10 @@ const STATE = {
 const MAP_VIEW = { scale: 1, panX: 0, panY: 0 };
 // Map search pulse animation state
 const MAP_PULSE = { active: false, idx: -1, start: 0 };
+// Density heatmap cache (zoom + pan keyed)
+let MAP_DENSITY_CACHE = null;
+// RAF coalescing for map renders
+let MAP_RENDER_PENDING = false;
 
 // ── i18n — lightweight UI string translation ──
 var CURRENT_LANG = 'en';
@@ -1452,6 +1541,149 @@ var UI_STRINGS = {
 
 function tr(key) { return (UI_STRINGS[CURRENT_LANG] && UI_STRINGS[CURRENT_LANG][key]) || (UI_STRINGS.en && UI_STRINGS.en[key]) || key; }
 
+// ── Ingredient Name Translation Tables ──
+// Compact format: { lang: { canonical_name: translated_name, ... } }
+// Falls back to underscored English name
+var INGREDIENT_TRANSLATIONS = {
+  es: {
+    miso: 'miso', tofu: 'tofu', garlic: 'ajo', onion: 'cebolla', tomato: 'tomate',
+    chicken: 'pollo', beef: 'carne de res', pork: 'cerdo', fish: 'pescado',
+    rice: 'arroz', pasta: 'pasta', bread: 'pan', egg: 'huevo', milk: 'leche',
+    butter: 'mantequilla', cheese: 'queso', olive_oil: 'aceite de oliva',
+    salt: 'sal', pepper: 'pimienta', lemon: 'limón', lime: 'lima', sugar: 'azúcar',
+    honey: 'miel', mushroom: 'champiñón', carrot: 'zanahoria', celery: 'apio',
+    potato: 'papa', sweet_potato: 'batata', corn: 'maíz', pea: 'guisante',
+    spinach: 'espinaca', broccoli: 'brócoli', kale: 'col rizada', cabbage: 'repollo',
+    avocado: 'aguacate', cucumber: 'pepino', ginger: 'jengibre', chili: 'chile',
+    cinnamon: 'canela', vanilla: 'vainilla', cumin: 'comino', paprika: 'pimentón',
+    turmeric: 'cúrcuma', cilantro: 'cilantro', basil: 'albahaca', thyme: 'tomillo',
+    rosemary: 'romero', mint: 'menta', oregano: 'orégano', bay_leaf: 'hoja de laurel',
+    soy_sauce: 'salsa de soja', vinegar: 'vinagre', mustard: 'mostaza',
+    yogurt: 'yogur', cream: 'crema', coconut_milk: 'leche de coco',
+    almond: 'almendra', peanut: 'maní', walnut: 'nuez', cashew: 'anacardo',
+    chocolate: 'chocolate', strawberry: 'fresa', banana: 'plátano', apple: 'manzana',
+    orange: 'naranja', grape: 'uva', mango: 'mango', pineapple: 'piña',
+    salmon: 'salmón', tuna: 'atún', shrimp: 'camarón', bacon: 'tocino',
+    ham: 'jamón', sausage: 'salchicha', lamb: 'cordero', duck: 'pato',
+    turkey: 'pavo', bean: 'frijol', lentil: 'lenteja', chickpea: 'garbanzo',
+    quinoa: 'quinoa', oat: 'avena', barley: 'cebada', couscous: 'cuscús',
+    tahini: 'tahini', hummus: 'hummus', salsa: 'salsa', maple_syrup: 'jarabe de arce',
+    sesame_oil: 'aceite de sésamo', coconut_oil: 'aceite de coco',
+    green_onion: 'cebolla verde', bell_pepper: 'pimiento morrón',
+    zucchini: 'calabacín', eggplant: 'berenjena', asparagus: 'espárrago',
+    beet: 'remolacha', radish: 'rábano', parmesan: 'parmesano', mozzarella: 'mozzarella',
+    feta: 'queso feta', ricotta: 'ricota', creme_fraiche: 'crema agria',
+    balsamic_vinegar: 'vinagre balsámico', red_wine: 'vino tinto', white_wine: 'vino blanco',
+    vodka: 'vodka', gin: 'ginebra', rum: 'ron', tequila: 'tequila',
+  },
+  fr: {
+    miso: 'miso', tofu: 'tofu', garlic: 'ail', onion: 'oignon', tomato: 'tomate',
+    chicken: 'poulet', beef: 'bœuf', pork: 'porc', fish: 'poisson',
+    rice: 'riz', pasta: 'pâtes', bread: 'pain', egg: 'œuf', milk: 'lait',
+    butter: 'beurre', cheese: 'fromage', olive_oil: 'huile d\'olive',
+    salt: 'sel', pepper: 'poivre', lemon: 'citron', lime: 'citron vert', sugar: 'sucre',
+    honey: 'miel', mushroom: 'champignon', carrot: 'carotte', celery: 'céleri',
+    potato: 'pomme de terre', sweet_potato: 'patate douce', corn: 'maïs', pea: 'petit pois',
+    spinach: 'épinard', broccoli: 'brocoli', kale: 'chou frisé', cabbage: 'chou',
+    avocado: 'avocat', cucumber: 'concombre', ginger: 'gingembre', chili: 'piment',
+    cinnamon: 'cannelle', vanilla: 'vanille', cumin: 'cumin', paprika: 'paprika',
+    turmeric: 'curcuma', cilantro: 'coriandre', basil: 'basilic', thyme: 'thym',
+    rosemary: 'romarin', mint: 'menthe', oregano: 'origan', bay_leaf: 'feuille de laurier',
+    soy_sauce: 'sauce soja', vinegar: 'vinaigre', mustard: 'moutarde',
+    yogurt: 'yaourt', cream: 'crème', coconut_milk: 'lait de coco',
+    almond: 'amande', peanut: 'cacahuète', walnut: 'noix', cashew: 'noix de cajou',
+    chocolate: 'chocolat', strawberry: 'fraise', banana: 'banane', apple: 'pomme',
+    orange: 'orange', grape: 'raisin', mango: 'mangue', pineapple: 'ananas',
+    salmon: 'saumon', tuna: 'thon', shrimp: 'crevette', bacon: 'lard',
+    ham: 'jambon', sausage: 'saucisse', lamb: 'agneau', duck: 'canard',
+    turkey: 'dinde', bean: 'haricot', lentil: 'lentille', chickpea: 'pois chiche',
+    quinoa: 'quinoa', oat: 'avoine', barley: 'orge', couscous: 'couscous',
+    tahini: 'tahini', hummus: 'houmous', salsa: 'salsa', maple_syrup: 'sirop d\'érable',
+    sesame_oil: 'huile de sésame', coconut_oil: 'huile de coco',
+    green_onion: 'oignon vert', bell_pepper: 'poivron',
+    zucchini: 'courgette', eggplant: 'aubergine', asparagus: 'asperge',
+    beet: 'betterave', radish: 'radis', parmesan: 'parmesan', mozzarella: 'mozzarella',
+    feta: 'feta', ricotta: 'ricotta', creme_fraiche: 'crème fraîche',
+    balsamic_vinegar: 'vinaigre balsamique', red_wine: 'vin rouge', white_wine: 'vin blanc',
+    vodka: 'vodka', gin: 'gin', rum: 'rhum', tequila: 'tequila',
+  },
+  zh: {
+    miso: '味噌', tofu: '豆腐', garlic: '大蒜', onion: '洋葱', tomato: '番茄',
+    chicken: '鸡肉', beef: '牛肉', pork: '猪肉', fish: '鱼',
+    rice: '米饭', pasta: '意面', bread: '面包', egg: '鸡蛋', milk: '牛奶',
+    butter: '黄油', cheese: '奶酪', olive_oil: '橄榄油',
+    salt: '盐', pepper: '胡椒', lemon: '柠檬', lime: '青柠', sugar: '糖',
+    honey: '蜂蜜', mushroom: '蘑菇', carrot: '胡萝卜', celery: '芹菜',
+    potato: '土豆', sweet_potato: '红薯', corn: '玉米', pea: '豌豆',
+    spinach: '菠菜', broccoli: '西兰花', kale: '羽衣甘蓝', cabbage: '卷心菜',
+    avocado: '牛油果', cucumber: '黄瓜', ginger: '姜', chili: '辣椒',
+    cinnamon: '肉桂', vanilla: '香草', cumin: '孜然', paprika: '红椒粉',
+    turmeric: '姜黄', cilantro: '香菜', basil: '罗勒', thyme: '百里香',
+    rosemary: '迷迭香', mint: '薄荷', oregano: '牛至', bay_leaf: '月桂叶',
+    soy_sauce: '酱油', vinegar: '醋', mustard: '芥末',
+    yogurt: '酸奶', cream: '奶油', coconut_milk: '椰奶',
+    almond: '杏仁', peanut: '花生', walnut: '核桃', cashew: '腰果',
+    chocolate: '巧克力', strawberry: '草莓', banana: '香蕉', apple: '苹果',
+    orange: '橙子', grape: '葡萄', mango: '芒果', pineapple: '菠萝',
+    salmon: '三文鱼', tuna: '金枪鱼', shrimp: '虾', bacon: '培根',
+    ham: '火腿', sausage: '香肠', lamb: '羊肉', duck: '鸭肉',
+    turkey: '火鸡', bean: '豆子', lentil: '扁豆', chickpea: '鹰嘴豆',
+    quinoa: '藜麦', oat: '燕麦', barley: '大麦', couscous: '古斯米',
+    tahini: '芝麻酱', hummus: '鹰嘴豆泥', salsa: '莎莎酱', maple_syrup: '枫糖浆',
+    sesame_oil: '芝麻油', coconut_oil: '椰子油',
+    green_onion: '青葱', bell_pepper: '甜椒',
+    zucchini: '西葫芦', eggplant: '茄子', asparagus: '芦笋',
+    beet: '甜菜根', radish: '萝卜', parmesan: '帕玛森奶酪', mozzarella: '马苏里拉奶酪',
+    feta: '菲达奶酪', ricotta: '里科塔奶酪', creme_fraiche: '法式酸奶油',
+    balsamic_vinegar: '香醋', red_wine: '红酒', white_wine: '白酒',
+    vodka: '伏特加', gin: '金酒', rum: '朗姆酒', tequila: '龙舌兰酒',
+  },
+  ja: {
+    miso: '味噌', tofu: '豆腐', garlic: 'ニンニク', onion: '玉ねぎ', tomato: 'トマト',
+    chicken: '鶏肉', beef: '牛肉', pork: '豚肉', fish: '魚',
+    rice: '米', pasta: 'パスタ', bread: 'パン', egg: '卵', milk: '牛乳',
+    butter: 'バター', cheese: 'チーズ', olive_oil: 'オリーブオイル',
+    salt: '塩', pepper: 'コショウ', lemon: 'レモン', lime: 'ライム', sugar: '砂糖',
+    honey: 'ハチミツ', mushroom: 'キノコ', carrot: 'ニンジン', celery: 'セロリ',
+    potato: 'ジャガイモ', sweet_potato: 'サツマイモ', corn: 'トウモロコシ', pea: 'エンドウ',
+    spinach: 'ホウレンソウ', broccoli: 'ブロッコリー', kale: 'ケール', cabbage: 'キャベツ',
+    avocado: 'アボカド', cucumber: 'キュウリ', ginger: 'ショウガ', chili: '唐辛子',
+    cinnamon: 'シナモン', vanilla: 'バニラ', cumin: 'クミン', paprika: 'パプリカ',
+    turmeric: 'ターメリック', cilantro: 'コリアンダー', basil: 'バジル', thyme: 'タイム',
+    rosemary: 'ローズマリー', mint: 'ミント', oregano: 'オレガノ', bay_leaf: '月桂樹の葉',
+    soy_sauce: '醤油', vinegar: '酢', mustard: 'マスタード',
+    yogurt: 'ヨーグルト', cream: 'クリーム', coconut_milk: 'ココナッツミルク',
+    almond: 'アーモンド', peanut: 'ピーナッツ', walnut: 'クルミ', cashew: 'カシューナッツ',
+    chocolate: 'チョコレート', strawberry: 'イチゴ', banana: 'バナナ', apple: 'リンゴ',
+    orange: 'オレンジ', grape: 'ブドウ', mango: 'マンゴー', pineapple: 'パイナップル',
+    salmon: 'サーモン', tuna: 'マグロ', shrimp: 'エビ', bacon: 'ベーコン',
+    ham: 'ハム', sausage: 'ソーセージ', lamb: '子羊', duck: '鴨',
+    turkey: '七面鳥', bean: '豆', lentil: 'レンズ豆', chickpea: 'ヒヨコ豆',
+    quinoa: 'キヌア', oat: 'オート麦', barley: '大麦', couscous: 'クスクス',
+    tahini: 'タヒニ', hummus: 'フムス', salsa: 'サルサ', maple_syrup: 'メープルシロップ',
+    sesame_oil: 'ごま油', coconut_oil: 'ココナッツオイル',
+    green_onion: 'ネギ', bell_pepper: 'パプリカ',
+    zucchini: 'ズッキーニ', eggplant: 'ナス', asparagus: 'アスパラガス',
+    beet: 'ビーツ', radish: '大根', parmesan: 'パルメザン', mozzarella: 'モッツァレラ',
+    feta: 'フェタチーズ', ricotta: 'リコッタ', creme_fraiche: 'クレームフレッシュ',
+    balsamic_vinegar: 'バルサミコ酢', red_wine: '赤ワイン', white_wine: '白ワイン',
+    vodka: 'ウォッカ', gin: 'ジン', rum: 'ラム', tequila: 'テキーラ',
+  }
+};
+
+// Translate an ingredient name to the current language
+function trIngredient(name) {
+  if (!name) return '';
+  var lang = CURRENT_LANG;
+  if (lang === 'en' || !INGREDIENT_TRANSLATIONS[lang] || !INGREDIENT_TRANSLATIONS[lang][name]) {
+    return name.replace(/_/g, ' ');
+  }
+  return INGREDIENT_TRANSLATIONS[lang][name];
+}
+
+// Display a canonical ingredient name in the current language (replaces underscores)
+function displayName(name) { return trIngredient(name); }
+
 function setLanguage(lang) {
   CURRENT_LANG = lang;
   try { localStorage.setItem('epicure_lang', lang); } catch(e) {}
@@ -1472,6 +1704,11 @@ function setLanguage(lang) {
   if (ct) ct.innerHTML = tr('chefToolkit');
   // Store current lang for dynamic elements
   document.documentElement.lang = lang === 'zh' ? 'zh' : lang === 'ja' ? 'ja' : lang;
+  // Refresh displayed ingredient name if one is selected
+  if (STATE.selectedIngredient) {
+    document.getElementById('selectedIngredient').textContent = '✓ ' + displayName(STATE.selectedIngredient);
+    document.getElementById('chefIngredientName').textContent = displayName(STATE.selectedIngredient);
+  }
 }
 
 // Apply saved language on load
@@ -1956,7 +2193,7 @@ function selectIngredient(name) {
   STATE.selectedIdx = idx;
   trackEvent('ingredient', name);
 
-  document.getElementById('selectedIngredient').textContent = `✓ ${name.replace(/_/g, ' ')}`;
+  document.getElementById('selectedIngredient').textContent = '✓ ' + displayName(name);
 
   // Update URL hash with ingredient
   const hashTab = STATE.currentTab || 'neighbours';
@@ -2304,7 +2541,7 @@ function renderChefToolkit() {
   const idx = STATE.selectedIdx;
   const vec = model.vectors[idx];
 
-  document.getElementById('chefIngredientName').textContent = name.replace(/_/g, ' ');
+  document.getElementById('chefIngredientName').textContent = displayName(name);
 
   // 1. Dietary Profile + GLP-1
   const dietaryTags = ['vegan', 'vegetarian', 'gluten_free', 'nut_free', 'soy_free', 'dairy_free'];
@@ -2365,7 +2602,7 @@ function renderChefToolkit() {
         : '';
       const explanation = explainSubstitute(sName, sim);
       return `<div class="chef-sub-row">
-        <span class="chef-sub-item" data-name="${sName}">${glpIcon} ${sName.replace(/_/g, ' ')} <span class="sim">${(sim*100).toFixed(0)}%</span>${consensusBadge}</span>
+        <span class="chef-sub-item" data-name="${sName}">${glpIcon} ${displayName(sName)} <span class="sim">${(sim*100).toFixed(0)}%</span>${consensusBadge}</span>
         <span class="chef-sub-why" data-sub="${sName}" onclick="toggleSubExplain('${sName}')" title="Why this substitute?">💡</span>
         <div class="chef-sub-explain" id="explain-${sName}" style="display:none;font-size:0.68rem;color:var(--text2);padding:4px 8px;margin:2px 0 6px 0;background:var(--bg);border-radius:4px;line-height:1.5;">${explanation}${consensusHtml}</div>
       </div>`;
@@ -2503,12 +2740,75 @@ function toggleSubExplain(name) {
 
 // ── Mini-Games ──
 
-let guessAnswerName = '';
+// Game state machine
+STATE.games = {
+  mode: 'neighbour',  // 'neighbour' | 'cuisine'
+  answerName: '',
+  stats: { neighbour: { played:0, won:0, bestStreak:0, currentStreak:0, lastScores:[] }, cuisine: { played:0, won:0, bestStreak:0, currentStreak:0, lastScores:[] } }
+};
+(function(){ try { var g = JSON.parse(localStorage.getItem('epicure_games')||'{}'); if(g.neighbour) STATE.games.stats.neighbour = g.neighbour; if(g.cuisine) STATE.games.stats.cuisine = g.cuisine; }catch(e){} })();
+
+function saveGameStats() {
+  try { localStorage.setItem('epicure_games', JSON.stringify(STATE.games.stats)); } catch(e) {}
+}
+
+function renderLeaderboard() {
+  var el = document.getElementById('gameLeaderboard');
+  if (!el) return;
+  var s = STATE.games.stats;
+  el.innerHTML = '<div class="lb-grid">' +
+    '<div class="lb-card"><div class="lb-icon">🔮</div><div class="lb-label">Neighbour</div><div class="lb-row">Won <strong>' + (s.neighbour.played?s.neighbour.won:0) + '/' + s.neighbour.played + '</strong></div><div class="lb-row">🔥 Best streak <strong>' + s.neighbour.bestStreak + '</strong></div></div>' +
+    '<div class="lb-card"><div class="lb-icon">🌍</div><div class="lb-label">Cuisine ID</div><div class="lb-row">Won <strong>' + (s.cuisine.played?s.cuisine.won:0) + '/' + s.cuisine.played + '</strong></div><div class="lb-row">🔥 Best streak <strong>' + s.cuisine.bestStreak + '</strong></div></div>' +
+    '<div class="lb-card lb-total"><div class="lb-icon">🏆</div><div class="lb-label">Total</div><div class="lb-row">Won <strong>' + ((s.neighbour.won||0)+(s.cuisine.won||0)) + '/' + ((s.neighbour.played||0)+(s.cuisine.played||0)) + '</strong></div><div class="lb-row">🎯 ' + (function(){ var t=(s.neighbour.played||0)+(s.cuisine.played||0);return t?Math.round((((s.neighbour.won||0)+(s.cuisine.won||0))/t)*100):0}() + '%</div></div></div>');
+}
+
+function recordGameResult(mode, correct) {
+  var s = STATE.games.stats[mode];
+  s.played = (s.played || 0) + 1;
+  if (correct) {
+    s.won = (s.won || 0) + 1;
+    s.currentStreak = (s.currentStreak || 0) + 1;
+    if (s.currentStreak > (s.bestStreak || 0)) s.bestStreak = s.currentStreak;
+  } else {
+    s.currentStreak = 0;
+  }
+  s.lastScores = s.lastScores || [];
+  s.lastScores.push(correct ? 1 : 0);
+  if (s.lastScores.length > 10) s.lastScores.shift();
+  saveGameStats();
+  renderLeaderboard();
+  updateScoreDisplay();
+}
+
+function updateScoreDisplay() {
+  var el = document.getElementById('gameScore');
+  if (!el) return;
+  var mode = STATE.games.mode;
+  var s = STATE.games.stats[mode];
+  el.textContent = '🏆 Won ' + (s.won||0) + '/' + (s.played||0) + '  ·  🔥 ' + (s.currentStreak||0) + ' streak';
+}
+
+function switchGameMode(mode) {
+  STATE.games.mode = mode;
+  document.querySelectorAll('.game-mode-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.mode === mode); });
+  document.getElementById('neighbourGameArea').style.display = mode === 'neighbour' ? '' : 'none';
+  document.getElementById('cuisineGameArea').style.display = mode === 'cuisine' ? '' : 'none';
+  updateScoreDisplay();
+  if (mode === 'neighbour') newNeighbourGame();
+  else newCuisineGame();
+}
 
 function renderGames() {
-  if (!STATE.selectedIngredient || !STATE.modelsLoaded[STATE.currentModel]) return;
-  const canvas = document.getElementById('compassCanvas');
-  const ctx = canvas.getContext('2d');
+  // Still render leaderboard and initialise games even without a selected ingredient
+  renderLeaderboard();
+  updateScoreDisplay();
+
+  if (!STATE.modelsLoaded[STATE.currentModel]) return;
+
+  // Render the flavour compass if an ingredient is selected
+  if (STATE.selectedIngredient) {
+    const canvas = document.getElementById('compassCanvas');
+    const ctx = canvas.getContext('2d');
   const cx = canvas.width / 2, cy = canvas.height / 2, r = 100;
   const dirs = ['sweet','spicy','savory','bitter','sour','rich','herbal','pungent'];
   const labels = ['Sweet','Spicy','Savory','Bitter','Sour','Rich','Herbal','Pungent'];
@@ -2572,15 +2872,21 @@ function renderGames() {
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  document.getElementById('compassTarget').textContent = STATE.selectedIngredient.replace(/_/g, ' ');
+  document.getElementById('compassTarget').textContent = displayName(STATE.selectedIngredient);
   document.getElementById('compassLabel').textContent = 'Sensory profile for the selected ingredient';
 
   const guessTarget = document.getElementById('guessTarget');
-  if (guessTarget) guessTarget.textContent = STATE.selectedIngredient.replace(/_/g, ' ');
-  newGuessGame();
+  if (guessTarget) guessTarget.textContent = displayName(STATE.selectedIngredient);
+  }
+
+  // Start game based on current mode (Cuisine mode works without selection)
+  if (STATE.games.mode === 'neighbour' && STATE.selectedIngredient) newNeighbourGame();
+  else if (STATE.games.mode === 'cuisine') newCuisineGame();
+  renderLeaderboard();
+  updateScoreDisplay();
 }
 
-function newGuessGame() {
+function newNeighbourGame() {
   const model = STATE.models[STATE.currentModel];
   if (!model || !model.neighbours || model.neighbours.length === 0) return;
   const names = STATE.data.ingredients;
@@ -2595,14 +2901,14 @@ function newGuessGame() {
   if (!targetName) return;
 
   const neighbour = model.neighbours[targetIdx][0];
-  guessAnswerName = neighbour[0];
+  STATE.games.answerName = neighbour[0];
 
   const optionsEl = document.getElementById('guessOptions');
   const hintEl = document.getElementById('guessHint');
   if (hintEl) hintEl.textContent = '';
 
   const decoys = [];
-  const used = new Set([guessAnswerName, targetName]);
+  const used = new Set([STATE.games.answerName, targetName]);
   while (decoys.length < 3 && decoys.length < names.length - 2) {
     const di = Math.floor(Math.random() * names.length);
     const dn = names[di];
@@ -2612,7 +2918,7 @@ function newGuessGame() {
     }
   }
 
-  const options = [guessAnswerName, ...decoys];
+  const options = [STATE.games.answerName, ...decoys];
   for (let i = options.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [options[i], options[j]] = [options[j], options[i]];
@@ -2625,28 +2931,83 @@ function newGuessGame() {
   ).join('');
 
   optionsEl.querySelectorAll('.game-option').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function neighbourClick() {
       const chosen = btn.dataset.name;
-      const isCorrect = chosen === guessAnswerName;
-      const scoreEl = document.getElementById('guessScore');
+      const isCorrect = chosen === STATE.games.answerName;
+      const hintEl2 = document.getElementById('guessHint');
       if (isCorrect) {
-        btn.style.background = 'var(--green)';
-        btn.style.color = '#000';
-        const current = parseInt(scoreEl.textContent.replace('Score: ', '')) || 0;
-        scoreEl.textContent = `Score: ${current + 1}`;
-        if (hintEl) hintEl.textContent = '✅ Correct!';
+        btn.classList.add('correct');
+        if (hintEl2) hintEl2.textContent = '✅ Correct!';
       } else {
-        btn.style.background = 'var(--red)';
-        btn.style.opacity = '0.5';
-        if (hintEl) hintEl.textContent = `❌ Nope! The closest neighbour is "${guessAnswerName.replace(/_/g, ' ')}".`;
+        btn.classList.add('wrong');
+        if (hintEl2) hintEl2.textContent = `❌ Nope! The closest neighbour is "${STATE.games.answerName.replace(/_/g, ' ')}".`;
         optionsEl.querySelectorAll('.game-option').forEach(b => {
-          if (b.dataset.name === guessAnswerName) {
-            b.style.background = 'var(--green)';
-            b.style.borderColor = 'var(--green)';
-          }
+          if (b.dataset.name === STATE.games.answerName) b.classList.add('correct');
         });
       }
       optionsEl.querySelectorAll('.game-option').forEach(b => b.disabled = true);
+      recordGameResult('neighbour', isCorrect);
+    });
+  });
+}
+
+// ── Cuisine ID Game Mode ──
+
+function newCuisineGame() {
+  const names = STATE.data.ingredients;
+  const dirs = STATE.data.directions;
+  if (!names || !dirs) return;
+  const model = getModel();
+  if (!model || !model.vectors) return;
+
+  const cuisineKeys = ['east_asian','western_atlantic','mediterranean','eastern_european','southeast_asian','south_asian','latin_american','japanese'];
+  const cuisineLabels = { east_asian:'East Asian', western_atlantic:'Western Atlantic', mediterranean:'Mediterranean', eastern_european:'Eastern European', southeast_asian:'SE Asian', south_asian:'South Asian', latin_american:'Latin American', japanese:'Japanese' };
+
+  let chosenCuisine, candidates = [];
+  for (let attempt = 0; attempt < 30; attempt++) {
+    chosenCuisine = cuisineKeys[Math.floor(Math.random() * cuisineKeys.length)];
+    const vec = dirs[chosenCuisine];
+    if (!vec) continue;
+    candidates = [];
+    for (let i = 0; i < names.length; i++) {
+      const v = model.vectors[i];
+      if (v && dotProduct(v, vec) > 0.15) candidates.push(names[i]);
+    }
+    if (candidates.length >= 3) break;
+  }
+  if (candidates.length < 3) { document.getElementById('cuisineHint').textContent = '⚠️ Not enough cuisine data loaded. Try again.'; return; }
+
+  const shown = candidates.sort(() => Math.random() - 0.5).slice(0, Math.min(4, candidates.length));
+  STATE.games.answerName = chosenCuisine;
+
+  const decoys = cuisineKeys.filter(function(c) { return c !== chosenCuisine; }).sort(() => Math.random() - 0.5).slice(0, 3);
+  const options = [chosenCuisine, ...decoys].sort(() => Math.random() - 0.5);
+
+  document.getElementById('cuisineIngredients').textContent = shown.map(function(n) { return n.replace(/_/g, ' '); }).join(', ');
+  document.getElementById('cuisineHint').textContent = '';
+  document.getElementById('cuisineTarget').textContent = 'these ingredients';
+
+  const optsEl = document.getElementById('cuisineOptions');
+  optsEl.innerHTML = options.map(function(c) {
+    return '<button class="game-option" data-cuisine="' + c + '">' + cuisineLabels[c] + '</button>';
+  }).join('');
+
+  optsEl.querySelectorAll('.game-option').forEach(function(btn) {
+    btn.addEventListener('click', function cuisineClick() {
+      const chosen = btn.dataset.cuisine;
+      const isCorrect = chosen === STATE.games.answerName;
+      if (isCorrect) {
+        btn.classList.add('correct');
+        document.getElementById('cuisineHint').textContent = '✅ Correct! These are ' + cuisineLabels[chosen] + ' ingredients.';
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('cuisineHint').textContent = '❌ Nope! These are ' + cuisineLabels[STATE.games.answerName] + ' ingredients.';
+        optsEl.querySelectorAll('.game-option').forEach(function(b) {
+          if (b.dataset.cuisine === STATE.games.answerName) b.classList.add('correct');
+        });
+      }
+      optsEl.querySelectorAll('.game-option').forEach(function(b) { b.disabled = true; });
+      recordGameResult('cuisine', isCorrect);
     });
   });
 }
@@ -3171,6 +3532,277 @@ function runCocktail() {
       document.getElementById('searchInput').value = n;
     });
   });
+}
+
+// ── Build-A-Dish — Multi-ingredient Composition ──
+
+const BUILD_INGREDIENTS = [];
+
+function setupBuildDish() {
+  const input = document.getElementById('buildInput');
+  if (!input) return;
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') addBuildIngredient();
+  });
+  input.addEventListener('input', function() {
+    const val = input.value.trim().toLowerCase();
+    if (val.length < 1) { document.getElementById('buildDropdown').innerHTML = ''; return; }
+    const names = getIngredientNames();
+    const matches = names.filter(function(n) { return n.indexOf(val) >= 0 || val.indexOf(n) >= 0; }).slice(0, 8);
+    const dd = document.getElementById('buildDropdown');
+    if (matches.length === 0) { dd.innerHTML = ''; return; }
+    dd.innerHTML = matches.map(function(n) {
+      return '<div class="build-dd-item" data-name="' + n + '">' + n.replace(/_/g, ' ') + '</div>';
+    }).join('');
+    dd.querySelectorAll('.build-dd-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        input.value = el.dataset.name.replace(/_/g, ' ');
+        document.getElementById('buildDropdown').innerHTML = '';
+        addBuildIngredient();
+      });
+    });
+  });
+  input.addEventListener('blur', function() { setTimeout(function() { document.getElementById('buildDropdown').innerHTML = ''; }, 200); });
+}
+
+function addBuildIngredient() {
+  const input = document.getElementById('buildInput');
+  const raw = input.value.trim().toLowerCase().replace(/\s+/g, '_');
+  const names = getIngredientNames();
+  const idx = names.indexOf(raw);
+  if (idx < 0) { input.style.borderColor = 'var(--red)'; setTimeout(function(){ input.style.borderColor = ''; }, 500); return; }
+  if (BUILD_INGREDIENTS.indexOf(raw) >= 0) { input.value = ''; return; }
+  if (BUILD_INGREDIENTS.length >= 6) return;
+  BUILD_INGREDIENTS.push(raw);
+  input.value = '';
+  renderBuildChips();
+  document.getElementById('buildRunBtn').disabled = BUILD_INGREDIENTS.length < 2;
+  document.getElementById('buildCopyBtn').style.display = BUILD_INGREDIENTS.length > 0 ? '' : 'none';
+  document.getElementById('buildDropdown').innerHTML = '';
+}
+
+function removeBuildIngredient(name) {
+  var i = BUILD_INGREDIENTS.indexOf(name);
+  if (i >= 0) BUILD_INGREDIENTS.splice(i, 1);
+  renderBuildChips();
+  document.getElementById('buildRunBtn').disabled = BUILD_INGREDIENTS.length < 2;
+  document.getElementById('buildCopyBtn').style.display = BUILD_INGREDIENTS.length > 0 ? '' : 'none';
+  if (BUILD_INGREDIENTS.length === 0) {
+    document.getElementById('buildResults').innerHTML = '<div class="empty-state" style="font-size:0.8rem;padding:8px;">Add 2–6 ingredients to discover suggested pairings and your dish\'s flavour profile.</div>';
+    document.getElementById('buildFlavourProfile').style.display = 'none';
+  }
+}
+
+function renderBuildChips() {
+  const el = document.getElementById('buildChips');
+  const chips = BUILD_INGREDIENTS.map(function(n) {
+    return '<span class="build-chip">' + n.replace(/_/g, ' ') + '<span class="build-chip-x" onclick="removeBuildIngredient(\'' + n + '\')">✕</span></span>';
+  }).join('');
+  el.innerHTML = chips + '<div class="build-add-box"><input type="text" id="buildInput" placeholder="' + (BUILD_INGREDIENTS.length < 6 ? 'Type an ingredient and press Enter…' : 'Max 6 ingredients') + '" autocomplete="off" aria-label="Build-A-Dish ingredient"><div class="build-dropdown" id="buildDropdown"></div></div>';
+  if (BUILD_INGREDIENTS.length < 6) setupBuildDish();
+}
+
+function clearBuildDish() {
+  BUILD_INGREDIENTS.length = 0;
+  renderBuildChips();
+  document.getElementById('buildRunBtn').disabled = true;
+  document.getElementById('buildCopyBtn').style.display = 'none';
+  document.getElementById('buildResults').innerHTML = '<div class="empty-state" style="font-size:0.8rem;padding:8px;">Add 2–6 ingredients to discover suggested pairings and your dish\'s flavour profile.</div>';
+  document.getElementById('buildFlavourProfile').style.display = 'none';
+}
+
+function copyBuildDishIngredients() {
+  var text = BUILD_INGREDIENTS.map(function(n) { return n.replace(/_/g, ' '); }).join(', ');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() {
+      var btn = document.getElementById('buildCopyBtn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(function(){ btn.textContent = '📋 Copy Ingredients'; }, 1500);
+    });
+  }
+}
+
+function runBuildDish() {
+  if (BUILD_INGREDIENTS.length < 2) return;
+  var model = getModel();
+  if (!model || !model.vectors) { document.getElementById('buildResults').innerHTML = '<div class="empty-state">⚠️ Model data not loaded</div>'; return; }
+  var names = STATE.data.ingredients;
+  var dim = model.vectors[0].length;
+
+  // Compute centroid of selected ingredients
+  var centroid = new Array(dim).fill(0);
+  var matched = [];
+  BUILD_INGREDIENTS.forEach(function(name) {
+    var idx = names.indexOf(name);
+    if (idx >= 0) {
+      matched.push({ name: name, idx: idx });
+      var v = model.vectors[idx];
+      for (var j = 0; j < dim; j++) centroid[j] += v[j];
+    }
+  });
+  for (var j = 0; j < dim; j++) centroid[j] /= matched.length;
+
+  // Score all ingredients against centroid
+  var scores = [];
+  var usedSet = new Set(BUILD_INGREDIENTS);
+  for (var i = 0; i < names.length; i++) {
+    if (usedSet.has(names[i])) continue;
+    var sim = dotProduct(centroid, model.vectors[i]);
+    scores.push({ name: names[i], sim: sim });
+  }
+  scores.sort(function(a, b) { return b.sim - a.sim; });
+  var top = scores.slice(0, 12);
+  var maxSim = top.length > 0 ? top[0].sim : 1;
+
+  // Category breakdown
+  var cats = {};
+  matched.forEach(function(m) { categorizeIngredient(m.name, cats); });
+
+  // Render results
+  var resultsEl = document.getElementById('buildResults');
+  resultsEl.innerHTML =
+    '<div style="margin-bottom:6px;font-size:0.75rem;color:var(--text2);">Based on <strong style="color:var(--accent)">' + matched.map(function(m){ return m.name.replace(/_/g,' '); }).join(', ') + '</strong> — suggested pairings:</div>' +
+    '<div class="neighbour-grid" style="grid-template-columns:1fr 1fr;">' +
+    top.map(function(item, i) {
+      var p = Math.max((item.sim / maxSim) * 100, 3);
+      return '<div class="neighbour-card fade-in" style="animation-delay:' + (i*30) + 'ms;cursor:pointer;padding:6px 10px;" onclick="selectIngredient(\'' + item.name + '\');document.getElementById(\'searchInput\').value=\'' + item.name + '\';">' +
+        '<span class="name">' + item.name.replace(/_/g, ' ') + '</span>' +
+        '<div class="sim-wrap"><div class="sim-bar" style="width:' + p + '%;background:var(--accent2)"></div>' +
+        '<span class="sim-label">' + (item.sim * 100).toFixed(0) + '%</span></div></div>';
+    }).join('') + '</div>' +
+    '<div id="buildCatSummary" style="margin-top:8px;"></div>';
+
+  // Category summary
+  var catKeys = Object.keys(cats);
+  if (catKeys.length > 0) {
+    document.getElementById('buildCatSummary').innerHTML =
+      '<div style="font-size:0.75rem;color:var(--text2);margin-bottom:4px;">📦 Ingredient categories:</div>' +
+      '<div style="display:flex;gap:4px;flex-wrap:wrap;">' +
+      catKeys.map(function(c) { return '<span style="padding:2px 8px;border-radius:99px;font-size:0.7rem;background:' + cats[c].color + '22;border:1px solid ' + cats[c].color + '44;color:' + cats[c].color + ';">' + cats[c].label + ' <strong>' + cats[c].count + '</strong></span>'; }).join('') +
+      '</div>';
+  }
+
+  // Render flavour profile compass
+  renderBuildFlavourProfile(centroid);
+
+  // Diet flags
+  renderBuildDietFlags(matched);
+}
+
+function categorizeIngredient(name, cats) {
+  var catMap = { protein: ['meat','chicken','beef','pork','lamb','fish','shrimp','tofu','tempeh','seitan','egg','bean','lentil','chickpea','nut','turkey','duck','sausage','bacon','ham','milk','cheese'],
+    produce: ['tomato','onion','garlic','carrot','celery','pepper','mushroom','broccoli','spinach','kale','cabbage','cauliflower','zucchini','eggplant','asparagus','corn','pea','avocado','leek','scallion','ginger','potato','radish','beet','cucumber','squash'],
+    fruit: ['apple','banana','orange','lemon','lime','grape','berry','mango','pineapple','coconut','peach','cherry','fig','date','raisin','melon'],
+    spice: ['basil','thyme','rosemary','oregano','parsley','cilantro','mint','dill','cumin','paprika','turmeric','cinnamon','vanilla','cardamom','nutmeg','coriander','chili'],
+    dairy: ['milk','cheese','butter','cream','yogurt','ghee','mozzarella','parmesan','ricotta','feta'],
+    grain: ['rice','pasta','noodle','bread','flour','oat','quinoa','couscous','barley','potato','corn','tortilla'],
+    condiment: ['soy_sauce','vinegar','oil','mustard','honey','miso','sauce','paste','salsa','hummus','tahini'] };
+  var catColors = { protein: '#f87171', produce: '#4ade80', fruit: '#fbbf24', spice: '#c084fc', dairy: '#60a5fa', grain: '#fb923c', condiment: '#f472b6' };
+  var catLabels = { protein: '🥩 Protein', produce: '🥬 Produce', fruit: '🍎 Fruit', spice: '🌿 Spice', dairy: '🧀 Dairy', grain: '🍚 Grain', condiment: '🧂 Condiment' };
+  for (var cid in catMap) {
+    if (catMap[cid].some(function(kw){ return name.indexOf(kw) >= 0 || kw.indexOf(name) >= 0; })) {
+      if (!cats[cid]) cats[cid] = { label: catLabels[cid], count: 0, color: catColors[cid] };
+      cats[cid].count++;
+      return;
+    }
+  }
+  if (!cats['other']) cats['other'] = { label: '📦 Other', count: 0, color: '#9999b8' };
+  cats['other'].count++;
+}
+
+function renderBuildFlavourProfile(centroid) {
+  var canvas = document.getElementById('buildCompassCanvas');
+  var ctx = canvas.getContext('2d');
+  var cx2 = canvas.width / 2, cy2 = canvas.height / 2, r = 75;
+  var dirs = ['sweet','spicy','savory','bitter','sour','rich','herbal','pungent'];
+  var labels = ['Sweet','Spicy','Savory','Bitter','Sour','Rich','Herbal','Pungent'];
+  var directions = STATE.data.directions;
+  if (!directions) { document.getElementById('buildFlavourProfile').style.display = 'none'; return; }
+
+  var scores = dirs.map(function(d) {
+    var dv = directions[d];
+    return dv ? Math.max(0, dotProduct(centroid, dv)) : 0;
+  });
+  var maxScore = Math.max.apply(null, scores.concat([0.01]));
+  var normed = scores.map(function(s) { return (s / maxScore) * r; });
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  var n = dirs.length;
+  // Grid rings
+  for (var ring = 1; ring <= 3; ring++) {
+    ctx.beginPath();
+    var frac = ring / 3;
+    for (var i2 = 0; i2 < n; i2++) {
+      var ang = (Math.PI * 2 * i2) / n - Math.PI / 2;
+      var x = cx2 + r * frac * Math.cos(ang);
+      var y2 = cy2 + r * frac * Math.sin(ang);
+      i2 === 0 ? ctx.moveTo(x, y2) : ctx.lineTo(x, y2);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  // Axes
+  for (var i3 = 0; i3 < n; i3++) {
+    var ang2 = (Math.PI * 2 * i3) / n - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx2, cy2);
+    ctx.lineTo(cx2 + r * Math.cos(ang2), cy2 + r * Math.sin(ang2));
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.stroke();
+    var lx = cx2 + (r + 15) * Math.cos(ang2);
+    var ly = cy2 + (r + 15) * Math.sin(ang2);
+    ctx.fillStyle = '#9999b8';
+    ctx.font = '8px sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(labels[i3], lx, ly);
+  }
+  // Data polygon
+  ctx.beginPath();
+  for (var i4 = 0; i4 < n; i4++) {
+    var ang3 = (Math.PI * 2 * i4) / n - Math.PI / 2;
+    var x2 = cx2 + normed[i4] * Math.cos(ang3);
+    var y3 = cy2 + normed[i4] * Math.sin(ang3);
+    i4 === 0 ? ctx.moveTo(x2, y3) : ctx.lineTo(x2, y3);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(192, 132, 252, 0.2)';
+  ctx.fill();
+  ctx.strokeStyle = '#c084fc';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  document.getElementById('buildFlavourProfile').style.display = '';
+}
+
+function renderBuildDietFlags(matched) {
+  var flagsEl = document.getElementById('buildDietFlags');
+  var flags = [];
+  var names = matched.map(function(m) { return m.name; });
+
+  // GLP-1 check
+  if (typeof checkGLP1 === 'function') {
+    var glp = names.some(function(n) { return checkGLP1(n); });
+    if (glp) flags.push('<span style="padding:2px 8px;border-radius:99px;font-size:0.68rem;background:#4ade8033;border:1px solid #4ade8066;color:#4ade80;">💊 GLP-1 Friendly</span>');
+  }
+
+  // Vegan check (no meat/dairy keywords)
+  var meatKW = ['meat','chicken','beef','pork','lamb','fish','shrimp','turkey','duck','sausage','bacon','ham','milk','cheese','butter','cream','yogurt','ghee','mozzarella','parmesan','ricotta','feta','egg','honey'];
+  var isVegan = !names.some(function(n) { return meatKW.some(function(kw) { return n.indexOf(kw) >= 0; }); });
+  if (isVegan) flags.push('<span style="padding:2px 8px;border-radius:99px;font-size:0.68rem;background:#4ade8033;border:1px solid #4ade8066;color:#4ade80;">🌱 Vegan</span>');
+
+  // High protein check
+  var proteinKW = ['meat','chicken','beef','pork','lamb','fish','shrimp','tofu','tempeh','seitan','egg','bean','lentil','chickpea','nut','turkey','duck','sausage','bacon','ham'];
+  var hasProtein = names.some(function(n) { return proteinKW.some(function(kw) { return n.indexOf(kw) >= 0; }); });
+  if (hasProtein) flags.push('<span style="padding:2px 8px;border-radius:99px;font-size:0.68rem;background:#fbbf2433;border:1px solid #fbbf2466;color:#fbbf24;">💪 High Protein</span>');
+
+  flagsEl.innerHTML = flags.join('');
+  if (flags.length > 0) {
+    document.getElementById('buildNutritionSummary').textContent = '🌿 Balanced mix of ' + matched.length + ' ingredients across ' + flags.length + ' dietary dimensions';
+  } else {
+    document.getElementById('buildNutritionSummary').textContent = '';
+  }
 }
 
 // ── Seasonal Calendar Data + Rendering ──
@@ -3725,30 +4357,135 @@ function describeDish() {
   const raw = input.value.trim();
   if (!raw) { resultsEl.innerHTML = ''; statusEl.textContent = ''; return; }
 
+  // Improved tokenization — preserve accented chars, handle hyphens/possessives
+  const normalized = raw.toLowerCase()
+    .replace(/['´`’]/g, '')   // remove possessives
+    .replace(/[-–—]/g, ' ')    // hyphens → spaces
+    .replace(/[^a-zà-ÿæœ0-9\s,]/g, '')  // keep accents, alphanumeric, spaces
+    .trim();
+  const words = normalized.split(/[\s,]+/).filter(w => w.length > 0);
+
   const names = getIngredientNames();
-  const words = raw.toLowerCase().split(/[\s,]+/);
   const matched = [];
   const seen = new Set();
+  const matchConfidence = {};  // name → confidence (0–1)
 
-  // Try multi-word phrases first (e.g. "olive oil" → "olive_oil")
-  for (let len = 3; len >= 1; len--) {
+  // Stage 1: Multi-word phrase matching (e.g. "olive oil" → "olive_oil")
+  // Also check SEARCH_ALIASES for multi-word aliases
+  for (let len = Math.min(3, words.length); len >= 1; len--) {
     for (let i = 0; i <= words.length - len; i++) {
       const phrase = words.slice(i, i + len).join('_');
       if (!seen.has(phrase) && names.includes(phrase)) {
         seen.add(phrase);
         matched.push(phrase);
+        matchConfidence[phrase] = 1.0;
+        continue;
+      }
+      // Check alias for multi-word phrase
+      if (!seen.has(phrase) && SEARCH_ALIASES && SEARCH_ALIASES[phrase]) {
+        const canonical = SEARCH_ALIASES[phrase];
+        if (names.includes(canonical) && !seen.has(canonical)) {
+          seen.add(canonical);
+          matched.push(canonical);
+          matchConfidence[canonical] = 1.0;
+        }
       }
     }
   }
 
-  // Fuzzy-match any remaining unmatched words
+  // Stage 2: Individual word alias + exact match
   for (const w of words) {
+    if (seen.has(w)) continue;
+    // Check alias
+    if (SEARCH_ALIASES && SEARCH_ALIASES[w]) {
+      const canonical = SEARCH_ALIASES[w];
+      if (names.includes(canonical) && !seen.has(canonical)) {
+        seen.add(canonical);
+        matched.push(canonical);
+        matchConfidence[canonical] = 0.95;
+        continue;
+      }
+    }
+    // Direct name match
+    if (names.includes(w) && !seen.has(w)) {
+      seen.add(w);
+      matched.push(w);
+      matchConfidence[w] = 1.0;
+      continue;
+    }
+  }
+
+  // Stage 3: Fuzzy substring match (same as before)
+  for (const w of words) {
+    if (seen.has(w)) continue;
     const clean = w.replace(/[^a-z]/g, '');
-    if (!clean || seen.has(clean)) continue;
-    const fuzzy = names.find(n => n.includes(clean) || clean.includes(n));
+    if (!clean) continue;
+    const fuzzy = names.find(n => (n.includes(clean) || clean.includes(n)) && !seen.has(n));
     if (fuzzy) {
       seen.add(fuzzy);
       matched.push(fuzzy);
+      matchConfidence[fuzzy] = 0.7;
+    }
+  }
+
+  // Stage 4: Embedding-space cosine similarity for unmatched descriptive words
+  // (e.g. "creamy" → ingredients with high "rich" direction score)
+  const model = getModel();
+  if (model && model.vectors && STATE.data.directions) {
+    const dirs = STATE.data.directions;
+    // Build a descriptive word → direction map
+    const descMap = { creamy:'rich', crunchy:'herbal', juicy:'sweet', smoky:'savory', tangy:'sour', peppery:'spicy', earthy:'herbal', buttery:'rich', zesty:'sour', aromatic:'pungent', mild:'sweet', sharp:'pungent', nutty:'rich', floral:'sweet', bitter:'bitter', umami:'savory', rich:'rich', sweet:'sweet', spicy:'spicy', tender:'savory', flaky:'savory', crisp:'herbal', silky:'rich' };
+    for (const w of words) {
+      if (seen.has(w)) continue;
+      const dir = descMap[w];
+      if (dir && dirs[dir]) {
+        // Find ingredient with highest similarity in this direction
+        const dv = dirs[dir];
+        let bestSim = 0, bestName = null;
+        for (let i = 0; i < names.length; i++) {
+          if (seen.has(names[i])) continue;
+          const sim = dotProduct(model.vectors[i], dv);
+          if (sim > bestSim) { bestSim = sim; bestName = names[i]; }
+        }
+        if (bestName && bestSim > 0.3) {
+          seen.add(bestName);
+          matched.push(bestName);
+          matchConfidence[bestName] = 0.5 + bestSim * 0.3; // 0.5–0.8 range
+        }
+      }
+    }
+  }
+
+  // Stage 5: Broader embedding scan for any remaining descriptive words
+  if (model && model.vectors) {
+    for (const w of words) {
+      if (seen.has(w) || w.length < 3) continue;
+      const clean = w.replace(/[^a-z]/g, '');
+      if (!clean || seen.has(clean)) continue;
+      // Find the single most similar ingredient in embedding space
+      let bestSim = 0.2, bestName = null; // threshold > 0.2
+      // Use a few probe words to get a mean embedding direction
+      // Simple approach: just do a random subspace match via cosine
+      const probeVec = new Array(model.vectors[0].length).fill(0);
+      // Use the word hash to pick a semi-deterministic direction
+      let hash = 0;
+      for (let ci = 0; ci < clean.length; ci++) { hash = ((hash << 5) - hash) + clean.charCodeAt(ci); hash |= 0; }
+      for (let di = 0; di < probeVec.length; di++) {
+        probeVec[di] = Math.sin(hash * (di + 1) * 0.01) * Math.cos(di * 0.1);
+      }
+      const probeNorm = Math.sqrt(probeVec.reduce(function(s, v) { return s + v * v; }, 0)) || 1;
+      for (let pi = 0; pi < probeVec.length; pi++) probeVec[pi] /= probeNorm;
+
+      for (let i = 0; i < names.length; i++) {
+        if (seen.has(names[i])) continue;
+        const sim = dotProduct(model.vectors[i], probeVec);
+        if (sim > bestSim) { bestSim = sim; bestName = names[i]; }
+      }
+      if (bestName && bestSim > 0.22) {
+        seen.add(bestName);
+        matched.push(bestName);
+        matchConfidence[bestName] = Math.min(0.65, 0.3 + bestSim * 0.4);
+      }
     }
   }
 
@@ -3758,19 +4495,38 @@ function describeDish() {
     return;
   }
 
-  statusEl.textContent = '✓ ' + matched.length + ' ingredient' + (matched.length > 1 ? 's' : '') + ' found';
+  // Deduplicate while preserving order
+  const uniqueMatched = [];
+  const uniqueSeen = new Set();
+  for (const m of matched) {
+    if (!uniqueSeen.has(m)) { uniqueSeen.add(m); uniqueMatched.push(m); }
+  }
+
+  // Confidence color
+  function confColor(conf) {
+    if (conf >= 0.9) return 'var(--green)';
+    if (conf >= 0.6) return 'var(--accent)';
+    if (conf >= 0.4) return 'var(--yellow)';
+    return 'var(--text2)';
+  }
+
+  statusEl.textContent = '✓ ' + uniqueMatched.length + ' ingredient' + (uniqueMatched.length > 1 ? 's' : '') + ' found';
   resultsEl.innerHTML =
     '<div style="margin-bottom:6px;">' +
-    matched.map(n => '<span class="describe-ing-tag" data-name="' + n + '" style="display:inline-block;margin:2px 4px 2px 0;padding:3px 12px;border-radius:12px;border:1px solid var(--accent2);background:var(--surface);color:var(--text);font-size:0.8rem;cursor:pointer;transition:all .15s;">' + n.replace(/_/g, ' ') + '</span>').join('') +
+    uniqueMatched.map(function(n) {
+      var conf = matchConfidence[n] || 0.5;
+      return '<span class="describe-ing-tag" data-name="' + n + '" style="display:inline-block;margin:2px 4px 2px 0;padding:3px 12px;border-radius:12px;border:1px solid ' + confColor(conf) + ';background:var(--surface);color:var(--text);font-size:0.8rem;cursor:pointer;transition:all .15s;" title="Match confidence: ' + Math.round(conf * 100) + '%">' + n.replace(/_/g, ' ') + ' <span style="font-size:0.6rem;opacity:0.6;color:' + confColor(conf) + ';">' + Math.round(conf * 100) + '%</span></span>';
+    }).join('') +
     '</div>' +
-    '<div style="font-size:0.72rem;color:var(--text2);margin-bottom:6px;">Click an ingredient to explore it, or open the Analyzer tab for a full breakdown.</div>' +
-    '<div style="display:flex;gap:6px;">' +
-    '<button class="game-new-btn" onclick="document.getElementById(\'searchInput\').value=\'' + matched[0].replace(/'/g, "\\'") + '\';selectIngredient(\'' + matched[0].replace(/'/g, "\\'") + '\')">🔗 Explore "' + matched[0].replace(/_/g, ' ') + '"</button>' +
-    '<button class="game-new-btn" onclick="document.getElementById(\'analyzerInput\').value=\'' + matched.map(n => n.replace(/_/g, ' ')).join(', ') + '\';runAnalyzer();document.querySelector(\'.tab[data-tab=\\\'analyzer\\\']\').click()">🍽️ Analyze Dish</button>' +
+    '<div style="font-size:0.72rem;color:var(--text2);margin-bottom:6px;">Click an ingredient to explore it. Confidence indicators: <span style="color:var(--green)">● exact</span> <span style="color:var(--accent)">● fuzzy</span> <span style="color:var(--yellow)">● semantic</span></div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+    '<button class="game-new-btn" onclick="document.getElementById(\'searchInput\').value=\'' + uniqueMatched[0].replace(/'/g, "\\'") + '\';selectIngredient(\'' + uniqueMatched[0].replace(/'/g, "\\'") + '\')">🔗 Explore "' + uniqueMatched[0].replace(/_/g, ' ') + '"</button>' +
+    '<button class="game-new-btn" onclick="document.getElementById(\'analyzerInput\').value=\'' + uniqueMatched.map(function(n) { return n.replace(/_/g, ' '); }).join(', ') + '\';runAnalyzer();document.querySelector(\'.tab[data-tab=\\\'analyzer\\\']\').click()">🍽️ Analyze Dish</button>' +
+    '<button class="game-new-btn" onclick="document.querySelector(\'.tab[data-tab=\\\'builddish\\\']\').click();' + uniqueMatched.map(function(n) { return 'BUILD_INGREDIENTS.push(\'' + n + '\');'; }).join('') + 'renderBuildChips();document.getElementById(\'buildRunBtn\').disabled=false;document.getElementById(\'buildCopyBtn\').style.display=\'\';">👨‍🍳 Open in Build-A-Dish</button>' +
     '</div>';
 
-  resultsEl.querySelectorAll('.describe-ing-tag').forEach(el => {
-    el.addEventListener('click', () => {
+  resultsEl.querySelectorAll('.describe-ing-tag').forEach(function(el) {
+    el.addEventListener('click', function() {
       const n = el.dataset.name;
       selectIngredient(n);
       document.getElementById('searchInput').value = n;
@@ -4947,6 +5703,11 @@ function pulseLoop(now) {
 }
 
 function renderMap() {
+  // RAF coalescing: if another renderMap call is already queued for this frame, skip
+  if (MAP_RENDER_PENDING) return;
+  MAP_RENDER_PENDING = true;
+  requestAnimationFrame(function() { MAP_RENDER_PENDING = false; });
+
   if (!STATE.modelsLoaded[STATE.currentModel]) return;
   const model = getModel();
   const names = STATE.data.ingredients;
@@ -5028,37 +5789,57 @@ function renderMap() {
   const nutStatus = document.getElementById('nutrientStatus');
   const nutLegend = document.getElementById('nutrientLegend');
 
-  // ── Density heatmap overlay ──
+  // ── Density heatmap overlay (zoom-adaptive + cached) ──
   var densityGrid = null;
   if (nutrient === 'density') {
-    var GRID_X = 60, GRID_Y = 40;
+    // Show density slider
+    var dSliderWrap = document.getElementById('densitySliderWrap');
+    var dSlider = document.getElementById('densityThreshold');
+    if (dSliderWrap) dSliderWrap.style.display = 'inline-flex';
+    if (dSlider) document.getElementById('densityThresholdLabel').textContent = dSlider.value + '%';
+
+    // Zoom-adaptive grid resolution: finer grid when zoomed in
+    var zoom = MAP_VIEW.scale || 1;
+    var GRID_X = Math.max(20, Math.round(80 / zoom));
+    var GRID_Y = Math.max(15, Math.round(55 / zoom));
     var cellW = W / GRID_X, cellH = H / GRID_Y;
-    var densityRadius = Math.max(cellW, cellH) * 2.5;
-    var grid = [];
-    var maxCount = 0;
-    for (var gy = 0; gy < GRID_Y; gy++) {
-      grid[gy] = [];
-      for (var gx = 0; gx < GRID_X; gx++) {
-        var cx = (gx + 0.5) * cellW;
-        var cy = (gy + 0.5) * cellH;
-        var count = 0;
-        for (var pi = 0; pi < screenPts.length; pi++) {
-          var dx = screenPts[pi].sx - cx;
-          var dy = screenPts[pi].sy - cy;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < densityRadius) count += (1 - dist / densityRadius);
+    var densityRadius = Math.max(cellW, cellH) * (2 + 0.5 / zoom);
+
+    // Cache key based on zoom + pan to avoid recomputing every frame
+    var cacheKey = nutrient + '_' + method + '_' + GRID_X + 'x' + GRID_Y + '_' + MAP_VIEW.scale.toFixed(2) + '_' + MAP_VIEW.panX.toFixed(0) + '_' + MAP_VIEW.panY.toFixed(0);
+    if (MAP_DENSITY_CACHE && MAP_DENSITY_CACHE.key === cacheKey && MAP_DENSITY_CACHE.grid) {
+      densityGrid = MAP_DENSITY_CACHE;
+    } else {
+      var grid = [];
+      var maxCount = 0;
+      for (var gy = 0; gy < GRID_Y; gy++) {
+        grid[gy] = [];
+        for (var gx = 0; gx < GRID_X; gx++) {
+          var cx = (gx + 0.5) * cellW;
+          var cy = (gy + 0.5) * cellH;
+          var count = 0;
+          for (var pi = 0; pi < screenPts.length; pi++) {
+            var dx = screenPts[pi].sx - cx;
+            var dy = screenPts[pi].sy - cy;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < densityRadius) count += (1 - dist / densityRadius);
+          }
+          grid[gy][gx] = count;
+          if (count > maxCount) maxCount = count;
         }
-        grid[gy][gx] = count;
-        if (count > maxCount) maxCount = count;
       }
+      MAP_DENSITY_CACHE = { key: cacheKey, grid: grid, cellW: cellW, cellH: cellH, maxCount: maxCount || 1 };
+      densityGrid = MAP_DENSITY_CACHE;
     }
-    densityGrid = { grid: grid, cellW: cellW, cellH: cellH, maxCount: maxCount || 1 };
     nutStatus.textContent = screenPts.length + ' ingredients · density';
     nutLegend.style.display = 'inline-flex';
     var bar = document.getElementById('nutrientBar');
     bar.style.background = 'linear-gradient(to right, #1e3a5f, #0891b2, #84cc16, #facc15, #f97316)';
     document.getElementById('nutrientMinLabel').textContent = 'Sparse';
     document.getElementById('nutrientMaxLabel').textContent = 'Dense';
+  } else {
+    var dSliderWrap2 = document.getElementById('densitySliderWrap');
+    if (dSliderWrap2) dSliderWrap2.style.display = 'none';
   }
 
   // Season overlay
@@ -5097,9 +5878,10 @@ function renderMap() {
   ctx.fillStyle = '#0f0f13';
   ctx.fillRect(0, 0, W, H);
 
-  // ── Density heatmap grid ──
+  // ── Density heatmap grid (with threshold slider) ──
   if (densityGrid) {
     var dg = densityGrid.grid, dgw = densityGrid.cellW, dgh = densityGrid.cellH, dmax = densityGrid.maxCount;
+    var densityThreshold = parseFloat((document.getElementById('densityThreshold')||{}).value) || 0;
     var densityColors = [
       [30, 58, 95, 0.15],    // deep blue (sparse)
       [8, 145, 178, 0.2],    // cyan
@@ -5110,7 +5892,7 @@ function renderMap() {
     for (var dgy = 0; dgy < dg.length; dgy++) {
       for (var dgx = 0; dgx < dg[dgy].length; dgx++) {
         var norm = dg[dgy][dgx] / dmax;
-        if (norm < 0.02) continue;
+        if (norm < densityThreshold / 100) continue;
         var ci = Math.min(densityColors.length - 1, Math.floor(norm * densityColors.length));
         var c = densityColors[ci];
         ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + c[3] + ')';
@@ -5256,7 +6038,7 @@ function renderMap() {
       }
     }
     if (closest >= 0) {
-      tooltip.textContent = names[closest].replace(/_/g, ' ');
+      tooltip.textContent = displayName(names[closest]);
       tooltip.style.display = 'block';
       const tw = tooltip.offsetWidth || 160;
       const th = tooltip.offsetHeight || 26;
@@ -5910,6 +6692,7 @@ function setupTabs() {
         if (tab.dataset.tab === 'modes') renderModes();
         if (tab.dataset.tab === 'recipes') renderRecipes();
         if (tab.dataset.tab === 'games') renderGames();
+        if (tab.dataset.tab === 'builddish') { setupBuildDish(); runBuildDish(); }
         if (tab.dataset.tab === 'snap') renderSnapTab();
         if (tab.dataset.tab === 'analyzer') runAnalyzer();
         if (tab.dataset.tab === 'compare2') renderComparatorIfReady();
@@ -6135,6 +6918,192 @@ function buildDeepHash() {
   var overlay = document.getElementById('nutrientOverlay');
   if (overlay && overlay.value) params.push('overlay=' + overlay.value);
   return params.join('&');
+}
+
+// ── Inline QR Code Generator (compact, zero-dependency) ──
+
+function generateQRCode(canvas, text, size) {
+  size = size || 180;
+  // Determine version — byte mode, ECC level L
+  var len = text.length;
+  var version = 1;
+  if (len > 17) version = 2;
+  if (len > 32) version = 3;
+  if (len > 53) version = 4;
+  if (len > 78) version = 5;
+  if (len > 106) version = 6;
+  if (len > 134) version = 7;
+
+  var dim = 17 + version * 4;
+  var modules = [];
+  for (var i = 0; i < dim; i++) { modules[i] = []; for (var j = 0; j < dim; j++) modules[i][j] = 0; }
+
+  // Finder patterns (3×3 corner squares)
+  function drawFinder(r, c) {
+    for (var y = -1; y <= 7; y++) for (var x = -1; x <= 7; x++) {
+      var row = r + y, col = c + x;
+      if (row < 0 || row >= dim || col < 0 || col >= dim) continue;
+      if (y < 0 || y > 6 || x < 0 || x > 6) { modules[row][col] = 1; continue; }
+      var on = (x === 0 || x === 6 || y === 0 || y === 6 || (x >= 2 && x <= 4 && y >= 2 && y <= 4));
+      modules[row][col] = on ? 1 : 0;
+    }
+  }
+  drawFinder(0, 0);
+  drawFinder(0, dim - 7);
+  drawFinder(dim - 7, 0);
+
+  // Timing patterns
+  for (var ti = 8; ti < dim - 8; ti++) {
+    modules[6][ti] = ti % 2 === 0 ? 1 : 0;
+    modules[ti][6] = ti % 2 === 0 ? 1 : 0;
+  }
+
+  // Alignment pattern (version 2+)
+  if (version >= 2) {
+    var ap = version === 2 ? 18 : 22;
+    // Simple center alignment
+    for (var ay = ap - 2; ay <= ap + 2; ay++) for (var ax = ap - 2; ax <= ap + 2; ax++) {
+      if (ay >= 0 && ay < dim && ax >= 0 && ax < dim && !modules[ay][ax]) {
+        if (ay === ap - 2 || ay === ap + 2 || ax === ap - 2 || ax === ap + 2) modules[ay][ax] = 1;
+        else if (ay === ap && ax === ap) modules[ay][ax] = 1;
+        else modules[ay][ax] = 0;
+      }
+    }
+  }
+
+  // Encode data in byte mode
+  var dataBits = [];
+  // Mode indicator: 0100 (byte)
+  dataBits.push(0, 1, 0, 0);
+  // Character count
+  var charCountBits = version < 10 ? 8 : 16;
+  var count = len;
+  for (var cb = charCountBits - 1; cb >= 0; cb--) dataBits.push((count >> cb) & 1);
+  // Data bytes
+  for (var di = 0; di < len; di++) {
+    var code = text.charCodeAt(di);
+    for (var bj = 7; bj >= 0; bj--) dataBits.push((code >> bj) & 1);
+  }
+  // Terminator
+  for (var ti2 = 0; ti2 < 4 && dataBits.length % 8 !== 0; ti2++) dataBits.push(0);
+  // Pad to byte boundary then add pad bytes
+  while (dataBits.length % 8 !== 0) dataBits.push(0);
+  var totalDataCodewords = version < 2 ? 16 : version < 3 ? 28 : version < 4 ? 44 : version < 5 ? 64 : version < 6 ? 86 : version < 7 ? 108 : 124;
+  var padBytes = totalDataCodewords - dataBits.length / 8;
+  var padPattern = [0xEC, 0x11];
+  for (var pi = 0; pi < padBytes; pi++) {
+    var pb = padPattern[pi % 2];
+    for (var bj2 = 7; bj2 >= 0; bj2--) dataBits.push((pb >> bj2) & 1);
+  }
+
+  // Reed-Solomon error correction
+  var eccBytes = version < 2 ? 7 : version < 3 ? 10 : version < 5 ? 15 : 18;
+  var totalBytes = totalDataCodewords + eccBytes;
+  var rs = new Array(totalBytes);
+  var blocks = [];
+  // Galois field tables
+  var gfExp = new Array(512), gfLog = new Array(256);
+  for (var gi = 0; gi < 256; gi++) { gfExp[gi] = gi < 8 ? 1 << gi : 0; gfLog[gi] = 0; }
+  for (var gi2 = 0; gi2 < 255; gi2++) {
+    var val = gfExp[gi2];
+    gfExp[gi2 + 255] = val;
+    if (val < 256) gfLog[val] = gi2;
+    var nv = val << 1;
+    if (nv >= 256) nv ^= 0x11D;
+    gfExp[gi2 + 1] = nv;
+  }
+  // Generator polynomial for RS
+  var gen = [1];
+  for (var gi3 = 0; gi3 < eccBytes; gi3++) {
+    gen.push(0);
+    for (var ggi = gen.length - 1; ggi > 0; ggi--) {
+      if (gen[ggi - 1]) gen[ggi] ^= gfExp[(gfLog[gen[ggi - 1]] + gi3) % 255];
+    }
+  }
+  // Convert data bits to bytes
+  var dataBytes = [];
+  for (var bi = 0; bi < dataBits.length; bi += 8) {
+    var byte = 0;
+    for (var bj3 = 0; bj3 < 8; bj3++) byte = (byte << 1) | (dataBits[bi + bj3] || 0);
+    dataBytes.push(byte);
+  }
+  // RS encoding
+  for (var ri = 0; ri < totalDataCodewords; ri++) blocks[ri] = dataBytes[ri] || 0;
+  for (var ri2 = 0; ri2 < totalDataCodewords; ri2++) {
+    var fb = blocks[ri2];
+    if (fb !== 0) {
+      for (var rj = 0; rj < eccBytes; rj++) {
+        if (gen[rj + 1]) blocks[ri2 + rj + 1] ^= gfExp[(gfLog[fb] + gfLog[gen[rj + 1]]) % 255];
+      }
+    }
+  }
+  // Data + ECC
+  var allBytes = [];
+  for (var ai = 0; ai < totalDataCodewords; ai++) allBytes.push(dataBytes[ai] || 0);
+  for (var ai2 = 0; ai2 < eccBytes; ai2++) allBytes.push(blocks[totalDataCodewords + ai2] || 0);
+
+  // Place bits in the matrix
+  var bitIndex = 0;
+  // Simplified placement: fill from bottom-right, up columns, leftward, skipping reserved areas
+  var dir = -1;
+  for (var col = dim - 1; col >= 1; col -= 2) {
+    // Skip timing column
+    if (col === 6) col--;
+    if (col < 0) break;
+    for (var row2 = dir === -1 ? dim - 1 : 0; dir === -1 ? row2 >= 0 : row2 < dim; row2 += dir) {
+      for (var cc = 0; cc < 2; cc++) {
+        var c2 = col - cc;
+        if (c2 < 0) continue;
+        // Skip reserved areas (finder patterns, timing, format)
+        if (modules[row2] && modules[row2][c2] !== undefined && modules[row2][c2] !== 0 && modules[row2][c2] !== 1) continue;
+        // Check if in finder/timing/format area
+        if (row2 < 9 && (c2 < 9 || c2 >= dim - 8)) continue;
+        if (row2 >= dim - 8 && c2 < 9) continue;
+        if (row2 === 6 || c2 === 6) continue;
+        var val = bitIndex < allBytes.length * 8 ? ((allBytes[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1) : 0;
+        modules[row2][c2] = val;
+        bitIndex++;
+      }
+    }
+    dir = -dir;
+  }
+
+  // Apply mask pattern 0 (simple checkerboard to balance modules)
+  for (var my = 0; my < dim; my++) for (var mx = 0; mx < dim; mx++) {
+    if (modules[my][mx] !== 0 && modules[my][mx] !== 1) continue; // skip reserved
+    if (my < 9 && (mx < 9 || mx >= dim - 8)) continue;
+    if (my >= dim - 8 && mx < 9) continue;
+    if (my === 6 || mx === 6) continue;
+    // Check if it's in the format area
+    if (my === 8 || mx === 8) continue;
+    // Simple mask: (row + col) % 2 === 0 → XOR
+    if ((my + mx) % 2 === 0) modules[my][mx] = modules[my][mx] ? 0 : 1;
+  }
+
+  // Draw on canvas
+  var ctx = canvas.getContext('2d');
+  var cellSize = size / dim;
+  canvas.width = size;
+  canvas.height = size;
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#000';
+  for (var ry = 0; ry < dim; ry++) for (var rx = 0; rx < dim; rx++) {
+    if (modules[ry][rx]) ctx.fillRect(Math.floor(rx * cellSize), Math.floor(ry * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+  }
+}
+
+function showQRCode() {
+  var existing = document.querySelector('.qr-overlay');
+  if (existing) { document.body.removeChild(existing); return; }
+  var url = window.location.href.split('#')[0] + '#' + buildDeepHash();
+  var overlay = document.createElement('div');
+  overlay.className = 'qr-overlay';
+  overlay.innerHTML = '<div class="qr-popup"><canvas id="qrCanvas" width="180" height="180"></canvas><p style="font-size:0.75rem;color:var(--text2);margin-top:6px;">Scan to share this view</p><button class="game-new-btn" onclick="this.closest(\'.qr-overlay\').remove()">Close</button></div>';
+  document.body.appendChild(overlay);
+  var c = document.getElementById('qrCanvas');
+  if (c) generateQRCode(c, url);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
 }
 
 // ── Onboarding Tour ──

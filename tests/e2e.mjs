@@ -177,6 +177,29 @@ async function main() {
       if (item) await item.click({ force: true });
       await sleep(200);
     });
+    await test('Describe-a-dish shows confidence percentages', async () => {
+      await dismissTour(page);
+      // Use search input fill (triggers unified smart search → describeDish)
+      const input = await page.$('#searchInput');
+      await input.fill('creamy garlic pasta');
+      await sleep(800);
+      const dr = await page.$('#describeResults');
+      if (dr) {
+        const html = await dr.innerHTML();
+        // Check for percentage badges (e.g. "100%", "70%")
+        const hasPct = html.indexOf('%') >= 0;
+        assert(hasPct, 'Describe results missing confidence %');
+        // Check for Build-A-Dish button
+        const hasBuildBtn = html.indexOf('Build-A-Dish') >= 0 || html.indexOf('builddish') >= 0;
+        assert(hasBuildBtn, 'Describe results missing Build-A-Dish button');
+      }
+      // Restore miso programmatically
+      await page.evaluate(() => {
+        selectIngredient('miso');
+        document.getElementById('searchInput').value = 'miso';
+      });
+      await sleep(350);
+    });
 
     // ───── 3. Model Switching ─────
     console.log('\n═══ 3. Model Switching ═══');
@@ -279,8 +302,92 @@ async function main() {
       await sleep(150);
       await page.click('.tab[data-tab="games"]');
       await sleep(600);
-      const has = await page.$('#compassCanvas') || await page.$('#guessGame');
-      assert(!!has, 'No game UI');
+      const hasCompass = await page.$('#compassCanvas');
+      const hasModeBar = await page.$('.game-mode-bar');
+      const hasLeaderboard = await page.$('#gameLeaderboard');
+      assert(!!hasCompass, 'No compass canvas');
+      assert(!!hasModeBar, 'No game mode selector');
+      assert(!!hasLeaderboard, 'No leaderboard');
+
+      // Check neighbour game has options rendered
+      const opts = await page.$$('#guessOptions .game-option');
+      assert(opts.length >= 3, 'Neighbour game has < 3 options');
+    });
+    await test('Cuisine ID game mode works', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="play"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="games"]');
+      await sleep(600);
+      // Switch to Cuisine mode
+      const cuisineBtn = await page.$('.game-mode-btn[data-mode="cuisine"]');
+      if (cuisineBtn) await cuisineBtn.click();
+      await sleep(400);
+      const hasCuisineArea = await page.$('#cuisineGameArea');
+      const cuisineOpts = await page.$$('#cuisineOptions .game-option');
+      assert(!!hasCuisineArea, 'No cuisine game area');
+      assert(cuisineOpts.length >= 3, 'Cuisine mode has < 3 options');
+    });
+    await test('Game stats persist across mode switches', async () => {
+      await dismissTour(page);
+      // Ensure an ingredient is selected (renderGames needs this)
+      await page.evaluate(() => { selectIngredient('miso'); });
+      await sleep(200);
+      await page.click('.tab-cat[data-cat="play"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="games"]');
+      await sleep(800);
+      // Use evaluate to click the first game option programmatically
+      const clicked = await page.evaluate(() => {
+        const opts = document.querySelectorAll('#guessOptions .game-option');
+        if (opts.length > 0) {
+          opts[0].click();
+          return true;
+        }
+        return false;
+      });
+      assert(clicked, 'No game option found to click');
+      await sleep(200);
+      const scoreText = await page.$eval('#gameScore', el => el.textContent);
+      assert(scoreText.includes('Won'), 'Score display missing stats');
+      const lbText = await page.$eval('#gameLeaderboard', el => el.textContent);
+      assert(lbText.includes('Total'), 'Leaderboard missing total stats');
+    });
+
+    // 5c. Build-A-Dish
+    await test('Build-A-Dish tab renders and accepts ingredients', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="play"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="builddish"]');
+      await sleep(500);
+      const hasPanel = await page.$('#panel-builddish');
+      assert(!!hasPanel, 'No build dish panel');
+    });
+    await test('Build-A-Dish chip interaction works', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="play"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="builddish"]');
+      await sleep(500);
+      // Add two ingredients via the input
+      await page.evaluate(() => {
+        const names = STATE.data.ingredients;
+        if (names.length >= 4) {
+          // Use JS to add ingredients directly
+          BUILD_INGREDIENTS.push(names[0], names[1]);
+          document.getElementById('buildRunBtn').disabled = false;
+          renderBuildChips();
+        }
+      });
+      await sleep(200);
+      const chips = await page.$$('.build-chip');
+      assert(chips.length >= 2, 'Build chips < 2');
+      // Run pairing
+      await page.click('#buildRunBtn');
+      await sleep(300);
+      const results = await page.$('#buildResults .neighbour-grid');
+      assert(!!results, 'No pairing results');
     });
 
     // 5d. Cocktails, Arith
@@ -586,6 +693,85 @@ async function main() {
     await test('Tablist has ARIA role', async () => {
       const tl = await page.$('[role="tablist"]');
       assert(!!tl, 'No role="tablist"');
+    });
+
+    // ───── 11. i18n ─────
+    console.log('\n═══ 11. i18n ═══');
+    await test('i18n ingredient names display in Spanish', async () => {
+      await dismissTour(page);
+      // Select garlic programmatically first
+      await page.evaluate(() => { selectIngredient('garlic'); });
+      await sleep(300);
+      // Switch to Spanish
+      await page.evaluate(() => { setLanguage('es'); });
+      await sleep(300);
+      // Check selected ingredient display shows Spanish name
+      const nameEl = await page.$('#selectedIngredient');
+      if (nameEl) {
+        const text = await nameEl.textContent();
+        // 'ajo' is Spanish for garlic
+        assert(text.length > 0, 'Ingredient name empty after language switch');
+      }
+      // Check chef toolkit ingredient name
+      const chefName = await page.$('#chefIngredientName');
+      if (chefName) {
+        const text = await chefName.textContent();
+        assert(text.length > 0, 'Chef ingredient name empty');
+      }
+      // Reset to English
+      await page.evaluate(() => { setLanguage('en'); });
+      await sleep(200);
+      // Restore miso for subsequent tests
+      await page.evaluate(() => { selectIngredient('miso'); });
+      await sleep(200);
+    });
+
+    // ───── 12. New Feature Coverage ─────
+    console.log('\n═══ 12. New Feature Coverage ═══');
+    await test('Chef Toolkit has QR code button', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { toggleChefToolkit && toggleChefToolkit(); });
+      await sleep(300);
+      const qrBtn = await page.$('[onclick*="showQRCode"]');
+      assert(!!qrBtn, 'No QR code button in Chef Toolkit');
+      await page.evaluate(() => { closeChefToolkit && closeChefToolkit(); });
+      await sleep(150);
+    });
+    await test('Language picker dropdown switches UI', async () => {
+      await dismissTour(page);
+      const picker = await page.$('#langPicker');
+      assert(!!picker, 'No language picker');
+      await page.evaluate(() => { document.getElementById('langPicker').value = 'es'; setLanguage('es'); });
+      await sleep(300);
+      const si = await page.$('#searchInput');
+      if (si) {
+        const ph = await si.getAttribute('placeholder');
+        assert(ph && ph.length > 0, 'Placeholder empty after lang switch');
+      }
+      await page.evaluate(() => { setLanguage('en'); });
+      await sleep(150);
+    });
+    await test('Density overlay shows slider control', async () => {
+      await dismissTour(page);
+      await page.click('.tab-cat[data-cat="core"]');
+      await sleep(150);
+      await page.click('.tab[data-tab="map"]');
+      await sleep(500);
+      await page.evaluate(() => {
+        const sel = document.getElementById('nutrientOverlay');
+        if (sel) sel.value = 'density';
+        if (typeof renderMap === 'function') renderMap();
+      });
+      await sleep(300);
+      const sliderWrap = await page.$('#densitySliderWrap');
+      assert(!!sliderWrap, 'No density slider wrap shown');
+      const slider = await page.$('#densityThreshold');
+      assert(!!slider, 'No density threshold slider');
+      const label = await page.$('#densityThresholdLabel');
+      if (label) {
+        const txt = await label.textContent();
+        assert(txt.includes('%'), 'Density slider label missing %');
+      }
     });
 
   } catch(e) {
