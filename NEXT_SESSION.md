@@ -1,7 +1,7 @@
 # Next Session — Starting Point
 
 **Branch:** `main`  
-**Last commit:** `28be2ae` — SW cache versioning: content-hash replaces hardcoded 'epicure-v1'  
+**Last commit:** `4b22d4d` — Session 16: SW cache versioning — content-hash replaces hardcoded 'epicure-v1'  
 **All 68 E2E tests pass · 0 console errors · 0 known bugs · Working tree clean**
 
 ---
@@ -48,27 +48,6 @@
 
 ---
 
-## What the Last Session Shipped
-
-| Phase | Feature | Detail |
-|-------|---------|--------|
-| **1** 🛡️ | **Runtime safety** | Retry button on load failure; user-visible error on model-load failure; NaN/Infinity guards in `dotProduct()` and vector decode; null-response guard in Spoonacular info API |
-| **2** ⚡ | **Search debounce** | 150ms trailing-edge debounce on smart search input — no longer fires on every keystroke |
-| **3** 🎨 | **Branding & a11y** | `theme-color` meta tag syncs with dark/light toggle; real 192×192 + 512×512 PNG icons in manifest + `apple-touch-icon` + SW cache; `aria-label` on map canvas |
-| **4** 📦 | **Data-driven seasonal** | 149 seasonal entries extracted from hardcoded JS constant into `epicure_shared.json`; loaded at runtime with backward-compatible inline fallback |
-
-### Files Added
-| File | Size | Description |
-|------|------|-------------|
-| `icon-192.png` | 2.3 KB | PWA home-screen icon |
-| `icon-512.png` | 6.8 KB | PWA splash-screen icon |
-
-### Files Modified
-| File | Change |
-|------|--------|
-| `index.html` | +91 lines: NaN guards, debounce, error handling, theme-color sync, canvas a11y, data-driven seasonal |
-| `data/epicure_shared.json` | +153 lines: added `"seasonal"` key with 149 entries |
-| `sw.js` | +2 lines: cache `icon-*.png` on install |
 
 ---
 
