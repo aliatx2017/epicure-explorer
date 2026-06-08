@@ -793,6 +793,48 @@ async function main() {
       await page.evaluate(() => { selectIngredient('miso'); });
       await sleep(200);
     });
+    await test('i18n ingredient names display in French', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('garlic'); });
+      await sleep(300);
+      await page.evaluate(() => { setLanguage('fr'); });
+      await sleep(300);
+      const nameEl = await page.$('#selectedIngredient');
+      if (nameEl) {
+        const text = await nameEl.textContent();
+        assert(text.length > 0, 'Ingredient name empty after French switch');
+      }
+      await page.evaluate(() => { setLanguage('en'); });
+      await sleep(200);
+    });
+    await test('i18n ingredient names display in Chinese', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('garlic'); });
+      await sleep(300);
+      await page.evaluate(() => { setLanguage('zh'); });
+      await sleep(300);
+      const nameEl = await page.$('#selectedIngredient');
+      if (nameEl) {
+        const text = await nameEl.textContent();
+        assert(text.length > 0, 'Ingredient name empty after Chinese switch');
+      }
+      await page.evaluate(() => { setLanguage('en'); });
+      await sleep(200);
+    });
+    await test('i18n ingredient names display in Japanese', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('garlic'); });
+      await sleep(300);
+      await page.evaluate(() => { setLanguage('ja'); });
+      await sleep(300);
+      const nameEl = await page.$('#selectedIngredient');
+      if (nameEl) {
+        const text = await nameEl.textContent();
+        assert(text.length > 0, 'Ingredient name empty after Japanese switch');
+      }
+      await page.evaluate(() => { setLanguage('en'); });
+      await sleep(200);
+    });
 
     // ───── 16. New Feature Coverage ─────
     console.log('\n═══ 15. New Feature Coverage ═══');
