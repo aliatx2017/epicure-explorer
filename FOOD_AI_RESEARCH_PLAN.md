@@ -24,7 +24,7 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 
 > **🧭 Implementation Status — June 2026 (Session 5: Bug-Fix Audit)**
 > 
-> Month 1 & Month 2 features are **fully shipped** in `index.html` (~4,686 lines, ~259 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
+> Month 1 & Month 2 features are **fully shipped** in `index.html` (~4,957 lines, ~259 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
 > 
 > | Area | Status | Notes |
 > |------|--------|-------|
@@ -46,6 +46,8 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 > | What's Trending panel | ✅ Shipped | Seasonal + rarity + diet signals in 📈 tab |
 > | GLP-1 Meal Plan Generator | ✅ Shipped | 7-day plan from GLP-1-friendly clusters in 💊 tab |
 > | `getForceGraphLayout()` | ✅ Fixed | Fruchterman-Reingold spring-force layout using top-15 neighbour edges |
+| Export Summary (📋) | ✅ Live | Clipboard export of ingredient intelligence: substitutes, cuisine, flavour profile, GLP-1 |
+| Onboarding Tour (🎓) | ✅ Live | 5-step guided walkthrough overlay on first visit |
 
 ## Section 1: The Most Actionable Findings
 

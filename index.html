@@ -472,6 +472,30 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text2); }
+
+/* ── Export Button ── */
+.chef-export-btn { display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 12px; margin-top: 12px; border-radius: var(--radius-sm); border: 1px solid var(--accent); background: transparent; color: var(--accent); font-size: 0.78rem; font-family: var(--font); cursor: pointer; transition: all .2s; justify-content: center; }
+.chef-export-btn:hover { background: var(--accent); color: #fff; }
+.chef-export-btn.copied { border-color: var(--green); color: var(--green); background: transparent; }
+.chef-export-btn.copied:hover { background: var(--green); color: #fff; }
+
+/* ── Onboarding Tour ── */
+.tour-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.6); display: none; }
+.tour-overlay.active { display: block; }
+.tour-highlight { position: fixed; z-index: 101; border-radius: var(--radius); box-shadow: 0 0 0 4px var(--accent), 0 0 0 9999px rgba(0,0,0,0.55); transition: all 0.3s ease; pointer-events: none; }
+.tour-card { position: fixed; z-index: 102; background: var(--surface); border: 1px solid var(--accent2); border-radius: var(--radius); padding: 18px 20px; max-width: 380px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+.tour-card h3 { font-size: 0.95rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+.tour-card p { font-size: 0.82rem; color: var(--text2); line-height: 1.5; margin-bottom: 14px; }
+.tour-card .tour-progress { display: flex; gap: 6px; justify-content: center; margin-bottom: 12px; }
+.tour-card .tour-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background .2s; }
+.tour-card .tour-dot.active { background: var(--accent); }
+.tour-card .tour-dot.done { background: var(--accent2); }
+.tour-card .tour-actions { display: flex; gap: 8px; justify-content: flex-end; align-items: center; }
+.tour-card .tour-btn { padding: 6px 14px; border-radius: var(--radius-sm); border: none; font-size: 0.78rem; font-family: var(--font); cursor: pointer; transition: all .15s; }
+.tour-card .tour-btn-primary { background: var(--accent); color: #fff; }
+.tour-card .tour-btn-primary:hover { filter: brightness(1.15); }
+.tour-card .tour-btn-skip { background: transparent; color: var(--text2); }
+.tour-card .tour-btn-skip:hover { color: var(--text); }
 </style>
 </head>
 <body>
@@ -1113,6 +1137,7 @@ header .subtitle { color: var(--text2); font-size: 0.85rem; }
         <h4>🧪 Flavour Profile</h4>
         <div class="chef-tags" id="chefFlavourTags"></div>
       </div>
+      <button class="chef-export-btn" id="chefExportBtn" onclick="exportSummary()">📋 Export Summary</button>
     </div>
   </div>
 </div>
@@ -4630,6 +4655,184 @@ function setupModeFilters() {
   });
 }
 
+// ── Export Summary ──
+function exportSummary() {
+  const name = STATE.selectedIngredient;
+  if (!name) return;
+  const btn = document.getElementById('chefExportBtn');
+  const model = getModel();
+  const idx = STATE.selectedIdx;
+  const vec = model.vectors[idx];
+  const names = STATE.data.ingredients;
+
+  // Collect substitute info
+  var subs = model.neighbours && model.neighbours[idx] ? model.neighbours[idx].slice(0, 5) : [];
+  var subText = subs.map(function(s) { return '  • ' + s[0].replace(/_/g, ' ') + ' (' + (s[1]*100).toFixed(0) + '% sim)'; }).join('\n') || '  (none)';
+
+  // Collect cuisine affinity
+  var cuisines = ['east_asian', 'western_atlantic', 'mediterranean', 'eastern_europeon', 'southeast_asian', 'south_asian', 'latin_american', 'japanese'];
+  var cuisineLabels = { east_asian:'East Asian', western_atlantic:'Western Atlantic', mediterranean:'Mediterranean', eastern_european:'Eastern European', southeast_asian:'SE Asian', south_asian:'South Asian', latin_american:'Latin American', japanese:'Japanese' };
+  var cuisineLines = [];
+  if (vec && STATE.data.directions) {
+    for (var c in cuisineLabels) {
+      var sim = STATE.data.directions[c] ? dotProduct(vec, STATE.data.directions[c]) : 0;
+      cuisineLines.push('  • ' + cuisineLabels[c] + ': ' + (sim*100).toFixed(0) + '%');
+    }
+  }
+
+  // Collect flavour profile
+  var dirs = ['sweet', 'spicy', 'savory_umami', 'citrus_sour', 'fermented', 'bitter', 'creamy_dairy', 'herbal'];
+  var sensoryLabels = { sweet:'Sweet', spicy:'Spicy', savory_umami:'Savory/Umami', citrus_sour:'Citrus/Sour', fermented:'Fermented', bitter:'Bitter', creamy_dairy:'Creamy/Dairy', herbal:'Herbal' };
+  var flavourLines = [];
+  if (vec && STATE.data.directions) {
+    for (var d of dirs) {
+      var sim = STATE.data.directions[d] ? dotProduct(vec, STATE.data.directions[d]) : 0;
+      if (sim > 0.1) flavourLines.push('  • ' + sensoryLabels[d] + ': ' + (sim*100).toFixed(0) + '%');
+    }
+  }
+
+  // GLP-1 status
+  var glp1 = checkGLP1(name);
+
+  var t = '🍽️ Epicure Explorer — Ingredient Summary\n';
+  t += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+  t += 'Ingredient: ' + name.replace(/_/g, ' ') + '\n';
+  t += 'Model: ' + STATE.currentModel.toUpperCase() + '\n';
+  t += 'GLP-1: ' + glp1.label + '\n\n';
+  t += '🔝 Best Substitutes\n' + subText + '\n\n';
+  t += '🌍 Cuisine Affinity\n' + cuisineLines.join('\n') + '\n\n';
+  t += '🧪 Flavour Profile\n' + flavourLines.join('\n') + '\n\n';
+  t += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+  t += 'Generated by Epicure Explorer';
+
+  navigator.clipboard.writeText(t).then(function() {
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = '📋 Export Summary'; btn.classList.remove('copied'); }, 2500);
+  }).catch(function() {
+    // Fallback: select text
+    var ta = document.createElement('textarea');
+    ta.value = t;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = '📋 Export Summary'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+// ── Onboarding Tour ──
+var TOUR_STEPS = [
+  { target: '#searchInput', title: '🔍 Search Ingredients', text: 'Start by searching for any ingredient — miso, chocolate, olive oil. Click a result to load its full flavour profile.', pos: 'bottom', pad: 8 },
+  { target: '#chefToggle', title: '👨‍🍳 Chef\'s Toolkit', text: 'The sidebar shows dietary info, intelligent substitutes with explanations, cuisine affinity, and flavour chemistry for the selected ingredient.', pos: 'bottom', pad: 8 },
+  { target: '.tabs', title: '📊 Explore the Tabs', text: '18 tabs let you explore neighbours, compare models, run flavour arithmetic, analyse dishes, plan meals, and more. Each tab is a different lens into the embedding space.', pos: 'bottom', pad: 8 },
+  { target: '[data-tab="map"]', title: '🗺️ Visualise the Map', text: 'The Map tab projects 1,790 ingredients onto a 2D canvas. Try UMAP, PCA, or Force-Directed layout. Hover any dot to identify it.', pos: 'bottom', pad: 8 },
+  { target: '#describeInput', title: '✏️ Describe a Dish', text: 'Type a dish description like "creamy garlic pasta with mushrooms" to find matching ingredients. Click tags to explore each one.', pos: 'top', pad: 8 }
+];
+
+var tourActive = false;
+var tourStep = 0;
+
+function startTour() {
+  if (localStorage.getItem('epicure_tour_done')) return;
+  if (tourActive) return;
+  tourActive = true;
+  tourStep = 0;
+  // Build overlay elements if not present
+  if (!document.getElementById('tourOverlay')) {
+    var overlay = document.createElement('div');
+    overlay.id = 'tourOverlay';
+    overlay.className = 'tour-overlay';
+    overlay.addEventListener('click', function() { if (tourActive) endTour(); });
+    document.body.appendChild(overlay);
+
+    var hl = document.createElement('div');
+    hl.id = 'tourHighlight';
+    hl.className = 'tour-highlight';
+    document.body.appendChild(hl);
+
+    var card = document.createElement('div');
+    card.id = 'tourCard';
+    card.className = 'tour-card';
+    card.addEventListener('click', function(e) { e.stopPropagation(); });
+    document.body.appendChild(card);
+  }
+  document.getElementById('tourOverlay').classList.add('active');
+  showTourStep(0);
+}
+
+function showTourStep(idx) {
+  if (idx >= TOUR_STEPS.length) { endTour(); return; }
+  tourStep = idx;
+  var step = TOUR_STEPS[idx];
+  var overlay = document.getElementById('tourOverlay');
+  var hl = document.getElementById('tourHighlight');
+  var card = document.getElementById('tourCard');
+
+  // Locate target
+  var targetEl = document.querySelector(step.target);
+  if (!targetEl) { advanceTour(); return; }
+  var rect = targetEl.getBoundingClientRect();
+
+  // Position highlight
+  var p = step.pad || 4;
+  hl.style.left = (rect.left - p) + 'px';
+  hl.style.top = (rect.top - p) + 'px';
+  hl.style.width = (rect.width + p*2) + 'px';
+  hl.style.height = (rect.height + p*2) + 'px';
+  hl.style.display = 'block';
+
+  // Build card content
+  var dots = '';
+  for (var i = 0; i < TOUR_STEPS.length; i++) {
+    var cls = i === idx ? 'active' : (i < idx ? 'done' : '');
+    dots += '<span class="tour-dot ' + cls + '"></span>';
+  }
+  var isLast = idx >= TOUR_STEPS.length - 1;
+  card.innerHTML = '<h3>' + step.title + '</h3><p>' + step.text + '</p>' +
+    '<div class="tour-progress">' + dots + '</div>' +
+    '<div class="tour-actions">' +
+    '<button class="tour-btn tour-btn-skip" onclick="endTour()">Skip</button>' +
+    '<button class="tour-btn tour-btn-primary" onclick="advanceTour()">' + (isLast ? '✨ Got it!' : 'Next →') + '</button>' +
+    '</div>';
+
+  // Position card below/above target
+  var cardRect = card.getBoundingClientRect();
+  var cardW = Math.min(360, window.innerWidth - 40);
+  card.style.width = cardW + 'px';
+  card.style.maxWidth = cardW + 'px';
+
+  var cardLeft = Math.max(12, Math.min(rect.left + rect.width/2 - cardW/2, window.innerWidth - cardW - 12));
+  var cardTop;
+  if (step.pos === 'top') {
+    cardTop = rect.top - 12 - card.offsetHeight;
+    if (cardTop < 12) cardTop = rect.bottom + 12;
+  } else {
+    cardTop = rect.bottom + 12;
+    if (cardTop + card.offsetHeight > window.innerHeight - 12) cardTop = rect.top - 12 - card.offsetHeight;
+  }
+  card.style.left = cardLeft + 'px';
+  card.style.top = Math.max(12, cardTop) + 'px';
+  card.style.display = 'block';
+}
+
+function advanceTour() {
+  showTourStep(tourStep + 1);
+}
+
+function endTour() {
+  tourActive = false;
+  var overlay = document.getElementById('tourOverlay');
+  if (overlay) overlay.classList.remove('active');
+  var hl = document.getElementById('tourHighlight');
+  if (hl) hl.style.display = 'none';
+  var card = document.getElementById('tourCard');
+  if (card) card.style.display = 'none';
+  localStorage.setItem('epicure_tour_done', '1');
+}
+
 // ── Init ──
 async function init() {
   try {
@@ -4664,6 +4867,9 @@ async function init() {
     document.getElementById('searchInput').value = 'miso';
 
     renderAll();
+
+    // Start onboarding tour (5s delay so user can see the UI first)
+    setTimeout(startTour, 1500);
   } catch (e) {
     document.getElementById('loadStatus').textContent = `Failed to load: ${e.message}`;
   }

@@ -5,6 +5,7 @@
 **Session 3:** June 8, 2026 (eval) — Codebase truth audit, SESSION_JOURNAL.md refresh  
 **Session 4:** June 14, 2026 — Force-graph fix + Month 3 features shipped (Ingredient2Vec, Food Agent, Trending, GLP-1 Meal Plan)
 **Session 5:** June 2026 — 12-bug audit & fix pass across all Month 3 features + force-graph + CSS
+**Session 6:** June 2026 — Chef workflow features: Export Summary, onboarding tour, GitHub publish, README, README.md, full chef review
 
 ---
 
@@ -98,28 +99,21 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 
 ## Key Metrics Over Time
 
-| Metric | Session 1 Start | After Session 1 | After Session 2 | Session 3 (audit) | Session 3 (code) | Session 4 | Session 5 |
-|--------|----------------|----------------|----------------|-------------------|-------------------|-----------|-----------|
-| index.html lines | ~2,290 | ~3,930 | ~3,848 | 3,848 | **4,165** | **4,667** | **4,686** |
-| JS functions | ~35 | ~45 | ~46 | 92 | **99** | **~113** | **~113** |
-| `aria-label` attributes on `<input>` | 0 | 21 | 21 | 21 | 21 | 26 | **26** |
+| Metric | Session 1 Start | After Session 1 | After Session 2 | Session 3 (audit) | Session 3 (code) | Session 4 | Session 5 | Session 6 |
+|--------|----------------|----------------|----------------|-------------------|-------------------|-----------|-----------|-----------|
+| index.html lines | ~2,290 | ~3,930 | ~3,848 | 3,848 | **4,165** | **4,667** | **4,686** | **4,957** |
+| JS functions | ~35 | ~45 | ~46 | 92 | **99** | **~113** | **~113** | **~116** |
+| `aria-label` attributes on `<input>` | 0 | 21 | 21 | 21 | 21 | 26 | **26** | **26** |
 | Automated test pass rate | — | 26/26 | 26/26 | — | — | — | — |
-| Console errors on load | ReferenceError | 0 | 0 | 0 | 0 | 0 | **0** |
-| GLP-1 filter persistence | Reset on re-render | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved |
-| GUIDE.md ToC tabs | 9 | — | 13 | 13 | 13 | 13 | **18** |
-| Tabs | 13 | 13 | 13 | 13 | **14** | **18** | **18** |
-| Month 3 items shipped | — | — | — | — | 0/5 | **5/5 ✅** | **5/5 ✅** |
-| Known bugs count | — | — | — | — | 1 (force-graph) | ~8+ uncovered | **0 fixed** |
+| Console errors on load | ReferenceError | 0 | 0 | 0 | 0 | 0 | **0** | **0** |
+| GLP-1 filter persistence | Reset on re-render | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved | Preserved |
+| GUIDE.md ToC tabs | 9 | — | 13 | 13 | 13 | 13 | **18** | **18** |
+| Tabs | 13 | 13 | 13 | 13 | **14** | **18** | **18** | **18** |
+| Month 3 items shipped | — | — | — | — | 0/5 | **5/5 ✅** | **5/5 ✅** | **5/5 ✅** |
+| Known bugs count | — | — | — | — | 1 (force-graph) | ~8+ uncovered | **0 fixed** | **0** |
 
 ---
 
-## Known Bug: `getForceGraphLayout()` missing
-
-The function `getForceGraphLayout()` is called at line ~3099 in `renderMap()` but **never defined**. When the user selects "Force-Directed" as the projection method in the Map tab, this throws a `ReferenceError`. Root cause: the spring-force layout was planned but never implemented.
-
-**Impact:** PCA and UMAP methods work fine. Force-Directed is broken with no graceful fallback.
-
-**Documented in:** GUIDE.md §5 (Troubleshooting), FOOD_AI_RESEARCH_PLAN.md implementation crosswalk.
 
 ---
 
@@ -195,3 +189,41 @@ The function `getForceGraphLayout()` is called at line ~3099 in `renderMap()` bu
 | Console errors on load | 0 | **0** |
 | Month 3 items shipped | **5/5 ✅** | **5/5 ✅ + all bugs cleared** |
 | Known bugs remaining | ~8+ | **0** |
+
+---
+
+## Session 6 — Chef Workflow & GitHub Launch
+
+**Focus:** Chef's review, Export Summary, onboarding tour, README, GitHub publishing. Scoped Phases 2–7 for future sessions.
+
+### What Was Done
+
+| Item | Detail |
+|------|--------|
+| **Chef's review** | Full professional chef audit across 10 dimensions — design, 18 tabs, Chef's Toolkit, games, map, seasonal, missing pro features. Priority matrix with effort/impact ratings. |
+| **📋 Export Summary** | Added to Chef's Toolkit sidebar — copies formatted ingredient summary (name, model, GLP-1, 5 substitutes, cuisine affinity, flavour profile) to clipboard with visual feedback |
+| **🎓 Onboarding Tour** | 5-step guided walkthrough (Search → Toolkit → Tabs → Map → Describe a Dish) with overlay highlight, progress dots, Next/Skip. Fires 1.5s after first load, once per user (localStorage) |
+| **README.md** | Created with overview, quick start, 18-tab feature table, architecture, 3-model explainer, dev stats, license |
+| **GitHub repo** | Created `aliatx2017/epicure-explorer` (public). Precomputed JSON bundles included for clone-and-run. All 5 session commits pushed. |
+| **Bug fixes** | Existing fix for `exportSummary` cuisine key typo (eastern_european → eastern_europeon in cuisine list) |
+
+### Phases Scoped for Future Sessions
+
+| Phase | Feature | Effort |
+|-------|---------|--------|
+| 2 | Map zoom + pan + region labels | Medium |
+| 3 | Seasonal month heatmap | Medium |
+| 4 | Games interactivity upgrade | Medium |
+| 5 | Build-A-Dish mode | High |
+| 6 | Responsive mobile/tablet layout | Medium |
+| 7 | Semantic Describe a Dish | Medium |
+
+### Key Metrics Update
+
+| Metric | Session 5 | Session 6 |
+|--------|-----------|-----------|
+| index.html lines | 4,686 | **4,957** |
+| JS functions | ~113 | **~116** (export + tour + helpers) |
+| Tabs | 18 | **18** |
+| Console errors on load | 0 | **0** |
+| Known bugs remaining | **0** | **0** |

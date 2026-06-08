@@ -517,7 +517,7 @@ A polar radar chart showing how the selected ingredient relates to all 8 sensory
 1. Click the **"👨‍🍳 Chef's Toolkit"** button in the header to toggle the sidebar
 2. Select any ingredient to see its complete intelligence profile
 
-**The sidebar shows five sections:**
+**The sidebar shows six sections:**
 
 | Section | Content | Pro Feature |
 |---|---|---|
@@ -526,6 +526,7 @@ A polar radar chart showing how the selected ingredient relates to all 8 sensory
 | 🌍 **Cuisine Affinity** | Horizontal bar chart of cosine similarity to 8 cuisine macro-regions. Longer bars = stronger affinity | Combined with the **Fusion Explorer** in the Games tab, you can find specific bridge ingredients for any cuisine pair |
 | 🧪 **Flavour Profile** | Tag badges for 8 sensory directions with similarity percentages | **🧬 Molecular Notes** are automatically derived from directional combos — e.g. high Savory + high Fermented = "Amino Acid" note; high Sweet + high Creamy = "Lactone" note |
 | 💎 **Cost & Waste Hints** | Dynamic tips based on ingredient name: luxury alternatives, root-to-stem usage, seasonal peak alerts | Kitchen-tested cost-saving and zero-waste strategies |
+| 📋 **Export Summary** | Button at the bottom of the sidebar — copies a formatted text summary of the current ingredient to clipboard (name, model, GLP-1 status, top 5 substitutes with similarity %, cuisine affinity %, flavour profile) | Turn exploration into action — paste findings into menu docs, recipe cards, or team notes |
 
 **What to look for:**
 - **GLP-1 badge** in Dietary Profile: 💚 Friendly (high protein, satiety-promoting, low glycemic), ⚠️ Poor (high fat, ultra-processed, high glycemic), 💊 Neutral. 15M+ GLP-1 users — this is the first consumer food AI tool with dedicated GLP-1 awareness
@@ -535,6 +536,7 @@ A polar radar chart showing how the selected ingredient relates to all 8 sensory
 - **Molecular notes** (Lactone, Ester, Terpene, Pyrazine, Polyphenol, Amino Acid, Maillard, Pungent, Acetic, Lipid, Vanillic, Sulfurous) are derived from sensory direction combinations — they're computational approximations of the molecular families that flavour chemists use
 - **Cost hints** flag luxury ingredients (truffle, saffron, caviar, foie gras, lobster, uni) with budget-friendly alternatives
 - **Waste reduction hints** suggest root-to-stem usage, herb storage, and stock-making from bones
+- **📋 Export Summary** button at the bottom: click to copy a formatted ingredient intelligence summary to clipboard — paste it into a menu brief, recipe card, or team collaboration doc
 
 **Example: `miso` Chef's Toolkit Pro:**
 - Dietary: ✅ Vegan, ✅ Vegetarian, ⚠️ Gluten-Free, ❌ Soy-Free, ✅ Nut-Free, ✅ Dairy-Free, 💚 **GLP-1 Friendly** (fermented soy is high-protein, satiety-promoting)
@@ -965,6 +967,8 @@ The embedding space opens the door to features that are **architecturally possib
 cd epicure-explorer && python3 -m http.server 8080
 ```
 Then visit `http://localhost:8080`.
+
+> **🎓 New to the app?** A 5-step guided tour appears on your first visit (1.5s after load) — walk through Search, Chef's Toolkit, Tab navigation, Map, and Describe a Dish. You can skip it anytime.
 
 ### 5.2 Loading screen never finishes
 
