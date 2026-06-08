@@ -162,11 +162,11 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 This project was built across 15 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **8,062 lines** of HTML/CSS/JS in a single file
-- **~176 JavaScript functions** across 19 tabs and Chef's Toolkit
-- **~6,595 lines** of JavaScript application logic
+- **~8,130 lines** of HTML/CSS/JS in a single file
+- **~182 JavaScript functions** across 19 tabs and Chef's Toolkit
+- **~6,640 lines** of JavaScript application logic
 - **31 files** tracked in version control
-- **78 automated E2E tests** — all passing
+- **80 automated E2E tests** — all passing
 - **51K per-recipe nutrition records** — FSA-scored from the im2recipe 35K dataset
 - **im2recipe-format data pipeline** — USDA-matched nutrition for all 1,790 ingredients
 - **PWA icons**: 192×192 + 512×512 PNG (purple plate/fork)

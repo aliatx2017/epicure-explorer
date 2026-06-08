@@ -545,7 +545,66 @@ async function main() {
       assert(hasContent, 'Recipes tab appears empty after subtab switch');
     });
 
-    // 5m. Snap tab (feature test)
+    // 5m. Nutrition sub-tab (FSA traffic lights + per-recipe)
+    await test('Nutrition sub-tab shows FSA traffic lights for selected ingredient', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('chicken'); });
+      await sleep(300);
+      await page.click('.tab[data-tab="recipes"]');
+      await sleep(1500);
+      // Click the Nutrition sub-tab
+      await page.evaluate(() => {
+        const subTabs = document.querySelectorAll('.recipe-subtab');
+        for (const st of subTabs) {
+          if (st.getAttribute('data-recipe-tab') === 'nutrition') {
+            st.click();
+            break;
+          }
+        }
+      });
+      await sleep(800);
+      // Check for FSA traffic light emoji icons (🟢🟡🔴)
+      const hasTrafficLights = await page.evaluate(() => {
+        const content = document.getElementById('recipeContent');
+        if (!content) return false;
+        const text = content.textContent;
+        return text.includes('🟢') || text.includes('🟡') || text.includes('🔴');
+      });
+      assert(hasTrafficLights, 'No FSA traffic light emojis found in Nutrition tab');
+      // Check for "Per 100g" section header
+      const hasPer100g = await page.evaluate(() => {
+        const content = document.getElementById('recipeContent');
+        return content ? content.textContent.includes('Per 100g') : false;
+      });
+      assert(hasPer100g, 'Per 100g section not found in Nutrition tab');
+    });
+    await test('Nutrition sub-tab shows per-recipe data for common ingredient', async () => {
+      await dismissTour(page);
+      await page.evaluate(() => { selectIngredient('chicken'); });
+      await sleep(300);
+      await page.click('.tab[data-tab="recipes"]');
+      await sleep(1000);
+      await page.evaluate(() => {
+        const subTabs = document.querySelectorAll('.recipe-subtab');
+        for (const st of subTabs) {
+          if (st.getAttribute('data-recipe-tab') === 'nutrition') {
+            st.click();
+            break;
+          }
+        }
+      });
+      await sleep(800);
+      const hasRecipes = await page.evaluate(() => {
+        const content = document.getElementById('recipeContent');
+        if (!content) return false;
+        const text = content.textContent;
+        // Should show "Recipes Using" section title AND have traffic light emojis
+        return text.includes('Recipes Using') && (text.includes('🟢') || text.includes('🟡') || text.includes('🔴'));
+      });
+      assert(hasRecipes, 'Per-recipe nutrition section not rendering correctly');
+    });
+
+    // 5n. Snap tab (feature test)
     await test('Snap tab shows file upload input', async () => {
       await dismissTour(page);
       await page.click('.tab-cat[data-cat="analyze"]');

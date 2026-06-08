@@ -10,6 +10,7 @@
 **Session 8:** July 2026 — Full design audit: tab categories, empty states, Chef overlay drawer, deep-link URLs, responsive, ARIA+keyboard, skeleton loading + licensing cleanup
 **Session 9:** June 2026 — 10-feature sprint: PWA manifest, dark mode, Spoonacular graceful degradation, map gesture hint, cross-model consensus, unified search, molecular fingerprint card, seasonal heatmap (Phase 3), Service Worker + offline, map viewport culling. 57/57 E2E tests pass. Repo pushed to GitHub.
 **Session 10:** July 2026 — Feedback-driven polish sprint: Spoonacular call tracking + 429 handling, offline banner, search alias system (50+ culinary variants), density heatmap overlay, CSV + PNG exports, share link, 5-language i18n (EN/ES/FR/中文/日本語), semantic search intent detection, usage analytics, offline-aware APIs. 57/57 E2E tests pass.
+**Session 18:**  — All 3 Tier-2 features shipped: Nutrition tab E2E tests, Build-A-Dish → TheMealDB recipe integration, Flavour Pair of the Day. 80/80 E2E tests pass.
 
 ---
 
@@ -890,3 +891,46 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 - 78/78 E2E tests pass, 0 bugs, 0 console errors
 - Remaining: Tier 2 (Nutrition E2E, Build-A-Dish→Recipe, Flavour Pair feature) and Tier 3 (LLM recipe gen, Ingredient2Vec API, Food Agent)
 - `origin/main` up to date (commits: d31b857, d3076b3, be9d8e7, 528599e)
+
+---
+
+## Session 18 — Tier-2 Complete: Nutrition E2E, Build-A-Dish → TheMealDB, Flavour Pair of the Day
+
+**Focus:** All 3 Tier-2 client-side items shipped: Nutrition sub-tab E2E tests, Build-A-Dish → TheMealDB recipe integration, and Flavour Pair of the Day.
+
+### What Was Done
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🧪 | **Nutrition tab E2E tests** | 2 new tests: FSA traffic-light display (🟢🟡🔴 emojis + "Per 100g" header) and per-recipe nutrition data for common ingredients (chicken). Verifies `recipeContent` contains FSA icons and "Recipes Using" section. |
+| **2** 🍲 | **Build-A-Dish → TheMealDB** | New "🍲 Find Recipes with These Ingredients" button below centroid pairing results. `searchBuildRecipes()` uses `mealDBFetch()` searching by the first build ingredient, renders up to 12 recipe cards (thumbnail, title, area/category) with a "✓ matches" badge when other build ingredients appear in recipe names. Recipe details scroll into focus on card click. |
+| **3** 🧪 | **Flavour Pair of the Day** | New expandable banner below the search bar showing a random molecularly-interesting ingredient pair. `generateFlavourPair()` samples 200 random pairs (similarity 0.4–0.88, prefers cross-cuisine). `explainFlavourPair()` shows shared molecular notes, sensory-direction alignment, and cuisine info. Persisted in localStorage per day. Triggered on first model load in `loadModelData()`. |
+
+### Metrics Update
+
+| Metric | Session 17 | Session 18 |
+|--------|-----------|------------|
+| index.html lines | 8,062 | **~8,130** |
+| JS functions | 176 | **~182** |
+| File size | ~428 KB | **~427 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **78/78 ✅** | **80/80 ✅** |
+| Nutrition tab E2E | 0 tests | **2 tests** |
+| Build-A-Dish → Recipes | Centroid-only | **TheMealDB integration** |
+| Flavour Pair of the Day | — | **✅ Shipped** |
+
+### Files Modified
+| File | Change |
+|------|--------|
+| `index.html` | +Build-A-Dish "Find Recipes" button + `searchBuildRecipes()` + `escapeHtml()`; +Flavour Pair banner HTML + `generateFlavourPair()`/`explainFlavourPair()`/`renderFlavourPair()`/`formatName()`/`toggleFlavourPairDetail()`; +generation hook in `loadModelData()` |
+| `tests/e2e.mjs` | +55 lines: 2 Nutrition subtab tests (FSA traffic lights + per-recipe data). 78→80 tests |
+| `README.md` | Quick stats updated: ~8,130 lines, ~182 functions, ~6,640 JS lines, 80 E2E tests |
+| `NEXT_SESSION.md` | Full rewrite: Tier 2 shipped, Tier 3 remaining, 80 tests |
+
+### State at Session End
+
+- All Tier-2 items resolved: Nutrition E2E tests, Build-A-Dish → TheMealDB recipe integration, Flavour Pair of the Day
+- **80/80 E2E tests pass**, 0 bugs, 0 console errors
+- Remaining: **Tier 3** (LLM Recipe Generation, Ingredient2Vec REST API, Personalized Food Agent) — requires backend infrastructure
+- `origin/main` ready for push

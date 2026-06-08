@@ -757,6 +757,20 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
     <span id="describeStatus" style="display:none;"></span>
     <div class="describe-row" style="display:none;"></div>
 
+    <!-- Flavour Pair of the Day -->
+    <div id="flavourPairBanner" style="display:none;margin:6px 0 2px;padding:6px 14px;border-radius:var(--radius-sm);background:var(--surface);border:1px solid var(--border);font-size:0.78rem;cursor:pointer;" onclick="toggleFlavourPairDetail()" title="Click for details">
+      <span style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:0.85rem;">🧪</span>
+        <span style="font-weight:500;">Flavour Pair of the Day:</span>
+        <span id="fpIngredientA" style="color:var(--accent);font-weight:500;"></span>
+        <span style="color:var(--text3);">+</span>
+        <span id="fpIngredientB" style="color:var(--accent2);font-weight:500;"></span>
+        <span id="fpSimilarity" style="font-size:0.65rem;color:var(--text3);"></span>
+        <span style="margin-left:auto;font-size:0.65rem;color:var(--text3);" id="fpToggleHint">▼ details</span>
+      </span>
+      <div id="fpDetail" style="display:none;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);font-size:0.72rem;color:var(--text2);line-height:1.5;"></div>
+    </div>
+
     <!-- Result Tabs -->
     <div class="tab-categories" id="tabCategories" role="tablist" aria-label="Tab categories">
       <button class="tab-cat active" data-cat="core" role="tab" aria-selected="true">🧠 Core</button>
@@ -1986,6 +2000,11 @@ async function loadModelData(modelName) {
   STATE.modelsLoaded[modelName] = true;
   // Re-trigger health direction computation if nutrition already loaded
   if (typeof computeHealthDirection === 'function') computeHealthDirection();
+  // Generate Flavour Pair of the Day on first model load
+  if (typeof generateFlavourPair === 'function' && !STATE._flavourPairGenerated) {
+    STATE._flavourPairGenerated = true;
+    setTimeout(generateFlavourPair, 500);
+  }
   return json;
 }
 
@@ -3856,7 +3875,11 @@ function runBuildDish() {
         '<div class="sim-wrap"><div class="sim-bar" style="width:' + p + '%;background:var(--accent2)"></div>' +
         '<span class="sim-label">' + (item.sim * 100).toFixed(0) + '%</span></div></div>';
     }).join('') + '</div>' +
-    '<div id="buildCatSummary" style="margin-top:8px;"></div>';
+    '<div id="buildCatSummary" style="margin-top:8px;"></div>' +
+    '<div style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px;">' +
+    '<button class="game-new-btn" onclick="searchBuildRecipes()" id="buildRecipeBtn" style="font-size:0.75rem;">🍲 Find Recipes with These Ingredients</button>' +
+    '</div>' +
+    '<div id="buildRecipeResults"></div>';
 
   // Category summary
   var catKeys = Object.keys(cats);
@@ -3989,6 +4012,58 @@ function renderBuildDietFlags(matched) {
   } else {
     document.getElementById('buildNutritionSummary').textContent = '';
   }
+}
+
+// ── Build-A-Dish → TheMealDB recipe integration ──
+function searchBuildRecipes() {
+  if (BUILD_INGREDIENTS.length === 0) return;
+  var resultsEl = document.getElementById('buildRecipeResults');
+  if (!resultsEl) return;
+  resultsEl.innerHTML = '<div class="spoon-loading" style="margin:10px 0;">Searching TheMealDB for recipes…</div>';
+  var btn = document.getElementById('buildRecipeBtn');
+  if (btn) btn.disabled = true;
+
+  // Search by the first ingredient
+  var primary = BUILD_INGREDIENTS[0].replace(/_/g, ' ');
+  mealDBFetch(MEALDB_BASE + '/filter.php?i=' + encodeURIComponent(primary))
+    .then(function(data) {
+      if (btn) btn.disabled = false;
+      if (!data || !data.meals) {
+        resultsEl.innerHTML = '<div class="empty-state" style="font-size:0.72rem;">No recipes found with "' + primary + '" on TheMealDB. Try different ingredients.</div>';
+        return;
+      }
+      var meals = data.meals.slice(0, 12);
+      var otherIngr = BUILD_INGREDIENTS.slice(1).map(function(n) { return n.replace(/_/g, ' ').toLowerCase(); });
+
+      var html = '<div class="recipe-category" style="margin-top:4px;"><div class="recipe-category-header">🍲 Recipes from TheMealDB <span class="count">' + data.meals.length + ' recipes found</span></div>';
+      html += '<div class="spoon-recipe-grid">';
+      meals.forEach(function(meal) {
+        // Check if recipe title hints at relevance to other build ingredients
+        var hasMatch = otherIngr.length > 0 && otherIngr.some(function(oi) {
+          return (meal.strMeal || '').toLowerCase().indexOf(oi) >= 0;
+        });
+        var badge = hasMatch ? '<span style="font-size:0.6rem;background:var(--accent2)33;color:var(--accent2);padding:1px 5px;border-radius:99px;margin-left:4px;">✓ matches</span>' : '';
+        html += '<div class="spoon-recipe-card" onclick="mealDBGetRecipeInfo(\'' + meal.idMeal + '\');document.getElementById(\'spoonRecipeResults\').scrollIntoView({behavior:\'smooth\'});" style="cursor:pointer;">' +
+          '<img class="spoon-recipe-img" src="' + meal.strMealThumb + '" alt="' + escapeHtml(meal.strMeal) + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+          '<div class="spoon-recipe-info">' +
+          '<div class="spoon-recipe-title">' + escapeHtml(meal.strMeal) + badge + '</div>' +
+          '<div style="font-size:0.65rem;color:var(--text3);">' + (meal.strArea || '') + ' · ' + (meal.strCategory || '') + '</div>' +
+          '</div></div>';
+      });
+      html += '</div></div>';
+      // Show TheMealDB attribution
+      html += '<div style="font-size:0.6rem;color:var(--text3);margin-top:4px;text-align:center;">Recipe data from <a href="https://www.themealdb.com/" target="_blank" style="color:var(--accent);">TheMealDB</a></div>';
+      resultsEl.innerHTML = html;
+    })
+    .catch(function(err) {
+      if (btn) btn.disabled = false;
+      resultsEl.innerHTML = '<div class="empty-state" style="font-size:0.72rem;">⚠️ ' + err.message + '</div>';
+    });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ── Seasonal Calendar Data + Rendering ──
@@ -4734,6 +4809,162 @@ function mealDBGetRecipeInfo(id) {
   }).catch(function(err) {
     r.innerHTML = '<div class="spoon-error">❌ ' + err.message + '</div>';
   });
+
+  // Render recipe details into spoonRecipeResults so scrolling works from build-dish
+  if (document.getElementById('spoonRecipeResults')) {
+    document.getElementById('spoonRecipeResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ── Flavour Pair of the Day — random molecularly-interesting pair ──
+
+function generateFlavourPair() {
+  // Only generate if model data is available
+  var names = STATE.data.ingredients;
+  if (!names || names.length < 10) return;
+  var model = STATE.models[STATE.currentModel];
+  if (!model || !model.vectors) return;
+
+  // Check if we already generated one today (localStorage)
+  var today = new Date().toDateString();
+  var cached = localStorage.getItem('epicure_flavour_pair');
+  if (cached) {
+    try {
+      var parsed = JSON.parse(cached);
+      if (parsed.date === today) {
+        renderFlavourPair(parsed.ingA, parsed.ingB, parsed.sim, parsed.detail);
+        return;
+      }
+    } catch(e) { /* ignore stale cache */ }
+  }
+
+  // Pick a high-similarity pair (>0.5) from different cuisines for culinary interest
+  var dim = model.vectors[0].length;
+  var bestPair = null;
+  var bestScore = -Infinity;
+
+  // Try 200 random pairs
+  for (var attempt = 0; attempt < 200; attempt++) {
+    var idxA = Math.floor(Math.random() * names.length);
+    var idxB = Math.floor(Math.random() * names.length);
+    if (idxA === idxB) continue;
+
+    var sim = dotProduct(model.vectors[idxA], model.vectors[idxB]);
+    // Filter: not too similar, not too dissimilar, preferable range 0.4–0.85
+    if (sim < 0.4 || sim > 0.88) continue;
+
+    // Prefer interesting pairs: different cuisine regions if tagged
+    var cA = STATE.data.cuisine_tags ? (STATE.data.cuisine_tags[names[idxA]] || '') : '';
+    var cB = STATE.data.cuisine_tags ? (STATE.data.cuisine_tags[names[idxB]] || '') : '';
+    var diversityBonus = (cA && cB && cA !== cB) ? 0.15 : 0;
+
+    var score = sim + diversityBonus;
+    if (score > bestScore) {
+      bestScore = score;
+      bestPair = { ingA: names[idxA], ingB: names[idxB], sim: sim };
+    }
+  }
+
+  if (!bestPair) {
+    // Fallback: pick from neighbours from a random ingredient
+    if (model.neighbours) {
+      var randSeed = Math.floor(Math.random() * names.length);
+      var nbrs = model.neighbours[randSeed];
+      if (nbrs && nbrs.length > 1) {
+        var topNbr = nbrs[Math.floor(Math.random() * Math.min(nbrs.length, 10))];
+        bestPair = { ingA: names[randSeed], ingB: topNbr.name, sim: topNbr.sim || 0.5 };
+      }
+    }
+  }
+
+  if (bestPair) {
+    var detail = explainFlavourPair(bestPair.ingA, bestPair.ingB, model);
+    renderFlavourPair(bestPair.ingA, bestPair.ingB, bestPair.sim, detail);
+    try {
+      localStorage.setItem('epicure_flavour_pair', JSON.stringify({
+        date: today,
+        ingA: bestPair.ingA,
+        ingB: bestPair.ingB,
+        sim: bestPair.sim,
+        detail: detail
+      }));
+    } catch(e) { /* ignore */ }
+  }
+}
+
+function explainFlavourPair(ingA, ingB, model) {
+  // Build a molecular/flavour explanation using sensory directions and cuisine tags
+  var directions = STATE.data.directions;
+  var cuisineTags = STATE.data.cuisine_tags || {};
+  var cA = cuisineTags[ingA] || '';
+  var cB = cuisineTags[ingB] || '';
+
+  // Molecular notes overlap
+  var vecA = model.vectors[STATE.data.ingredients.indexOf(ingA)];
+  var vecB = model.vectors[STATE.data.ingredients.indexOf(ingB)];
+  var notesA = typeof getMolecularNotes === 'function' ? getMolecularNotes(vecA) : [];
+  var notesB = typeof getMolecularNotes === 'function' ? getMolecularNotes(vecB) : [];
+  var sharedNotes = notesA.filter(function(nA) {
+    return notesB.some(function(nB) { return nB.name === nA.name; });
+  });
+
+  // Sensory direction alignment
+  var dirNames = ['sweet','spicy','savory_umami','citrus_sour','fermented','bitter','creamy_dairy','herbal'];
+  var aligned = [];
+  if (directions) {
+    dirNames.forEach(function(d) {
+      if (!directions[d]) return;
+      var sA = dotProduct(vecA, directions[d]);
+      var sB = dotProduct(vecB, directions[d]);
+      if (sA > 0.15 && sB > 0.15) aligned.push(d.replace(/_/g, ' '));
+    });
+  }
+
+  var html = '';
+  if (cA && cB && cA !== cB) {
+    html += '<div style="margin-bottom:4px;">🌍 <strong>' + formatName(ingA) + '</strong> (' + cA + ') + <strong>' + formatName(ingB) + '</strong> (' + cB + ') — a cross-cuisine pairing</div>';
+  } else if (cA || cB) {
+    html += '<div style="margin-bottom:4px;">🌍 ' + (cA || cB) + ' cuisine pairing</div>';
+  }
+  if (sharedNotes.length > 0) {
+    html += '<div style="margin-bottom:4px;">🧬 Shared molecular notes: ' + sharedNotes.map(function(n) { return '<span style="padding:1px 6px;border-radius:99px;background:var(--accent)22;font-size:0.65rem;border:1px solid var(--accent)44;">' + n.name + '</span>'; }).join(' ') + '</div>';
+  }
+  if (aligned.length > 0) {
+    html += '<div style="margin-bottom:4px;">🎯 Both ingredients are strong in: ' + aligned.join(', ') + '</div>';
+  }
+  if (html === '') {
+    html = '<div style="color:var(--text3);">A molecularly-balanced pairing discovered through embedding space similarity.</div>';
+  }
+  return html;
+}
+
+function renderFlavourPair(ingA, ingB, sim, detail) {
+  var banner = document.getElementById('flavourPairBanner');
+  var elA = document.getElementById('fpIngredientA');
+  var elB = document.getElementById('fpIngredientB');
+  var elSim = document.getElementById('fpSimilarity');
+  var elDetail = document.getElementById('fpDetail');
+  if (!banner || !elA || !elB) return;
+
+  elA.textContent = formatName(ingA);
+  elB.textContent = formatName(ingB);
+  elSim.textContent = '— ' + (sim * 100).toFixed(0) + '% match';
+  if (elDetail && detail) elDetail.innerHTML = detail;
+  banner.style.display = '';
+}
+
+function formatName(name) {
+  if (!name) return '';
+  return name.replace(/_/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+}
+
+function toggleFlavourPairDetail() {
+  var detail = document.getElementById('fpDetail');
+  var hint = document.getElementById('fpToggleHint');
+  if (!detail) return;
+  var isHidden = detail.style.display === 'none';
+  detail.style.display = isHidden ? '' : 'none';
+  if (hint) hint.textContent = isHidden ? '▲ hide' : '▼ details';
 }
 
 // ── TheCocktailDB — Free Cocktail Recipe API (no API key needed) ──

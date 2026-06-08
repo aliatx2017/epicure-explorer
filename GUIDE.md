@@ -131,7 +131,7 @@ index.html
 
 ### 1.4 App Architecture (index.html)
 
-The entire application is a **single HTML file** (8,062 lines) containing:
+The entire application is a **single HTML file** (~8,130 lines) containing:
 
 - **CSS** (~686 lines) — dark theme, responsive grid, panel layout, card components, canvas styling, mode filter controls, game cards, chef sidebar overlay, describe-dish input, snap upload zone, tab category bar, skeleton loading screen, responsive breakpoints, accessibility support
 - **HTML** (~775 lines) — shell structure with 19 tab panels grouped into 4 categories, search bar, model switcher, mode filter bar, games panel, chef's toolkit overlay drawer, describe-dish input row, snap upload/preview area, accessibility labels, credit footer
