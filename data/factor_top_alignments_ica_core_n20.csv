@@ -1,0 +1,21 @@
+rank,factor_pole,supervised_direction,cos,abs_cos
+1,F1-A: Steeped & Fermented Beverages,cuisine:South Asian,-0.962880,0.962880
+2,F1-B: Cocktail Spirits & Liqueurs,cuisine:South Asian,0.962880,0.962880
+3,F0-A: Indian Subcontinental Pantry Staples,LLM:earthy,0.893973,0.893973
+4,F0-B: Global Spice Blends & Dried Beans,LLM:earthy,-0.893973,0.893973
+5,F10-A: Southeast Asian Aromatic Pantry,cuisine:Japanese,-0.893340,0.893340
+6,F10-B: Mediterranean & Atlantic Herbaceous Ingredients,cuisine:Japanese,0.893340,0.893340
+7,F18-A: Italian-American Deli & Pizza Pantry,cuisine:East Asian,-0.885076,0.885076
+8,"F18-B: Rustic Stocks, Dairy & Game Cookery",cuisine:East Asian,0.885076,0.885076
+9,F0-A: Indian Subcontinental Pantry Staples,LLM:umami,0.881622,0.881622
+10,F0-B: Global Spice Blends & Dried Beans,LLM:umami,-0.881622,0.881622
+11,F4-A: Japanese Pantry Staples,cuisine:Latin American,0.866011,0.866011
+12,F4-B: Freshwater Fish & Robust Savory Bases,cuisine:Latin American,-0.866011,0.866011
+13,F0-A: Indian Subcontinental Pantry Staples,LLM:fatty,0.863201,0.863201
+14,F0-B: Global Spice Blends & Dried Beans,LLM:fatty,-0.863201,0.863201
+15,F5-A: Northern European Rich Cuisine,cuisine:Eastern European,0.857972,0.857972
+16,F5-B: Eastern Mediterranean & Turkish Pantry,cuisine:Eastern European,-0.857972,0.857972
+17,F0-A: Indian Subcontinental Pantry Staples,LLM:nutty,0.852931,0.852931
+18,F0-B: Global Spice Blends & Dried Beans,LLM:nutty,-0.852931,0.852931
+19,F0-A: Indian Subcontinental Pantry Staples,LLM:sweet,0.850403,0.850403
+20,F0-B: Global Spice Blends & Dried Beans,LLM:sweet,-0.850403,0.850403

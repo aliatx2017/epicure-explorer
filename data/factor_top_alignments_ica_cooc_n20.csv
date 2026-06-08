@@ -1,0 +1,21 @@
+rank,factor_pole,supervised_direction,cos,abs_cos
+1,F1-A: Global Savory Pantry Staples,cuisine:South Asian,-0.934421,0.934421
+2,F1-B: Indian Subcontinent Pantry,cuisine:South Asian,0.934421,0.934421
+3,F6-A: Mexican & Latin American Pantry,cuisine:Latin American,0.864508,0.864508
+4,F6-B: European Continental Charcuterie & Aromatics,cuisine:Latin American,-0.864508,0.864508
+5,F10-A: Japanese Pantry Staples,cuisine:Japanese,0.847386,0.847386
+6,F10-B: Chinese & Mediterranean Whole Fish & Aromatics,cuisine:Japanese,-0.847386,0.847386
+7,F15-A: Chinese Wok & Hot Pot Pantry,cuisine:East Asian,0.835383,0.835383
+8,F15-B: Italian-Mediterranean Hearty Cooking,cuisine:East Asian,-0.835383,0.835383
+9,F5-A: Italian-Mediterranean Savory Pantry,cuisine:Eastern European,-0.804000,0.804000
+10,F5-B: Eastern European & Caucasian Pantry,cuisine:Eastern European,0.804000,0.804000
+11,"F2-A: Savory Grains, Cheeses & Ferments",USDA:protein_fat_ratio,0.797107,0.797107
+12,F2-B: Sweet Baking & Confectionery,USDA:protein_fat_ratio,-0.797107,0.797107
+13,"F2-A: Savory Grains, Cheeses & Ferments",USDA:sugars_g,-0.778962,0.778962
+14,F2-B: Sweet Baking & Confectionery,USDA:sugars_g,0.778962,0.778962
+15,F15-A: Chinese Wok & Hot Pot Pantry,cuisine:Mediterranean,-0.774316,0.774316
+16,F15-B: Italian-Mediterranean Hearty Cooking,cuisine:Mediterranean,0.774316,0.774316
+17,"F2-A: Savory Grains, Cheeses & Ferments",USDA:carbohydrate_g,-0.727308,0.727308
+18,F2-B: Sweet Baking & Confectionery,USDA:carbohydrate_g,0.727308,0.727308
+19,F11-A: East Asian Specialty Ingredients,cuisine:East Asian,0.726046,0.726046
+20,F11-B: Western Seafood & Classic Sauces,cuisine:East Asian,-0.726046,0.726046

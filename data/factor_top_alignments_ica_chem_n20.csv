@@ -1,0 +1,21 @@
+rank,factor_pole,supervised_direction,cos,abs_cos
+1,F0-A: Global Spice Blends & Specialty Ingredients,cuisine:South Asian,-0.934700,0.934700
+2,F0-B: South Asian Pantry Staples,cuisine:South Asian,0.934700,0.934700
+3,F6-A: European Savory Pantry & Aromatics,cuisine:Latin American,-0.910071,0.910071
+4,F6-B: Mexican & Latin American Staples,cuisine:Latin American,0.910071,0.910071
+5,F9-A: Briny Fermented Seafood & Condiments,cuisine:Japanese,-0.848090,0.848090
+6,F9-B: Japanese & Korean Pantry Staples,cuisine:Japanese,0.848090,0.848090
+7,F7-A: Eastern European & Caucasian Pantry,cuisine:Eastern European,0.801788,0.801788
+8,F7-B: Italian & Western European Cheeses and Staples,cuisine:Eastern European,-0.801788,0.801788
+9,F14-A: Chinese Wok Cooking Pantry,cuisine:East Asian,0.766874,0.766874
+10,F14-B: Diverse Global Specialty Ingredients,cuisine:East Asian,-0.766874,0.766874
+11,F1-A: Eclectic Global Specialty Ingredients,cuisine:Southeast Asian,-0.689686,0.689686
+12,F1-B: Southeast Asian Pantry Staples,cuisine:Southeast Asian,0.689686,0.689686
+13,F4-A: Aromatic Herbs & Robust Savory Staples,cuisine:Southeast Asian,-0.681152,0.681152
+14,F4-B: Southeast Asian Tropical Pantry,cuisine:Southeast Asian,0.681152,0.681152
+15,F8-A: Mediterranean-Levantine Savory Pantry,CF:bitter,-0.634434,0.634434
+16,F8-B: East/Southeast Asian Vegetables & Staples,CF:bitter,0.634434,0.634434
+17,F8-A: Mediterranean-Levantine Savory Pantry,CF:nutty,-0.624249,0.624249
+18,F8-B: East/Southeast Asian Vegetables & Staples,CF:nutty,0.624249,0.624249
+19,F8-A: Mediterranean-Levantine Savory Pantry,CF:earthy,0.607923,0.607923
+20,F8-B: East/Southeast Asian Vegetables & Staples,CF:earthy,-0.607923,0.607923

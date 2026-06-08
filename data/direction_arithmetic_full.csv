@@ -1,0 +1,2161 @@
+test_case,seed,model,angle_deg,target_cos,hit_rank,hit_name,hit_sim,hit_is_target
+chicken + Japanese,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + Japanese,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + Japanese,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + Japanese,chicken,cooc,0,1.000000,4,turkey,0.348000,False
+chicken + Japanese,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + Japanese,chicken,cooc,30,0.866025,1,mentsuyu,0.433400,True
+chicken + Japanese,chicken,cooc,30,0.866025,2,bonito_flakes,0.377200,True
+chicken + Japanese,chicken,cooc,30,0.866025,3,udon_noodle,0.373300,True
+chicken + Japanese,chicken,cooc,30,0.866025,4,shichimi_togarashi,0.366200,True
+chicken + Japanese,chicken,cooc,30,0.866025,5,carrot,0.361200,False
+chicken + Japanese,chicken,cooc,60,0.500000,1,mentsuyu,0.523300,True
+chicken + Japanese,chicken,cooc,60,0.500000,2,dashi,0.477500,True
+chicken + Japanese,chicken,cooc,60,0.500000,3,bonito_flakes,0.466000,True
+chicken + Japanese,chicken,cooc,60,0.500000,4,burdock_root,0.440900,True
+chicken + Japanese,chicken,cooc,60,0.500000,5,mirin,0.440400,True
+chicken + Japanese,chicken,core,0,1.000000,1,pork,0.580800,False
+chicken + Japanese,chicken,core,0,1.000000,2,beef,0.571200,False
+chicken + Japanese,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + Japanese,chicken,core,0,1.000000,4,peanut,0.523300,False
+chicken + Japanese,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + Japanese,chicken,core,30,0.866025,1,dashi,0.624100,True
+chicken + Japanese,chicken,core,30,0.866025,2,burdock_root,0.618600,True
+chicken + Japanese,chicken,core,30,0.866025,3,kombu,0.617300,True
+chicken + Japanese,chicken,core,30,0.866025,4,mirin,0.612500,True
+chicken + Japanese,chicken,core,30,0.866025,5,udon_noodle,0.585400,True
+chicken + Japanese,chicken,core,60,0.500000,1,dashi,0.684000,True
+chicken + Japanese,chicken,core,60,0.500000,2,mirin,0.665700,True
+chicken + Japanese,chicken,core,60,0.500000,3,kombu,0.648100,True
+chicken + Japanese,chicken,core,60,0.500000,4,bonito_flakes,0.636800,True
+chicken + Japanese,chicken,core,60,0.500000,5,burdock_root,0.631300,True
+chicken + Japanese,chicken,chem,0,1.000000,1,beef,0.405100,False
+chicken + Japanese,chicken,chem,0,1.000000,2,pork,0.339700,False
+chicken + Japanese,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + Japanese,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + Japanese,chicken,chem,0,1.000000,5,peanut,0.282100,False
+chicken + Japanese,chicken,chem,30,0.866025,1,mirin,0.396000,True
+chicken + Japanese,chicken,chem,30,0.866025,2,bonito_flakes,0.367600,True
+chicken + Japanese,chicken,chem,30,0.866025,3,udon_noodle,0.362500,True
+chicken + Japanese,chicken,chem,30,0.866025,4,dashi,0.359600,True
+chicken + Japanese,chicken,chem,30,0.866025,5,yuzu_kosho,0.337900,True
+chicken + Japanese,chicken,chem,60,0.500000,1,dashi,0.534200,True
+chicken + Japanese,chicken,chem,60,0.500000,2,mirin,0.532700,True
+chicken + Japanese,chicken,chem,60,0.500000,3,bonito_flakes,0.521700,True
+chicken + Japanese,chicken,chem,60,0.500000,4,mentsuyu,0.498000,True
+chicken + Japanese,chicken,chem,60,0.500000,5,chikuwa,0.482300,True
+beef + East_Asian,beef,cooc,0,1.000000,1,onion,0.414000,False
+beef + East_Asian,beef,cooc,0,1.000000,2,pork,0.369800,False
+beef + East_Asian,beef,cooc,0,1.000000,3,black_pepper,0.354000,False
+beef + East_Asian,beef,cooc,0,1.000000,4,garlic,0.351700,False
+beef + East_Asian,beef,cooc,0,1.000000,5,potato,0.319600,False
+beef + East_Asian,beef,cooc,30,0.866025,1,pork,0.451800,False
+beef + East_Asian,beef,cooc,30,0.866025,2,shiitake_mushroom,0.412500,True
+beef + East_Asian,beef,cooc,30,0.866025,3,dark_soy_sauce,0.388900,True
+beef + East_Asian,beef,cooc,30,0.866025,4,blood_tofu,0.388300,True
+beef + East_Asian,beef,cooc,30,0.866025,5,braising_liquid,0.377400,False
+beef + East_Asian,beef,cooc,60,0.500000,1,shaoxing_wine,0.476500,True
+beef + East_Asian,beef,cooc,60,0.500000,2,shiitake_mushroom,0.474200,True
+beef + East_Asian,beef,cooc,60,0.500000,3,light_soy_sauce,0.472900,True
+beef + East_Asian,beef,cooc,60,0.500000,4,yu_choy,0.467700,True
+beef + East_Asian,beef,cooc,60,0.500000,5,mala_sauce,0.456800,True
+beef + East_Asian,beef,core,0,1.000000,1,chicken,0.571200,False
+beef + East_Asian,beef,core,0,1.000000,2,taco_seasoning,0.555600,False
+beef + East_Asian,beef,core,0,1.000000,3,bell_pepper,0.546400,False
+beef + East_Asian,beef,core,0,1.000000,4,enchilada_sauce,0.545600,False
+beef + East_Asian,beef,core,0,1.000000,5,mushroom,0.536400,False
+beef + East_Asian,beef,core,30,0.866025,1,light_soy_sauce,0.650500,True
+beef + East_Asian,beef,core,30,0.866025,2,oyster_sauce,0.630800,True
+beef + East_Asian,beef,core,30,0.866025,3,hot_pot_base,0.629700,True
+beef + East_Asian,beef,core,30,0.866025,4,enoki_mushroom,0.628900,True
+beef + East_Asian,beef,core,30,0.866025,5,daikon,0.627800,True
+beef + East_Asian,beef,core,60,0.500000,1,light_soy_sauce,0.713300,True
+beef + East_Asian,beef,core,60,0.500000,2,shaoxing_wine,0.688900,True
+beef + East_Asian,beef,core,60,0.500000,3,oyster_sauce,0.684000,True
+beef + East_Asian,beef,core,60,0.500000,4,tofu_skin,0.680000,True
+beef + East_Asian,beef,core,60,0.500000,5,dried_lily_bud,0.670900,True
+beef + East_Asian,beef,chem,0,1.000000,1,chicken,0.405100,False
+beef + East_Asian,beef,chem,0,1.000000,2,taco_sauce,0.337400,False
+beef + East_Asian,beef,chem,0,1.000000,3,taco_seasoning,0.328000,False
+beef + East_Asian,beef,chem,0,1.000000,4,mushroom,0.297900,False
+beef + East_Asian,beef,chem,0,1.000000,5,tortilla,0.268400,False
+beef + East_Asian,beef,chem,30,0.866025,1,chicken,0.363600,False
+beef + East_Asian,beef,chem,30,0.866025,2,light_soy_sauce,0.341300,True
+beef + East_Asian,beef,chem,30,0.866025,3,hot_pot_base,0.340100,True
+beef + East_Asian,beef,chem,30,0.866025,4,yu_choy,0.332800,True
+beef + East_Asian,beef,chem,30,0.866025,5,oyster_sauce,0.330200,True
+beef + East_Asian,beef,chem,60,0.500000,1,light_soy_sauce,0.474400,True
+beef + East_Asian,beef,chem,60,0.500000,2,oyster_sauce,0.457900,True
+beef + East_Asian,beef,chem,60,0.500000,3,yu_choy,0.452600,True
+beef + East_Asian,beef,chem,60,0.500000,4,shaoxing_wine,0.449300,True
+beef + East_Asian,beef,chem,60,0.500000,5,tofu_skin,0.445900,True
+salmon + Mediterranean,salmon,cooc,0,1.000000,1,wasabi,0.348300,False
+salmon + Mediterranean,salmon,cooc,0,1.000000,2,avocado,0.324500,False
+salmon + Mediterranean,salmon,cooc,0,1.000000,3,ponzu,0.318900,False
+salmon + Mediterranean,salmon,cooc,0,1.000000,4,balsamic_vinegar,0.318000,True
+salmon + Mediterranean,salmon,cooc,0,1.000000,5,scallop,0.317100,False
+salmon + Mediterranean,salmon,cooc,30,0.866025,1,balsamic_vinegar,0.407800,True
+salmon + Mediterranean,salmon,cooc,30,0.866025,2,cooking_spray,0.360700,False
+salmon + Mediterranean,salmon,cooc,30,0.866025,3,thyme,0.357800,False
+salmon + Mediterranean,salmon,cooc,30,0.866025,4,tapenade,0.357800,True
+salmon + Mediterranean,salmon,cooc,30,0.866025,5,white_wine,0.357700,False
+salmon + Mediterranean,salmon,cooc,60,0.500000,1,tapenade,0.391100,True
+salmon + Mediterranean,salmon,cooc,60,0.500000,2,balsamic_vinegar,0.388400,True
+salmon + Mediterranean,salmon,cooc,60,0.500000,3,gruyere_cheese,0.376400,True
+salmon + Mediterranean,salmon,cooc,60,0.500000,4,thyme,0.371800,False
+salmon + Mediterranean,salmon,cooc,60,0.500000,5,pancetta,0.367600,True
+salmon + Mediterranean,salmon,core,0,1.000000,1,trout,0.649100,False
+salmon + Mediterranean,salmon,core,0,1.000000,2,ham,0.630000,False
+salmon + Mediterranean,salmon,core,0,1.000000,3,mirin,0.617400,False
+salmon + Mediterranean,salmon,core,0,1.000000,4,cod,0.616800,False
+salmon + Mediterranean,salmon,core,0,1.000000,5,fish_roe,0.611500,False
+salmon + Mediterranean,salmon,core,30,0.866025,1,olive_oil,0.621800,False
+salmon + Mediterranean,salmon,core,30,0.866025,2,balsamic_vinegar,0.602200,True
+salmon + Mediterranean,salmon,core,30,0.866025,3,trout,0.583500,False
+salmon + Mediterranean,salmon,core,30,0.866025,4,pesto,0.578300,True
+salmon + Mediterranean,salmon,core,30,0.866025,5,portobello_mushroom,0.562200,False
+salmon + Mediterranean,salmon,core,60,0.500000,1,olive_oil,0.515500,False
+salmon + Mediterranean,salmon,core,60,0.500000,2,balsamic_vinegar,0.496800,True
+salmon + Mediterranean,salmon,core,60,0.500000,3,pesto,0.496100,True
+salmon + Mediterranean,salmon,core,60,0.500000,4,goat_cheese,0.486400,False
+salmon + Mediterranean,salmon,core,60,0.500000,5,tapenade,0.465500,True
+salmon + Mediterranean,salmon,chem,0,1.000000,1,ham,0.498600,False
+salmon + Mediterranean,salmon,chem,0,1.000000,2,trout,0.355800,False
+salmon + Mediterranean,salmon,chem,0,1.000000,3,tuna,0.336700,False
+salmon + Mediterranean,salmon,chem,0,1.000000,4,cod,0.329800,False
+salmon + Mediterranean,salmon,chem,0,1.000000,5,miso,0.310300,False
+salmon + Mediterranean,salmon,chem,30,0.866025,1,ham,0.440200,False
+salmon + Mediterranean,salmon,chem,30,0.866025,2,feta_cheese,0.370300,True
+salmon + Mediterranean,salmon,chem,30,0.866025,3,pesto,0.361100,True
+salmon + Mediterranean,salmon,chem,30,0.866025,4,olive_oil,0.358100,False
+salmon + Mediterranean,salmon,chem,30,0.866025,5,trout,0.356400,False
+salmon + Mediterranean,salmon,chem,60,0.500000,1,fontina_cheese,0.417600,True
+salmon + Mediterranean,salmon,chem,60,0.500000,2,balsamic_vinegar,0.398600,True
+salmon + Mediterranean,salmon,chem,60,0.500000,3,pesto,0.396900,True
+salmon + Mediterranean,salmon,chem,60,0.500000,4,olive_oil,0.395200,False
+salmon + Mediterranean,salmon,chem,60,0.500000,5,tapenade,0.374500,True
+rice + South_Asian,rice,cooc,0,1.000000,1,carrot,0.335000,False
+rice + South_Asian,rice,cooc,0,1.000000,2,okra,0.331600,False
+rice + South_Asian,rice,cooc,0,1.000000,3,vegetable_oil,0.325700,False
+rice + South_Asian,rice,cooc,0,1.000000,4,pea,0.311700,False
+rice + South_Asian,rice,cooc,0,1.000000,5,dashi,0.307500,False
+rice + South_Asian,rice,cooc,30,0.866025,1,curry_leaf,0.445400,True
+rice + South_Asian,rice,cooc,30,0.866025,2,masoor_dal,0.432400,True
+rice + South_Asian,rice,cooc,30,0.866025,3,urad_dal,0.419800,True
+rice + South_Asian,rice,cooc,30,0.866025,4,chana_dal,0.404900,True
+rice + South_Asian,rice,cooc,30,0.866025,5,fenugreek_seed,0.402300,True
+rice + South_Asian,rice,cooc,60,0.500000,1,curry_leaf,0.569600,True
+rice + South_Asian,rice,cooc,60,0.500000,2,chana_dal,0.544100,True
+rice + South_Asian,rice,cooc,60,0.500000,3,urad_dal,0.536000,True
+rice + South_Asian,rice,cooc,60,0.500000,4,masoor_dal,0.518200,True
+rice + South_Asian,rice,cooc,60,0.500000,5,horse_gram,0.511700,True
+rice + South_Asian,rice,core,0,1.000000,1,shiitake_mushroom,0.595900,False
+rice + South_Asian,rice,core,0,1.000000,2,nori,0.594300,False
+rice + South_Asian,rice,core,0,1.000000,3,bok_choy,0.583900,False
+rice + South_Asian,rice,core,0,1.000000,4,sesame_seed,0.571800,False
+rice + South_Asian,rice,core,0,1.000000,5,pea,0.571300,False
+rice + South_Asian,rice,core,30,0.866025,1,chana_dal,0.697600,True
+rice + South_Asian,rice,core,30,0.866025,2,fenugreek_leaf,0.691900,True
+rice + South_Asian,rice,core,30,0.866025,3,urad_dal,0.683800,True
+rice + South_Asian,rice,core,30,0.866025,4,toor_dal,0.674100,True
+rice + South_Asian,rice,core,30,0.866025,5,horse_gram,0.668400,True
+rice + South_Asian,rice,core,60,0.500000,1,chana_dal,0.743300,True
+rice + South_Asian,rice,core,60,0.500000,2,toor_dal,0.722400,True
+rice + South_Asian,rice,core,60,0.500000,3,kashmiri_chili,0.721200,True
+rice + South_Asian,rice,core,60,0.500000,4,urad_dal,0.720000,True
+rice + South_Asian,rice,core,60,0.500000,5,horse_gram,0.714500,True
+rice + South_Asian,rice,chem,0,1.000000,1,caviar,0.310000,False
+rice + South_Asian,rice,chem,0,1.000000,2,nori,0.300600,False
+rice + South_Asian,rice,chem,0,1.000000,3,wheat,0.296900,False
+rice + South_Asian,rice,chem,0,1.000000,4,millet,0.296600,False
+rice + South_Asian,rice,chem,0,1.000000,5,puzi_leaf,0.291900,False
+rice + South_Asian,rice,chem,30,0.866025,1,chana_dal,0.461100,True
+rice + South_Asian,rice,chem,30,0.866025,2,toor_dal,0.458700,True
+rice + South_Asian,rice,chem,30,0.866025,3,fenugreek_seed,0.440700,True
+rice + South_Asian,rice,chem,30,0.866025,4,kashmiri_chili,0.438400,True
+rice + South_Asian,rice,chem,30,0.866025,5,sambar_powder,0.417400,True
+rice + South_Asian,rice,chem,60,0.500000,1,chana_dal,0.638700,True
+rice + South_Asian,rice,chem,60,0.500000,2,kashmiri_chili,0.629800,True
+rice + South_Asian,rice,chem,60,0.500000,3,toor_dal,0.623800,True
+rice + South_Asian,rice,chem,60,0.500000,4,fenugreek_seed,0.576000,True
+rice + South_Asian,rice,chem,60,0.500000,5,amchur,0.571100,True
+corn + Latin_American,corn,cooc,0,1.000000,1,pea,0.313700,False
+corn + Latin_American,corn,cooc,0,1.000000,2,scallion,0.311100,False
+corn + Latin_American,corn,cooc,0,1.000000,3,shrimp,0.304300,False
+corn + Latin_American,corn,cooc,0,1.000000,4,red_onion,0.300500,False
+corn + Latin_American,corn,cooc,0,1.000000,5,rice,0.300000,False
+corn + Latin_American,corn,cooc,30,0.866025,1,salsa_verde,0.424200,True
+corn + Latin_American,corn,cooc,30,0.866025,2,tomatillo,0.420900,True
+corn + Latin_American,corn,cooc,30,0.866025,3,queso_fresco,0.412200,True
+corn + Latin_American,corn,cooc,30,0.866025,4,fajita_seasoning,0.406500,True
+corn + Latin_American,corn,cooc,30,0.866025,5,corn_tortilla,0.383900,True
+corn + Latin_American,corn,cooc,60,0.500000,1,tomatillo,0.502900,True
+corn + Latin_American,corn,cooc,60,0.500000,2,queso_fresco,0.475900,True
+corn + Latin_American,corn,cooc,60,0.500000,3,corn_tortilla,0.457300,True
+corn + Latin_American,corn,cooc,60,0.500000,4,salsa_verde,0.448600,True
+corn + Latin_American,corn,cooc,60,0.500000,5,refried_beans,0.444400,True
+corn + Latin_American,corn,core,0,1.000000,1,bell_pepper,0.569300,False
+corn + Latin_American,corn,core,0,1.000000,2,potato,0.546000,False
+corn + Latin_American,corn,core,0,1.000000,3,carrot,0.537700,False
+corn + Latin_American,corn,core,0,1.000000,4,pinto_bean,0.537400,True
+corn + Latin_American,corn,core,0,1.000000,5,cheddar_cheese,0.530600,False
+corn + Latin_American,corn,core,30,0.866025,1,tomatillo,0.639600,True
+corn + Latin_American,corn,core,30,0.866025,2,corn_tortilla,0.616800,True
+corn + Latin_American,corn,core,30,0.866025,3,epazote,0.610800,True
+corn + Latin_American,corn,core,30,0.866025,4,salsa,0.610200,True
+corn + Latin_American,corn,core,30,0.866025,5,nopal,0.603400,True
+corn + Latin_American,corn,core,60,0.500000,1,tomatillo,0.580200,True
+corn + Latin_American,corn,core,60,0.500000,2,corn_tortilla,0.553000,True
+corn + Latin_American,corn,core,60,0.500000,3,nopal,0.550000,True
+corn + Latin_American,corn,core,60,0.500000,4,queso_fresco,0.540900,True
+corn + Latin_American,corn,core,60,0.500000,5,epazote,0.540600,True
+corn + Latin_American,corn,chem,0,1.000000,1,tortilla,0.336200,True
+corn + Latin_American,corn,chem,0,1.000000,2,guascas,0.335500,True
+corn + Latin_American,corn,chem,0,1.000000,3,red_pepper,0.334600,False
+corn + Latin_American,corn,chem,0,1.000000,4,oregano,0.303000,False
+corn + Latin_American,corn,chem,0,1.000000,5,epazote,0.300700,True
+corn + Latin_American,corn,chem,30,0.866025,1,corn_tortilla,0.460000,True
+corn + Latin_American,corn,chem,30,0.866025,2,queso_fresco,0.443100,True
+corn + Latin_American,corn,chem,30,0.866025,3,epazote,0.441100,True
+corn + Latin_American,corn,chem,30,0.866025,4,salsa,0.438600,True
+corn + Latin_American,corn,chem,30,0.866025,5,enchilada_sauce,0.436600,True
+corn + Latin_American,corn,chem,60,0.500000,1,corn_tortilla,0.548400,True
+corn + Latin_American,corn,chem,60,0.500000,2,queso_fresco,0.534400,True
+corn + Latin_American,corn,chem,60,0.500000,3,salsa,0.513500,True
+corn + Latin_American,corn,chem,60,0.500000,4,guajillo_chile,0.501300,True
+corn + Latin_American,corn,chem,60,0.500000,5,poblano_pepper,0.491600,True
+lamb + Eastern_European,lamb,cooc,0,1.000000,1,fennel,0.299300,False
+lamb + Eastern_European,lamb,cooc,0,1.000000,2,salmon,0.295400,False
+lamb + Eastern_European,lamb,cooc,0,1.000000,3,duck,0.294300,False
+lamb + Eastern_European,lamb,cooc,0,1.000000,4,zucchini,0.291200,False
+lamb + Eastern_European,lamb,cooc,0,1.000000,5,coriander,0.278900,False
+lamb + Eastern_European,lamb,cooc,30,0.866025,1,bryndza,0.368000,True
+lamb + Eastern_European,lamb,cooc,30,0.866025,2,utskho_suneli,0.355500,True
+lamb + Eastern_European,lamb,cooc,30,0.866025,3,matsoni,0.353000,True
+lamb + Eastern_European,lamb,cooc,30,0.866025,4,khmeli_suneli,0.352400,True
+lamb + Eastern_European,lamb,cooc,30,0.866025,5,dill,0.324700,False
+lamb + Eastern_European,lamb,cooc,60,0.500000,1,bryndza,0.480700,True
+lamb + Eastern_European,lamb,cooc,60,0.500000,2,adjika,0.463000,True
+lamb + Eastern_European,lamb,cooc,60,0.500000,3,matsoni,0.434500,True
+lamb + Eastern_European,lamb,cooc,60,0.500000,4,utskho_suneli,0.414900,True
+lamb + Eastern_European,lamb,cooc,60,0.500000,5,kvass,0.390000,True
+lamb + Eastern_European,lamb,core,0,1.000000,1,fennel_seed,0.529600,False
+lamb + Eastern_European,lamb,core,0,1.000000,2,olive_oil,0.522000,False
+lamb + Eastern_European,lamb,core,0,1.000000,3,red_onion,0.520700,False
+lamb + Eastern_European,lamb,core,0,1.000000,4,ras_el_hanout,0.514400,False
+lamb + Eastern_European,lamb,core,0,1.000000,5,sumac,0.505900,False
+lamb + Eastern_European,lamb,core,30,0.866025,1,adjika,0.580600,True
+lamb + Eastern_European,lamb,core,30,0.866025,2,utskho_suneli,0.546200,True
+lamb + Eastern_European,lamb,core,30,0.866025,3,sumac,0.509100,False
+lamb + Eastern_European,lamb,core,30,0.866025,4,barberry,0.503100,True
+lamb + Eastern_European,lamb,core,30,0.866025,5,narsharab,0.502500,True
+lamb + Eastern_European,lamb,core,60,0.500000,1,adjika,0.588900,True
+lamb + Eastern_European,lamb,core,60,0.500000,2,sulguni_cheese,0.521400,True
+lamb + Eastern_European,lamb,core,60,0.500000,3,utskho_suneli,0.516000,True
+lamb + Eastern_European,lamb,core,60,0.500000,4,matsoni,0.504500,True
+lamb + Eastern_European,lamb,core,60,0.500000,5,kvass,0.480300,True
+lamb + Eastern_European,lamb,chem,0,1.000000,1,peanut_oil,0.325200,False
+lamb + Eastern_European,lamb,chem,0,1.000000,2,goat_cheese,0.286800,False
+lamb + Eastern_European,lamb,chem,0,1.000000,3,coriander,0.279000,False
+lamb + Eastern_European,lamb,chem,0,1.000000,4,chu_hou_paste,0.260700,False
+lamb + Eastern_European,lamb,chem,0,1.000000,5,fermented_chive_flower_paste,0.260000,False
+lamb + Eastern_European,lamb,chem,30,0.866025,1,adjika,0.406100,True
+lamb + Eastern_European,lamb,chem,30,0.866025,2,utskho_suneli,0.375700,True
+lamb + Eastern_European,lamb,chem,30,0.866025,3,narsharab,0.331200,True
+lamb + Eastern_European,lamb,chem,30,0.866025,4,barberry,0.330400,True
+lamb + Eastern_European,lamb,chem,30,0.866025,5,sulguni_cheese,0.327700,True
+lamb + Eastern_European,lamb,chem,60,0.500000,1,adjika,0.544400,True
+lamb + Eastern_European,lamb,chem,60,0.500000,2,sulguni_cheese,0.476500,True
+lamb + Eastern_European,lamb,chem,60,0.500000,3,matsoni,0.469000,True
+lamb + Eastern_European,lamb,chem,60,0.500000,4,narsharab,0.459900,True
+lamb + Eastern_European,lamb,chem,60,0.500000,5,utskho_suneli,0.428800,True
+chicken + whole + Mediterranean,chicken,cooc,0,1.000000,1,garlic,0.393400,True
+chicken + whole + Mediterranean,chicken,cooc,0,1.000000,2,onion,0.366200,True
+chicken + whole + Mediterranean,chicken,cooc,0,1.000000,3,black_pepper,0.358100,True
+chicken + whole + Mediterranean,chicken,cooc,0,1.000000,4,turkey,0.348000,True
+chicken + whole + Mediterranean,chicken,cooc,0,1.000000,5,carrot,0.342500,True
+chicken + whole + Mediterranean,chicken,cooc,30,0.866025,1,garlic,0.411600,True
+chicken + whole + Mediterranean,chicken,cooc,30,0.866025,2,black_pepper,0.403300,True
+chicken + whole + Mediterranean,chicken,cooc,30,0.866025,3,paprika,0.353600,False
+chicken + whole + Mediterranean,chicken,cooc,30,0.866025,4,onion,0.346600,True
+chicken + whole + Mediterranean,chicken,cooc,30,0.866025,5,quail,0.345900,True
+chicken + whole + Mediterranean,chicken,cooc,60,0.500000,1,thyme,0.347200,True
+chicken + whole + Mediterranean,chicken,cooc,60,0.500000,2,ricotta_salata,0.343300,True
+chicken + whole + Mediterranean,chicken,cooc,60,0.500000,3,pine_nut,0.343200,True
+chicken + whole + Mediterranean,chicken,cooc,60,0.500000,4,black_pepper,0.340400,True
+chicken + whole + Mediterranean,chicken,cooc,60,0.500000,5,fennel,0.321700,True
+chicken + whole + Mediterranean,chicken,core,0,1.000000,1,pork,0.580800,True
+chicken + whole + Mediterranean,chicken,core,0,1.000000,2,beef,0.571200,True
+chicken + whole + Mediterranean,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + whole + Mediterranean,chicken,core,0,1.000000,4,peanut,0.523300,True
+chicken + whole + Mediterranean,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + whole + Mediterranean,chicken,core,30,0.866025,1,parmesan_cheese,0.521300,True
+chicken + whole + Mediterranean,chicken,core,30,0.866025,2,tomato,0.518300,True
+chicken + whole + Mediterranean,chicken,core,30,0.866025,3,olive_oil,0.514100,False
+chicken + whole + Mediterranean,chicken,core,30,0.866025,4,basil,0.511500,True
+chicken + whole + Mediterranean,chicken,core,30,0.866025,5,green_bean,0.508500,True
+chicken + whole + Mediterranean,chicken,core,60,0.500000,1,artichoke,0.471900,True
+chicken + whole + Mediterranean,chicken,core,60,0.500000,2,farro,0.468800,True
+chicken + whole + Mediterranean,chicken,core,60,0.500000,3,cardoon,0.466600,True
+chicken + whole + Mediterranean,chicken,core,60,0.500000,4,rosemary,0.462500,True
+chicken + whole + Mediterranean,chicken,core,60,0.500000,5,basil,0.458300,True
+chicken + whole + Mediterranean,chicken,chem,0,1.000000,1,beef,0.405100,True
+chicken + whole + Mediterranean,chicken,chem,0,1.000000,2,pork,0.339700,True
+chicken + whole + Mediterranean,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + whole + Mediterranean,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + whole + Mediterranean,chicken,chem,0,1.000000,5,peanut,0.282100,True
+chicken + whole + Mediterranean,chicken,chem,30,0.866025,1,beef,0.321700,True
+chicken + whole + Mediterranean,chicken,chem,30,0.866025,2,butternut_squash,0.319300,True
+chicken + whole + Mediterranean,chicken,chem,30,0.866025,3,olive_oil,0.281300,False
+chicken + whole + Mediterranean,chicken,chem,30,0.866025,4,swiss_chard,0.274400,True
+chicken + whole + Mediterranean,chicken,chem,30,0.866025,5,wild_rice,0.271600,True
+chicken + whole + Mediterranean,chicken,chem,60,0.500000,1,butternut_squash,0.358000,True
+chicken + whole + Mediterranean,chicken,chem,60,0.500000,2,swiss_chard,0.332500,True
+chicken + whole + Mediterranean,chicken,chem,60,0.500000,3,ricotta_salata,0.321900,True
+chicken + whole + Mediterranean,chicken,chem,60,0.500000,4,caper,0.319900,True
+chicken + whole + Mediterranean,chicken,chem,60,0.500000,5,olive_oil,0.319700,False
+chicken + processed + Western_Atlantic,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + processed + Western_Atlantic,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + processed + Western_Atlantic,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + processed + Western_Atlantic,chicken,cooc,0,1.000000,4,turkey,0.348000,False
+chicken + processed + Western_Atlantic,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + processed + Western_Atlantic,chicken,cooc,30,0.866025,1,turkey,0.424300,False
+chicken + processed + Western_Atlantic,chicken,cooc,30,0.866025,2,swiss_cheese,0.391700,True
+chicken + processed + Western_Atlantic,chicken,cooc,30,0.866025,3,onion,0.380200,False
+chicken + processed + Western_Atlantic,chicken,cooc,30,0.866025,4,steak_sauce,0.349100,True
+chicken + processed + Western_Atlantic,chicken,cooc,30,0.866025,5,sour_cream,0.341200,True
+chicken + processed + Western_Atlantic,chicken,cooc,60,0.500000,1,swiss_cheese,0.421000,True
+chicken + processed + Western_Atlantic,chicken,cooc,60,0.500000,2,steak_sauce,0.394900,True
+chicken + processed + Western_Atlantic,chicken,cooc,60,0.500000,3,turkey,0.386900,False
+chicken + processed + Western_Atlantic,chicken,cooc,60,0.500000,4,sour_cream,0.363700,True
+chicken + processed + Western_Atlantic,chicken,cooc,60,0.500000,5,ranch_dressing,0.357000,True
+chicken + processed + Western_Atlantic,chicken,core,0,1.000000,1,pork,0.580800,False
+chicken + processed + Western_Atlantic,chicken,core,0,1.000000,2,beef,0.571200,False
+chicken + processed + Western_Atlantic,chicken,core,0,1.000000,3,chicken_broth,0.549900,True
+chicken + processed + Western_Atlantic,chicken,core,0,1.000000,4,peanut,0.523300,False
+chicken + processed + Western_Atlantic,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,True
+chicken + processed + Western_Atlantic,chicken,core,30,0.866025,1,cheddar_cheese,0.558300,True
+chicken + processed + Western_Atlantic,chicken,core,30,0.866025,2,cream_of_chicken_soup,0.551300,True
+chicken + processed + Western_Atlantic,chicken,core,30,0.866025,3,alfredo_sauce,0.531200,True
+chicken + processed + Western_Atlantic,chicken,core,30,0.866025,4,beef,0.518900,False
+chicken + processed + Western_Atlantic,chicken,core,30,0.866025,5,turkey,0.510300,False
+chicken + processed + Western_Atlantic,chicken,core,60,0.500000,1,cheddar_cheese,0.454200,True
+chicken + processed + Western_Atlantic,chicken,core,60,0.500000,2,cream_of_chicken_soup,0.433200,True
+chicken + processed + Western_Atlantic,chicken,core,60,0.500000,3,crescent_roll,0.426200,True
+chicken + processed + Western_Atlantic,chicken,core,60,0.500000,4,alfredo_sauce,0.423800,True
+chicken + processed + Western_Atlantic,chicken,core,60,0.500000,5,ranch_dressing,0.421600,True
+chicken + processed + Western_Atlantic,chicken,chem,0,1.000000,1,beef,0.405100,False
+chicken + processed + Western_Atlantic,chicken,chem,0,1.000000,2,pork,0.339700,False
+chicken + processed + Western_Atlantic,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,True
+chicken + processed + Western_Atlantic,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,True
+chicken + processed + Western_Atlantic,chicken,chem,0,1.000000,5,peanut,0.282100,False
+chicken + processed + Western_Atlantic,chicken,chem,30,0.866025,1,cream_of_chicken_soup,0.395900,True
+chicken + processed + Western_Atlantic,chicken,chem,30,0.866025,2,buffalo_wing_sauce,0.395100,True
+chicken + processed + Western_Atlantic,chicken,chem,30,0.866025,3,beef,0.388900,False
+chicken + processed + Western_Atlantic,chicken,chem,30,0.866025,4,ranch_dressing,0.355200,True
+chicken + processed + Western_Atlantic,chicken,chem,30,0.866025,5,cheddar_cheese,0.352400,True
+chicken + processed + Western_Atlantic,chicken,chem,60,0.500000,1,colby_cheese,0.396400,True
+chicken + processed + Western_Atlantic,chicken,chem,60,0.500000,2,buffalo_wing_sauce,0.396100,True
+chicken + processed + Western_Atlantic,chicken,chem,60,0.500000,3,ranch_dressing,0.383300,True
+chicken + processed + Western_Atlantic,chicken,chem,60,0.500000,4,cream_of_chicken_soup,0.375000,True
+chicken + processed + Western_Atlantic,chicken,chem,60,0.500000,5,alfredo_sauce,0.352500,True
+tofu + meat direction,tofu,cooc,0,1.000000,1,birds_eye_chili,0.453100,False
+tofu + meat direction,tofu,cooc,0,1.000000,2,ginger,0.433200,False
+tofu + meat direction,tofu,cooc,0,1.000000,3,scallion,0.386400,False
+tofu + meat direction,tofu,cooc,0,1.000000,4,light_soy_sauce,0.379200,False
+tofu + meat direction,tofu,cooc,0,1.000000,5,shiitake_mushroom,0.378800,False
+tofu + meat direction,tofu,cooc,30,0.866025,1,birds_eye_chili,0.388400,False
+tofu + meat direction,tofu,cooc,30,0.866025,2,white_pepper,0.360800,False
+tofu + meat direction,tofu,cooc,30,0.866025,3,scallion,0.360300,False
+tofu + meat direction,tofu,cooc,30,0.866025,4,clam,0.350700,True
+tofu + meat direction,tofu,cooc,30,0.866025,5,ginger,0.344500,False
+tofu + meat direction,tofu,cooc,60,0.500000,1,clam,0.316800,True
+tofu + meat direction,tofu,cooc,60,0.500000,2,crab,0.313500,True
+tofu + meat direction,tofu,cooc,60,0.500000,3,capicola,0.278000,True
+tofu + meat direction,tofu,cooc,60,0.500000,4,white_pepper,0.276500,False
+tofu + meat direction,tofu,cooc,60,0.500000,5,pike,0.272900,True
+tofu + meat direction,tofu,core,0,1.000000,1,oil,0.813100,False
+tofu + meat direction,tofu,core,0,1.000000,2,birds_eye_chili,0.801100,False
+tofu + meat direction,tofu,core,0,1.000000,3,napa_cabbage,0.799600,False
+tofu + meat direction,tofu,core,0,1.000000,4,oyster_sauce,0.796000,False
+tofu + meat direction,tofu,core,0,1.000000,5,glass_noodle,0.794400,False
+tofu + meat direction,tofu,core,30,0.866025,1,salt,0.740000,False
+tofu + meat direction,tofu,core,30,0.866025,2,oil,0.721300,False
+tofu + meat direction,tofu,core,30,0.866025,3,shaoxing_wine,0.701500,False
+tofu + meat direction,tofu,core,30,0.866025,4,hot_pot_base,0.695500,False
+tofu + meat direction,tofu,core,30,0.866025,5,oyster_sauce,0.694300,False
+tofu + meat direction,tofu,core,60,0.500000,1,remoulade_sauce,0.547700,False
+tofu + meat direction,tofu,core,60,0.500000,2,anchovy,0.543600,True
+tofu + meat direction,tofu,core,60,0.500000,3,halibut,0.542000,True
+tofu + meat direction,tofu,core,60,0.500000,4,cod,0.532900,True
+tofu + meat direction,tofu,core,60,0.500000,5,haddock,0.532000,True
+tofu + meat direction,tofu,chem,0,1.000000,1,oil,0.627700,False
+tofu + meat direction,tofu,chem,0,1.000000,2,rice_cake,0.581000,False
+tofu + meat direction,tofu,chem,0,1.000000,3,sole,0.546900,True
+tofu + meat direction,tofu,chem,0,1.000000,4,bok_choy,0.542400,False
+tofu + meat direction,tofu,chem,0,1.000000,5,enoki_mushroom,0.537800,False
+tofu + meat direction,tofu,chem,30,0.866025,1,oil,0.559300,False
+tofu + meat direction,tofu,chem,30,0.866025,2,rice_cake,0.547600,False
+tofu + meat direction,tofu,chem,30,0.866025,3,sole,0.528700,True
+tofu + meat direction,tofu,chem,30,0.866025,4,frog_leg,0.511100,True
+tofu + meat direction,tofu,chem,30,0.866025,5,carp,0.509400,True
+tofu + meat direction,tofu,chem,60,0.500000,1,eel,0.397400,True
+tofu + meat direction,tofu,chem,60,0.500000,2,frog_leg,0.369300,True
+tofu + meat direction,tofu,chem,60,0.500000,3,sole,0.368800,True
+tofu + meat direction,tofu,chem,60,0.500000,4,rice_cake,0.367300,False
+tofu + meat direction,tofu,chem,60,0.500000,5,octopus,0.366400,True
+chicken + sweet,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + sweet,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + sweet,chicken,cooc,0,1.000000,3,black_pepper,0.358100,True
+chicken + sweet,chicken,cooc,0,1.000000,4,turkey,0.348000,False
+chicken + sweet,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + sweet,chicken,cooc,30,0.866025,1,orange,0.356200,False
+chicken + sweet,chicken,cooc,30,0.866025,2,clove,0.313900,True
+chicken + sweet,chicken,cooc,30,0.866025,3,mint,0.298800,True
+chicken + sweet,chicken,cooc,30,0.866025,4,falernum,0.295400,False
+chicken + sweet,chicken,cooc,30,0.866025,5,lime,0.281900,False
+chicken + sweet,chicken,cooc,60,0.500000,1,orange,0.394400,False
+chicken + sweet,chicken,cooc,60,0.500000,2,rum,0.362700,True
+chicken + sweet,chicken,cooc,60,0.500000,3,peach,0.362700,True
+chicken + sweet,chicken,cooc,60,0.500000,4,ginger_ale,0.353400,False
+chicken + sweet,chicken,cooc,60,0.500000,5,bitters,0.352500,False
+chicken + sweet,chicken,core,0,1.000000,1,pork,0.580800,False
+chicken + sweet,chicken,core,0,1.000000,2,beef,0.571200,False
+chicken + sweet,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + sweet,chicken,core,0,1.000000,4,peanut,0.523300,False
+chicken + sweet,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + sweet,chicken,core,30,0.866025,1,peanut,0.501900,False
+chicken + sweet,chicken,core,30,0.866025,2,pork,0.494400,False
+chicken + sweet,chicken,core,30,0.866025,3,water_chestnut,0.477400,False
+chicken + sweet,chicken,core,30,0.866025,4,loganberry,0.475500,True
+chicken + sweet,chicken,core,30,0.866025,5,tea,0.474600,False
+chicken + sweet,chicken,core,60,0.500000,1,loganberry,0.495200,True
+chicken + sweet,chicken,core,60,0.500000,2,sparkling_wine,0.471400,True
+chicken + sweet,chicken,core,60,0.500000,3,orange,0.463100,False
+chicken + sweet,chicken,core,60,0.500000,4,rum,0.459700,True
+chicken + sweet,chicken,core,60,0.500000,5,tea,0.447900,False
+chicken + sweet,chicken,chem,0,1.000000,1,beef,0.405100,False
+chicken + sweet,chicken,chem,0,1.000000,2,pork,0.339700,False
+chicken + sweet,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + sweet,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + sweet,chicken,chem,0,1.000000,5,peanut,0.282100,False
+chicken + sweet,chicken,chem,30,0.866025,1,beef,0.322600,False
+chicken + sweet,chicken,chem,30,0.866025,2,chayote,0.290800,True
+chicken + sweet,chicken,chem,30,0.866025,3,butternut_squash,0.284600,True
+chicken + sweet,chicken,chem,30,0.866025,4,quinoa,0.274100,True
+chicken + sweet,chicken,chem,30,0.866025,5,pork,0.270200,False
+chicken + sweet,chicken,chem,60,0.500000,1,nectar,0.329100,True
+chicken + sweet,chicken,chem,60,0.500000,2,chayote,0.323000,True
+chicken + sweet,chicken,chem,60,0.500000,3,amaranth,0.321100,True
+chicken + sweet,chicken,chem,60,0.500000,4,quinoa,0.314900,True
+chicken + sweet,chicken,chem,60,0.500000,5,arrowroot,0.299500,True
+beef + sweet,beef,cooc,0,1.000000,1,onion,0.414000,False
+beef + sweet,beef,cooc,0,1.000000,2,pork,0.369800,False
+beef + sweet,beef,cooc,0,1.000000,3,black_pepper,0.354000,True
+beef + sweet,beef,cooc,0,1.000000,4,garlic,0.351700,False
+beef + sweet,beef,cooc,0,1.000000,5,potato,0.319600,False
+beef + sweet,beef,cooc,30,0.866025,1,clove,0.329800,True
+beef + sweet,beef,cooc,30,0.866025,2,onion,0.310800,False
+beef + sweet,beef,cooc,30,0.866025,3,lime,0.306600,False
+beef + sweet,beef,cooc,30,0.866025,4,red_wine,0.303500,True
+beef + sweet,beef,cooc,30,0.866025,5,pork,0.300900,False
+beef + sweet,beef,cooc,60,0.500000,1,blackberry,0.362400,True
+beef + sweet,beef,cooc,60,0.500000,2,rum,0.358600,True
+beef + sweet,beef,cooc,60,0.500000,3,peach,0.356800,True
+beef + sweet,beef,cooc,60,0.500000,4,syrup,0.353300,False
+beef + sweet,beef,cooc,60,0.500000,5,grand_marnier,0.339100,True
+beef + sweet,beef,core,0,1.000000,1,chicken,0.571200,False
+beef + sweet,beef,core,0,1.000000,2,taco_seasoning,0.555600,False
+beef + sweet,beef,core,0,1.000000,3,bell_pepper,0.546400,False
+beef + sweet,beef,core,0,1.000000,4,enchilada_sauce,0.545600,False
+beef + sweet,beef,core,0,1.000000,5,mushroom,0.536400,False
+beef + sweet,beef,core,30,0.866025,1,chicken,0.488500,False
+beef + sweet,beef,core,30,0.866025,2,cumin,0.465900,True
+beef + sweet,beef,core,30,0.866025,3,tomato,0.465500,False
+beef + sweet,beef,core,30,0.866025,4,pork,0.465500,False
+beef + sweet,beef,core,30,0.866025,5,mushroom,0.455700,False
+beef + sweet,beef,core,60,0.500000,1,sparkling_wine,0.477100,True
+beef + sweet,beef,core,60,0.500000,2,loganberry,0.467100,True
+beef + sweet,beef,core,60,0.500000,3,ginger_ale,0.448600,False
+beef + sweet,beef,core,60,0.500000,4,orange,0.438700,False
+beef + sweet,beef,core,60,0.500000,5,blackberry,0.437100,True
+beef + sweet,beef,chem,0,1.000000,1,chicken,0.405100,False
+beef + sweet,beef,chem,0,1.000000,2,taco_sauce,0.337400,False
+beef + sweet,beef,chem,0,1.000000,3,taco_seasoning,0.328000,False
+beef + sweet,beef,chem,0,1.000000,4,mushroom,0.297900,False
+beef + sweet,beef,chem,0,1.000000,5,tortilla,0.268400,False
+beef + sweet,beef,chem,30,0.866025,1,chicken,0.321800,False
+beef + sweet,beef,chem,30,0.866025,2,chayote,0.280400,True
+beef + sweet,beef,chem,30,0.866025,3,cumin,0.269300,True
+beef + sweet,beef,chem,30,0.866025,4,garland_chrysanthemum,0.263600,True
+beef + sweet,beef,chem,30,0.866025,5,oyster_mushroom,0.260200,True
+beef + sweet,beef,chem,60,0.500000,1,nectar,0.329400,True
+beef + sweet,beef,chem,60,0.500000,2,chayote,0.316300,True
+beef + sweet,beef,chem,60,0.500000,3,oyster_mushroom,0.293800,True
+beef + sweet,beef,chem,60,0.500000,4,spirulina,0.283400,True
+beef + sweet,beef,chem,60,0.500000,5,date,0.281300,False
+salmon + sweet,salmon,cooc,0,1.000000,1,wasabi,0.348300,False
+salmon + sweet,salmon,cooc,0,1.000000,2,avocado,0.324500,False
+salmon + sweet,salmon,cooc,0,1.000000,3,ponzu,0.318900,False
+salmon + sweet,salmon,cooc,0,1.000000,4,balsamic_vinegar,0.318000,True
+salmon + sweet,salmon,cooc,0,1.000000,5,scallop,0.317100,False
+salmon + sweet,salmon,cooc,30,0.866025,1,lemon,0.332500,False
+salmon + sweet,salmon,cooc,30,0.866025,2,raspberry,0.322500,True
+salmon + sweet,salmon,cooc,30,0.866025,3,berry,0.315900,True
+salmon + sweet,salmon,cooc,30,0.866025,4,mango,0.309200,True
+salmon + sweet,salmon,cooc,30,0.866025,5,wasabi,0.307700,False
+salmon + sweet,salmon,cooc,60,0.500000,1,strawberry,0.397600,True
+salmon + sweet,salmon,cooc,60,0.500000,2,rum,0.394900,True
+salmon + sweet,salmon,cooc,60,0.500000,3,peach,0.383700,True
+salmon + sweet,salmon,cooc,60,0.500000,4,raspberry,0.378000,True
+salmon + sweet,salmon,cooc,60,0.500000,5,syrup,0.363200,False
+salmon + sweet,salmon,core,0,1.000000,1,trout,0.649100,False
+salmon + sweet,salmon,core,0,1.000000,2,ham,0.630000,False
+salmon + sweet,salmon,core,0,1.000000,3,mirin,0.617400,False
+salmon + sweet,salmon,core,0,1.000000,4,cod,0.616800,False
+salmon + sweet,salmon,core,0,1.000000,5,fish_roe,0.611500,False
+salmon + sweet,salmon,core,30,0.866025,1,mirin,0.544300,False
+salmon + sweet,salmon,core,30,0.866025,2,wasabi,0.520000,False
+salmon + sweet,salmon,core,30,0.866025,3,grapeseed_oil,0.512000,False
+salmon + sweet,salmon,core,30,0.866025,4,kombu,0.509600,True
+salmon + sweet,salmon,core,30,0.866025,5,rice_vinegar,0.506900,True
+salmon + sweet,salmon,core,60,0.500000,1,nectar,0.504600,True
+salmon + sweet,salmon,core,60,0.500000,2,chia_seed,0.457300,True
+salmon + sweet,salmon,core,60,0.500000,3,triple_sec,0.456700,False
+salmon + sweet,salmon,core,60,0.500000,4,nectarine,0.455900,True
+salmon + sweet,salmon,core,60,0.500000,5,watermelon,0.452000,True
+salmon + sweet,salmon,chem,0,1.000000,1,ham,0.498600,False
+salmon + sweet,salmon,chem,0,1.000000,2,trout,0.355800,False
+salmon + sweet,salmon,chem,0,1.000000,3,tuna,0.336700,False
+salmon + sweet,salmon,chem,0,1.000000,4,cod,0.329800,False
+salmon + sweet,salmon,chem,0,1.000000,5,miso,0.310300,False
+salmon + sweet,salmon,chem,30,0.866025,1,ham,0.404800,False
+salmon + sweet,salmon,chem,30,0.866025,2,kombu,0.344400,True
+salmon + sweet,salmon,chem,30,0.866025,3,quinoa,0.334900,True
+salmon + sweet,salmon,chem,30,0.866025,4,wasabi,0.331900,False
+salmon + sweet,salmon,chem,30,0.866025,5,trout,0.329300,False
+salmon + sweet,salmon,chem,60,0.500000,1,arrowroot,0.354800,True
+salmon + sweet,salmon,chem,60,0.500000,2,quinoa,0.354000,True
+salmon + sweet,salmon,chem,60,0.500000,3,agar,0.310800,True
+salmon + sweet,salmon,chem,60,0.500000,4,spirulina,0.308400,True
+salmon + sweet,salmon,chem,60,0.500000,5,caper,0.306900,True
+chocolate + savory,chocolate,cooc,0,1.000000,1,cocoa_powder,0.553500,False
+chocolate + savory,chocolate,cooc,0,1.000000,2,vanilla,0.489900,True
+chocolate + savory,chocolate,cooc,0,1.000000,3,almond,0.478700,True
+chocolate + savory,chocolate,cooc,0,1.000000,4,coffee,0.451200,True
+chocolate + savory,chocolate,cooc,0,1.000000,5,sprinkles,0.443000,False
+chocolate + savory,chocolate,cooc,30,0.866025,1,cocoa_powder,0.436900,False
+chocolate + savory,chocolate,cooc,30,0.866025,2,vanilla,0.395300,True
+chocolate + savory,chocolate,cooc,30,0.866025,3,coffee,0.384600,True
+chocolate + savory,chocolate,cooc,30,0.866025,4,almond,0.382100,True
+chocolate + savory,chocolate,cooc,30,0.866025,5,butter,0.381500,True
+chocolate + savory,chocolate,cooc,60,0.500000,1,asiago_cheese,0.364800,True
+chocolate + savory,chocolate,cooc,60,0.500000,2,bechamel,0.337500,False
+chocolate + savory,chocolate,cooc,60,0.500000,3,butter,0.321900,True
+chocolate + savory,chocolate,cooc,60,0.500000,4,sour_cream,0.309200,False
+chocolate + savory,chocolate,cooc,60,0.500000,5,capicola,0.305700,False
+chocolate + savory,chocolate,core,0,1.000000,1,cocoa_powder,0.848400,False
+chocolate + savory,chocolate,core,0,1.000000,2,toffee,0.787500,False
+chocolate + savory,chocolate,core,0,1.000000,3,frosting,0.768200,False
+chocolate + savory,chocolate,core,0,1.000000,4,fudge,0.736700,False
+chocolate + savory,chocolate,core,0,1.000000,5,cream,0.732200,False
+chocolate + savory,chocolate,core,30,0.866025,1,cocoa_powder,0.711800,False
+chocolate + savory,chocolate,core,30,0.866025,2,cream,0.689100,False
+chocolate + savory,chocolate,core,30,0.866025,3,toffee,0.686100,False
+chocolate + savory,chocolate,core,30,0.866025,4,fudge,0.650800,False
+chocolate + savory,chocolate,core,30,0.866025,5,coffee_liqueur,0.646800,True
+chocolate + savory,chocolate,core,60,0.500000,1,fontina_cheese,0.471700,True
+chocolate + savory,chocolate,core,60,0.500000,2,cream,0.461300,False
+chocolate + savory,chocolate,core,60,0.500000,3,coffee_liqueur,0.457100,True
+chocolate + savory,chocolate,core,60,0.500000,4,pepperoni,0.420300,False
+chocolate + savory,chocolate,core,60,0.500000,5,ravioli,0.419600,False
+chocolate + savory,chocolate,chem,0,1.000000,1,toffee,0.685700,False
+chocolate + savory,chocolate,chem,0,1.000000,2,cocoa_powder,0.676200,False
+chocolate + savory,chocolate,chem,0,1.000000,3,frosting,0.672800,False
+chocolate + savory,chocolate,chem,0,1.000000,4,cream,0.651100,False
+chocolate + savory,chocolate,chem,0,1.000000,5,marshmallow,0.637200,False
+chocolate + savory,chocolate,chem,30,0.866025,1,toffee,0.585800,False
+chocolate + savory,chocolate,chem,30,0.866025,2,cream,0.578400,False
+chocolate + savory,chocolate,chem,30,0.866025,3,marshmallow,0.555300,False
+chocolate + savory,chocolate,chem,30,0.866025,4,ice_cream,0.554300,False
+chocolate + savory,chocolate,chem,30,0.866025,5,frosting,0.552900,False
+chocolate + savory,chocolate,chem,60,0.500000,1,cream_cheese,0.459300,True
+chocolate + savory,chocolate,chem,60,0.500000,2,cream,0.350700,False
+chocolate + savory,chocolate,chem,60,0.500000,3,ice_cream,0.339600,False
+chocolate + savory,chocolate,chem,60,0.500000,4,toffee,0.328800,False
+chocolate + savory,chocolate,chem,60,0.500000,5,marshmallow,0.324600,False
+bread + savory,bread,cooc,0,1.000000,1,olive_oil,0.436400,True
+bread + savory,bread,cooc,0,1.000000,2,parsley,0.370000,True
+bread + savory,bread,cooc,0,1.000000,3,paprika,0.364100,True
+bread + savory,bread,cooc,0,1.000000,4,thyme,0.353400,True
+bread + savory,bread,cooc,0,1.000000,5,anchovy,0.349600,False
+bread + savory,bread,cooc,30,0.866025,1,olive_oil,0.422900,True
+bread + savory,bread,cooc,30,0.866025,2,cheese,0.384800,True
+bread + savory,bread,cooc,30,0.866025,3,thyme,0.379400,True
+bread + savory,bread,cooc,30,0.866025,4,parsley,0.373600,True
+bread + savory,bread,cooc,30,0.866025,5,bacon,0.363800,True
+bread + savory,bread,cooc,60,0.500000,1,provolone_cheese,0.407500,True
+bread + savory,bread,cooc,60,0.500000,2,pancetta,0.330800,True
+bread + savory,bread,cooc,60,0.500000,3,capicola,0.325000,False
+bread + savory,bread,cooc,60,0.500000,4,mushroom,0.324000,True
+bread + savory,bread,cooc,60,0.500000,5,bechamel,0.319700,False
+bread + savory,bread,core,0,1.000000,1,pasta,0.690700,True
+bread + savory,bread,core,0,1.000000,2,artichoke,0.675500,True
+bread + savory,bread,core,0,1.000000,3,olive_oil,0.667400,True
+bread + savory,bread,core,0,1.000000,4,parsley,0.638200,True
+bread + savory,bread,core,0,1.000000,5,red_onion,0.637300,True
+bread + savory,bread,core,30,0.866025,1,provolone_cheese,0.660900,True
+bread + savory,bread,core,30,0.866025,2,pasta,0.608500,True
+bread + savory,bread,core,30,0.866025,3,olive_oil,0.594000,True
+bread + savory,bread,core,30,0.866025,4,bread_crumbs,0.589700,True
+bread + savory,bread,core,30,0.866025,5,bacon,0.588800,True
+bread + savory,bread,core,60,0.500000,1,provolone_cheese,0.551900,True
+bread + savory,bread,core,60,0.500000,2,pepperoni,0.456800,False
+bread + savory,bread,core,60,0.500000,3,bacon,0.421700,True
+bread + savory,bread,core,60,0.500000,4,alfredo_sauce,0.419400,False
+bread + savory,bread,core,60,0.500000,5,pesto,0.410700,False
+bread + savory,bread,chem,0,1.000000,1,pasta,0.465800,True
+bread + savory,bread,chem,0,1.000000,2,caper,0.432300,True
+bread + savory,bread,chem,0,1.000000,3,artichoke,0.428100,True
+bread + savory,bread,chem,0,1.000000,4,anchovy,0.377100,False
+bread + savory,bread,chem,0,1.000000,5,provolone_cheese,0.371400,True
+bread + savory,bread,chem,30,0.866025,1,provolone_cheese,0.522800,True
+bread + savory,bread,chem,30,0.866025,2,pasta,0.396100,True
+bread + savory,bread,chem,30,0.866025,3,bacon,0.371400,True
+bread + savory,bread,chem,30,0.866025,4,salami,0.345900,False
+bread + savory,bread,chem,30,0.866025,5,anchovy,0.344300,False
+bread + savory,bread,chem,60,0.500000,1,provolone_cheese,0.534100,True
+bread + savory,bread,chem,60,0.500000,2,bacon,0.318900,True
+bread + savory,bread,chem,60,0.500000,3,salami,0.318800,False
+bread + savory,bread,chem,60,0.500000,4,prosciutto,0.318700,False
+bread + savory,bread,chem,60,0.500000,5,pesto,0.317900,False
+potato + savory,potato,cooc,0,1.000000,1,onion,0.388300,True
+potato + savory,potato,cooc,0,1.000000,2,bay_leaf,0.370700,True
+potato + savory,potato,cooc,0,1.000000,3,tomato,0.362900,True
+potato + savory,potato,cooc,0,1.000000,4,salt,0.346700,False
+potato + savory,potato,cooc,0,1.000000,5,parsley,0.345200,True
+potato + savory,potato,cooc,30,0.866025,1,cheese,0.419600,True
+potato + savory,potato,cooc,30,0.866025,2,onion,0.418400,True
+potato + savory,potato,cooc,30,0.866025,3,tomato,0.373500,True
+potato + savory,potato,cooc,30,0.866025,4,parsley,0.372600,True
+potato + savory,potato,cooc,30,0.866025,5,oregano,0.371400,True
+potato + savory,potato,cooc,60,0.500000,1,cheese,0.395300,True
+potato + savory,potato,cooc,60,0.500000,2,onion,0.336400,True
+potato + savory,potato,cooc,60,0.500000,3,alfredo_sauce,0.330600,False
+potato + savory,potato,cooc,60,0.500000,4,mushroom,0.326900,True
+potato + savory,potato,cooc,60,0.500000,5,bacon,0.320400,True
+potato + savory,potato,core,0,1.000000,1,onion,0.570100,True
+potato + savory,potato,core,0,1.000000,2,paprika,0.569500,True
+potato + savory,potato,core,0,1.000000,3,corn,0.546000,True
+potato + savory,potato,core,0,1.000000,4,pea,0.545600,True
+potato + savory,potato,core,0,1.000000,5,leek,0.540600,True
+potato + savory,potato,core,30,0.866025,1,cheese,0.588100,True
+potato + savory,potato,core,30,0.866025,2,mushroom,0.546100,True
+potato + savory,potato,core,30,0.866025,3,onion,0.525900,True
+potato + savory,potato,core,30,0.866025,4,bacon,0.525200,True
+potato + savory,potato,core,30,0.866025,5,paprika,0.515400,True
+potato + savory,potato,core,60,0.500000,1,parmesan_cheese,0.526600,True
+potato + savory,potato,core,60,0.500000,2,mushroom,0.415700,True
+potato + savory,potato,core,60,0.500000,3,red_wine,0.409500,True
+potato + savory,potato,core,60,0.500000,4,bacon,0.407000,True
+potato + savory,potato,core,60,0.500000,5,pepperoni,0.405300,False
+potato + savory,potato,chem,0,1.000000,1,curry_paste,0.342000,False
+potato + savory,potato,chem,0,1.000000,2,guascas,0.339700,False
+potato + savory,potato,chem,0,1.000000,3,leek,0.300500,True
+potato + savory,potato,chem,0,1.000000,4,corn,0.277200,True
+potato + savory,potato,chem,0,1.000000,5,chicken,0.274000,True
+potato + savory,potato,chem,30,0.866025,1,cheese,0.402900,True
+potato + savory,potato,chem,30,0.866025,2,mushroom,0.293200,True
+potato + savory,potato,chem,30,0.866025,3,bacon,0.283700,True
+potato + savory,potato,chem,30,0.866025,4,guascas,0.280100,False
+potato + savory,potato,chem,30,0.866025,5,beef,0.276200,True
+potato + savory,potato,chem,60,0.500000,1,cheese,0.458100,True
+potato + savory,potato,chem,60,0.500000,2,red_wine,0.300700,True
+potato + savory,potato,chem,60,0.500000,3,alfredo_sauce,0.284600,False
+potato + savory,potato,chem,60,0.500000,4,pesto,0.278000,False
+potato + savory,potato,chem,60,0.500000,5,crescent_roll,0.275800,False
+tomato + bitter,tomato,cooc,0,1.000000,1,onion,0.482800,False
+tomato + bitter,tomato,cooc,0,1.000000,2,parsley,0.472100,False
+tomato + bitter,tomato,cooc,0,1.000000,3,garlic,0.461100,False
+tomato + bitter,tomato,cooc,0,1.000000,4,olive_oil,0.455100,True
+tomato + bitter,tomato,cooc,0,1.000000,5,bell_pepper,0.441700,False
+tomato + bitter,tomato,cooc,30,0.866025,1,olive_oil,0.425600,True
+tomato + bitter,tomato,cooc,30,0.866025,2,parsley,0.416500,False
+tomato + bitter,tomato,cooc,30,0.866025,3,lettuce,0.389600,True
+tomato + bitter,tomato,cooc,30,0.866025,4,onion,0.388600,False
+tomato + bitter,tomato,cooc,30,0.866025,5,garlic,0.380900,False
+tomato + bitter,tomato,cooc,60,0.500000,1,lettuce,0.315700,True
+tomato + bitter,tomato,cooc,60,0.500000,2,millet,0.314500,True
+tomato + bitter,tomato,cooc,60,0.500000,3,mung_bean,0.313700,True
+tomato + bitter,tomato,cooc,60,0.500000,4,carrot,0.304900,False
+tomato + bitter,tomato,cooc,60,0.500000,5,quinoa,0.300900,True
+tomato + bitter,tomato,core,0,1.000000,1,bell_pepper,0.611400,False
+tomato + bitter,tomato,core,0,1.000000,2,olive_oil,0.588400,True
+tomato + bitter,tomato,core,0,1.000000,3,onion,0.585600,False
+tomato + bitter,tomato,core,0,1.000000,4,bean,0.570500,False
+tomato + bitter,tomato,core,0,1.000000,5,garlic,0.569400,False
+tomato + bitter,tomato,core,30,0.866025,1,chickpea,0.638700,True
+tomato + bitter,tomato,core,30,0.866025,2,quinoa,0.604800,True
+tomato + bitter,tomato,core,30,0.866025,3,lentil,0.587000,True
+tomato + bitter,tomato,core,30,0.866025,4,eggplant,0.584700,True
+tomato + bitter,tomato,core,30,0.866025,5,kale,0.576400,True
+tomato + bitter,tomato,core,60,0.500000,1,quinoa,0.586100,True
+tomato + bitter,tomato,core,60,0.500000,2,chia_seed,0.557800,True
+tomato + bitter,tomato,core,60,0.500000,3,chickpea,0.556600,True
+tomato + bitter,tomato,core,60,0.500000,4,cashew,0.551700,True
+tomato + bitter,tomato,core,60,0.500000,5,mung_bean,0.540300,True
+tomato + bitter,tomato,chem,0,1.000000,1,bean,0.290900,False
+tomato + bitter,tomato,chem,0,1.000000,2,bell_pepper,0.289400,False
+tomato + bitter,tomato,chem,0,1.000000,3,tortilla,0.283700,False
+tomato + bitter,tomato,chem,0,1.000000,4,onion,0.280500,False
+tomato + bitter,tomato,chem,0,1.000000,5,pasta,0.274500,True
+tomato + bitter,tomato,chem,30,0.866025,1,quinoa,0.426000,True
+tomato + bitter,tomato,chem,30,0.866025,2,lentil,0.423400,True
+tomato + bitter,tomato,chem,30,0.866025,3,pasta,0.394500,True
+tomato + bitter,tomato,chem,30,0.866025,4,chayote,0.394000,True
+tomato + bitter,tomato,chem,30,0.866025,5,chickpea,0.391600,True
+tomato + bitter,tomato,chem,60,0.500000,1,quinoa,0.504900,True
+tomato + bitter,tomato,chem,60,0.500000,2,scallion,0.470300,True
+tomato + bitter,tomato,chem,60,0.500000,3,chickpea,0.470200,True
+tomato + bitter,tomato,chem,60,0.500000,4,kale,0.468100,True
+tomato + bitter,tomato,chem,60,0.500000,5,oyster_mushroom,0.463300,True
+cream + bitter,cream,cooc,0,1.000000,1,butter,0.462300,False
+cream + bitter,cream,cooc,0,1.000000,2,egg_yolk,0.403100,False
+cream + bitter,cream,cooc,0,1.000000,3,gelatin,0.386000,False
+cream + bitter,cream,cooc,0,1.000000,4,ice_cream,0.374700,False
+cream + bitter,cream,cooc,0,1.000000,5,brandy,0.374100,False
+cream + bitter,cream,cooc,30,0.866025,1,strawberry,0.374800,False
+cream + bitter,cream,cooc,30,0.866025,2,hazelnut,0.370900,True
+cream + bitter,cream,cooc,30,0.866025,3,pistachio,0.368200,True
+cream + bitter,cream,cooc,30,0.866025,4,gelatin,0.365000,False
+cream + bitter,cream,cooc,30,0.866025,5,vanilla,0.358500,False
+cream + bitter,cream,cooc,60,0.500000,1,almond_butter,0.330900,True
+cream + bitter,cream,cooc,60,0.500000,2,soy_protein_isolate,0.324600,False
+cream + bitter,cream,cooc,60,0.500000,3,hemp_seed,0.312000,False
+cream + bitter,cream,cooc,60,0.500000,4,mung_bean,0.311700,True
+cream + bitter,cream,cooc,60,0.500000,5,millet,0.310600,True
+cream + bitter,cream,core,0,1.000000,1,gelatin,0.778100,False
+cream + bitter,cream,core,0,1.000000,2,chocolate,0.732200,True
+cream + bitter,cream,core,0,1.000000,3,sugar,0.709700,False
+cream + bitter,cream,core,0,1.000000,4,cocoa_powder,0.702400,False
+cream + bitter,cream,core,0,1.000000,5,ice_cream,0.692700,False
+cream + bitter,cream,core,30,0.866025,1,gelatin,0.718300,False
+cream + bitter,cream,core,30,0.866025,2,chocolate,0.692600,True
+cream + bitter,cream,core,30,0.866025,3,cocoa_powder,0.690800,False
+cream + bitter,cream,core,30,0.866025,4,sugar,0.673800,False
+cream + bitter,cream,core,30,0.866025,5,hazelnut,0.654500,True
+cream + bitter,cream,core,60,0.500000,1,hazelnut,0.607200,True
+cream + bitter,cream,core,60,0.500000,2,chia_seed,0.604900,True
+cream + bitter,cream,core,60,0.500000,3,pistachio,0.569400,True
+cream + bitter,cream,core,60,0.500000,4,cashew,0.559800,True
+cream + bitter,cream,core,60,0.500000,5,carob,0.556100,True
+cream + bitter,cream,chem,0,1.000000,1,gelatin,0.683000,False
+cream + bitter,cream,chem,0,1.000000,2,chocolate,0.651100,True
+cream + bitter,cream,chem,0,1.000000,3,meringue,0.628000,False
+cream + bitter,cream,chem,0,1.000000,4,ice_cream,0.620800,False
+cream + bitter,cream,chem,0,1.000000,5,cocoa_powder,0.578600,False
+cream + bitter,cream,chem,30,0.866025,1,gelatin,0.611500,False
+cream + bitter,cream,chem,30,0.866025,2,chocolate,0.583000,True
+cream + bitter,cream,chem,30,0.866025,3,meringue,0.578200,False
+cream + bitter,cream,chem,30,0.866025,4,cocoa_powder,0.553200,False
+cream + bitter,cream,chem,30,0.866025,5,ice_cream,0.547200,False
+cream + bitter,cream,chem,60,0.500000,1,hazelnut,0.525500,True
+cream + bitter,cream,chem,60,0.500000,2,pistachio,0.509900,True
+cream + bitter,cream,chem,60,0.500000,3,chestnut,0.491000,True
+cream + bitter,cream,chem,60,0.500000,4,agar,0.461600,True
+cream + bitter,cream,chem,60,0.500000,5,kale,0.443300,True
+honey + bitter,honey,cooc,0,1.000000,1,apple,0.399500,False
+honey + bitter,honey,cooc,0,1.000000,2,gelatin,0.352000,False
+honey + bitter,honey,cooc,0,1.000000,3,blueberry,0.351700,True
+honey + bitter,honey,cooc,0,1.000000,4,cherry,0.349100,True
+honey + bitter,honey,cooc,0,1.000000,5,vanilla,0.336900,False
+honey + bitter,honey,cooc,30,0.866025,1,apple,0.380700,False
+honey + bitter,honey,cooc,30,0.866025,2,flaxseed,0.339800,False
+honey + bitter,honey,cooc,30,0.866025,3,vanilla,0.326300,False
+honey + bitter,honey,cooc,30,0.866025,4,pumpkin_seed,0.326100,False
+honey + bitter,honey,cooc,30,0.866025,5,blueberry,0.320800,True
+honey + bitter,honey,cooc,60,0.500000,1,flaxseed,0.328200,False
+honey + bitter,honey,cooc,60,0.500000,2,millet,0.317000,True
+honey + bitter,honey,cooc,60,0.500000,3,kudzu_root,0.309500,False
+honey + bitter,honey,cooc,60,0.500000,4,hemp_seed,0.303600,False
+honey + bitter,honey,cooc,60,0.500000,5,sunflower_seed,0.296700,False
+honey + bitter,honey,core,0,1.000000,1,pear,0.554200,True
+honey + bitter,honey,core,0,1.000000,2,apple,0.498900,False
+honey + bitter,honey,core,0,1.000000,3,pumpkin_seed,0.487100,False
+honey + bitter,honey,core,0,1.000000,4,fruit,0.485400,False
+honey + bitter,honey,core,0,1.000000,5,whole_wheat_flour,0.474400,True
+honey + bitter,honey,core,30,0.866025,1,chia_seed,0.622000,True
+honey + bitter,honey,core,30,0.866025,2,pear,0.583700,True
+honey + bitter,honey,core,30,0.866025,3,carob,0.577900,True
+honey + bitter,honey,core,30,0.866025,4,quinoa,0.568700,True
+honey + bitter,honey,core,30,0.866025,5,coconut_oil,0.559600,False
+honey + bitter,honey,core,60,0.500000,1,chia_seed,0.607000,True
+honey + bitter,honey,core,60,0.500000,2,carob,0.577400,True
+honey + bitter,honey,core,60,0.500000,3,quinoa,0.546900,True
+honey + bitter,honey,core,60,0.500000,4,cashew,0.540600,True
+honey + bitter,honey,core,60,0.500000,5,spirulina,0.532300,True
+honey + bitter,honey,chem,0,1.000000,1,pear,0.388800,True
+honey + bitter,honey,chem,0,1.000000,2,apple,0.352000,False
+honey + bitter,honey,chem,0,1.000000,3,strawberry,0.311600,False
+honey + bitter,honey,chem,0,1.000000,4,char_siu_sauce,0.279500,False
+honey + bitter,honey,chem,0,1.000000,5,wisteria_flower,0.252800,False
+honey + bitter,honey,chem,30,0.866025,1,pear,0.414700,True
+honey + bitter,honey,chem,30,0.866025,2,chia_seed,0.394100,True
+honey + bitter,honey,chem,30,0.866025,3,quinoa,0.383500,True
+honey + bitter,honey,chem,30,0.866025,4,mache,0.365900,True
+honey + bitter,honey,chem,30,0.866025,5,spelt,0.357000,True
+honey + bitter,honey,chem,60,0.500000,1,quinoa,0.475100,True
+honey + bitter,honey,chem,60,0.500000,2,chia_seed,0.462300,True
+honey + bitter,honey,chem,60,0.500000,3,scallion,0.447200,True
+honey + bitter,honey,chem,60,0.500000,4,bok_choy,0.444000,True
+honey + bitter,honey,chem,60,0.500000,5,millet,0.441300,True
+butter + sour,butter,cooc,0,1.000000,1,cream,0.462300,False
+butter + sour,butter,cooc,0,1.000000,2,egg_yolk,0.434200,False
+butter + sour,butter,cooc,0,1.000000,3,flour,0.408000,False
+butter + sour,butter,cooc,0,1.000000,4,milk,0.406200,True
+butter + sour,butter,cooc,0,1.000000,5,almond,0.377000,False
+butter + sour,butter,cooc,30,0.866025,1,cream,0.380600,False
+butter + sour,butter,cooc,30,0.866025,2,milk,0.374300,True
+butter + sour,butter,cooc,30,0.866025,3,egg_yolk,0.366100,False
+butter + sour,butter,cooc,30,0.866025,4,flour,0.355100,False
+butter + sour,butter,cooc,30,0.866025,5,jarlsberg_cheese,0.343900,True
+butter + sour,butter,cooc,60,0.500000,1,jarlsberg_cheese,0.352000,True
+butter + sour,butter,cooc,60,0.500000,2,egg,0.246100,False
+butter + sour,butter,cooc,60,0.500000,3,milk,0.242100,True
+butter + sour,butter,cooc,60,0.500000,4,chocolate,0.240600,True
+butter + sour,butter,cooc,60,0.500000,5,hollandaise_sauce,0.235500,False
+butter + sour,butter,core,0,1.000000,1,milk,0.604000,True
+butter + sour,butter,core,0,1.000000,2,egg_yolk,0.569300,False
+butter + sour,butter,core,0,1.000000,3,parmesan_cheese,0.497200,False
+butter + sour,butter,core,0,1.000000,4,white_chocolate,0.491000,True
+butter + sour,butter,core,0,1.000000,5,baking_powder,0.484600,False
+butter + sour,butter,core,30,0.866025,1,egg,0.556100,False
+butter + sour,butter,core,30,0.866025,2,milk,0.552400,True
+butter + sour,butter,core,30,0.866025,3,flour,0.499900,False
+butter + sour,butter,core,30,0.866025,4,parmesan_cheese,0.469100,False
+butter + sour,butter,core,30,0.866025,5,bread_crumbs,0.468700,True
+butter + sour,butter,core,60,0.500000,1,flour,0.418200,False
+butter + sour,butter,core,60,0.500000,2,egg,0.407400,False
+butter + sour,butter,core,60,0.500000,3,romano_cheese,0.386200,True
+butter + sour,butter,core,60,0.500000,4,dough,0.379300,False
+butter + sour,butter,core,60,0.500000,5,pastry,0.378000,False
+butter + sour,butter,chem,0,1.000000,1,milk,0.477900,True
+butter + sour,butter,chem,0,1.000000,2,flour,0.348100,False
+butter + sour,butter,chem,0,1.000000,3,egg,0.328200,False
+butter + sour,butter,chem,0,1.000000,4,chocolate,0.326300,True
+butter + sour,butter,chem,0,1.000000,5,parmesan_cheese,0.313500,False
+butter + sour,butter,chem,30,0.866025,1,milk,0.472000,True
+butter + sour,butter,chem,30,0.866025,2,egg,0.365400,False
+butter + sour,butter,chem,30,0.866025,3,flour,0.338100,False
+butter + sour,butter,chem,30,0.866025,4,cheese,0.331100,True
+butter + sour,butter,chem,30,0.866025,5,chocolate,0.309900,True
+butter + sour,butter,chem,60,0.500000,1,cheese,0.361400,True
+butter + sour,butter,chem,60,0.500000,2,milk,0.339700,True
+butter + sour,butter,chem,60,0.500000,3,egg,0.304600,False
+butter + sour,butter,chem,60,0.500000,4,dough,0.261800,False
+butter + sour,butter,chem,60,0.500000,5,bread,0.260000,True
+chicken + sour,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + sour,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + sour,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + sour,chicken,cooc,0,1.000000,4,turkey,0.348000,True
+chicken + sour,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + sour,chicken,cooc,30,0.866025,1,swiss_cheese,0.324800,True
+chicken + sour,chicken,cooc,30,0.866025,2,turkey,0.317800,True
+chicken + sour,chicken,cooc,30,0.866025,3,chicken_broth,0.297500,False
+chicken + sour,chicken,cooc,30,0.866025,4,garlic,0.291800,False
+chicken + sour,chicken,cooc,30,0.866025,5,sesame_seed,0.290300,False
+chicken + sour,chicken,cooc,60,0.500000,1,swiss_cheese,0.305100,True
+chicken + sour,chicken,cooc,60,0.500000,2,caesar_dressing,0.280700,False
+chicken + sour,chicken,cooc,60,0.500000,3,alfalfa_sprout,0.271000,True
+chicken + sour,chicken,cooc,60,0.500000,4,bechamel,0.252700,False
+chicken + sour,chicken,cooc,60,0.500000,5,dijonnaise,0.234400,False
+chicken + sour,chicken,core,0,1.000000,1,pork,0.580800,False
+chicken + sour,chicken,core,0,1.000000,2,beef,0.571200,False
+chicken + sour,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + sour,chicken,core,0,1.000000,4,peanut,0.523300,False
+chicken + sour,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + sour,chicken,core,30,0.866025,1,alfredo_sauce,0.562700,False
+chicken + sour,chicken,core,30,0.866025,2,chicken_broth,0.529300,False
+chicken + sour,chicken,core,30,0.866025,3,crouton,0.516900,True
+chicken + sour,chicken,core,30,0.866025,4,shrimp,0.514200,False
+chicken + sour,chicken,core,30,0.866025,5,cream_of_chicken_soup,0.510400,False
+chicken + sour,chicken,core,60,0.500000,1,alfredo_sauce,0.478400,False
+chicken + sour,chicken,core,60,0.500000,2,crouton,0.445800,True
+chicken + sour,chicken,core,60,0.500000,3,mozzarella_cheese,0.439600,True
+chicken + sour,chicken,core,60,0.500000,4,pesto,0.434000,False
+chicken + sour,chicken,core,60,0.500000,5,crab_stick,0.433500,True
+chicken + sour,chicken,chem,0,1.000000,1,beef,0.405100,False
+chicken + sour,chicken,chem,0,1.000000,2,pork,0.339700,False
+chicken + sour,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + sour,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + sour,chicken,chem,0,1.000000,5,peanut,0.282100,False
+chicken + sour,chicken,chem,30,0.866025,1,beef,0.336400,False
+chicken + sour,chicken,chem,30,0.866025,2,cream_of_chicken_soup,0.331500,False
+chicken + sour,chicken,chem,30,0.866025,3,cheddar_cheese,0.327000,True
+chicken + sour,chicken,chem,30,0.866025,4,buffalo_wing_sauce,0.325500,False
+chicken + sour,chicken,chem,30,0.866025,5,shrimp,0.292800,False
+chicken + sour,chicken,chem,60,0.500000,1,cheese,0.364100,True
+chicken + sour,chicken,chem,60,0.500000,2,alfredo_sauce,0.281600,False
+chicken + sour,chicken,chem,60,0.500000,3,buffalo_wing_sauce,0.275700,False
+chicken + sour,chicken,chem,60,0.500000,4,ranch_dressing,0.268600,False
+chicken + sour,chicken,chem,60,0.500000,5,cream_of_chicken_soup,0.263400,False
+rice + sour,rice,cooc,0,1.000000,1,carrot,0.335000,False
+rice + sour,rice,cooc,0,1.000000,2,okra,0.331600,False
+rice + sour,rice,cooc,0,1.000000,3,vegetable_oil,0.325700,False
+rice + sour,rice,cooc,0,1.000000,4,pea,0.311700,False
+rice + sour,rice,cooc,0,1.000000,5,dashi,0.307500,False
+rice + sour,rice,cooc,30,0.866025,1,vegetable_oil,0.279200,False
+rice + sour,rice,cooc,30,0.866025,2,cabbage,0.277100,False
+rice + sour,rice,cooc,30,0.866025,3,shiitake_mushroom,0.275400,False
+rice + sour,rice,cooc,30,0.866025,4,spinach,0.273400,False
+rice + sour,rice,cooc,30,0.866025,5,bread_crumbs,0.272800,True
+rice + sour,rice,cooc,60,0.500000,1,jarlsberg_cheese,0.297000,True
+rice + sour,rice,cooc,60,0.500000,2,seafood,0.226200,False
+rice + sour,rice,cooc,60,0.500000,3,crab_stick,0.222900,True
+rice + sour,rice,cooc,60,0.500000,4,spinach,0.222000,False
+rice + sour,rice,cooc,60,0.500000,5,alfalfa_sprout,0.215700,True
+rice + sour,rice,core,0,1.000000,1,shiitake_mushroom,0.595900,False
+rice + sour,rice,core,0,1.000000,2,nori,0.594300,False
+rice + sour,rice,core,0,1.000000,3,bok_choy,0.583900,True
+rice + sour,rice,core,0,1.000000,4,sesame_seed,0.571800,False
+rice + sour,rice,core,0,1.000000,5,pea,0.571300,False
+rice + sour,rice,core,30,0.866025,1,nori,0.568600,False
+rice + sour,rice,core,30,0.866025,2,crab_stick,0.562300,True
+rice + sour,rice,core,30,0.866025,3,sesame_oil,0.548000,False
+rice + sour,rice,core,30,0.866025,4,shiitake_mushroom,0.547400,False
+rice + sour,rice,core,30,0.866025,5,dried_shrimp,0.540200,False
+rice + sour,rice,core,60,0.500000,1,crab_stick,0.473300,True
+rice + sour,rice,core,60,0.500000,2,fish_cake,0.436500,True
+rice + sour,rice,core,60,0.500000,3,noodle,0.436500,True
+rice + sour,rice,core,60,0.500000,4,salmon,0.435000,False
+rice + sour,rice,core,60,0.500000,5,mayonnaise,0.433400,False
+rice + sour,rice,chem,0,1.000000,1,caviar,0.310000,False
+rice + sour,rice,chem,0,1.000000,2,nori,0.300600,False
+rice + sour,rice,chem,0,1.000000,3,wheat,0.296900,True
+rice + sour,rice,chem,0,1.000000,4,millet,0.296600,True
+rice + sour,rice,chem,0,1.000000,5,puzi_leaf,0.291900,False
+rice + sour,rice,chem,30,0.866025,1,cheese,0.347000,True
+rice + sour,rice,chem,30,0.866025,2,wheat,0.317200,True
+rice + sour,rice,chem,30,0.866025,3,nori,0.311100,False
+rice + sour,rice,chem,30,0.866025,4,crab,0.308600,True
+rice + sour,rice,chem,30,0.866025,5,caviar,0.308000,False
+rice + sour,rice,chem,60,0.500000,1,cheese,0.374600,True
+rice + sour,rice,chem,60,0.500000,2,crab,0.276700,True
+rice + sour,rice,chem,60,0.500000,3,meat_floss,0.263500,True
+rice + sour,rice,chem,60,0.500000,4,fish_cake,0.259700,True
+rice + sour,rice,chem,60,0.500000,5,broccoli,0.259500,False
+rice + fatty,rice,cooc,0,1.000000,1,carrot,0.335000,False
+rice + fatty,rice,cooc,0,1.000000,2,okra,0.331600,False
+rice + fatty,rice,cooc,0,1.000000,3,vegetable_oil,0.325700,False
+rice + fatty,rice,cooc,0,1.000000,4,pea,0.311700,False
+rice + fatty,rice,cooc,0,1.000000,5,dashi,0.307500,False
+rice + fatty,rice,cooc,30,0.866025,1,sausage,0.286400,False
+rice + fatty,rice,cooc,30,0.866025,2,mushroom,0.285400,True
+rice + fatty,rice,cooc,30,0.866025,3,bread_crumbs,0.284100,True
+rice + fatty,rice,cooc,30,0.866025,4,cheese,0.267500,True
+rice + fatty,rice,cooc,30,0.866025,5,vegetable_oil,0.267000,False
+rice + fatty,rice,cooc,60,0.500000,1,mozzarella_cheese,0.267300,True
+rice + fatty,rice,cooc,60,0.500000,2,sausage,0.237100,False
+rice + fatty,rice,cooc,60,0.500000,3,mushroom,0.228800,True
+rice + fatty,rice,cooc,60,0.500000,4,ham,0.225200,False
+rice + fatty,rice,cooc,60,0.500000,5,bread_crumbs,0.216600,True
+rice + fatty,rice,core,0,1.000000,1,shiitake_mushroom,0.595900,False
+rice + fatty,rice,core,0,1.000000,2,nori,0.594300,False
+rice + fatty,rice,core,0,1.000000,3,bok_choy,0.583900,False
+rice + fatty,rice,core,0,1.000000,4,sesame_seed,0.571800,False
+rice + fatty,rice,core,0,1.000000,5,pea,0.571300,False
+rice + fatty,rice,core,30,0.866025,1,crab,0.503500,True
+rice + fatty,rice,core,30,0.866025,2,cheese,0.501300,True
+rice + fatty,rice,core,30,0.866025,3,clam,0.497100,True
+rice + fatty,rice,core,30,0.866025,4,squid,0.494500,True
+rice + fatty,rice,core,30,0.866025,5,shrimp,0.488400,True
+rice + fatty,rice,core,60,0.500000,1,crab,0.393500,True
+rice + fatty,rice,core,60,0.500000,2,cheese,0.381000,True
+rice + fatty,rice,core,60,0.500000,3,mayonnaise,0.357500,False
+rice + fatty,rice,core,60,0.500000,4,caviar,0.354300,True
+rice + fatty,rice,core,60,0.500000,5,clam,0.351000,True
+rice + fatty,rice,chem,0,1.000000,1,caviar,0.310000,True
+rice + fatty,rice,chem,0,1.000000,2,nori,0.300600,False
+rice + fatty,rice,chem,0,1.000000,3,wheat,0.296900,False
+rice + fatty,rice,chem,0,1.000000,4,millet,0.296600,False
+rice + fatty,rice,chem,0,1.000000,5,puzi_leaf,0.291900,False
+rice + fatty,rice,chem,30,0.866025,1,caviar,0.309600,True
+rice + fatty,rice,chem,30,0.866025,2,cheese,0.308100,True
+rice + fatty,rice,chem,30,0.866025,3,crab,0.289300,True
+rice + fatty,rice,chem,30,0.866025,4,puzi_leaf,0.278800,False
+rice + fatty,rice,chem,30,0.866025,5,fish,0.271900,True
+rice + fatty,rice,chem,60,0.500000,1,cheese,0.307200,True
+rice + fatty,rice,chem,60,0.500000,2,crab,0.243400,True
+rice + fatty,rice,chem,60,0.500000,3,english_muffin,0.237200,False
+rice + fatty,rice,chem,60,0.500000,4,caviar,0.226200,True
+rice + fatty,rice,chem,60,0.500000,5,alfredo_sauce,0.221700,False
+bread + fatty,bread,cooc,0,1.000000,1,olive_oil,0.436400,False
+bread + fatty,bread,cooc,0,1.000000,2,parsley,0.370000,False
+bread + fatty,bread,cooc,0,1.000000,3,paprika,0.364100,False
+bread + fatty,bread,cooc,0,1.000000,4,thyme,0.353400,False
+bread + fatty,bread,cooc,0,1.000000,5,anchovy,0.349600,False
+bread + fatty,bread,cooc,30,0.866025,1,mozzarella_cheese,0.349300,True
+bread + fatty,bread,cooc,30,0.866025,2,olive_oil,0.329900,False
+bread + fatty,bread,cooc,30,0.866025,3,mayonnaise,0.319500,False
+bread + fatty,bread,cooc,30,0.866025,4,mushroom,0.300300,True
+bread + fatty,bread,cooc,30,0.866025,5,bread_crumbs,0.289000,True
+bread + fatty,bread,cooc,60,0.500000,1,mozzarella_cheese,0.319400,True
+bread + fatty,bread,cooc,60,0.500000,2,pizza_sauce,0.246900,False
+bread + fatty,bread,cooc,60,0.500000,3,pizza_crust,0.240500,False
+bread + fatty,bread,cooc,60,0.500000,4,ranch_dressing,0.225700,False
+bread + fatty,bread,cooc,60,0.500000,5,mushroom,0.218000,True
+bread + fatty,bread,core,0,1.000000,1,pasta,0.690700,False
+bread + fatty,bread,core,0,1.000000,2,artichoke,0.675500,False
+bread + fatty,bread,core,0,1.000000,3,olive_oil,0.667400,False
+bread + fatty,bread,core,0,1.000000,4,parsley,0.638200,False
+bread + fatty,bread,core,0,1.000000,5,red_onion,0.637300,False
+bread + fatty,bread,core,30,0.866025,1,bread_crumbs,0.591600,True
+bread + fatty,bread,core,30,0.866025,2,mayonnaise,0.587400,False
+bread + fatty,bread,core,30,0.866025,3,provolone_cheese,0.586400,True
+bread + fatty,bread,core,30,0.866025,4,mortadella,0.566300,False
+bread + fatty,bread,core,30,0.866025,5,olive_oil,0.564000,False
+bread + fatty,bread,core,60,0.500000,1,provolone_cheese,0.422800,True
+bread + fatty,bread,core,60,0.500000,2,bread_crumbs,0.413000,True
+bread + fatty,bread,core,60,0.500000,3,mortadella,0.412100,False
+bread + fatty,bread,core,60,0.500000,4,mayonnaise,0.408200,False
+bread + fatty,bread,core,60,0.500000,5,anchovy,0.387400,False
+bread + fatty,bread,chem,0,1.000000,1,pasta,0.465800,False
+bread + fatty,bread,chem,0,1.000000,2,caper,0.432300,False
+bread + fatty,bread,chem,0,1.000000,3,artichoke,0.428100,False
+bread + fatty,bread,chem,0,1.000000,4,anchovy,0.377100,False
+bread + fatty,bread,chem,0,1.000000,5,provolone_cheese,0.371400,True
+bread + fatty,bread,chem,30,0.866025,1,provolone_cheese,0.442200,True
+bread + fatty,bread,chem,30,0.866025,2,yogurt,0.357300,True
+bread + fatty,bread,chem,30,0.866025,3,bacon,0.331500,True
+bread + fatty,bread,chem,30,0.866025,4,bread_crumbs,0.319700,True
+bread + fatty,bread,chem,30,0.866025,5,anchovy,0.311400,False
+bread + fatty,bread,chem,60,0.500000,1,provolone_cheese,0.394600,True
+bread + fatty,bread,chem,60,0.500000,2,yogurt,0.268800,True
+bread + fatty,bread,chem,60,0.500000,3,bread_crumbs,0.260200,True
+bread + fatty,bread,chem,60,0.500000,4,bacon,0.249700,True
+bread + fatty,bread,chem,60,0.500000,5,mortadella,0.241400,False
+apple + fatty,apple,cooc,0,1.000000,1,strawberry,0.400100,True
+apple + fatty,apple,cooc,0,1.000000,2,honey,0.399500,False
+apple + fatty,apple,cooc,0,1.000000,3,raisin,0.398900,True
+apple + fatty,apple,cooc,0,1.000000,4,cranberry,0.391000,False
+apple + fatty,apple,cooc,0,1.000000,5,cinnamon,0.390000,False
+apple + fatty,apple,cooc,30,0.866025,1,strawberry,0.313100,True
+apple + fatty,apple,cooc,30,0.866025,2,cranberry,0.312200,False
+apple + fatty,apple,cooc,30,0.866025,3,butter,0.309600,True
+apple + fatty,apple,cooc,30,0.866025,4,raisin,0.306100,True
+apple + fatty,apple,cooc,30,0.866025,5,prune,0.302000,False
+apple + fatty,apple,cooc,60,0.500000,1,swiss_cheese,0.315900,True
+apple + fatty,apple,cooc,60,0.500000,2,butter,0.264900,True
+apple + fatty,apple,cooc,60,0.500000,3,egg,0.232200,False
+apple + fatty,apple,cooc,60,0.500000,4,ranch_dressing,0.228800,False
+apple + fatty,apple,cooc,60,0.500000,5,ham,0.228700,False
+apple + fatty,apple,core,0,1.000000,1,banana,0.544800,False
+apple + fatty,apple,core,0,1.000000,2,apple_cider,0.541600,False
+apple + fatty,apple,core,0,1.000000,3,prune,0.525900,False
+apple + fatty,apple,core,0,1.000000,4,pear,0.522000,False
+apple + fatty,apple,core,0,1.000000,5,apple_pie_spice,0.521400,False
+apple + fatty,apple,core,30,0.866025,1,butter,0.468200,True
+apple + fatty,apple,core,30,0.866025,2,gruyere_cheese,0.446100,True
+apple + fatty,apple,core,30,0.866025,3,apple_cider,0.445500,False
+apple + fatty,apple,core,30,0.866025,4,white_wine,0.427100,True
+apple + fatty,apple,core,30,0.866025,5,apple_pie_spice,0.424700,False
+apple + fatty,apple,core,60,0.500000,1,gruyere_cheese,0.359400,True
+apple + fatty,apple,core,60,0.500000,2,butter,0.332300,True
+apple + fatty,apple,core,60,0.500000,3,white_wine,0.313200,True
+apple + fatty,apple,core,60,0.500000,4,port_wine,0.302900,True
+apple + fatty,apple,core,60,0.500000,5,bread_crumbs,0.294900,True
+apple + fatty,apple,chem,0,1.000000,1,pear,0.389500,False
+apple + fatty,apple,chem,0,1.000000,2,apple_cider,0.365100,False
+apple + fatty,apple,chem,0,1.000000,3,apple_pie_spice,0.365000,False
+apple + fatty,apple,chem,0,1.000000,4,honey,0.352000,False
+apple + fatty,apple,chem,0,1.000000,5,strawberry,0.343400,True
+apple + fatty,apple,chem,30,0.866025,1,strawberry,0.311700,True
+apple + fatty,apple,chem,30,0.866025,2,butter,0.297000,True
+apple + fatty,apple,chem,30,0.866025,3,apple_cider,0.295800,False
+apple + fatty,apple,chem,30,0.866025,4,apple_pie_spice,0.288900,False
+apple + fatty,apple,chem,30,0.866025,5,banana,0.288500,False
+apple + fatty,apple,chem,60,0.500000,1,mozzarella_cheese,0.295900,True
+apple + fatty,apple,chem,60,0.500000,2,butter,0.250500,True
+apple + fatty,apple,chem,60,0.500000,3,english_muffin,0.238700,False
+apple + fatty,apple,chem,60,0.500000,4,cognac,0.234800,True
+apple + fatty,apple,chem,60,0.500000,5,rum,0.227800,True
+salmon + pungent,salmon,cooc,0,1.000000,1,wasabi,0.348300,True
+salmon + pungent,salmon,cooc,0,1.000000,2,avocado,0.324500,False
+salmon + pungent,salmon,cooc,0,1.000000,3,ponzu,0.318900,False
+salmon + pungent,salmon,cooc,0,1.000000,4,balsamic_vinegar,0.318000,True
+salmon + pungent,salmon,cooc,0,1.000000,5,scallop,0.317100,True
+salmon + pungent,salmon,cooc,30,0.866025,1,scallop,0.317100,True
+salmon + pungent,salmon,cooc,30,0.866025,2,mayonnaise,0.313500,False
+salmon + pungent,salmon,cooc,30,0.866025,3,wasabi,0.309600,True
+salmon + pungent,salmon,cooc,30,0.866025,4,radish,0.304100,False
+salmon + pungent,salmon,cooc,30,0.866025,5,muenster_cheese,0.299200,True
+salmon + pungent,salmon,cooc,60,0.500000,1,jarlsberg_cheese,0.283400,True
+salmon + pungent,salmon,cooc,60,0.500000,2,caesar_dressing,0.249700,False
+salmon + pungent,salmon,cooc,60,0.500000,3,alfalfa_sprout,0.249600,False
+salmon + pungent,salmon,cooc,60,0.500000,4,mayonnaise,0.243300,False
+salmon + pungent,salmon,cooc,60,0.500000,5,tapenade,0.242900,True
+salmon + pungent,salmon,core,0,1.000000,1,trout,0.649100,False
+salmon + pungent,salmon,core,0,1.000000,2,ham,0.630000,False
+salmon + pungent,salmon,core,0,1.000000,3,mirin,0.617400,True
+salmon + pungent,salmon,core,0,1.000000,4,cod,0.616800,False
+salmon + pungent,salmon,core,0,1.000000,5,fish_roe,0.611500,False
+salmon + pungent,salmon,core,30,0.866025,1,ham,0.594700,False
+salmon + pungent,salmon,core,30,0.866025,2,mayonnaise,0.576000,False
+salmon + pungent,salmon,core,30,0.866025,3,trout,0.567700,False
+salmon + pungent,salmon,core,30,0.866025,4,tuna,0.565000,False
+salmon + pungent,salmon,core,30,0.866025,5,crab_stick,0.563000,False
+salmon + pungent,salmon,core,60,0.500000,1,pesto,0.442000,False
+salmon + pungent,salmon,core,60,0.500000,2,mayonnaise,0.425200,False
+salmon + pungent,salmon,core,60,0.500000,3,alfredo_sauce,0.414000,False
+salmon + pungent,salmon,core,60,0.500000,4,colby_cheese,0.413700,True
+salmon + pungent,salmon,core,60,0.500000,5,caesar_dressing,0.410300,False
+salmon + pungent,salmon,chem,0,1.000000,1,ham,0.498600,False
+salmon + pungent,salmon,chem,0,1.000000,2,trout,0.355800,False
+salmon + pungent,salmon,chem,0,1.000000,3,tuna,0.336700,False
+salmon + pungent,salmon,chem,0,1.000000,4,cod,0.329800,False
+salmon + pungent,salmon,chem,0,1.000000,5,miso,0.310300,False
+salmon + pungent,salmon,chem,30,0.866025,1,ham,0.482600,False
+salmon + pungent,salmon,chem,30,0.866025,2,cheese,0.345700,True
+salmon + pungent,salmon,chem,30,0.866025,3,wasabi,0.345700,True
+salmon + pungent,salmon,chem,30,0.866025,4,kombu,0.337800,False
+salmon + pungent,salmon,chem,30,0.866025,5,caviar,0.328400,True
+salmon + pungent,salmon,chem,60,0.500000,1,cheese,0.339600,True
+salmon + pungent,salmon,chem,60,0.500000,2,ham,0.337300,False
+salmon + pungent,salmon,chem,60,0.500000,3,pasta,0.319900,False
+salmon + pungent,salmon,chem,60,0.500000,4,pesto,0.299100,False
+salmon + pungent,salmon,chem,60,0.500000,5,wasabi,0.288700,True
+egg + pungent,egg,cooc,0,1.000000,1,flour,0.441500,False
+egg + pungent,egg,cooc,0,1.000000,2,milk,0.376200,True
+egg + pungent,egg,cooc,0,1.000000,3,baking_powder,0.367100,False
+egg + pungent,egg,cooc,0,1.000000,4,vanilla,0.331200,False
+egg + pungent,egg,cooc,0,1.000000,5,chocolate,0.312100,False
+egg + pungent,egg,cooc,30,0.866025,1,flour,0.335800,False
+egg + pungent,egg,cooc,30,0.866025,2,cheese,0.326600,True
+egg + pungent,egg,cooc,30,0.866025,3,milk,0.295700,True
+egg + pungent,egg,cooc,30,0.866025,4,yeast,0.257900,False
+egg + pungent,egg,cooc,30,0.866025,5,mayonnaise,0.256400,False
+egg + pungent,egg,cooc,60,0.500000,1,jarlsberg_cheese,0.294900,True
+egg + pungent,egg,cooc,60,0.500000,2,caesar_dressing,0.238000,False
+egg + pungent,egg,cooc,60,0.500000,3,mayonnaise,0.218200,False
+egg + pungent,egg,cooc,60,0.500000,4,english_muffin,0.217600,False
+egg + pungent,egg,cooc,60,0.500000,5,pasta_sauce,0.214800,False
+egg + pungent,egg,core,0,1.000000,1,flour,0.736400,False
+egg + pungent,egg,core,0,1.000000,2,baking_powder,0.716000,False
+egg + pungent,egg,core,0,1.000000,3,sugar,0.610300,False
+egg + pungent,egg,core,0,1.000000,4,vegetable_oil,0.569300,False
+egg + pungent,egg,core,0,1.000000,5,yeast,0.569200,False
+egg + pungent,egg,core,30,0.866025,1,flour,0.627400,False
+egg + pungent,egg,core,30,0.866025,2,baking_powder,0.563400,False
+egg + pungent,egg,core,30,0.866025,3,meat_floss,0.560700,False
+egg + pungent,egg,core,30,0.866025,4,cheese,0.547000,True
+egg + pungent,egg,core,30,0.866025,5,mayonnaise,0.545800,False
+egg + pungent,egg,core,60,0.500000,1,cheese,0.473000,True
+egg + pungent,egg,core,60,0.500000,2,mayonnaise,0.455000,False
+egg + pungent,egg,core,60,0.500000,3,black_olive,0.440100,True
+egg + pungent,egg,core,60,0.500000,4,pesto,0.435100,False
+egg + pungent,egg,core,60,0.500000,5,bread,0.425900,True
+egg + pungent,egg,chem,0,1.000000,1,baking_powder,0.617200,False
+egg + pungent,egg,chem,0,1.000000,2,brown_sugar,0.441400,False
+egg + pungent,egg,chem,0,1.000000,3,vegetable_oil,0.417500,False
+egg + pungent,egg,chem,0,1.000000,4,graham_flour,0.407900,False
+egg + pungent,egg,chem,0,1.000000,5,club_soda,0.381500,False
+egg + pungent,egg,chem,30,0.866025,1,baking_powder,0.487900,False
+egg + pungent,egg,chem,30,0.866025,2,dough,0.372400,False
+egg + pungent,egg,chem,30,0.866025,3,meat_floss,0.357600,False
+egg + pungent,egg,chem,30,0.866025,4,cheese,0.350900,True
+egg + pungent,egg,chem,30,0.866025,5,brown_sugar,0.337200,False
+egg + pungent,egg,chem,60,0.500000,1,cheese,0.346300,True
+egg + pungent,egg,chem,60,0.500000,2,taro,0.310000,True
+egg + pungent,egg,chem,60,0.500000,3,meat_floss,0.294600,False
+egg + pungent,egg,chem,60,0.500000,4,pesto,0.287300,False
+egg + pungent,egg,chem,60,0.500000,5,black_olive,0.286800,True
+chicken + pungent,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + pungent,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + pungent,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + pungent,chicken,cooc,0,1.000000,4,turkey,0.348000,True
+chicken + pungent,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + pungent,chicken,cooc,30,0.866025,1,turkey,0.344400,True
+chicken + pungent,chicken,cooc,30,0.866025,2,chicken_broth,0.341200,False
+chicken + pungent,chicken,cooc,30,0.866025,3,garlic,0.335300,False
+chicken + pungent,chicken,cooc,30,0.866025,4,black_pepper,0.323300,False
+chicken + pungent,chicken,cooc,30,0.866025,5,onion,0.303700,False
+chicken + pungent,chicken,cooc,60,0.500000,1,caesar_dressing,0.290400,False
+chicken + pungent,chicken,cooc,60,0.500000,2,provolone_cheese,0.280300,True
+chicken + pungent,chicken,cooc,60,0.500000,3,chicken_broth,0.255500,False
+chicken + pungent,chicken,cooc,60,0.500000,4,alfalfa_sprout,0.250300,False
+chicken + pungent,chicken,cooc,60,0.500000,5,turkey,0.248500,True
+chicken + pungent,chicken,core,0,1.000000,1,pork,0.580800,False
+chicken + pungent,chicken,core,0,1.000000,2,beef,0.571200,False
+chicken + pungent,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + pungent,chicken,core,0,1.000000,4,peanut,0.523300,True
+chicken + pungent,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + pungent,chicken,core,30,0.866025,1,cheddar_cheese,0.553700,True
+chicken + pungent,chicken,core,30,0.866025,2,alfredo_sauce,0.551500,False
+chicken + pungent,chicken,core,30,0.866025,3,fajita_seasoning,0.533000,False
+chicken + pungent,chicken,core,30,0.866025,4,chicken_broth,0.524500,False
+chicken + pungent,chicken,core,30,0.866025,5,red_onion,0.517600,False
+chicken + pungent,chicken,core,60,0.500000,1,mozzarella_cheese,0.459400,True
+chicken + pungent,chicken,core,60,0.500000,2,alfredo_sauce,0.459000,False
+chicken + pungent,chicken,core,60,0.500000,3,pesto,0.425300,False
+chicken + pungent,chicken,core,60,0.500000,4,pasta,0.424600,False
+chicken + pungent,chicken,core,60,0.500000,5,ranch_dressing,0.421800,False
+chicken + pungent,chicken,chem,0,1.000000,1,beef,0.405100,False
+chicken + pungent,chicken,chem,0,1.000000,2,pork,0.339700,False
+chicken + pungent,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + pungent,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + pungent,chicken,chem,0,1.000000,5,peanut,0.282100,True
+chicken + pungent,chicken,chem,30,0.866025,1,beef,0.335600,False
+chicken + pungent,chicken,chem,30,0.866025,2,buffalo_wing_sauce,0.326500,False
+chicken + pungent,chicken,chem,30,0.866025,3,cream_of_chicken_soup,0.324400,False
+chicken + pungent,chicken,chem,30,0.866025,4,cheddar_cheese,0.307000,True
+chicken + pungent,chicken,chem,30,0.866025,5,pork,0.306900,False
+chicken + pungent,chicken,chem,60,0.500000,1,cheese,0.311800,True
+chicken + pungent,chicken,chem,60,0.500000,2,pasta,0.304200,False
+chicken + pungent,chicken,chem,60,0.500000,3,ranch_dressing,0.293100,False
+chicken + pungent,chicken,chem,60,0.500000,4,abalone,0.281200,True
+chicken + pungent,chicken,chem,60,0.500000,5,buffalo_wing_sauce,0.277400,False
+rice + floral,rice,cooc,0,1.000000,1,carrot,0.335000,True
+rice + floral,rice,cooc,0,1.000000,2,okra,0.331600,False
+rice + floral,rice,cooc,0,1.000000,3,vegetable_oil,0.325700,False
+rice + floral,rice,cooc,0,1.000000,4,pea,0.311700,True
+rice + floral,rice,cooc,0,1.000000,5,dashi,0.307500,False
+rice + floral,rice,cooc,30,0.866025,1,water,0.295100,False
+rice + floral,rice,cooc,30,0.866025,2,fruit,0.293300,True
+rice + floral,rice,cooc,30,0.866025,3,tapioca,0.285800,False
+rice + floral,rice,cooc,30,0.866025,4,lychee,0.275400,True
+rice + floral,rice,cooc,30,0.866025,5,honeydew_melon,0.275000,True
+rice + floral,rice,cooc,60,0.500000,1,elderflower,0.359600,True
+rice + floral,rice,cooc,60,0.500000,2,fruit,0.346500,True
+rice + floral,rice,cooc,60,0.500000,3,lychee,0.340800,True
+rice + floral,rice,cooc,60,0.500000,4,orange_liqueur,0.339500,True
+rice + floral,rice,cooc,60,0.500000,5,honeydew_melon,0.331800,True
+rice + floral,rice,core,0,1.000000,1,shiitake_mushroom,0.595900,True
+rice + floral,rice,core,0,1.000000,2,nori,0.594300,True
+rice + floral,rice,core,0,1.000000,3,bok_choy,0.583900,False
+rice + floral,rice,core,0,1.000000,4,sesame_seed,0.571800,False
+rice + floral,rice,core,0,1.000000,5,pea,0.571300,True
+rice + floral,rice,core,30,0.866025,1,red_date,0.507600,True
+rice + floral,rice,core,30,0.866025,2,lychee,0.503400,True
+rice + floral,rice,core,30,0.866025,3,tea,0.497700,True
+rice + floral,rice,core,30,0.866025,4,chinese_yam,0.490900,True
+rice + floral,rice,core,30,0.866025,5,shiitake_mushroom,0.488600,True
+rice + floral,rice,core,60,0.500000,1,sparkling_wine,0.506500,True
+rice + floral,rice,core,60,0.500000,2,tea,0.474700,True
+rice + floral,rice,core,60,0.500000,3,loganberry,0.471000,True
+rice + floral,rice,core,60,0.500000,4,lychee,0.464500,True
+rice + floral,rice,core,60,0.500000,5,ginger_ale,0.444300,False
+rice + floral,rice,chem,0,1.000000,1,caviar,0.310000,True
+rice + floral,rice,chem,0,1.000000,2,nori,0.300600,True
+rice + floral,rice,chem,0,1.000000,3,wheat,0.296900,True
+rice + floral,rice,chem,0,1.000000,4,millet,0.296600,False
+rice + floral,rice,chem,0,1.000000,5,puzi_leaf,0.291900,False
+rice + floral,rice,chem,30,0.866025,1,red_date,0.317200,True
+rice + floral,rice,chem,30,0.866025,2,wheat,0.313000,True
+rice + floral,rice,chem,30,0.866025,3,millet,0.308000,False
+rice + floral,rice,chem,30,0.866025,4,nori,0.301200,True
+rice + floral,rice,chem,30,0.866025,5,chinese_yam,0.293400,True
+rice + floral,rice,chem,60,0.500000,1,red_date,0.319300,True
+rice + floral,rice,chem,60,0.500000,2,ginger_liqueur,0.309500,True
+rice + floral,rice,chem,60,0.500000,3,champagne,0.297000,True
+rice + floral,rice,chem,60,0.500000,4,grapefruit,0.284400,True
+rice + floral,rice,chem,60,0.500000,5,chinese_yam,0.273000,True
+lamb + floral,lamb,cooc,0,1.000000,1,fennel,0.299300,False
+lamb + floral,lamb,cooc,0,1.000000,2,salmon,0.295400,False
+lamb + floral,lamb,cooc,0,1.000000,3,duck,0.294300,False
+lamb + floral,lamb,cooc,0,1.000000,4,zucchini,0.291200,False
+lamb + floral,lamb,cooc,0,1.000000,5,coriander,0.278900,True
+lamb + floral,lamb,cooc,30,0.866025,1,black_currant,0.325300,True
+lamb + floral,lamb,cooc,30,0.866025,2,fig,0.314100,True
+lamb + floral,lamb,cooc,30,0.866025,3,tea,0.308300,True
+lamb + floral,lamb,cooc,30,0.866025,4,apricot_brandy,0.298200,True
+lamb + floral,lamb,cooc,30,0.866025,5,mint,0.296200,True
+lamb + floral,lamb,cooc,60,0.500000,1,peach,0.365200,True
+lamb + floral,lamb,cooc,60,0.500000,2,grenadine,0.364600,False
+lamb + floral,lamb,cooc,60,0.500000,3,orange_liqueur,0.354100,True
+lamb + floral,lamb,cooc,60,0.500000,4,apricot_brandy,0.354000,True
+lamb + floral,lamb,cooc,60,0.500000,5,bitters,0.348500,False
+lamb + floral,lamb,core,0,1.000000,1,fennel_seed,0.529600,False
+lamb + floral,lamb,core,0,1.000000,2,olive_oil,0.522000,False
+lamb + floral,lamb,core,0,1.000000,3,red_onion,0.520700,False
+lamb + floral,lamb,core,0,1.000000,4,ras_el_hanout,0.514400,False
+lamb + floral,lamb,core,0,1.000000,5,sumac,0.505900,False
+lamb + floral,lamb,core,30,0.866025,1,orange,0.433600,True
+lamb + floral,lamb,core,30,0.866025,2,red_date,0.431200,True
+lamb + floral,lamb,core,30,0.866025,3,grenadine,0.423800,False
+lamb + floral,lamb,core,30,0.866025,4,mint,0.413900,True
+lamb + floral,lamb,core,30,0.866025,5,coriander,0.411500,True
+lamb + floral,lamb,core,60,0.500000,1,grenadine,0.447800,False
+lamb + floral,lamb,core,60,0.500000,2,orange,0.447500,True
+lamb + floral,lamb,core,60,0.500000,3,sparkling_wine,0.447200,True
+lamb + floral,lamb,core,60,0.500000,4,loganberry,0.444700,True
+lamb + floral,lamb,core,60,0.500000,5,ginger_ale,0.433900,False
+lamb + floral,lamb,chem,0,1.000000,1,peanut_oil,0.325200,False
+lamb + floral,lamb,chem,0,1.000000,2,goat_cheese,0.286800,False
+lamb + floral,lamb,chem,0,1.000000,3,coriander,0.279000,True
+lamb + floral,lamb,chem,0,1.000000,4,chu_hou_paste,0.260700,False
+lamb + floral,lamb,chem,0,1.000000,5,fermented_chive_flower_paste,0.260000,False
+lamb + floral,lamb,chem,30,0.866025,1,peanut_oil,0.285000,False
+lamb + floral,lamb,chem,30,0.866025,2,wood_ear_mushroom,0.266700,True
+lamb + floral,lamb,chem,30,0.866025,3,coriander,0.265900,True
+lamb + floral,lamb,chem,30,0.866025,4,lemon,0.255900,True
+lamb + floral,lamb,chem,30,0.866025,5,champagne,0.253400,True
+lamb + floral,lamb,chem,60,0.500000,1,champagne,0.316900,True
+lamb + floral,lamb,chem,60,0.500000,2,triple_sec,0.299100,False
+lamb + floral,lamb,chem,60,0.500000,3,red_date,0.280000,True
+lamb + floral,lamb,chem,60,0.500000,4,apricot_brandy,0.279200,True
+lamb + floral,lamb,chem,60,0.500000,5,grenadine,0.279000,False
+cream + floral,cream,cooc,0,1.000000,1,butter,0.462300,True
+cream + floral,cream,cooc,0,1.000000,2,egg_yolk,0.403100,False
+cream + floral,cream,cooc,0,1.000000,3,gelatin,0.386000,False
+cream + floral,cream,cooc,0,1.000000,4,ice_cream,0.374700,False
+cream + floral,cream,cooc,0,1.000000,5,brandy,0.374100,True
+cream + floral,cream,cooc,30,0.866025,1,gelatin,0.456600,False
+cream + floral,cream,cooc,30,0.866025,2,ice_cream,0.424800,False
+cream + floral,cream,cooc,30,0.866025,3,brandy,0.416100,True
+cream + floral,cream,cooc,30,0.866025,4,strawberry,0.409100,False
+cream + floral,cream,cooc,30,0.866025,5,cranberry,0.397500,True
+cream + floral,cream,cooc,60,0.500000,1,peach,0.417900,True
+cream + floral,cream,cooc,60,0.500000,2,gelatin,0.404900,False
+cream + floral,cream,cooc,60,0.500000,3,triple_sec,0.390200,False
+cream + floral,cream,cooc,60,0.500000,4,raspberry,0.382400,True
+cream + floral,cream,cooc,60,0.500000,5,maraschino_cherry,0.374300,True
+cream + floral,cream,core,0,1.000000,1,gelatin,0.778100,False
+cream + floral,cream,core,0,1.000000,2,chocolate,0.732200,False
+cream + floral,cream,core,0,1.000000,3,sugar,0.709700,False
+cream + floral,cream,core,0,1.000000,4,cocoa_powder,0.702400,False
+cream + floral,cream,core,0,1.000000,5,ice_cream,0.692700,False
+cream + floral,cream,core,30,0.866025,1,gelatin,0.702300,False
+cream + floral,cream,core,30,0.866025,2,ice_cream,0.624000,False
+cream + floral,cream,core,30,0.866025,3,white_chocolate,0.622300,False
+cream + floral,cream,core,30,0.866025,4,egg_yolk,0.621100,False
+cream + floral,cream,core,30,0.866025,5,liqueur,0.620500,False
+cream + floral,cream,core,60,0.500000,1,liqueur,0.541300,False
+cream + floral,cream,core,60,0.500000,2,grenadine,0.487800,False
+cream + floral,cream,core,60,0.500000,3,raspberry,0.474700,True
+cream + floral,cream,core,60,0.500000,4,maraschino_cherry,0.453300,True
+cream + floral,cream,core,60,0.500000,5,white_chocolate,0.451600,False
+cream + floral,cream,chem,0,1.000000,1,gelatin,0.683000,False
+cream + floral,cream,chem,0,1.000000,2,chocolate,0.651100,False
+cream + floral,cream,chem,0,1.000000,3,meringue,0.628000,False
+cream + floral,cream,chem,0,1.000000,4,ice_cream,0.620800,False
+cream + floral,cream,chem,0,1.000000,5,cocoa_powder,0.578600,False
+cream + floral,cream,chem,30,0.866025,1,gelatin,0.623800,False
+cream + floral,cream,chem,30,0.866025,2,meringue,0.582300,False
+cream + floral,cream,chem,30,0.866025,3,ice_cream,0.579800,False
+cream + floral,cream,chem,30,0.866025,4,chocolate,0.550400,False
+cream + floral,cream,chem,30,0.866025,5,pudding,0.514000,False
+cream + floral,cream,chem,60,0.500000,1,gelatin,0.397400,False
+cream + floral,cream,chem,60,0.500000,2,ice_cream,0.383400,False
+cream + floral,cream,chem,60,0.500000,3,meringue,0.380600,False
+cream + floral,cream,chem,60,0.500000,4,syrup,0.377500,False
+cream + floral,cream,chem,60,0.500000,5,vodka,0.375500,False
+pasta + earthy,pasta,cooc,0,1.000000,1,parmesan_cheese,0.388600,True
+pasta + earthy,pasta,cooc,0,1.000000,2,parsley,0.345200,False
+pasta + earthy,pasta,cooc,0,1.000000,3,oregano,0.339900,False
+pasta + earthy,pasta,cooc,0,1.000000,4,bread,0.334500,False
+pasta + earthy,pasta,cooc,0,1.000000,5,mustard,0.320300,False
+pasta + earthy,pasta,cooc,30,0.866025,1,parmesan_cheese,0.408500,True
+pasta + earthy,pasta,cooc,30,0.866025,2,capicola,0.344300,False
+pasta + earthy,pasta,cooc,30,0.866025,3,oregano,0.340800,False
+pasta + earthy,pasta,cooc,30,0.866025,4,pepperoni,0.322200,False
+pasta + earthy,pasta,cooc,30,0.866025,5,pizza_crust,0.321800,False
+pasta + earthy,pasta,cooc,60,0.500000,1,provolone_cheese,0.368000,True
+pasta + earthy,pasta,cooc,60,0.500000,2,capicola,0.322400,False
+pasta + earthy,pasta,cooc,60,0.500000,3,pepperoni,0.311100,False
+pasta + earthy,pasta,cooc,60,0.500000,4,pasta_sauce,0.296200,False
+pasta + earthy,pasta,cooc,60,0.500000,5,ranch_dressing,0.284400,False
+pasta + earthy,pasta,core,0,1.000000,1,zucchini,0.733600,False
+pasta + earthy,pasta,core,0,1.000000,2,olive_oil,0.728800,False
+pasta + earthy,pasta,core,0,1.000000,3,artichoke,0.708600,False
+pasta + earthy,pasta,core,0,1.000000,4,caper,0.699300,False
+pasta + earthy,pasta,core,0,1.000000,5,italian_seasoning,0.696400,False
+pasta + earthy,pasta,core,30,0.866025,1,parmesan_cheese,0.704200,True
+pasta + earthy,pasta,core,30,0.866025,2,italian_seasoning,0.692000,False
+pasta + earthy,pasta,core,30,0.866025,3,marinara_sauce,0.687000,False
+pasta + earthy,pasta,core,30,0.866025,4,pesto,0.678200,False
+pasta + earthy,pasta,core,30,0.866025,5,pepperoni,0.667200,False
+pasta + earthy,pasta,core,60,0.500000,1,parmesan_cheese,0.560000,True
+pasta + earthy,pasta,core,60,0.500000,2,pepperoni,0.524500,False
+pasta + earthy,pasta,core,60,0.500000,3,marinara_sauce,0.524200,False
+pasta + earthy,pasta,core,60,0.500000,4,alfredo_sauce,0.516600,False
+pasta + earthy,pasta,core,60,0.500000,5,pesto,0.507700,False
+pasta + earthy,pasta,chem,0,1.000000,1,caper,0.555400,False
+pasta + earthy,pasta,chem,0,1.000000,2,artichoke,0.552700,False
+pasta + earthy,pasta,chem,0,1.000000,3,zucchini,0.538400,False
+pasta + earthy,pasta,chem,0,1.000000,4,bread,0.465800,False
+pasta + earthy,pasta,chem,0,1.000000,5,broccoli,0.440900,False
+pasta + earthy,pasta,chem,30,0.866025,1,mozzarella_cheese,0.547800,True
+pasta + earthy,pasta,chem,30,0.866025,2,bread,0.411200,False
+pasta + earthy,pasta,chem,30,0.866025,3,artichoke,0.410600,False
+pasta + earthy,pasta,chem,30,0.866025,4,caper,0.392200,False
+pasta + earthy,pasta,chem,30,0.866025,5,zucchini,0.387100,False
+pasta + earthy,pasta,chem,60,0.500000,1,mozzarella_cheese,0.534600,True
+pasta + earthy,pasta,chem,60,0.500000,2,alfredo_sauce,0.355100,False
+pasta + earthy,pasta,chem,60,0.500000,3,pizza_crust,0.343500,False
+pasta + earthy,pasta,chem,60,0.500000,4,pesto,0.338300,False
+pasta + earthy,pasta,chem,60,0.500000,5,prosciutto,0.335000,False
+chicken + earthy,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + earthy,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + earthy,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + earthy,chicken,cooc,0,1.000000,4,turkey,0.348000,True
+chicken + earthy,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + earthy,chicken,cooc,30,0.866025,1,onion,0.382100,False
+chicken + earthy,chicken,cooc,30,0.866025,2,turkey,0.379600,True
+chicken + earthy,chicken,cooc,30,0.866025,3,swiss_cheese,0.363700,True
+chicken + earthy,chicken,cooc,30,0.866025,4,black_pepper,0.355100,False
+chicken + earthy,chicken,cooc,30,0.866025,5,beef,0.346900,True
+chicken + earthy,chicken,cooc,60,0.500000,1,swiss_cheese,0.372500,True
+chicken + earthy,chicken,cooc,60,0.500000,2,turkey,0.309600,True
+chicken + earthy,chicken,cooc,60,0.500000,3,ranch_dressing,0.303600,False
+chicken + earthy,chicken,cooc,60,0.500000,4,onion,0.295600,False
+chicken + earthy,chicken,cooc,60,0.500000,5,taco_sauce,0.287900,False
+chicken + earthy,chicken,core,0,1.000000,1,pork,0.580800,True
+chicken + earthy,chicken,core,0,1.000000,2,beef,0.571200,True
+chicken + earthy,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + earthy,chicken,core,0,1.000000,4,peanut,0.523300,True
+chicken + earthy,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + earthy,chicken,core,30,0.866025,1,cheddar_cheese,0.532400,True
+chicken + earthy,chicken,core,30,0.866025,2,beef,0.507700,True
+chicken + earthy,chicken,core,30,0.866025,3,alfredo_sauce,0.502700,False
+chicken + earthy,chicken,core,30,0.866025,4,cream_of_chicken_soup,0.489200,False
+chicken + earthy,chicken,core,30,0.866025,5,fajita_seasoning,0.470100,False
+chicken + earthy,chicken,core,60,0.500000,1,cheddar_cheese,0.409300,True
+chicken + earthy,chicken,core,60,0.500000,2,alfredo_sauce,0.374600,False
+chicken + earthy,chicken,core,60,0.500000,3,crescent_roll,0.335000,False
+chicken + earthy,chicken,core,60,0.500000,4,ranch_dressing,0.331200,False
+chicken + earthy,chicken,core,60,0.500000,5,cream_of_chicken_soup,0.325700,False
+chicken + earthy,chicken,chem,0,1.000000,1,beef,0.405100,True
+chicken + earthy,chicken,chem,0,1.000000,2,pork,0.339700,True
+chicken + earthy,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + earthy,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + earthy,chicken,chem,0,1.000000,5,peanut,0.282100,True
+chicken + earthy,chicken,chem,30,0.866025,1,beef,0.359100,True
+chicken + earthy,chicken,chem,30,0.866025,2,cream_of_chicken_soup,0.318600,False
+chicken + earthy,chicken,chem,30,0.866025,3,cheddar_cheese,0.316800,True
+chicken + earthy,chicken,chem,30,0.866025,4,buffalo_wing_sauce,0.300600,False
+chicken + earthy,chicken,chem,30,0.866025,5,pork,0.284400,True
+chicken + earthy,chicken,chem,60,0.500000,1,cheese,0.311000,True
+chicken + earthy,chicken,chem,60,0.500000,2,alfredo_sauce,0.247400,False
+chicken + earthy,chicken,chem,60,0.500000,3,cream_of_chicken_soup,0.241100,False
+chicken + earthy,chicken,chem,60,0.500000,4,buffalo_wing_sauce,0.232500,False
+chicken + earthy,chicken,chem,60,0.500000,5,taco_seasoning,0.220700,False
+cream + earthy,cream,cooc,0,1.000000,1,butter,0.462300,False
+cream + earthy,cream,cooc,0,1.000000,2,egg_yolk,0.403100,False
+cream + earthy,cream,cooc,0,1.000000,3,gelatin,0.386000,False
+cream + earthy,cream,cooc,0,1.000000,4,ice_cream,0.374700,False
+cream + earthy,cream,cooc,0,1.000000,5,brandy,0.374100,False
+cream + earthy,cream,cooc,30,0.866025,1,butter,0.439200,False
+cream + earthy,cream,cooc,30,0.866025,2,egg_yolk,0.349500,False
+cream + earthy,cream,cooc,30,0.866025,3,mascarpone_cheese,0.349200,True
+cream + earthy,cream,cooc,30,0.866025,4,milk,0.340000,True
+cream + earthy,cream,cooc,30,0.866025,5,brandy,0.323200,False
+cream + earthy,cream,cooc,60,0.500000,1,mozzarella_cheese,0.324200,True
+cream + earthy,cream,cooc,60,0.500000,2,butter,0.298400,False
+cream + earthy,cream,cooc,60,0.500000,3,alfredo_sauce,0.286100,False
+cream + earthy,cream,cooc,60,0.500000,4,pepperoni,0.279300,False
+cream + earthy,cream,cooc,60,0.500000,5,ranch_dressing,0.273600,False
+cream + earthy,cream,core,0,1.000000,1,gelatin,0.778100,False
+cream + earthy,cream,core,0,1.000000,2,chocolate,0.732200,False
+cream + earthy,cream,core,0,1.000000,3,sugar,0.709700,False
+cream + earthy,cream,core,0,1.000000,4,cocoa_powder,0.702400,False
+cream + earthy,cream,core,0,1.000000,5,ice_cream,0.692700,False
+cream + earthy,cream,core,30,0.866025,1,gelatin,0.628700,False
+cream + earthy,cream,core,30,0.866025,2,pastry,0.582400,False
+cream + earthy,cream,core,30,0.866025,3,chocolate,0.581600,False
+cream + earthy,cream,core,30,0.866025,4,ice_cream,0.575200,False
+cream + earthy,cream,core,30,0.866025,5,sugar,0.552900,False
+cream + earthy,cream,core,60,0.500000,1,pastry,0.359900,False
+cream + earthy,cream,core,60,0.500000,2,madeira_wine,0.351100,False
+cream + earthy,cream,core,60,0.500000,3,ravioli,0.333900,False
+cream + earthy,cream,core,60,0.500000,4,fontina_cheese,0.333800,True
+cream + earthy,cream,core,60,0.500000,5,pepperoni,0.318900,False
+cream + earthy,cream,chem,0,1.000000,1,gelatin,0.683000,False
+cream + earthy,cream,chem,0,1.000000,2,chocolate,0.651100,False
+cream + earthy,cream,chem,0,1.000000,3,meringue,0.628000,False
+cream + earthy,cream,chem,0,1.000000,4,ice_cream,0.620800,False
+cream + earthy,cream,chem,0,1.000000,5,cocoa_powder,0.578600,False
+cream + earthy,cream,chem,30,0.866025,1,gelatin,0.567100,False
+cream + earthy,cream,chem,30,0.866025,2,chocolate,0.556300,False
+cream + earthy,cream,chem,30,0.866025,3,ice_cream,0.528900,False
+cream + earthy,cream,chem,30,0.866025,4,meringue,0.513100,False
+cream + earthy,cream,chem,30,0.866025,5,toffee,0.464600,False
+cream + earthy,cream,chem,60,0.500000,1,cream_cheese,0.353200,True
+cream + earthy,cream,chem,60,0.500000,2,chocolate,0.312300,False
+cream + earthy,cream,chem,60,0.500000,3,gelatin,0.299100,False
+cream + earthy,cream,chem,60,0.500000,4,ice_cream,0.295300,False
+cream + earthy,cream,chem,60,0.500000,5,rum,0.272900,True
+chicken + nutty,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + nutty,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + nutty,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + nutty,chicken,cooc,0,1.000000,4,turkey,0.348000,True
+chicken + nutty,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + nutty,chicken,cooc,30,0.866025,1,carrot,0.366000,False
+chicken + nutty,chicken,cooc,30,0.866025,2,napa_cabbage,0.364300,False
+chicken + nutty,chicken,cooc,30,0.866025,3,water_chestnut,0.363600,True
+chicken + nutty,chicken,cooc,30,0.866025,4,dried_shrimp,0.345000,True
+chicken + nutty,chicken,cooc,30,0.866025,5,sesame_oil,0.345000,True
+chicken + nutty,chicken,cooc,60,0.500000,1,dried_shrimp,0.416500,True
+chicken + nutty,chicken,cooc,60,0.500000,2,shiitake_mushroom,0.386200,True
+chicken + nutty,chicken,cooc,60,0.500000,3,napa_cabbage,0.379700,False
+chicken + nutty,chicken,cooc,60,0.500000,4,kelp,0.371200,True
+chicken + nutty,chicken,cooc,60,0.500000,5,jinhua_ham,0.367500,False
+chicken + nutty,chicken,core,0,1.000000,1,pork,0.580800,True
+chicken + nutty,chicken,core,0,1.000000,2,beef,0.571200,True
+chicken + nutty,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + nutty,chicken,core,0,1.000000,4,peanut,0.523300,True
+chicken + nutty,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + nutty,chicken,core,30,0.866025,1,peanut,0.599400,True
+chicken + nutty,chicken,core,30,0.866025,2,bamboo_shoot,0.594700,True
+chicken + nutty,chicken,core,30,0.866025,3,wood_ear_mushroom,0.589200,True
+chicken + nutty,chicken,core,30,0.866025,4,pork,0.584500,True
+chicken + nutty,chicken,core,30,0.866025,5,water_chestnut,0.581200,True
+chicken + nutty,chicken,core,60,0.500000,1,mung_bean,0.557600,True
+chicken + nutty,chicken,core,60,0.500000,2,wood_ear_mushroom,0.555100,True
+chicken + nutty,chicken,core,60,0.500000,3,red_date,0.554900,True
+chicken + nutty,chicken,core,60,0.500000,4,chinese_yam,0.547100,True
+chicken + nutty,chicken,core,60,0.500000,5,taro,0.545600,True
+chicken + nutty,chicken,chem,0,1.000000,1,beef,0.405100,True
+chicken + nutty,chicken,chem,0,1.000000,2,pork,0.339700,True
+chicken + nutty,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + nutty,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + nutty,chicken,chem,0,1.000000,5,peanut,0.282100,True
+chicken + nutty,chicken,chem,30,0.866025,1,scallion,0.372400,True
+chicken + nutty,chicken,chem,30,0.866025,2,beef,0.353300,True
+chicken + nutty,chicken,chem,30,0.866025,3,peanut,0.351300,True
+chicken + nutty,chicken,chem,30,0.866025,4,pork,0.343100,True
+chicken + nutty,chicken,chem,30,0.866025,5,bok_choy,0.336300,True
+chicken + nutty,chicken,chem,60,0.500000,1,wood_ear_mushroom,0.463100,True
+chicken + nutty,chicken,chem,60,0.500000,2,scallion,0.462300,True
+chicken + nutty,chicken,chem,60,0.500000,3,bok_choy,0.452700,True
+chicken + nutty,chicken,chem,60,0.500000,4,garland_chrysanthemum,0.450100,True
+chicken + nutty,chicken,chem,60,0.500000,5,bamboo_shoot,0.443500,True
+fish + nutty,fish,cooc,0,1.000000,1,squid,0.355600,True
+fish + nutty,fish,cooc,0,1.000000,2,clam,0.355600,True
+fish + nutty,fish,cooc,0,1.000000,3,scallop,0.326500,True
+fish + nutty,fish,cooc,0,1.000000,4,catfish,0.324900,False
+fish + nutty,fish,cooc,0,1.000000,5,soy_sauce,0.321800,False
+fish + nutty,fish,cooc,30,0.866025,1,dried_shrimp,0.408900,True
+fish + nutty,fish,cooc,30,0.866025,2,shiitake_mushroom,0.395600,True
+fish + nutty,fish,cooc,30,0.866025,3,napa_cabbage,0.385400,False
+fish + nutty,fish,cooc,30,0.866025,4,squid,0.373100,True
+fish + nutty,fish,cooc,30,0.866025,5,garland_chrysanthemum,0.372900,True
+fish + nutty,fish,cooc,60,0.500000,1,dried_shrimp,0.443300,True
+fish + nutty,fish,cooc,60,0.500000,2,shiitake_mushroom,0.413400,True
+fish + nutty,fish,cooc,60,0.500000,3,garland_chrysanthemum,0.410700,True
+fish + nutty,fish,cooc,60,0.500000,4,yu_choy,0.387000,True
+fish + nutty,fish,cooc,60,0.500000,5,glass_noodle,0.378100,True
+fish + nutty,fish,core,0,1.000000,1,oyster,0.553900,True
+fish + nutty,fish,core,0,1.000000,2,bean_sprout,0.547100,True
+fish + nutty,fish,core,0,1.000000,3,sea_bass,0.544500,False
+fish + nutty,fish,core,0,1.000000,4,fish_stock,0.543500,False
+fish + nutty,fish,core,0,1.000000,5,rice_noodle,0.536000,True
+fish + nutty,fish,core,30,0.866025,1,shiitake_mushroom,0.623100,True
+fish + nutty,fish,core,30,0.866025,2,bamboo_shoot,0.606500,True
+fish + nutty,fish,core,30,0.866025,3,bok_choy,0.593600,True
+fish + nutty,fish,core,30,0.866025,4,scallion,0.593100,True
+fish + nutty,fish,core,30,0.866025,5,kelp,0.592200,True
+fish + nutty,fish,core,60,0.500000,1,mung_bean,0.575000,True
+fish + nutty,fish,core,60,0.500000,2,taro,0.570800,True
+fish + nutty,fish,core,60,0.500000,3,wood_ear_mushroom,0.569000,True
+fish + nutty,fish,core,60,0.500000,4,chinese_yam,0.558200,True
+fish + nutty,fish,core,60,0.500000,5,red_date,0.555300,True
+fish + nutty,fish,chem,0,1.000000,1,oyster,0.352700,True
+fish + nutty,fish,chem,0,1.000000,2,caviar,0.335900,True
+fish + nutty,fish,chem,0,1.000000,3,scallop,0.308200,True
+fish + nutty,fish,chem,0,1.000000,4,peanut_oil,0.305300,True
+fish + nutty,fish,chem,0,1.000000,5,cucumber,0.286500,False
+fish + nutty,fish,chem,30,0.866025,1,shiitake_mushroom,0.412100,True
+fish + nutty,fish,chem,30,0.866025,2,bamboo_shoot,0.390500,True
+fish + nutty,fish,chem,30,0.866025,3,scallion,0.372100,True
+fish + nutty,fish,chem,30,0.866025,4,kelp,0.368500,True
+fish + nutty,fish,chem,30,0.866025,5,garland_chrysanthemum,0.364000,True
+fish + nutty,fish,chem,60,0.500000,1,wood_ear_mushroom,0.492300,True
+fish + nutty,fish,chem,60,0.500000,2,bamboo_shoot,0.477400,True
+fish + nutty,fish,chem,60,0.500000,3,garland_chrysanthemum,0.468900,True
+fish + nutty,fish,chem,60,0.500000,4,bok_choy,0.463900,True
+fish + nutty,fish,chem,60,0.500000,5,scallion,0.463600,True
+banana + nutty,banana,cooc,0,1.000000,1,coconut,0.443000,True
+banana + nutty,banana,cooc,0,1.000000,2,strawberry,0.420600,False
+banana + nutty,banana,cooc,0,1.000000,3,blueberry,0.381500,False
+banana + nutty,banana,cooc,0,1.000000,4,condensed_milk,0.366900,False
+banana + nutty,banana,cooc,0,1.000000,5,pecan,0.359200,True
+banana + nutty,banana,cooc,30,0.866025,1,coconut,0.427000,True
+banana + nutty,banana,cooc,30,0.866025,2,psyllium_husk,0.336900,False
+banana + nutty,banana,cooc,30,0.866025,3,glutinous_rice,0.327000,True
+banana + nutty,banana,cooc,30,0.866025,4,oat,0.325800,True
+banana + nutty,banana,cooc,30,0.866025,5,condensed_milk,0.323700,False
+banana + nutty,banana,cooc,60,0.500000,1,glutinous_rice,0.389900,True
+banana + nutty,banana,cooc,60,0.500000,2,dried_shrimp,0.367600,True
+banana + nutty,banana,cooc,60,0.500000,3,taro,0.354900,True
+banana + nutty,banana,cooc,60,0.500000,4,mung_bean,0.353900,True
+banana + nutty,banana,cooc,60,0.500000,5,psyllium_husk,0.345600,False
+banana + nutty,banana,core,0,1.000000,1,almond_milk,0.551300,True
+banana + nutty,banana,core,0,1.000000,2,apple,0.544800,False
+banana + nutty,banana,core,0,1.000000,3,chia_seed,0.531600,True
+banana + nutty,banana,core,0,1.000000,4,coconut,0.531400,True
+banana + nutty,banana,core,0,1.000000,5,carob,0.519200,True
+banana + nutty,banana,core,30,0.866025,1,chia_seed,0.617600,True
+banana + nutty,banana,core,30,0.866025,2,carob,0.587600,True
+banana + nutty,banana,core,30,0.866025,3,soy_protein_isolate,0.564100,True
+banana + nutty,banana,core,30,0.866025,4,almond_milk,0.563500,True
+banana + nutty,banana,core,30,0.866025,5,date,0.560800,False
+banana + nutty,banana,core,60,0.500000,1,taro,0.548000,True
+banana + nutty,banana,core,60,0.500000,2,millet,0.547300,True
+banana + nutty,banana,core,60,0.500000,3,chia_seed,0.538100,True
+banana + nutty,banana,core,60,0.500000,4,mung_bean,0.535500,True
+banana + nutty,banana,core,60,0.500000,5,red_date,0.533600,True
+banana + nutty,banana,chem,0,1.000000,1,apple,0.341700,False
+banana + nutty,banana,chem,0,1.000000,2,coconut,0.339800,True
+banana + nutty,banana,chem,0,1.000000,3,carob,0.321500,True
+banana + nutty,banana,chem,0,1.000000,4,almond_milk,0.309200,True
+banana + nutty,banana,chem,0,1.000000,5,brazil_nut,0.306500,False
+banana + nutty,banana,chem,30,0.866025,1,chia_seed,0.433300,True
+banana + nutty,banana,chem,30,0.866025,2,carob,0.425600,True
+banana + nutty,banana,chem,30,0.866025,3,amaranth,0.395500,True
+banana + nutty,banana,chem,30,0.866025,4,arrowroot,0.369800,True
+banana + nutty,banana,chem,30,0.866025,5,cashew,0.366900,False
+banana + nutty,banana,chem,60,0.500000,1,millet,0.458100,True
+banana + nutty,banana,chem,60,0.500000,2,chia_seed,0.450200,True
+banana + nutty,banana,chem,60,0.500000,3,bamboo_shoot,0.449500,True
+banana + nutty,banana,chem,60,0.500000,4,bok_choy,0.446100,True
+banana + nutty,banana,chem,60,0.500000,5,wood_ear_mushroom,0.445300,True
+bread + high protein,bread,cooc,0,1.000000,1,olive_oil,0.436400,False
+bread + high protein,bread,cooc,0,1.000000,2,parsley,0.370000,False
+bread + high protein,bread,cooc,0,1.000000,3,paprika,0.364100,True
+bread + high protein,bread,cooc,0,1.000000,4,thyme,0.353400,True
+bread + high protein,bread,cooc,0,1.000000,5,anchovy,0.349600,True
+bread + high protein,bread,cooc,30,0.866025,1,olive_oil,0.399800,False
+bread + high protein,bread,cooc,30,0.866025,2,parsley,0.368100,False
+bread + high protein,bread,cooc,30,0.866025,3,black_pepper,0.367600,True
+bread + high protein,bread,cooc,30,0.866025,4,pasta,0.365900,True
+bread + high protein,bread,cooc,30,0.866025,5,paprika,0.358600,True
+bread + high protein,bread,cooc,60,0.500000,1,black_pepper,0.307800,True
+bread + high protein,bread,cooc,60,0.500000,2,pasta,0.299300,True
+bread + high protein,bread,cooc,60,0.500000,3,tomato,0.298700,False
+bread + high protein,bread,cooc,60,0.500000,4,parmesan_cheese,0.297100,True
+bread + high protein,bread,cooc,60,0.500000,5,pepperoni,0.295800,True
+bread + high protein,bread,core,0,1.000000,1,pasta,0.690700,True
+bread + high protein,bread,core,0,1.000000,2,artichoke,0.675500,False
+bread + high protein,bread,core,0,1.000000,3,olive_oil,0.667400,False
+bread + high protein,bread,core,0,1.000000,4,parsley,0.638200,False
+bread + high protein,bread,core,0,1.000000,5,red_onion,0.637300,False
+bread + high protein,bread,core,30,0.866025,1,olive_oil,0.694000,False
+bread + high protein,bread,core,30,0.866025,2,pasta,0.665700,True
+bread + high protein,bread,core,30,0.866025,3,artichoke,0.643200,False
+bread + high protein,bread,core,30,0.866025,4,red_onion,0.636300,False
+bread + high protein,bread,core,30,0.866025,5,anchovy,0.632500,True
+bread + high protein,bread,core,60,0.500000,1,anchovy,0.567200,True
+bread + high protein,bread,core,60,0.500000,2,pita_bread,0.535600,True
+bread + high protein,bread,core,60,0.500000,3,olive_oil,0.534600,False
+bread + high protein,bread,core,60,0.500000,4,tuna,0.519700,True
+bread + high protein,bread,core,60,0.500000,5,sausage,0.518800,True
+bread + high protein,bread,chem,0,1.000000,1,pasta,0.465800,True
+bread + high protein,bread,chem,0,1.000000,2,caper,0.432300,False
+bread + high protein,bread,chem,0,1.000000,3,artichoke,0.428100,False
+bread + high protein,bread,chem,0,1.000000,4,anchovy,0.377100,True
+bread + high protein,bread,chem,0,1.000000,5,provolone_cheese,0.371400,True
+bread + high protein,bread,chem,30,0.866025,1,pasta,0.455900,True
+bread + high protein,bread,chem,30,0.866025,2,artichoke,0.426800,False
+bread + high protein,bread,chem,30,0.866025,3,provolone_cheese,0.426500,True
+bread + high protein,bread,chem,30,0.866025,4,anchovy,0.419400,True
+bread + high protein,bread,chem,30,0.866025,5,caper,0.403100,False
+bread + high protein,bread,chem,60,0.500000,1,provolone_cheese,0.367400,True
+bread + high protein,bread,chem,60,0.500000,2,monkfish,0.362100,True
+bread + high protein,bread,chem,60,0.500000,3,anchovy,0.349300,True
+bread + high protein,bread,chem,60,0.500000,4,hot_dog,0.326800,True
+bread + high protein,bread,chem,60,0.500000,5,pita_bread,0.325700,True
+rice + high protein,rice,cooc,0,1.000000,1,carrot,0.335000,False
+rice + high protein,rice,cooc,0,1.000000,2,okra,0.331600,False
+rice + high protein,rice,cooc,0,1.000000,3,vegetable_oil,0.325700,False
+rice + high protein,rice,cooc,0,1.000000,4,pea,0.311700,False
+rice + high protein,rice,cooc,0,1.000000,5,dashi,0.307500,False
+rice + high protein,rice,cooc,30,0.866025,1,pea,0.322700,False
+rice + high protein,rice,cooc,30,0.866025,2,carrot,0.320000,False
+rice + high protein,rice,cooc,30,0.866025,3,onion,0.312800,False
+rice + high protein,rice,cooc,30,0.866025,4,potato,0.308700,False
+rice + high protein,rice,cooc,30,0.866025,5,tomato,0.307200,False
+rice + high protein,rice,cooc,60,0.500000,1,black_pepper,0.275300,True
+rice + high protein,rice,cooc,60,0.500000,2,tomato,0.271400,False
+rice + high protein,rice,cooc,60,0.500000,3,linguica,0.266800,False
+rice + high protein,rice,cooc,60,0.500000,4,fish,0.266200,False
+rice + high protein,rice,cooc,60,0.500000,5,chickpea,0.261000,True
+rice + high protein,rice,core,0,1.000000,1,shiitake_mushroom,0.595900,False
+rice + high protein,rice,core,0,1.000000,2,nori,0.594300,False
+rice + high protein,rice,core,0,1.000000,3,bok_choy,0.583900,False
+rice + high protein,rice,core,0,1.000000,4,sesame_seed,0.571800,True
+rice + high protein,rice,core,0,1.000000,5,pea,0.571300,False
+rice + high protein,rice,core,30,0.866025,1,bell_pepper,0.607800,False
+rice + high protein,rice,core,30,0.866025,2,chicken_broth,0.575200,False
+rice + high protein,rice,core,30,0.866025,3,tuna,0.562900,True
+rice + high protein,rice,core,30,0.866025,4,crab_stick,0.555700,False
+rice + high protein,rice,core,30,0.866025,5,sesame_oil,0.553800,False
+rice + high protein,rice,core,60,0.500000,1,tuna,0.553400,True
+rice + high protein,rice,core,60,0.500000,2,salt,0.533000,False
+rice + high protein,rice,core,60,0.500000,3,sausage,0.532900,True
+rice + high protein,rice,core,60,0.500000,4,bell_pepper,0.520000,False
+rice + high protein,rice,core,60,0.500000,5,cod,0.510100,True
+rice + high protein,rice,chem,0,1.000000,1,caviar,0.310000,True
+rice + high protein,rice,chem,0,1.000000,2,nori,0.300600,False
+rice + high protein,rice,chem,0,1.000000,3,wheat,0.296900,True
+rice + high protein,rice,chem,0,1.000000,4,millet,0.296600,True
+rice + high protein,rice,chem,0,1.000000,5,puzi_leaf,0.291900,False
+rice + high protein,rice,chem,30,0.866025,1,salmon,0.353000,True
+rice + high protein,rice,chem,30,0.866025,2,sausage,0.327700,True
+rice + high protein,rice,chem,30,0.866025,3,caviar,0.318800,True
+rice + high protein,rice,chem,30,0.866025,4,octopus,0.308100,True
+rice + high protein,rice,chem,30,0.866025,5,cod,0.298700,True
+rice + high protein,rice,chem,60,0.500000,1,monkfish,0.341800,True
+rice + high protein,rice,chem,60,0.500000,2,cod,0.326700,True
+rice + high protein,rice,chem,60,0.500000,3,salmon,0.324400,True
+rice + high protein,rice,chem,60,0.500000,4,sausage,0.315800,True
+rice + high protein,rice,chem,60,0.500000,5,octopus,0.312600,True
+honey + high protein,honey,cooc,0,1.000000,1,apple,0.399500,False
+honey + high protein,honey,cooc,0,1.000000,2,gelatin,0.352000,True
+honey + high protein,honey,cooc,0,1.000000,3,blueberry,0.351700,False
+honey + high protein,honey,cooc,0,1.000000,4,cherry,0.349100,False
+honey + high protein,honey,cooc,0,1.000000,5,vanilla,0.336900,False
+honey + high protein,honey,cooc,30,0.866025,1,mustard,0.314300,False
+honey + high protein,honey,cooc,30,0.866025,2,avocado,0.312300,False
+honey + high protein,honey,cooc,30,0.866025,3,thyme,0.303900,True
+honey + high protein,honey,cooc,30,0.866025,4,cayenne_pepper,0.300400,True
+honey + high protein,honey,cooc,30,0.866025,5,paprika,0.298400,True
+honey + high protein,honey,cooc,60,0.500000,1,caesar_dressing,0.331400,False
+honey + high protein,honey,cooc,60,0.500000,2,salami,0.297700,True
+honey + high protein,honey,cooc,60,0.500000,3,cayenne_pepper,0.291500,True
+honey + high protein,honey,cooc,60,0.500000,4,pasta_sauce,0.291500,False
+honey + high protein,honey,cooc,60,0.500000,5,red_pepper,0.289000,False
+honey + high protein,honey,core,0,1.000000,1,pear,0.554200,False
+honey + high protein,honey,core,0,1.000000,2,apple,0.498900,False
+honey + high protein,honey,core,0,1.000000,3,pumpkin_seed,0.487100,True
+honey + high protein,honey,core,0,1.000000,4,fruit,0.485400,False
+honey + high protein,honey,core,0,1.000000,5,whole_wheat_flour,0.474400,True
+honey + high protein,honey,core,30,0.866025,1,salt,0.541100,False
+honey + high protein,honey,core,30,0.866025,2,olive_oil,0.536100,False
+honey + high protein,honey,core,30,0.866025,3,anchovy,0.522500,True
+honey + high protein,honey,core,30,0.866025,4,red_onion,0.517900,False
+honey + high protein,honey,core,30,0.866025,5,miso,0.516300,True
+honey + high protein,honey,core,60,0.500000,1,anchovy,0.571000,True
+honey + high protein,honey,core,60,0.500000,2,salt,0.569300,False
+honey + high protein,honey,core,60,0.500000,3,falafel,0.547300,True
+honey + high protein,honey,core,60,0.500000,4,pita_bread,0.543300,True
+honey + high protein,honey,core,60,0.500000,5,halibut,0.535700,True
+honey + high protein,honey,chem,0,1.000000,1,pear,0.388800,False
+honey + high protein,honey,chem,0,1.000000,2,apple,0.352000,False
+honey + high protein,honey,chem,0,1.000000,3,strawberry,0.311600,False
+honey + high protein,honey,chem,0,1.000000,4,char_siu_sauce,0.279500,False
+honey + high protein,honey,chem,0,1.000000,5,wisteria_flower,0.252800,False
+honey + high protein,honey,chem,30,0.866025,1,feta_cheese,0.286500,True
+honey + high protein,honey,chem,30,0.866025,2,pear,0.285600,False
+honey + high protein,honey,chem,30,0.866025,3,swordfish,0.275000,True
+honey + high protein,honey,chem,30,0.866025,4,couscous,0.273100,False
+honey + high protein,honey,chem,30,0.866025,5,trout,0.262600,True
+honey + high protein,honey,chem,60,0.500000,1,monkfish,0.333000,True
+honey + high protein,honey,chem,60,0.500000,2,cod,0.313800,True
+honey + high protein,honey,chem,60,0.500000,3,couscous,0.312600,False
+honey + high protein,honey,chem,60,0.500000,4,trout,0.308000,True
+honey + high protein,honey,chem,60,0.500000,5,bulgur,0.304600,True
+chicken + high fat,chicken,cooc,0,1.000000,1,garlic,0.393400,False
+chicken + high fat,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + high fat,chicken,cooc,0,1.000000,3,black_pepper,0.358100,False
+chicken + high fat,chicken,cooc,0,1.000000,4,turkey,0.348000,True
+chicken + high fat,chicken,cooc,0,1.000000,5,carrot,0.342500,False
+chicken + high fat,chicken,cooc,30,0.866025,1,turkey,0.417300,True
+chicken + high fat,chicken,cooc,30,0.866025,2,black_pepper,0.373400,False
+chicken + high fat,chicken,cooc,30,0.866025,3,onion,0.366600,False
+chicken + high fat,chicken,cooc,30,0.866025,4,swiss_cheese,0.359200,True
+chicken + high fat,chicken,cooc,30,0.866025,5,cayenne_pepper,0.342500,True
+chicken + high fat,chicken,cooc,60,0.500000,1,turkey,0.374800,True
+chicken + high fat,chicken,cooc,60,0.500000,2,swiss_cheese,0.364800,True
+chicken + high fat,chicken,cooc,60,0.500000,3,pepperoni,0.332300,True
+chicken + high fat,chicken,cooc,60,0.500000,4,caesar_dressing,0.329400,True
+chicken + high fat,chicken,cooc,60,0.500000,5,black_olive,0.328000,True
+chicken + high fat,chicken,core,0,1.000000,1,pork,0.580800,True
+chicken + high fat,chicken,core,0,1.000000,2,beef,0.571200,True
+chicken + high fat,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + high fat,chicken,core,0,1.000000,4,peanut,0.523300,True
+chicken + high fat,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,True
+chicken + high fat,chicken,core,30,0.866025,1,alfredo_sauce,0.569300,True
+chicken + high fat,chicken,core,30,0.866025,2,monterey_jack_cheese,0.565500,True
+chicken + high fat,chicken,core,30,0.866025,3,flour_tortilla,0.549600,True
+chicken + high fat,chicken,core,30,0.866025,4,fajita_seasoning,0.547900,False
+chicken + high fat,chicken,core,30,0.866025,5,cream_of_chicken_soup,0.546400,True
+chicken + high fat,chicken,core,60,0.500000,1,colby_cheese,0.508500,True
+chicken + high fat,chicken,core,60,0.500000,2,alfredo_sauce,0.489900,True
+chicken + high fat,chicken,core,60,0.500000,3,black_olive,0.473100,True
+chicken + high fat,chicken,core,60,0.500000,4,flour_tortilla,0.468900,True
+chicken + high fat,chicken,core,60,0.500000,5,pizza_sauce,0.464900,False
+chicken + high fat,chicken,chem,0,1.000000,1,beef,0.405100,True
+chicken + high fat,chicken,chem,0,1.000000,2,pork,0.339700,True
+chicken + high fat,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,True
+chicken + high fat,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + high fat,chicken,chem,0,1.000000,5,peanut,0.282100,True
+chicken + high fat,chicken,chem,30,0.866025,1,beef,0.369500,True
+chicken + high fat,chicken,chem,30,0.866025,2,cream_of_chicken_soup,0.366900,True
+chicken + high fat,chicken,chem,30,0.866025,3,cheddar_cheese,0.327700,True
+chicken + high fat,chicken,chem,30,0.866025,4,flour_tortilla,0.320000,True
+chicken + high fat,chicken,chem,30,0.866025,5,buffalo_wing_sauce,0.317700,False
+chicken + high fat,chicken,chem,60,0.500000,1,colby_cheese,0.338900,True
+chicken + high fat,chicken,chem,60,0.500000,2,pasta_sauce,0.327300,False
+chicken + high fat,chicken,chem,60,0.500000,3,cream_of_chicken_soup,0.324800,True
+chicken + high fat,chicken,chem,60,0.500000,4,alfredo_sauce,0.317700,True
+chicken + high fat,chicken,chem,60,0.500000,5,flour_tortilla,0.306400,True
+bread + high fat,bread,cooc,0,1.000000,1,olive_oil,0.436400,True
+bread + high fat,bread,cooc,0,1.000000,2,parsley,0.370000,False
+bread + high fat,bread,cooc,0,1.000000,3,paprika,0.364100,True
+bread + high fat,bread,cooc,0,1.000000,4,thyme,0.353400,True
+bread + high fat,bread,cooc,0,1.000000,5,anchovy,0.349600,True
+bread + high fat,bread,cooc,30,0.866025,1,olive_oil,0.417000,True
+bread + high fat,bread,cooc,30,0.866025,2,parsley,0.377800,False
+bread + high fat,bread,cooc,30,0.866025,3,paprika,0.364900,True
+bread + high fat,bread,cooc,30,0.866025,4,cheese,0.359900,True
+bread + high fat,bread,cooc,30,0.866025,5,arugula,0.351200,False
+bread + high fat,bread,cooc,60,0.500000,1,gouda_cheese,0.341200,True
+bread + high fat,bread,cooc,60,0.500000,2,pepperoni,0.326600,True
+bread + high fat,bread,cooc,60,0.500000,3,black_olive,0.316900,True
+bread + high fat,bread,cooc,60,0.500000,4,pastrami,0.307200,True
+bread + high fat,bread,cooc,60,0.500000,5,ranch_dressing,0.305200,True
+bread + high fat,bread,core,0,1.000000,1,pasta,0.690700,False
+bread + high fat,bread,core,0,1.000000,2,artichoke,0.675500,False
+bread + high fat,bread,core,0,1.000000,3,olive_oil,0.667400,True
+bread + high fat,bread,core,0,1.000000,4,parsley,0.638200,False
+bread + high fat,bread,core,0,1.000000,5,red_onion,0.637300,False
+bread + high fat,bread,core,30,0.866025,1,olive_oil,0.646900,True
+bread + high fat,bread,core,30,0.866025,2,pasta,0.624500,False
+bread + high fat,bread,core,30,0.866025,3,black_olive,0.608800,True
+bread + high fat,bread,core,30,0.866025,4,fontina_cheese,0.606600,True
+bread + high fat,bread,core,30,0.866025,5,bread_crumbs,0.605900,True
+bread + high fat,bread,core,60,0.500000,1,pepperoni,0.484900,True
+bread + high fat,bread,core,60,0.500000,2,black_olive,0.474500,True
+bread + high fat,bread,core,60,0.500000,3,pizza_sauce,0.469600,False
+bread + high fat,bread,core,60,0.500000,4,pita_bread,0.468200,False
+bread + high fat,bread,core,60,0.500000,5,anchovy,0.468000,True
+bread + high fat,bread,chem,0,1.000000,1,pasta,0.465800,False
+bread + high fat,bread,chem,0,1.000000,2,caper,0.432300,False
+bread + high fat,bread,chem,0,1.000000,3,artichoke,0.428100,False
+bread + high fat,bread,chem,0,1.000000,4,anchovy,0.377100,True
+bread + high fat,bread,chem,0,1.000000,5,provolone_cheese,0.371400,True
+bread + high fat,bread,chem,30,0.866025,1,provolone_cheese,0.458700,True
+bread + high fat,bread,chem,30,0.866025,2,pasta,0.391000,False
+bread + high fat,bread,chem,30,0.866025,3,anchovy,0.389500,True
+bread + high fat,bread,chem,30,0.866025,4,salami,0.379400,True
+bread + high fat,bread,chem,30,0.866025,5,artichoke,0.361900,False
+bread + high fat,bread,chem,60,0.500000,1,provolone_cheese,0.423100,True
+bread + high fat,bread,chem,60,0.500000,2,salami,0.376900,True
+bread + high fat,bread,chem,60,0.500000,3,pizza_sauce,0.329100,False
+bread + high fat,bread,chem,60,0.500000,4,pesto,0.323800,True
+bread + high fat,bread,chem,60,0.500000,5,bread_crumbs,0.322300,True
+potato + high fat,potato,cooc,0,1.000000,1,onion,0.388300,False
+potato + high fat,potato,cooc,0,1.000000,2,bay_leaf,0.370700,True
+potato + high fat,potato,cooc,0,1.000000,3,tomato,0.362900,False
+potato + high fat,potato,cooc,0,1.000000,4,salt,0.346700,False
+potato + high fat,potato,cooc,0,1.000000,5,parsley,0.345200,False
+potato + high fat,potato,cooc,30,0.866025,1,cheese,0.396400,True
+potato + high fat,potato,cooc,30,0.866025,2,tomato,0.387900,False
+potato + high fat,potato,cooc,30,0.866025,3,onion,0.384800,False
+potato + high fat,potato,cooc,30,0.866025,4,parsley,0.379100,False
+potato + high fat,potato,cooc,30,0.866025,5,oregano,0.378200,False
+potato + high fat,potato,cooc,60,0.500000,1,cheese,0.355000,True
+potato + high fat,potato,cooc,60,0.500000,2,turkey,0.331900,True
+potato + high fat,potato,cooc,60,0.500000,3,pepperoni,0.327300,True
+potato + high fat,potato,cooc,60,0.500000,4,oregano,0.327200,False
+potato + high fat,potato,cooc,60,0.500000,5,ranch_dressing,0.317500,True
+potato + high fat,potato,core,0,1.000000,1,onion,0.570100,False
+potato + high fat,potato,core,0,1.000000,2,paprika,0.569500,True
+potato + high fat,potato,core,0,1.000000,3,corn,0.546000,False
+potato + high fat,potato,core,0,1.000000,4,pea,0.545600,False
+potato + high fat,potato,core,0,1.000000,5,leek,0.540600,False
+potato + high fat,potato,core,30,0.866025,1,paprika,0.590400,True
+potato + high fat,potato,core,30,0.866025,2,cheese,0.569700,True
+potato + high fat,potato,core,30,0.866025,3,olive_oil,0.547800,True
+potato + high fat,potato,core,30,0.866025,4,bacon,0.544500,True
+potato + high fat,potato,core,30,0.866025,5,bread_crumbs,0.535300,True
+potato + high fat,potato,core,60,0.500000,1,colby_cheese,0.481600,True
+potato + high fat,potato,core,60,0.500000,2,black_olive,0.472100,True
+potato + high fat,potato,core,60,0.500000,3,pepperoni,0.467100,True
+potato + high fat,potato,core,60,0.500000,4,pizza_sauce,0.457400,False
+potato + high fat,potato,core,60,0.500000,5,olive_oil,0.455400,True
+potato + high fat,potato,chem,0,1.000000,1,curry_paste,0.342000,False
+potato + high fat,potato,chem,0,1.000000,2,guascas,0.339700,False
+potato + high fat,potato,chem,0,1.000000,3,leek,0.300500,False
+potato + high fat,potato,chem,0,1.000000,4,corn,0.277200,False
+potato + high fat,potato,chem,0,1.000000,5,chicken,0.274000,False
+potato + high fat,potato,chem,30,0.866025,1,cheese,0.342100,True
+potato + high fat,potato,chem,30,0.866025,2,curry_paste,0.297800,False
+potato + high fat,potato,chem,30,0.866025,3,bread_crumbs,0.294800,True
+potato + high fat,potato,chem,30,0.866025,4,corn_flakes,0.293100,False
+potato + high fat,potato,chem,30,0.866025,5,cream_of_chicken_soup,0.287400,True
+potato + high fat,potato,chem,60,0.500000,1,cheese,0.352800,True
+potato + high fat,potato,chem,60,0.500000,2,salami,0.309700,True
+potato + high fat,potato,chem,60,0.500000,3,pesto,0.304100,True
+potato + high fat,potato,chem,60,0.500000,4,bread_crumbs,0.302100,True
+potato + high fat,potato,chem,60,0.500000,5,pizza_sauce,0.297300,False
+butter + high water,butter,cooc,0,1.000000,1,cream,0.462300,False
+butter + high water,butter,cooc,0,1.000000,2,egg_yolk,0.434200,False
+butter + high water,butter,cooc,0,1.000000,3,flour,0.408000,False
+butter + high water,butter,cooc,0,1.000000,4,milk,0.406200,True
+butter + high water,butter,cooc,0,1.000000,5,almond,0.377000,False
+butter + high water,butter,cooc,30,0.866025,1,white_wine,0.410300,True
+butter + high water,butter,cooc,30,0.866025,2,thyme,0.375300,False
+butter + high water,butter,cooc,30,0.866025,3,cream,0.369300,False
+butter + high water,butter,cooc,30,0.866025,4,olive_oil,0.352300,False
+butter + high water,butter,cooc,30,0.866025,5,chive,0.352000,True
+butter + high water,butter,cooc,60,0.500000,1,chive,0.378200,True
+butter + high water,butter,cooc,60,0.500000,2,white_wine,0.364600,True
+butter + high water,butter,cooc,60,0.500000,3,leek,0.328900,True
+butter + high water,butter,cooc,60,0.500000,4,mussel,0.326500,True
+butter + high water,butter,cooc,60,0.500000,5,razor_clam,0.323500,False
+butter + high water,butter,core,0,1.000000,1,milk,0.604000,True
+butter + high water,butter,core,0,1.000000,2,egg_yolk,0.569300,False
+butter + high water,butter,core,0,1.000000,3,parmesan_cheese,0.497200,False
+butter + high water,butter,core,0,1.000000,4,white_chocolate,0.491000,False
+butter + high water,butter,core,0,1.000000,5,baking_powder,0.484600,False
+butter + high water,butter,core,30,0.866025,1,chive,0.549100,True
+butter + high water,butter,core,30,0.866025,2,parmesan_cheese,0.532500,False
+butter + high water,butter,core,30,0.866025,3,white_wine,0.526800,True
+butter + high water,butter,core,30,0.866025,4,carrot,0.521700,True
+butter + high water,butter,core,30,0.866025,5,leek,0.509500,True
+butter + high water,butter,core,60,0.500000,1,enoki_mushroom,0.517600,True
+butter + high water,butter,core,60,0.500000,2,chive,0.517400,True
+butter + high water,butter,core,60,0.500000,3,scallion,0.513600,True
+butter + high water,butter,core,60,0.500000,4,garland_chrysanthemum,0.506200,True
+butter + high water,butter,core,60,0.500000,5,kombu,0.501900,True
+butter + high water,butter,chem,0,1.000000,1,milk,0.477900,True
+butter + high water,butter,chem,0,1.000000,2,flour,0.348100,False
+butter + high water,butter,chem,0,1.000000,3,egg,0.328200,False
+butter + high water,butter,chem,0,1.000000,4,chocolate,0.326300,False
+butter + high water,butter,chem,0,1.000000,5,parmesan_cheese,0.313500,False
+butter + high water,butter,chem,30,0.866025,1,milk,0.381400,True
+butter + high water,butter,chem,30,0.866025,2,cucumber,0.283200,True
+butter + high water,butter,chem,30,0.866025,3,parmesan_cheese,0.278800,False
+butter + high water,butter,chem,30,0.866025,4,white_wine,0.273700,True
+butter + high water,butter,chem,30,0.866025,5,pear,0.272400,True
+butter + high water,butter,chem,60,0.500000,1,oyster_mushroom,0.344200,True
+butter + high water,butter,chem,60,0.500000,2,scallion,0.329100,True
+butter + high water,butter,chem,60,0.500000,3,cucumber,0.321800,True
+butter + high water,butter,chem,60,0.500000,4,wakame,0.307900,True
+butter + high water,butter,chem,60,0.500000,5,abalone,0.300600,False
+chocolate + high water,chocolate,cooc,0,1.000000,1,cocoa_powder,0.553500,False
+chocolate + high water,chocolate,cooc,0,1.000000,2,vanilla,0.489900,False
+chocolate + high water,chocolate,cooc,0,1.000000,3,almond,0.478700,False
+chocolate + high water,chocolate,cooc,0,1.000000,4,coffee,0.451200,True
+chocolate + high water,chocolate,cooc,0,1.000000,5,sprinkles,0.443000,False
+chocolate + high water,chocolate,cooc,30,0.866025,1,cocoa_powder,0.409900,False
+chocolate + high water,chocolate,cooc,30,0.866025,2,almond,0.360800,False
+chocolate + high water,chocolate,cooc,30,0.866025,3,coffee,0.348800,True
+chocolate + high water,chocolate,cooc,30,0.866025,4,vanilla,0.343500,False
+chocolate + high water,chocolate,cooc,30,0.866025,5,brandy,0.312600,False
+chocolate + high water,chocolate,cooc,60,0.500000,1,enoki_mushroom,0.383600,True
+chocolate + high water,chocolate,cooc,60,0.500000,2,pea_shoot,0.314300,False
+chocolate + high water,chocolate,cooc,60,0.500000,3,perilla,0.307200,False
+chocolate + high water,chocolate,cooc,60,0.500000,4,sea_bass,0.306200,False
+chocolate + high water,chocolate,cooc,60,0.500000,5,crab_stick,0.302200,False
+chocolate + high water,chocolate,core,0,1.000000,1,cocoa_powder,0.848400,False
+chocolate + high water,chocolate,core,0,1.000000,2,toffee,0.787500,False
+chocolate + high water,chocolate,core,0,1.000000,3,frosting,0.768200,False
+chocolate + high water,chocolate,core,0,1.000000,4,fudge,0.736700,False
+chocolate + high water,chocolate,core,0,1.000000,5,cream,0.732200,False
+chocolate + high water,chocolate,core,30,0.866025,1,cocoa_powder,0.724000,False
+chocolate + high water,chocolate,core,30,0.866025,2,cream,0.691600,False
+chocolate + high water,chocolate,core,30,0.866025,3,toffee,0.670100,False
+chocolate + high water,chocolate,core,30,0.866025,4,ice_cream,0.665500,False
+chocolate + high water,chocolate,core,30,0.866025,5,gelatin,0.657200,False
+chocolate + high water,chocolate,core,60,0.500000,1,oyster_mushroom,0.652400,True
+chocolate + high water,chocolate,core,60,0.500000,2,scallion,0.646100,True
+chocolate + high water,chocolate,core,60,0.500000,3,bok_choy,0.632800,True
+chocolate + high water,chocolate,core,60,0.500000,4,garland_chrysanthemum,0.631800,True
+chocolate + high water,chocolate,core,60,0.500000,5,kombu,0.622600,True
+chocolate + high water,chocolate,chem,0,1.000000,1,toffee,0.685700,False
+chocolate + high water,chocolate,chem,0,1.000000,2,cocoa_powder,0.676200,False
+chocolate + high water,chocolate,chem,0,1.000000,3,frosting,0.672800,False
+chocolate + high water,chocolate,chem,0,1.000000,4,cream,0.651100,False
+chocolate + high water,chocolate,chem,0,1.000000,5,marshmallow,0.637200,False
+chocolate + high water,chocolate,chem,30,0.866025,1,cream,0.577700,False
+chocolate + high water,chocolate,chem,30,0.866025,2,ice_cream,0.565900,False
+chocolate + high water,chocolate,chem,30,0.866025,3,toffee,0.555200,False
+chocolate + high water,chocolate,chem,30,0.866025,4,cocoa_powder,0.550600,False
+chocolate + high water,chocolate,chem,30,0.866025,5,frosting,0.537900,False
+chocolate + high water,chocolate,chem,60,0.500000,1,oyster_mushroom,0.408800,True
+chocolate + high water,chocolate,chem,60,0.500000,2,scallion,0.380700,True
+chocolate + high water,chocolate,chem,60,0.500000,3,bok_choy,0.378500,True
+chocolate + high water,chocolate,chem,60,0.500000,4,garland_chrysanthemum,0.378300,True
+chocolate + high water,chocolate,chem,60,0.500000,5,ice_cream,0.359700,False
+rice + high fiber,rice,cooc,0,1.000000,1,carrot,0.335000,True
+rice + high fiber,rice,cooc,0,1.000000,2,okra,0.331600,True
+rice + high fiber,rice,cooc,0,1.000000,3,vegetable_oil,0.325700,False
+rice + high fiber,rice,cooc,0,1.000000,4,pea,0.311700,True
+rice + high fiber,rice,cooc,0,1.000000,5,dashi,0.307500,False
+rice + high fiber,rice,cooc,30,0.866025,1,millet,0.368100,True
+rice + high fiber,rice,cooc,30,0.866025,2,carrot,0.365600,True
+rice + high fiber,rice,cooc,30,0.866025,3,chickpea,0.348200,True
+rice + high fiber,rice,cooc,30,0.866025,4,okra,0.346300,True
+rice + high fiber,rice,cooc,30,0.866025,5,pea,0.344200,True
+rice + high fiber,rice,cooc,60,0.500000,1,chickpea,0.354300,True
+rice + high fiber,rice,cooc,60,0.500000,2,millet,0.351400,True
+rice + high fiber,rice,cooc,60,0.500000,3,mung_bean,0.316100,True
+rice + high fiber,rice,cooc,60,0.500000,4,lentil,0.315500,True
+rice + high fiber,rice,cooc,60,0.500000,5,peanut,0.307100,True
+rice + high fiber,rice,core,0,1.000000,1,shiitake_mushroom,0.595900,True
+rice + high fiber,rice,core,0,1.000000,2,nori,0.594300,False
+rice + high fiber,rice,core,0,1.000000,3,bok_choy,0.583900,False
+rice + high fiber,rice,core,0,1.000000,4,sesame_seed,0.571800,True
+rice + high fiber,rice,core,0,1.000000,5,pea,0.571300,True
+rice + high fiber,rice,core,30,0.866025,1,millet,0.592700,True
+rice + high fiber,rice,core,30,0.866025,2,bok_choy,0.589500,False
+rice + high fiber,rice,core,30,0.866025,3,nori,0.582100,False
+rice + high fiber,rice,core,30,0.866025,4,sesame_seed,0.576300,True
+rice + high fiber,rice,core,30,0.866025,5,mung_bean,0.575200,True
+rice + high fiber,rice,core,60,0.500000,1,cashew,0.499900,True
+rice + high fiber,rice,core,60,0.500000,2,millet,0.498200,True
+rice + high fiber,rice,core,60,0.500000,3,ajwain,0.489500,False
+rice + high fiber,rice,core,60,0.500000,4,mung_bean,0.483300,True
+rice + high fiber,rice,core,60,0.500000,5,chickpea,0.478200,True
+rice + high fiber,rice,chem,0,1.000000,1,caviar,0.310000,False
+rice + high fiber,rice,chem,0,1.000000,2,nori,0.300600,False
+rice + high fiber,rice,chem,0,1.000000,3,wheat,0.296900,True
+rice + high fiber,rice,chem,0,1.000000,4,millet,0.296600,True
+rice + high fiber,rice,chem,0,1.000000,5,puzi_leaf,0.291900,False
+rice + high fiber,rice,chem,30,0.866025,1,millet,0.435300,True
+rice + high fiber,rice,chem,30,0.866025,2,quinoa,0.414800,True
+rice + high fiber,rice,chem,30,0.866025,3,nori,0.392600,False
+rice + high fiber,rice,chem,30,0.866025,4,chickpea,0.384200,True
+rice + high fiber,rice,chem,30,0.866025,5,wheat,0.383900,True
+rice + high fiber,rice,chem,60,0.500000,1,quinoa,0.458200,True
+rice + high fiber,rice,chem,60,0.500000,2,millet,0.457300,True
+rice + high fiber,rice,chem,60,0.500000,3,chickpea,0.453700,True
+rice + high fiber,rice,chem,60,0.500000,4,cashew,0.437100,True
+rice + high fiber,rice,chem,60,0.500000,5,mung_bean,0.420100,True
+chicken + high fiber,chicken,cooc,0,1.000000,1,garlic,0.393400,True
+chicken + high fiber,chicken,cooc,0,1.000000,2,onion,0.366200,False
+chicken + high fiber,chicken,cooc,0,1.000000,3,black_pepper,0.358100,True
+chicken + high fiber,chicken,cooc,0,1.000000,4,turkey,0.348000,False
+chicken + high fiber,chicken,cooc,0,1.000000,5,carrot,0.342500,True
+chicken + high fiber,chicken,cooc,30,0.866025,1,garlic,0.401900,True
+chicken + high fiber,chicken,cooc,30,0.866025,2,coriander,0.385700,True
+chicken + high fiber,chicken,cooc,30,0.866025,3,carrot,0.382900,True
+chicken + high fiber,chicken,cooc,30,0.866025,4,onion,0.362000,False
+chicken + high fiber,chicken,cooc,30,0.866025,5,brown_rice,0.352900,True
+chicken + high fiber,chicken,cooc,60,0.500000,1,chickpea,0.346100,True
+chicken + high fiber,chicken,cooc,60,0.500000,2,coriander,0.339500,True
+chicken + high fiber,chicken,cooc,60,0.500000,3,lentil,0.333600,True
+chicken + high fiber,chicken,cooc,60,0.500000,4,brown_rice,0.329700,True
+chicken + high fiber,chicken,cooc,60,0.500000,5,carrot,0.320700,True
+chicken + high fiber,chicken,core,0,1.000000,1,pork,0.580800,False
+chicken + high fiber,chicken,core,0,1.000000,2,beef,0.571200,False
+chicken + high fiber,chicken,core,0,1.000000,3,chicken_broth,0.549900,False
+chicken + high fiber,chicken,core,0,1.000000,4,peanut,0.523300,True
+chicken + high fiber,chicken,core,0,1.000000,5,cream_of_chicken_soup,0.521700,False
+chicken + high fiber,chicken,core,30,0.866025,1,peanut,0.598800,True
+chicken + high fiber,chicken,core,30,0.866025,2,water_chestnut,0.563700,True
+chicken + high fiber,chicken,core,30,0.866025,3,cumin,0.561300,True
+chicken + high fiber,chicken,core,30,0.866025,4,coriander,0.559700,True
+chicken + high fiber,chicken,core,30,0.866025,5,pork,0.549800,False
+chicken + high fiber,chicken,core,60,0.500000,1,peanut,0.513700,True
+chicken + high fiber,chicken,core,60,0.500000,2,cashew,0.513000,True
+chicken + high fiber,chicken,core,60,0.500000,3,cumin,0.512600,True
+chicken + high fiber,chicken,core,60,0.500000,4,ajwain,0.501200,False
+chicken + high fiber,chicken,core,60,0.500000,5,chickpea,0.496500,True
+chicken + high fiber,chicken,chem,0,1.000000,1,beef,0.405100,False
+chicken + high fiber,chicken,chem,0,1.000000,2,pork,0.339700,False
+chicken + high fiber,chicken,chem,0,1.000000,3,cream_of_chicken_soup,0.310700,False
+chicken + high fiber,chicken,chem,0,1.000000,4,buffalo_wing_sauce,0.288200,False
+chicken + high fiber,chicken,chem,0,1.000000,5,peanut,0.282100,True
+chicken + high fiber,chicken,chem,30,0.866025,1,butternut_squash,0.347800,False
+chicken + high fiber,chicken,chem,30,0.866025,2,beef,0.339500,False
+chicken + high fiber,chicken,chem,30,0.866025,3,quinoa,0.338900,True
+chicken + high fiber,chicken,chem,30,0.866025,4,cashew,0.335900,True
+chicken + high fiber,chicken,chem,30,0.866025,5,peanut,0.320500,True
+chicken + high fiber,chicken,chem,60,0.500000,1,cashew,0.429500,True
+chicken + high fiber,chicken,chem,60,0.500000,2,quinoa,0.427200,True
+chicken + high fiber,chicken,chem,60,0.500000,3,chickpea,0.425600,True
+chicken + high fiber,chicken,chem,60,0.500000,4,butternut_squash,0.407400,False
+chicken + high fiber,chicken,chem,60,0.500000,5,millet,0.377600,True
+cream + high sugars,cream,cooc,0,1.000000,1,butter,0.462300,False
+cream + high sugars,cream,cooc,0,1.000000,2,egg_yolk,0.403100,False
+cream + high sugars,cream,cooc,0,1.000000,3,gelatin,0.386000,False
+cream + high sugars,cream,cooc,0,1.000000,4,ice_cream,0.374700,True
+cream + high sugars,cream,cooc,0,1.000000,5,brandy,0.374100,False
+cream + high sugars,cream,cooc,30,0.866025,1,ice_cream,0.492000,True
+cream + high sugars,cream,cooc,30,0.866025,2,strawberry,0.479000,True
+cream + high sugars,cream,cooc,30,0.866025,3,cookie,0.477100,True
+cream + high sugars,cream,cooc,30,0.866025,4,white_chocolate,0.476900,True
+cream + high sugars,cream,cooc,30,0.866025,5,vanilla,0.456100,True
+cream + high sugars,cream,cooc,60,0.500000,1,white_chocolate,0.482300,True
+cream + high sugars,cream,cooc,60,0.500000,2,ice_cream,0.477400,True
+cream + high sugars,cream,cooc,60,0.500000,3,strawberry,0.472000,True
+cream + high sugars,cream,cooc,60,0.500000,4,cookie,0.461400,True
+cream + high sugars,cream,cooc,60,0.500000,5,vanilla,0.453700,True
+cream + high sugars,cream,core,0,1.000000,1,gelatin,0.778100,False
+cream + high sugars,cream,core,0,1.000000,2,chocolate,0.732200,True
+cream + high sugars,cream,core,0,1.000000,3,sugar,0.709700,True
+cream + high sugars,cream,core,0,1.000000,4,cocoa_powder,0.702400,False
+cream + high sugars,cream,core,0,1.000000,5,ice_cream,0.692700,True
+cream + high sugars,cream,core,30,0.866025,1,chocolate,0.739700,True
+cream + high sugars,cream,core,30,0.866025,2,gelatin,0.718300,False
+cream + high sugars,cream,core,30,0.866025,3,ice_cream,0.693500,True
+cream + high sugars,cream,core,30,0.866025,4,cocoa_powder,0.672300,False
+cream + high sugars,cream,core,30,0.866025,5,cookie,0.665200,True
+cream + high sugars,cream,core,60,0.500000,1,white_chocolate,0.577100,True
+cream + high sugars,cream,core,60,0.500000,2,cookie,0.563400,True
+cream + high sugars,cream,core,60,0.500000,3,coffee_liqueur,0.524100,True
+cream + high sugars,cream,core,60,0.500000,4,graham_cracker,0.510600,True
+cream + high sugars,cream,core,60,0.500000,5,ice_cream,0.508400,True
+cream + high sugars,cream,chem,0,1.000000,1,gelatin,0.683000,False
+cream + high sugars,cream,chem,0,1.000000,2,chocolate,0.651100,True
+cream + high sugars,cream,chem,0,1.000000,3,meringue,0.628000,False
+cream + high sugars,cream,chem,0,1.000000,4,ice_cream,0.620800,True
+cream + high sugars,cream,chem,0,1.000000,5,cocoa_powder,0.578600,False
+cream + high sugars,cream,chem,30,0.866025,1,chocolate,0.648600,True
+cream + high sugars,cream,chem,30,0.866025,2,gelatin,0.639500,False
+cream + high sugars,cream,chem,30,0.866025,3,ice_cream,0.629000,True
+cream + high sugars,cream,chem,30,0.866025,4,toffee,0.595500,True
+cream + high sugars,cream,chem,30,0.866025,5,meringue,0.578700,False
+cream + high sugars,cream,chem,60,0.500000,1,toffee,0.474000,True
+cream + high sugars,cream,chem,60,0.500000,2,chocolate,0.472200,True
+cream + high sugars,cream,chem,60,0.500000,3,ice_cream,0.468600,True
+cream + high sugars,cream,chem,60,0.500000,4,fudge,0.440800,True
+cream + high sugars,cream,chem,60,0.500000,5,pudding,0.432100,True
+egg + high sugars,egg,cooc,0,1.000000,1,flour,0.441500,False
+egg + high sugars,egg,cooc,0,1.000000,2,milk,0.376200,True
+egg + high sugars,egg,cooc,0,1.000000,3,baking_powder,0.367100,False
+egg + high sugars,egg,cooc,0,1.000000,4,vanilla,0.331200,True
+egg + high sugars,egg,cooc,0,1.000000,5,chocolate,0.312100,True
+egg + high sugars,egg,cooc,30,0.866025,1,vanilla,0.469500,True
+egg + high sugars,egg,cooc,30,0.866025,2,ganache,0.455600,False
+egg + high sugars,egg,cooc,30,0.866025,3,condensed_milk,0.450500,True
+egg + high sugars,egg,cooc,30,0.866025,4,baking_powder,0.443000,False
+egg + high sugars,egg,cooc,30,0.866025,5,cocoa_powder,0.436900,False
+egg + high sugars,egg,cooc,60,0.500000,1,ganache,0.484700,False
+egg + high sugars,egg,cooc,60,0.500000,2,vanilla,0.482000,True
+egg + high sugars,egg,cooc,60,0.500000,3,fudge,0.474400,True
+egg + high sugars,egg,cooc,60,0.500000,4,sprinkles,0.458100,False
+egg + high sugars,egg,cooc,60,0.500000,5,condensed_milk,0.456800,True
+egg + high sugars,egg,core,0,1.000000,1,flour,0.736400,False
+egg + high sugars,egg,core,0,1.000000,2,baking_powder,0.716000,False
+egg + high sugars,egg,core,0,1.000000,3,sugar,0.610300,True
+egg + high sugars,egg,core,0,1.000000,4,vegetable_oil,0.569300,False
+egg + high sugars,egg,core,0,1.000000,5,yeast,0.569200,False
+egg + high sugars,egg,core,30,0.866025,1,baking_powder,0.704300,False
+egg + high sugars,egg,core,30,0.866025,2,vanilla,0.653100,True
+egg + high sugars,egg,core,30,0.866025,3,flour,0.609900,False
+egg + high sugars,egg,core,30,0.866025,4,milk_chocolate,0.605800,True
+egg + high sugars,egg,core,30,0.866025,5,cookie,0.567900,True
+egg + high sugars,egg,core,60,0.500000,1,vanilla,0.568700,True
+egg + high sugars,egg,core,60,0.500000,2,white_chocolate,0.538900,True
+egg + high sugars,egg,core,60,0.500000,3,graham_cracker,0.527300,True
+egg + high sugars,egg,core,60,0.500000,4,cookie,0.519500,True
+egg + high sugars,egg,core,60,0.500000,5,pecan,0.505000,False
+egg + high sugars,egg,chem,0,1.000000,1,baking_powder,0.617200,False
+egg + high sugars,egg,chem,0,1.000000,2,brown_sugar,0.441400,True
+egg + high sugars,egg,chem,0,1.000000,3,vegetable_oil,0.417500,False
+egg + high sugars,egg,chem,0,1.000000,4,graham_flour,0.407900,False
+egg + high sugars,egg,chem,0,1.000000,5,club_soda,0.381500,False
+egg + high sugars,egg,chem,30,0.866025,1,baking_powder,0.597000,False
+egg + high sugars,egg,chem,30,0.866025,2,brown_sugar,0.483200,True
+egg + high sugars,egg,chem,30,0.866025,3,milk_chocolate,0.453300,True
+egg + high sugars,egg,chem,30,0.866025,4,pumpkin_pie_spice,0.443500,True
+egg + high sugars,egg,chem,30,0.866025,5,corn_syrup,0.420600,True
+egg + high sugars,egg,chem,60,0.500000,1,whipped_topping,0.438100,True
+egg + high sugars,egg,chem,60,0.500000,2,milk_chocolate,0.434200,True
+egg + high sugars,egg,chem,60,0.500000,3,sprinkles,0.418300,False
+egg + high sugars,egg,chem,60,0.500000,4,baking_powder,0.416900,False
+egg + high sugars,egg,chem,60,0.500000,5,caramel,0.416400,True
