@@ -771,7 +771,7 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | **📖 README.md** | Fixed stale JS function count (163→176) and JS logic lines (~6,200→~6,595). |
 | **📘 GUIDE.md** | Fixed architecture metrics: 7,756→8,060 lines, CSS ~650→686, HTML ~780→~775, JS ~5,000→~6,595. |
 | **📗 SESSION_JOURNAL.md** | Added this entry (Session 15b). |
-| **📦 Git** | Committed all doc changes as `438ffbe`, pushed to `origin/main`. |
+| **📦 Git** | Committed all doc changes as `44600f0`, pushed to `origin/main`. |
 
 ### Metrics Update
 
