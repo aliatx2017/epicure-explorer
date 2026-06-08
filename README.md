@@ -112,7 +112,7 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 
 ```
 epicure-explorer/
-├── index.html          ← THE APP — single self-contained HTML file (425 KB)
+├── index.html          ← THE APP — single self-contained HTML file (428 KB)
 ├── build_nutrition.py   ← Nutrition pipeline — generates epicure_nutrition.json in im2recipe format
 ├── requirements.txt    ← Pinned dependencies (umap-learn, scikit-learn)
 ├── icon-192.png        ← PWA home-screen icon (2.3 KB)
@@ -162,11 +162,11 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 This project was built across 15 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **8,060 lines** of HTML/CSS/JS in a single file
+- **8,062 lines** of HTML/CSS/JS in a single file
 - **~176 JavaScript functions** across 19 tabs and Chef's Toolkit
 - **~6,595 lines** of JavaScript application logic
 - **31 files** tracked in version control
-- **68 automated E2E tests** — all passing
+- **78 automated E2E tests** — all passing
 - **51K per-recipe nutrition records** — FSA-scored from the im2recipe 35K dataset
 - **im2recipe-format data pipeline** — USDA-matched nutrition for all 1,790 ingredients
 - **PWA icons**: 192×192 + 512×512 PNG (purple plate/fork)

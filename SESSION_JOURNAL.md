@@ -838,4 +838,55 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | `package.json` | Added `version-sw` script |
 | `NEXT_SESSION.md` | Resolved cache versioning; documented workflow |
 
+---
 
+## Session 17 — Tier-1 Cleanup Sprint: NUTRITION_DATA migration, E2E coverage, dotProduct audit
+
+**Focus:** Resolving all remaining Tier-1 items: move hardcoded NUTRITION_DATA to data-driven, add E2E feature tests for 5 untested tabs, add error-state tests, complete i18n E2E coverage for all 5 languages, and audit dotProduct consistency.
+
+### What Was Done
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 📦 | **Data-driven NUTRITION_DATA** | Extracted 413-ingredient nutrition object from inline `const` in `index.html` into `data/epicure_shared.json` under `"nutrition"` key. Changed `const` → `var` fallback. `loadSharedData()` overrides `NUTRITION_DATA` from `json.nutrition` (same pattern as `SEASONAL_DATA`). |
+| **2** 🧪 | **E2E feature tests for 5 untested tabs** | Added tests for Neighbours (`.neighbour-card`), Compare (model panels), Modes (mode content), Recipes (`.recipe-subtab` + programmatic subtab switch), Snap (file input + upload instructions). |
+| **3** 🛡️ | **Error-state E2E tests** | Offline banner: verify element exists, hidden initially, show/hide toggles. Model resilience: navigate Chem model tab, verify no crash. |
+| **4** 🌐 | **i18n E2E coverage all 5 languages** | French, Chinese, Japanese ingredient display tests — same pattern as existing Spanish test. |
+| **5** 🔍 | **dotProduct callsite audit** | All 36+ callers verified using single centralized `dotProduct()` helper with NaN/Infinity guards. Zero inline reimplementations. No missed opportunities. |
+| **6** 📖 | **Docs refresh** | NEXT_SESSION.md rewritten with fresh state, resolved items, Tier 2/3 surfaced. README.md metrics updated (8,062 lines, 78 E2E tests, 428 KB). GUIDE.md updated (8,062 lines, 428 KB). |
+
+### Metrics Update
+
+| Metric | Session 16 | Session 17 |
+|--------|-----------|------------|
+| index.html lines | 8,060 | **8,062** |
+| JS functions | 176 | **176** (unchanged) |
+| File size | ~424 KB | **~428 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **68/68 ✅** | **78/78 ✅** |
+| SW cache key | `'epicure-c82486bc87a3'` | **`'epicure-64adfa564ac8'`** |
+| Cache versioning | ✅ Resolved | ✅ Resolved |
+| NUTRITION_DATA | Inline const fallback | **Data-driven from shared.json** |
+| Untested tabs | 5 (Snap, Neighbours, Compare, Modes, Recipes) | **0 — all 19 tabs tested** |
+| Error-state tests | 0 | **2 (offline, model)** |
+| i18n E2E coverage | Spanish only | **All 5 languages** |
+| dotProduct callsites | Untracked | **Audited — all consistent** |
+
+### Files Modified
+| File | Change |
+|------|--------|
+| `index.html` | `const NUTRITION_DATA` → `var`; override in `loadSharedData()` |
+| `data/epicure_shared.json` | Added `nutrition` key (413 entries) |
+| `tests/e2e.mjs` | +211 lines: 5 tab-feature tests + 2 error-state tests + 3 i18n tests |
+| `sw.js` | `'epicure-c82486bc87a3'` → `'epicure-64adfa564ac8'` (auto-generated) |
+| `NEXT_SESSION.md` | Full rewrite: resolved items removed, Tier 2/3 surfaced, 78 tests |
+| `README.md` | Metrics: 8,062 lines, 78 E2E tests, 428 KB |
+| `GUIDE.md` | Metrics: 8,062 lines, 428 KB |
+
+### State at Session End
+
+- All Tier-1 items resolved: cache versioning, NUTRITION_DATA migration, E2E test gaps, i18n coverage, dotProduct audit
+- 78/78 E2E tests pass, 0 bugs, 0 console errors
+- Remaining: Tier 2 (Nutrition E2E, Build-A-Dish→Recipe, Flavour Pair feature) and Tier 3 (LLM recipe gen, Ingredient2Vec API, Food Agent)
+- `origin/main` up to date (commits: d31b857, d3076b3, be9d8e7, 528599e)
