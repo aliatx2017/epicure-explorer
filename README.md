@@ -146,12 +146,12 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 
 ## Development
 
-This project was built across 9 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
+This project was built across 10 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **5,755 lines** of HTML/CSS/JS in a single file
-- **~117 JavaScript functions** across 18 tabs and Chef's Toolkit
-- **~4,400 lines** of JavaScript application logic
+- **6,343 lines** of HTML/CSS/JS in a single file
+- **~136 JavaScript functions** across 18 tabs and Chef's Toolkit
+- **~4,700 lines** of JavaScript application logic
 - **28 files** tracked in version control
 - **57 automated E2E tests** — all passing
 

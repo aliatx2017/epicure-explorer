@@ -23,13 +23,14 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 ---
 
 
-> **🧭 Implementation Status — June 2026 (Session 9: 10-Feature Sprint)**
+> **🧭 Implementation Status — July 2026 (Session 10: Polish Sprint)**
 > 
-> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~5,755 lines, ~312 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
+> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~6,343 lines, ~339 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
 > 
 > **Session 7 (June 2026):** Map zoom + pan + cuisine region labels + touch support (Phase 2 completed)
 > **Session 8 (July 2026):** Full UI/UX design audit — tab categories, empty states, Chef overlay drawer, deep-link URLs, responsive, ARIA+keyboard, skeleton loading
 > **Session 9 (June 2026):** 10-feature sprint: PWA manifest, dark mode, Spoonacular graceful degradation, map gesture hint, cross-model consensus, unified smart search, molecular fingerprint card, seasonal heatmap (Phase 3 shipped), Service Worker + offline, map viewport culling. 57/57 E2E tests pass. Repo pushed.
+> **Session 10 (July 2026):** Feedback-driven polish sprint: Spoonacular call tracking + 429 handling, offline banner, 50+ search aliases, density heatmap overlay, CSV/PNG/share exports, 5-language i18n (EN/ES/FR/中文/日本語), semantic search intent detection, usage analytics, offline-aware APIs. 57/57 E2E tests pass.
 > 
 > | Area | Status | Notes |
 > |------|--------|-------|

@@ -268,6 +268,14 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .chef-toggle.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
 .theme-toggle { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:var(--radius-sm); border:1px solid var(--border); background:transparent; color:var(--text2); font-size:1.1rem; cursor:pointer; transition:all .15s; }
 .theme-toggle:hover { background:var(--surface2); border-color:var(--accent2); color:var(--text); }
+.intent-chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; min-height:0; }
+.intent-chip { padding:3px 10px; border-radius:99px; border:1px solid var(--border); background:var(--surface); color:var(--text2); font-size:0.72rem; font-family:var(--font); cursor:pointer; transition:all .15s; }
+.intent-chip:hover { transform:translateY(-1px); }
+.cuisine-chip:hover { border-color:#f97316; color:#f97316; background:#f9731615; }
+.diet-chip:hover { border-color:#22c55e; color:#22c55e; background:#22c55e15; }
+.nutrition-chip:hover { border-color:#eab308; color:#eab308; background:#eab30815; }
+.offline-banner { display:none; background:#f59e0b; color:#1a1a2e; text-align:center; padding:6px 12px; font-size:0.78rem; font-weight:500; position:sticky; top:0; z-index:200; }
+.offline-banner.show { display:block; }
 
 /* ── Map Gesture Hint ── */
 .gesture-hint { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; max-width:280px; text-align:center; z-index:20; box-shadow:0 8px 32px rgba(0,0,0,.5); pointer-events:none; animation:gestureFadeIn .3s ease,gestureFadeOut .4s ease 3.6s forwards; }
@@ -665,6 +673,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 
   <!-- Main app (hidden until loaded) -->
   <div id="mainContent" style="display:none">
+    <div class="offline-banner" id="offlineBanner">📡 No internet connection — some features may be unavailable</div>
     <header>
       <div>
         <h1><span class="icon">🍽️</span> Epicure Explorer</h1>
@@ -679,6 +688,13 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
         </div>
         <button class="chef-toggle" id="chefToggle" onclick="toggleChefToolkit()">👨‍🍳 Chef's Toolkit</button>
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+        <select id="langPicker" onchange="setLanguage(this.value)" aria-label="Language" style="margin-left:4px;padding:4px 6px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:0.72rem;font-family:var(--font);cursor:pointer;">
+          <option value="en">🇬🇧 EN</option>
+          <option value="es">🇪🇸 ES</option>
+          <option value="fr">🇫🇷 FR</option>
+          <option value="zh">🇨🇳 中文</option>
+          <option value="ja">🇯🇵 日本語</option>
+        </select>
       </div>
     </header>
 
@@ -692,6 +708,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
       <span id="selectedIngredient" style="font-size:0.85rem;color:var(--text2);padding:4px 0;white-space:nowrap;">Select an ingredient</span>
     </div>
     <div id="describeResults" style="margin-top:-8px;"></div>
+    <div class="intent-chips" id="searchIntentChips"></div>
     <!-- hidden legacy inputs for backward compat -->
     <input type="hidden" id="describeInput" aria-label="Describe a dish (legacy)">
     <span id="describeStatus" style="display:none;"></span>
@@ -818,6 +835,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
             <label for="nutrientOverlay">Overlay:</label>
             <select id="nutrientOverlay" onchange="renderMap()">
               <option value="">— None (uniform) —</option>
+              <option value="density">🔬 Density</option>
               <option value="season">🗓️ Season</option>
               <option value="calories">🔥 Calories</option>
               <option value="protein">🥩 Protein</option>
@@ -845,6 +863,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
             </span>
             <span><span class="dot" style="background:var(--text2)"></span> All ingredients</span>
             <span id="pcaStatus" style="color:var(--text2);font-size:0.8rem;"></span>
+            <button class="game-new-btn" onclick="exportMapPNG()" style="font-size:0.65rem;padding:2px 8px;margin-left:4px;" title="Download map as PNG">📸 PNG</button>
           </div>
         </div>
       </div>
@@ -1133,6 +1152,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
               <button class="game-new-btn" onclick="saveSpoonKey()" style="font-size:0.72rem;">💾 Save Key</button>
               <button class="game-new-btn" onclick="clearSpoonKey()" style="font-size:0.72rem;">🗑️ Clear</button>
               <span id="spoonKeyStatus" style="font-size:0.72rem;color:var(--text2);"></span>
+              <span id="spoonCallCount" style="font-size:0.7rem;color:var(--text3);margin-left:2px;"></span>
             </div>
           </div>
           <hr style="border-color:var(--border);margin:12px 0;">
@@ -1318,6 +1338,8 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
         <div class="chef-tags" id="chefFlavourTags"></div>
       </div>
       <button class="chef-export-btn" id="chefExportBtn" onclick="exportSummary()">📋 Export Summary</button>
+      <button class="chef-export-btn" id="chefCSVBtn" onclick="exportCSV()" style="margin-top:4px;font-size:0.72rem;">📥 Download Neighbours CSV</button>
+      <button class="chef-export-btn" onclick="copyShareLink()" style="margin-top:4px;font-size:0.72rem;">🔗 Copy Share Link</button>
     </div>
 
     <div class="app-footer">
@@ -1328,6 +1350,8 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
       <span>Nutrition: <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noopener">USDA FoodData Central</a></span>
       <span class="app-footer-sep">·</span>
       <span><a href="https://github.com/aliatx2017/epicure-explorer" target="_blank" rel="noopener">GitHub</a></span>
+      <span class="app-footer-sep">·</span>
+      <span><a href="#" onclick="showUsageStats();return false;" style="text-decoration:none;color:var(--text2);font-size:0.7rem;">📊</a></span>
     </div>
   </div>
 </div>
@@ -1353,6 +1377,105 @@ const STATE = {
 const MAP_VIEW = { scale: 1, panX: 0, panY: 0 };
 // Map search pulse animation state
 const MAP_PULSE = { active: false, idx: -1, start: 0 };
+
+// ── i18n — lightweight UI string translation ──
+var CURRENT_LANG = 'en';
+try { if (localStorage.getItem('epicure_lang')) CURRENT_LANG = localStorage.getItem('epicure_lang'); } catch(e) {}
+
+var UI_STRINGS = {
+  en: {
+    searchPlaceholder: 'Search ingredients or describe a dish… e.g. miso, or "creamy garlic pasta with mushrooms"',
+    searchLabel: '🔍 Search or describe',
+    chefToolkit: '👨‍🍳 Chef\'s Toolkit',
+    emptyHeading: 'No ingredient selected',
+    offlineBanner: '📡 No internet connection — some features may be unavailable',
+    mapHint: 'Drag to pan · Pinch to zoom<br>Double-tap to reset view',
+    densityLabel: 'Dense',
+    sparseLabel: 'Sparse',
+    callsLeft: 'calls left',
+    noKey: '⚠️ No API key set — enter one above',
+    keySaved: '✅ API key saved',
+  },
+  es: {
+    searchPlaceholder: 'Buscar ingredientes o describir un plato… ej. miso, o "pasta cremosa con ajo y champiñones"',
+    searchLabel: '🔍 Buscar o describir',
+    chefToolkit: '👨‍🍳 Kit del Chef',
+    emptyHeading: 'Ningún ingrediente seleccionado',
+    offlineBanner: '📡 Sin conexión a internet — algunas funciones pueden no estar disponibles',
+    mapHint: 'Arrastrar para mover · Pellizcar para zoom<br>Doble toque para restablecer',
+    densityLabel: 'Denso',
+    sparseLabel: 'Disperso',
+    callsLeft: 'llamadas restantes',
+    noKey: '⚠️ No hay clave API — ingrese una arriba',
+    keySaved: '✅ Clave API guardada',
+  },
+  fr: {
+    searchPlaceholder: 'Rechercher des ingrédients ou décrire un plat… ex. miso, ou "pâtes crémeuses à l\'ail et aux champignons"',
+    searchLabel: '🔍 Chercher ou décrire',
+    chefToolkit: '👨‍🍳 Kit du Chef',
+    emptyHeading: 'Aucun ingrédient sélectionné',
+    offlineBanner: '📡 Pas de connexion Internet — certaines fonctionnalités peuvent être indisponibles',
+    mapHint: 'Glisser pour déplacer · Pincer pour zoomer<br>Double-tap pour réinitialiser',
+    densityLabel: 'Dense',
+    sparseLabel: 'Clairsemé',
+    callsLeft: 'appels restants',
+    noKey: '⚠️ Pas de clé API — saisissez-en une ci-dessus',
+    keySaved: '✅ Clé API sauvegardée',
+  },
+  zh: {
+    searchPlaceholder: '搜索食材或描述一道菜… 例如：味噌，或"奶油蒜香蘑菇意面"',
+    searchLabel: '🔍 搜索或描述',
+    chefToolkit: '👨‍🍳 厨师工具包',
+    emptyHeading: '未选择食材',
+    offlineBanner: '📡 无网络连接 — 某些功能可能不可用',
+    mapHint: '拖动平移 · 捏合缩放<br>双击重置视图',
+    densityLabel: '密集',
+    sparseLabel: '稀疏',
+    callsLeft: '剩余调用',
+    noKey: '⚠️ 未设置API密钥 — 请在上方输入',
+    keySaved: '✅ API密钥已保存',
+  },
+  ja: {
+    searchPlaceholder: '食材を検索するか、料理を説明してください… 例: 味噌、または「クリーミーなガーリックマッシュルームパスタ」',
+    searchLabel: '🔍 検索または説明',
+    chefToolkit: '👨‍🍳 シェフツールキット',
+    emptyHeading: '食材が選択されていません',
+    offlineBanner: '📡 インターネット接続がありません — 一部の機能が利用できない場合があります',
+    mapHint: 'ドラッグで移動 · ピンチでズーム<br>ダブルタップでリセット',
+    densityLabel: '密',
+    sparseLabel: '疎',
+    callsLeft: '残りコール数',
+    noKey: '⚠️ APIキーが設定されていません — 上で入力してください',
+    keySaved: '✅ APIキーが保存されました',
+  },
+};
+
+function tr(key) { return (UI_STRINGS[CURRENT_LANG] && UI_STRINGS[CURRENT_LANG][key]) || (UI_STRINGS.en && UI_STRINGS.en[key]) || key; }
+
+function setLanguage(lang) {
+  CURRENT_LANG = lang;
+  try { localStorage.setItem('epicure_lang', lang); } catch(e) {}
+  // Update search placeholder
+  var si = document.getElementById('searchInput');
+  if (si) si.placeholder = tr('searchPlaceholder');
+  // Update search label
+  var sl = document.querySelector('.input-group-label');
+  if (sl) sl.textContent = tr('searchLabel');
+  // Update language picker
+  var lp = document.getElementById('langPicker');
+  if (lp) lp.value = lang;
+  // Update offline banner
+  var ob = document.getElementById('offlineBanner');
+  if (ob) ob.textContent = tr('offlineBanner');
+  // Update Chef's Toolkit button
+  var ct = document.getElementById('chefToggle');
+  if (ct) ct.innerHTML = tr('chefToolkit');
+  // Store current lang for dynamic elements
+  document.documentElement.lang = lang === 'zh' ? 'zh' : lang === 'ja' ? 'ja' : lang;
+}
+
+// Apply saved language on load
+(function() { if (CURRENT_LANG !== 'en') setTimeout(function() { setLanguage(CURRENT_LANG); }, 0); })();
 
 // ── Empty-state helper — shows a placeholder when no ingredient is selected ──
 const TAB_DESCRIPTIONS = {
@@ -1381,6 +1504,69 @@ function showEmptyState(containerId, tabKey) {
 }
 
 // ── Data Loading (lazy per model) ──
+
+// ── Usage tracking (localStorage-based, privacy-preserving) ──
+var TRACKING_KEY = 'epicure_usage';
+
+function trackEvent(category, action, label) {
+  try {
+    var raw = localStorage.getItem(TRACKING_KEY);
+    var data = raw ? JSON.parse(raw) : { events: [], firstVisit: Date.now(), lastVisit: Date.now() };
+    data.lastVisit = Date.now();
+    if (!data.events) data.events = [];
+    // Keep last 500 events to stay small
+    data.events.push({ cat: category, act: action, lbl: label || '', t: Date.now() });
+    if (data.events.length > 500) data.events = data.events.slice(-500);
+    // Maintain aggregate counts for quick display
+    if (!data.counts) data.counts = {};
+    var key = category + ':' + (action || '');
+    data.counts[key] = (data.counts[key] || 0) + 1;
+    if (label) {
+      var lk = key + '=' + label;
+      data.counts[lk] = (data.counts[lk] || 0) + 1;
+    }
+    localStorage.setItem(TRACKING_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+
+function getUsageStats() {
+  try {
+    var raw = localStorage.getItem(TRACKING_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function showUsageStats() {
+  var stats = getUsageStats();
+  if (!stats || !stats.counts) { alert('No usage data yet. Start exploring!'); return; }
+  var counts = stats.counts;
+  var lines = ['📊 Usage Statistics', '━━━━━━━━━━━━━━━━━━', ''];
+  // Tab visits
+  var tabVisits = Object.keys(counts).filter(function(k) { return k.indexOf('tab:') === 0; }).sort(function(a,b) { return counts[b] - counts[a]; });
+  if (tabVisits.length > 0) {
+    lines.push('🏷️  Tab Visits:');
+    tabVisits.slice(0, 10).forEach(function(k) {
+      var tabName = k.replace('tab:', '');
+      lines.push('  ' + tabName + ': ' + counts[k] + '×');
+    });
+    lines.push('');
+  }
+  // Searches
+  var searches = Object.keys(counts).filter(function(k) { return k.indexOf('search:') === 0; }).sort(function(a,b) { return counts[b] - counts[a]; });
+  if (searches.length > 0) {
+    lines.push('🔍 Top Searches:');
+    searches.slice(0, 8).forEach(function(k) {
+      lines.push('  ' + k.replace('search:', '') + ': ' + counts[k] + '×');
+    });
+    lines.push('');
+  }
+  lines.push('📅 First visit: ' + new Date(stats.firstVisit).toLocaleDateString());
+  lines.push('🕐 Last visit: ' + new Date(stats.lastVisit).toLocaleDateString());
+  lines.push('📈 Total events: ' + (stats.events ? stats.events.length : 0));
+  lines.push('', '━━━━━━━━━━━━━━━━━━');
+  lines.push('Data stored locally. No external tracking.');
+  alert(lines.join('\n'));
+}
 
 async function loadSharedData() {
   const status = document.getElementById('loadStatus');
@@ -1429,6 +1615,154 @@ function getModel() {
 
 function getIngredientNames() { return STATE.data.ingredients; }
 
+// ── Search aliases — map common alternate names to canonical ingredient names ──
+var SEARCH_ALIASES = {
+  // Common culinary name variants
+  'coriander': 'cilantro',
+  'spring_onion': 'green_onion',
+  'scallion': 'green_onion',
+  'aubergine': 'eggplant',
+  'courgette': 'zucchini',
+  'rocket': 'arugula',
+  'prawn': 'shrimp',
+  'cocoa': 'cacao',
+  'green_onions': 'green_onion',
+  'bell_pepper': 'capsicum',
+  'coriander_seed': 'coriander',
+  'allspice': 'pimento',
+  'confectioners_sugar': 'powdered_sugar',
+  'icing_sugar': 'powdered_sugar',
+  'corn_starch': 'cornstarch',
+  'baking_soda': 'bicarbonate_of_soda',
+  'semi_sweet_chocolate': 'dark_chocolate',
+  'beetroot': 'beet',
+  'swiss_chard': 'silverbeet',
+  'rock_salt': 'sea_salt',
+  'green_pepper': 'capsicum',
+  'thai_basil': 'basil',
+  'italian_parsley': 'parsley',
+  'flat_leaf_parsley': 'parsley',
+  'curly_parsley': 'parsley',
+  'dark_soy_sauce': 'soy_sauce',
+  'light_soy_sauce': 'soy_sauce',
+  'glutinous_rice': 'sticky_rice',
+  'sweet_rice': 'sticky_rice',
+  'tahini': 'sesame_paste',
+  'tamarind_paste': 'tamarind',
+  'curry_leaf': 'curry_leaves',
+  'fish_sauce': 'nam_pla',
+  'chili_flakes': 'red_pepper_flakes',
+  'buckwheat_noodle': 'soba_noodle',
+  'korean_chili_paste': 'gochujang',
+  'korean_soybean_paste': 'doenjang',
+  'japanese_soy_sauce': 'soy_sauce',
+  'japanese_rice_wine': 'mirin',
+  'sweet_rice_wine': 'mirin',
+  'tofu_skin': 'yuba',
+  'fermented_soybean': 'natto',
+  'bonito': 'bonito_flakes',
+  'dried_bonito': 'bonito_flakes',
+  'sake': 'rice_wine',
+  'lemongrass': 'lemon_grass',
+  'butternut': 'butternut_squash',
+  'snow_pea': 'mangetout',
+  'baby_bok_choy': 'bok_choy',
+  'shanghai_bok_choy': 'bok_choy',
+};
+
+// ── Search intent detection — recognize cuisine, diet, and nutrition queries ──
+var CUISINE_KEYWORDS = {
+  'indian': { label: '🇮🇳 Indian', cuisine: 'south_asian', cat: 'cuisine' },
+  'italian': { label: '🇮🇹 Italian', cuisine: 'mediterranean', cat: 'cuisine' },
+  'japanese': { label: '🇯🇵 Japanese', cuisine: 'japanese', cat: 'cuisine' },
+  'chinese': { label: '🇨🇳 Chinese', cuisine: 'east_asian', cat: 'cuisine' },
+  'mexican': { label: '🇲🇽 Mexican', cuisine: 'latin_american', cat: 'cuisine' },
+  'thai': { label: '🇹🇭 Thai', cuisine: 'southeast_asian', cat: 'cuisine' },
+  'french': { label: '🇫🇷 French', cuisine: 'western_atlantic', cat: 'cuisine' },
+  'korean': { label: '🇰🇷 Korean', cuisine: 'east_asian', cat: 'cuisine' },
+  'mediterranean': { label: '🌊 Mediterranean', cuisine: 'mediterranean', cat: 'cuisine' },
+  'vietnamese': { label: '🇻🇳 Vietnamese', cuisine: 'southeast_asian', cat: 'cuisine' },
+  'american': { label: '🇺🇸 American', cuisine: 'western_atlantic', cat: 'cuisine' },
+  'greek': { label: '🇬🇷 Greek', cuisine: 'mediterranean', cat: 'cuisine' },
+  'spanish': { label: '🇪🇸 Spanish', cuisine: 'mediterranean', cat: 'cuisine' },
+  'middle_eastern': { label: '🥙 Middle Eastern', cuisine: 'mediterranean', cat: 'cuisine' },
+  'eastern_european': { label: '🧆 Eastern European', cuisine: 'eastern_european', cat: 'cuisine' },
+};
+var DIET_KEYWORDS = {
+  'vegan': { label: '🌱 Vegan', filter: 'vegan', cat: 'diet' },
+  'vegetarian': { label: '🥦 Vegetarian', filter: 'vegetarian', cat: 'diet' },
+  'keto': { label: '🥑 Keto', filter: 'ketogenic', cat: 'diet' },
+  'ketogenic': { label: '🥑 Ketogenic', filter: 'ketogenic', cat: 'diet' },
+  'gluten_free': { label: '🌾 Gluten-Free', filter: 'gluten free', cat: 'diet' },
+  'gluten free': { label: '🌾 Gluten-Free', filter: 'gluten free', cat: 'diet' },
+  'low_carb': { label: '🥗 Low Carb', filter: 'low_carb', cat: 'diet' },
+  'high_protein': { label: '💪 High Protein', filter: 'high_protein', cat: 'diet' },
+  'glp1': { label: '💊 GLP-1 Friendly', filter: 'glp1', cat: 'diet' },
+  'glp_1': { label: '💊 GLP-1 Friendly', filter: 'glp1', cat: 'diet' },
+};
+var NUTRITION_KEYWORDS = {
+  'low_calorie': { label: '🔥 Low Calorie', filter: 'calories', cat: 'nutrition' },
+  'high_fiber': { label: '🥬 High Fiber', filter: 'fiber', cat: 'nutrition' },
+  'low_fat': { label: '🧈 Low Fat', filter: 'fat', cat: 'nutrition' },
+};
+
+function detectSearchIntent(query) {
+  var q = query.toLowerCase().trim();
+  var intents = { cuisine: null, diet: null, nutrition: null };
+  if (q.length < 3) return intents;
+  var ck = Object.keys(CUISINE_KEYWORDS);
+  for (var ci = 0; ci < ck.length; ci++) {
+    if (q.indexOf(ck[ci]) >= 0) { intents.cuisine = CUISINE_KEYWORDS[ck[ci]]; break; }
+  }
+  var dk = Object.keys(DIET_KEYWORDS);
+  for (var di = 0; di < dk.length; di++) {
+    if (q.indexOf(dk[di]) >= 0) { intents.diet = DIET_KEYWORDS[dk[di]]; break; }
+  }
+  var nk = Object.keys(NUTRITION_KEYWORDS);
+  for (var ni = 0; ni < nk.length; ni++) {
+    if (q.indexOf(nk[ni]) >= 0) { intents.nutrition = NUTRITION_KEYWORDS[nk[ni]]; break; }
+  }
+  return intents;
+}
+
+function renderSearchIntents(query) {
+  var container = document.getElementById('searchIntentChips');
+  if (!container) return;
+  var intents = detectSearchIntent(query);
+  var chips = [];
+  if (intents.cuisine) chips.push('<button class="intent-chip cuisine-chip" onclick="applyIntent(\'cuisine\',\'' + intents.cuisine.cuisine + '\')">' + intents.cuisine.label + '</button>');
+  if (intents.diet) chips.push('<button class="intent-chip diet-chip" onclick="applyIntent(\'diet\',\'' + intents.diet.filter + '\')">' + intents.diet.label + '</button>');
+  if (intents.nutrition) chips.push('<button class="intent-chip nutrition-chip" onclick="applyIntent(\'nutrition\',\'' + intents.nutrition.filter + '\')">' + intents.nutrition.label + '</button>');
+  container.innerHTML = chips.length > 0 ? chips.join(' ') : '';
+}
+
+function applyIntent(type, value) {
+  if (type === 'cuisine') {
+    var slerpDir = document.getElementById('slerpDirection');
+    if (slerpDir) {
+      for (var i = 0; i < slerpDir.options.length; i++) {
+        if (slerpDir.options[i].value === value) { slerpDir.selectedIndex = i; break; }
+      }
+    }
+    var tab = document.querySelector('[data-tab="slerp"]');
+    if (tab) tab.click();
+  } else if (type === 'diet' && value === 'glp1') {
+    var glpToggle = document.getElementById('glp1Filter');
+    if (glpToggle) { glpToggle.checked = true; if (typeof updateChefToolkit === 'function') updateChefToolkit(); }
+    document.getElementById('chefToggle').click();
+  } else if (type === 'diet') {
+    var spoonTab = document.querySelector('[data-tab="spoonacular"]');
+    if (spoonTab) spoonTab.click();
+    var dietSelect = document.getElementById('spoonDietFilter');
+    if (dietSelect) { dietSelect.value = value; }
+  } else if (type === 'nutrition') {
+    var overlay = document.getElementById('nutrientOverlay');
+    if (overlay) { overlay.value = value; if (typeof renderMap === 'function') renderMap(); }
+    var mapTab = document.querySelector('[data-tab="map"]');
+    if (mapTab) mapTab.click();
+  }
+}
+
 // ── Ensure current model data is loaded, show spinner on tab if needed ──
 async function ensureModelLoaded(modelName) {
   if (STATE.modelsLoaded[modelName]) return getModel();
@@ -1463,11 +1797,12 @@ function setupSearch() {
 
   input.addEventListener('input', () => {
     const q = input.value.toLowerCase().trim();
-    if (q.length > 0) showDropdown(q);
-    else dropdown.classList.remove('show');
+    if (q.length > 0) { showDropdown(q); renderSearchIntents(q); }
+    else { dropdown.classList.remove('show'); document.getElementById('searchIntentChips').innerHTML = ''; }
 
     // Auto-detect describe mode: multi-word text not matching a single ingredient
     clearTimeout(input._describeTimer);
+    renderSearchIntents(q);
     if (q.includes(' ') && q.length > 5) {
       input._describeTimer = setTimeout(function() {
         // Feed into hidden describeInput for backward compat, then trigger describeDish
@@ -1503,16 +1838,42 @@ function setupSearch() {
   });
 
   function showDropdown(q) {
-    let matches;
+    // Build alias index: map canonical names to the alias(es) that matched
+    var aliasMap = {};
+    var aliasKey = q.replace(/\s+/g, '_').toLowerCase();
+    if (SEARCH_ALIASES[aliasKey]) {
+      var t = SEARCH_ALIASES[aliasKey];
+      if (allNames.indexOf(t) >= 0) aliasMap[t] = aliasKey;
+    }
+    // Partial alias match
+    var aliasKeys = Object.keys(SEARCH_ALIASES);
+    for (var ai = 0; ai < aliasKeys.length; ai++) {
+      var ak = aliasKeys[ai];
+      if (ak.indexOf(aliasKey) >= 0 || (aliasKey.length > 2 && aliasKey.indexOf(ak) >= 0)) {
+        var t = SEARCH_ALIASES[ak];
+        if (!aliasMap[t] && allNames.indexOf(t) >= 0) aliasMap[t] = ak;
+      }
+    }
+
+    var matches;
     if (q === '') {
       matches = allNames.slice(0, 50);
     } else {
       matches = allNames
-        .map((name, idx) => ({ name, idx, score: fuzzyScore(name, q) }))
-        .filter(x => x.score > 0)
-        .sort((a, b) => b.score - a.score)
+        .map(function(name, idx) { return { name: name, idx: idx, score: fuzzyScore(name, q) }; })
+        .filter(function(x) { return x.score > 0; })
+        .sort(function(a, b) { return b.score - a.score; })
         .slice(0, 50)
-        .map(x => x.name);
+        .map(function(x) { return x.name; });
+
+      // Inject alias matches near the top
+      var aliasCanonicals = Object.keys(aliasMap);
+      for (var ali = aliasCanonicals.length - 1; ali >= 0; ali--) {
+        var ac = aliasCanonicals[ali];
+        var ei = matches.indexOf(ac);
+        if (ei >= 6) { matches.splice(ei, 1); matches.unshift(ac); }
+        else if (ei < 0) { matches.unshift(ac); if (matches.length > 50) matches.pop(); }
+      }
     }
 
     if (matches.length === 0) {
@@ -1522,6 +1883,11 @@ function setupSearch() {
 
     dropdown.innerHTML = matches.map(name => {
       const hl = highlightMatch(name, q);
+      var aliasText = aliasMap[name];
+      if (aliasText) {
+        var displayAlias = aliasText.replace(/_/g, ' ');
+        return `<div class="item" data-name="${name}">${hl} <span style="font-size:0.65rem;color:var(--text3);">→ ${displayAlias}</span></div>`;
+      }
       return `<div class="item" data-name="${name}">${hl}</div>`;
     }).join('');
     dropdown.classList.add('show');
@@ -1588,6 +1954,7 @@ function selectIngredient(name) {
 
   STATE.selectedIngredient = name;
   STATE.selectedIdx = idx;
+  trackEvent('ingredient', name);
 
   document.getElementById('selectedIngredient').textContent = `✓ ${name.replace(/_/g, ' ')}`;
 
@@ -1850,6 +2217,18 @@ function toggleTheme() {
     }
   } catch(e) {}
 })();
+
+function updateOfflineBanner() {
+  var banner = document.getElementById('offlineBanner');
+  if (!banner) return;
+  if (!navigator.onLine) {
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+window.addEventListener('online', updateOfflineBanner);
+window.addEventListener('offline', updateOfflineBanner);
 
 function closeChefToolkit() {
   document.getElementById('chefSidebar').classList.remove('visible');
@@ -3090,15 +3469,48 @@ function renderSeasonal() {
 // ── Spoonacular API Integration ──
 
 var SPOON_KEY = localStorage.getItem('spoonacular_key') || '';
+var SPOON_DAILY_LIMIT = 150;
+
+function spoonGetCallsToday() {
+  try {
+    var raw = localStorage.getItem('spoonacular_calls');
+    if (!raw) return 0;
+    var data = JSON.parse(raw);
+    var today = new Date().toDateString();
+    if (data.date !== today) { localStorage.removeItem('spoonacular_calls'); return 0; }
+    return data.count || 0;
+  } catch(e) { return 0; }
+}
+
+function spoonTrackCall() {
+  try {
+    var today = new Date().toDateString();
+    var count = spoonGetCallsToday() + 1;
+    localStorage.setItem('spoonacular_calls', JSON.stringify({ date: today, count: count }));
+    return count;
+  } catch(e) {}
+}
 
 function renderSpoonacular() {
   var keyInput = document.getElementById('spoonKeyInput');
   var statusEl = document.getElementById('spoonKeyStatus');
   var layoutEl = document.getElementById('spoonLayout');
+  var callCountEl = document.getElementById('spoonCallCount');
   if (keyInput) keyInput.value = SPOON_KEY;
   if (statusEl) {
     statusEl.textContent = SPOON_KEY ? '✅ API key saved' : '⚠️ No API key set — enter one above';
     statusEl.style.color = SPOON_KEY ? 'var(--green)' : 'var(--yellow)';
+  }
+  if (callCountEl) {
+    if (SPOON_KEY) {
+      var used = spoonGetCallsToday();
+      var left = Math.max(0, SPOON_DAILY_LIMIT - used);
+      callCountEl.textContent = left > 30 ? '📊 ' + left + '/' + SPOON_DAILY_LIMIT + ' calls left' : '⚠️ ' + left + '/' + SPOON_DAILY_LIMIT + ' calls left';
+      callCountEl.style.color = left > 30 ? 'var(--text3)' : 'var(--yellow)';
+      callCountEl.style.display = '';
+    } else {
+      callCountEl.textContent = '';
+    }
   }
   // Graceful degradation: hide feature panel when no key
   if (layoutEl) {
@@ -3145,13 +3557,28 @@ function spoonApiKey() {
 }
 
 function spoonFetch(url) {
+  if (!navigator.onLine) {
+    return Promise.reject(new Error('📡 You appear to be offline. Please check your internet connection and try again.'));
+  }
   var apiKey = spoonApiKey();
   return fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 'apiKey=' + apiKey)
     .then(function(r) {
-      if (r.status === 402) throw new Error('API quota exceeded — your free daily limit may be reached');
-      if (r.status === 401) throw new Error('Invalid API key');
+      if (r.status === 429 || r.status === 402) {
+        spoonTrackCall(); // still count toward limit
+        var used = spoonGetCallsToday();
+        throw new Error('API limit reached (' + used + '/' + SPOON_DAILY_LIMIT + ' calls used today). Try again tomorrow or get a paid plan at spoonacular.com');
+      }
+      if (r.status === 401) throw new Error('Invalid API key — check your Spoonacular API key and try again');
       if (!r.ok) throw new Error('Spoonacular error (HTTP ' + r.status + ')');
+      spoonTrackCall();
       return r.json();
+    })
+    .catch(function(err) {
+      // Enhance network errors with retry suggestion
+      if (err.message.indexOf('fetch') >= 0 || err.message.indexOf('Failed to fetch') >= 0) {
+        throw new Error('📡 Network error. Check your connection and try again later.');
+      }
+      throw err;
     });
 }
 
@@ -3498,6 +3925,11 @@ function classifySnapImage() {
     return;
   }
 
+  if (!navigator.onLine) {
+    statusEl.innerHTML = '📡 You appear to be offline. Image classification requires an internet connection. <button class="game-new-btn" onclick="classifySnapImage()" style="font-size:0.7rem;padding:2px 8px;margin-left:4px;">🔄 Retry</button>';
+    return;
+  }
+
   if (!SNAP_LAST_BLOB) {
     statusEl.textContent = '❌ No photo loaded. Upload one first.';
     return;
@@ -3514,10 +3946,14 @@ function classifySnapImage() {
     body: formData
   })
     .then(function(r) {
-      if (r.status === 402) throw new Error('API quota exceeded');
+      if (r.status === 429 || r.status === 402) {
+        spoonTrackCall();
+        throw new Error('API limit reached (' + spoonGetCallsToday() + '/' + SPOON_DAILY_LIMIT + ' used today)');
+      }
       if (r.status === 401) throw new Error('Invalid API key');
       if (r.status === 404) throw new Error('Image classification not available with your plan');
       if (!r.ok) throw new Error('Spoonacular error (HTTP ' + r.status + ')');
+      spoonTrackCall();
       return r.json();
     })
     .then(function(data) {
@@ -4592,6 +5028,39 @@ function renderMap() {
   const nutStatus = document.getElementById('nutrientStatus');
   const nutLegend = document.getElementById('nutrientLegend');
 
+  // ── Density heatmap overlay ──
+  var densityGrid = null;
+  if (nutrient === 'density') {
+    var GRID_X = 60, GRID_Y = 40;
+    var cellW = W / GRID_X, cellH = H / GRID_Y;
+    var densityRadius = Math.max(cellW, cellH) * 2.5;
+    var grid = [];
+    var maxCount = 0;
+    for (var gy = 0; gy < GRID_Y; gy++) {
+      grid[gy] = [];
+      for (var gx = 0; gx < GRID_X; gx++) {
+        var cx = (gx + 0.5) * cellW;
+        var cy = (gy + 0.5) * cellH;
+        var count = 0;
+        for (var pi = 0; pi < screenPts.length; pi++) {
+          var dx = screenPts[pi].sx - cx;
+          var dy = screenPts[pi].sy - cy;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < densityRadius) count += (1 - dist / densityRadius);
+        }
+        grid[gy][gx] = count;
+        if (count > maxCount) maxCount = count;
+      }
+    }
+    densityGrid = { grid: grid, cellW: cellW, cellH: cellH, maxCount: maxCount || 1 };
+    nutStatus.textContent = screenPts.length + ' ingredients · density';
+    nutLegend.style.display = 'inline-flex';
+    var bar = document.getElementById('nutrientBar');
+    bar.style.background = 'linear-gradient(to right, #1e3a5f, #0891b2, #84cc16, #facc15, #f97316)';
+    document.getElementById('nutrientMinLabel').textContent = 'Sparse';
+    document.getElementById('nutrientMaxLabel').textContent = 'Dense';
+  }
+
   // Season overlay
   if (nutrient === 'season') {
     seasonValues = names.map(function(n) { return getSeasonForIngredient(n); });
@@ -4627,6 +5096,28 @@ function renderMap() {
 
   ctx.fillStyle = '#0f0f13';
   ctx.fillRect(0, 0, W, H);
+
+  // ── Density heatmap grid ──
+  if (densityGrid) {
+    var dg = densityGrid.grid, dgw = densityGrid.cellW, dgh = densityGrid.cellH, dmax = densityGrid.maxCount;
+    var densityColors = [
+      [30, 58, 95, 0.15],    // deep blue (sparse)
+      [8, 145, 178, 0.2],    // cyan
+      [132, 204, 22, 0.25],  // lime
+      [250, 204, 21, 0.3],   // yellow
+      [249, 115, 22, 0.4],   // orange (dense)
+    ];
+    for (var dgy = 0; dgy < dg.length; dgy++) {
+      for (var dgx = 0; dgx < dg[dgy].length; dgx++) {
+        var norm = dg[dgy][dgx] / dmax;
+        if (norm < 0.02) continue;
+        var ci = Math.min(densityColors.length - 1, Math.floor(norm * densityColors.length));
+        var c = densityColors[ci];
+        ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + c[3] + ')';
+        ctx.fillRect(dgx * dgw, dgy * dgh, dgw + 1, dgh + 1);
+      }
+    }
+  }
 
   // Viewport culling: only render points within visible area (+ margin)
   const CULL_MARGIN = 10;
@@ -4790,6 +5281,19 @@ function renderMap() {
 // ── Map Interaction Setup (one-time) ──
 const MAP_DRAG = { start: null, panStart: null, dragged: false };
 let mapInteractionSetup = false;
+function exportMapPNG() {
+  var canvas = document.getElementById('pcaCanvas');
+  if (!canvas) return;
+  try {
+    var link = document.createElement('a');
+    link.download = 'epicure_map_' + STATE.currentModel + '_' + document.getElementById('projMethod').value + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    var btn = document.querySelector('[onclick="exportMapPNG()"]');
+    if (btn) { btn.textContent = '✅ Saved'; setTimeout(function() { btn.textContent = '📸 PNG'; }, 2000); }
+  } catch(e) {}
+}
+
 function setupMapInteractions() {
   if (mapInteractionSetup) return;
   mapInteractionSetup = true;
@@ -5385,6 +5889,7 @@ function setupTabs() {
       tab.classList.add('active');
       tab.setAttribute('aria-selected', 'true');
       STATE.currentTab = tab.dataset.tab;
+      trackEvent('tab', tab.dataset.tab);
 
       document.querySelectorAll('.main-grid > .panel').forEach(p => p.style.display = 'none');
       const panel = document.getElementById(`panel-${tab.dataset.tab}`);
@@ -5433,6 +5938,7 @@ function setupModelTabs() {
       });
       tab.classList.add('active');
       STATE.currentModel = modelName;
+      trackEvent('model', modelName);
 
       // Lazy-load this model if not already loaded
       if (!STATE.modelsLoaded[modelName]) {
@@ -5548,6 +6054,87 @@ function exportSummary() {
     btn.classList.add('copied');
     setTimeout(function() { btn.textContent = '📋 Export Summary'; btn.classList.remove('copied'); }, 2500);
   });
+}
+
+// ── CSV Export — Download neighbours for current ingredient across all models ──
+function exportCSV() {
+  const name = STATE.selectedIngredient;
+  if (!name) { return; }
+  const idx = STATE.selectedIdx;
+  const names = STATE.data.ingredients;
+  const modelNames = ['cooc', 'core', 'chem'];
+  var csv = 'Rank,' + modelNames.map(function(m) { return m + '_name,' + m + '_similarity'; }).join(',') + '\n';
+  var maxLen = 0;
+  var modelData = {};
+  modelNames.forEach(function(m) {
+    if (!STATE.modelsLoaded[m]) return;
+    var nbrs = STATE.models[m].neighbours && STATE.models[m].neighbours[idx] ? STATE.models[m].neighbours[idx] : [];
+    modelData[m] = nbrs;
+    if (nbrs.length > maxLen) maxLen = nbrs.length;
+  });
+  for (var row = 0; row < maxLen; row++) {
+    var cells = [row + 1];
+    modelNames.forEach(function(m) {
+      var data = modelData[m];
+      if (data && data[row]) {
+        cells.push(data[row][0]);
+        cells.push((data[row][1] * 100).toFixed(1) + '%');
+      } else {
+        cells.push(''); cells.push('');
+      }
+    });
+    csv += cells.join(',') + '\n';
+  }
+  // Add flavor profile row
+  csv += '\nFlavour Profile\n';
+  var vec = STATE.models[STATE.currentModel].vectors[idx];
+  var dirs = ['sweet', 'spicy', 'savory_umami', 'citrus_sour', 'fermented', 'bitter', 'creamy_dairy', 'herbal'];
+  if (vec && STATE.data.directions) {
+    dirs.forEach(function(d) {
+      if (STATE.data.directions[d]) {
+        var sim = dotProduct(vec, STATE.data.directions[d]);
+        csv += d + ',' + (sim * 100).toFixed(0) + '%\n';
+      }
+    });
+  }
+  // Trigger download
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = name.replace(/_/g, '_') + '_neighbours.csv';
+  link.click();
+  URL.revokeObjectURL(link.href);
+  var btn = document.getElementById('chefCSVBtn');
+  if (btn) { btn.textContent = '✅ Downloaded'; setTimeout(function() { btn.textContent = '📥 Download Neighbours CSV'; }, 2000); }
+}
+
+// ── Copy Share Link — copies current deep-link URL to clipboard ──
+function copyShareLink() {
+  var url = window.location.href.split('#')[0] + '#' + buildDeepHash();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() {
+      var btn = document.querySelector('[onclick="copyShareLink()"]');
+      if (btn) { btn.textContent = '✅ Copied!'; setTimeout(function() { btn.textContent = '🔗 Copy Share Link'; }, 2000); }
+    }).catch(function() {});
+  } else {
+    // Fallback
+    var ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+}
+
+function buildDeepHash() {
+  var params = [];
+  if (STATE.currentTab) params.push('tab=' + STATE.currentTab);
+  if (STATE.currentModel) params.push('model=' + STATE.currentModel);
+  if (STATE.selectedIngredient) params.push('ingredient=' + STATE.selectedIngredient);
+  var overlay = document.getElementById('nutrientOverlay');
+  if (overlay && overlay.value) params.push('overlay=' + overlay.value);
+  return params.join('&');
 }
 
 // ── Onboarding Tour ──
@@ -5684,6 +6271,7 @@ async function init() {
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
+    updateOfflineBanner();
 
     setupSearch();
     setupTabs();
