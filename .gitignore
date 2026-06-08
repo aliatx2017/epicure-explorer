@@ -5,12 +5,6 @@
 __pycache__/
 *.pyc
 
-# Generated data bundle (can be regenerated from raw CSVs)
-data/epicure_shared.json
-data/epicure_cooc.json
-data/epicure_core.json
-data/epicure_chem.json
-
 # Keep the raw source CSVs and README
 !data/epicure_cooc.csv
 !data/epicure_core.csv
