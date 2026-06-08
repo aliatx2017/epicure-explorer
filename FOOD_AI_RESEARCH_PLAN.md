@@ -22,47 +22,59 @@ The food AI landscape has undergone a seismic shift between 2024–2026. We are 
 
 ---
 
-> **🧭 Implementation Status — July 2026 (Session 8: Full Design Audit)**
+
+> **🧭 Implementation Status — June 2026 (Session 9: 10-Feature Sprint)**
 > 
-> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~5,430 lines, ~280 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
+> All Month 1, 2 & 3 features are **fully shipped** in `index.html` (~5,755 lines, ~312 KB, zero-dependency single-file app). See the [90-Day Roadmap](#section-6-90-day-product-roadmap) below for checkboxes.
 > 
 > **Session 7 (June 2026):** Map zoom + pan + cuisine region labels + touch support (Phase 2 completed)
-> **Session 8 (July 2026):** Full UI/UX design audit — tab categorization, empty states, Chef overlay drawer, deep-link URLs, responsive breakpoints, ARIA/keyboard navigation, skeleton loading, contrast fix, favicon, smart tooltip, input labels, model-switch animation, all tested via Playwright
+> **Session 8 (July 2026):** Full UI/UX design audit — tab categories, empty states, Chef overlay drawer, deep-link URLs, responsive, ARIA+keyboard, skeleton loading
+> **Session 9 (June 2026):** 10-feature sprint: PWA manifest, dark mode, Spoonacular graceful degradation, map gesture hint, cross-model consensus, unified smart search, molecular fingerprint card, seasonal heatmap (Phase 3 shipped), Service Worker + offline, map viewport culling. 57/57 E2E tests pass. Repo pushed.
 > 
 > | Area | Status | Notes |
 > |------|--------|-------|
-> | GLP-1 Diet Mode | ✅ Live | `checkGLP1()`, GLP-1 filter toggle, dietary badges in Chef's Toolkit |
-> | Explainable Substitutions | ✅ Live | `explainSubstitute()`, 💡 panel showing molecular+sensory+cuisine overlap |
+> | GLP-1 Diet Mode | ✅ Live | checkGLP1(), GLP-1 filter toggle, dietary badges |
+> | Explainable Substitutions | ✅ Live | explainSubstitute() with molecular+sensory+cuisine overlap |
 > | Nutrition Heatmap | ✅ Live | Overlay on Map tab: calories/protein/fat/carbs/fiber |
 > | Seasonal Calendar | ✅ Live | 149-ingredient peak-season browser + map overlay |
-> | Cocktail Mixology | ✅ Live | Spirit + mixers → embedding centroid + presets |
-> | Flavour Arithmetic | ✅ Live | Visual chip UI with history (6 recent expressions) |
-> | Spoonacular API | ✅ Live | Recipe search, nutrition, wine pairing (requires user API key) |
+> | Cocktail Mixology | ✅ Live | Spirit + mixers embedding centroid + presets |
+> | Flavour Arithmetic | ✅ Live | Visual chip UI with history |
+> | Spoonacular API | ✅ Live | Recipe search, nutrition, wine pairing |
 > | Fusion Explorer | ✅ Live | Cross-culture bridge ingredients in Games tab |
-> | Dish Analyzer | ✅ Live | Comma-separated → dietary + flavour + category analysis |
-> | Ingredient Comparator | ✅ Live | Side-by-side comparison of two ingredients |
+> | Dish Analyzer | ✅ Live | Comma-separated dietary + flavour + category analysis |
+> | Ingredient Comparator | ✅ Live | Side-by-side ingredient comparison |
 > | Games (Guess/Compass) | ✅ Live | Quiz + Flavour Compass radar chart |
-> | Describe a Dish | ✅ Live | Natural-language → ingredient keyword matching → centroid |
-> | Image→Ingredient search (Snap) | ✅ Shipped | Food photo upload → Spoonacular classify → ingredient clickthrough |
-> | Ingredient2Vec API | ✅ Shipped | Nearest-neighbour query + flavour arithmetic in 🔬 tab |
-> | Personalized Food Agent | ✅ Shipped | Natural language → embedding match in 🤖 tab |
-> | What's Trending panel | ✅ Shipped | Seasonal + rarity + diet signals in 📈 tab |
-> | GLP-1 Meal Plan Generator | ✅ Shipped | 7-day plan from GLP-1-friendly clusters in 💊 tab |
-> | `getForceGraphLayout()` | ✅ Fixed | Fruchterman-Reingold spring-force layout using top-15 neighbour edges |
-| Export Summary (📋) | ✅ Live | Clipboard export of ingredient intelligence: substitutes, cuisine, flavour profile, GLP-1 |
-| Onboarding Tour (🎓) | ✅ Live | 5-step guided walkthrough overlay on first visit |
-| Map Zoom & Pan | ✅ Session 7 | Scroll-wheel zoom, drag pan, double-click reset |
-| Cuisine Region Labels | ✅ Session 7 | 8 cuisine centroids on map canvas |
-| Map Touch Support | ✅ Session 7 | Single-finger pan, two-finger pinch zoom |
-| Tab Categorization | ✅ Session 8 | 18 tabs grouped into Core/Play/Analyze/Advanced |
-| Empty States | ✅ Session 8 | Contextual placeholders for all panels |
-| Chef Overlay Drawer | ✅ Session 8 | Slide-out sidebar with backdrop close |
-| Deep-Link URL Hashes | ✅ Session 8 | Shareable #tab=map&model=chem&ingredient=miso |
-| Responsive Design | ✅ Session 8 | Breakpoints at 768px and 480px |
-| ARIA + Keyboard Nav | ✅ Session 8 | Tab roles + arrow key navigation |
-| Skeleton Loading | ✅ Session 8 | Shimmer-animated placeholder layout |
-| Contrast Fix | ✅ Session 8 | --text3 bumped for WCAG AA compliance |
-| Smart Tooltip | ✅ Session 8 | Edge-avoiding map tooltip |
+> | Describe a Dish | ✅ Live | Natural-language ingredient keyword matching |
+> | Snap (Image Search) | ✅ Shipped | Food photo upload Spoonacular classify |
+> | Ingredient2Vec API | ✅ Shipped | Nearest-neighbour query + flavour arithmetic |
+> | Food Agent | ✅ Shipped | Natural language embedding match |
+> | Trending Panel | ✅ Shipped | Seasonal + rarity + diet signals |
+> | GLP-1 Meal Plan | ✅ Shipped | 7-day plan from GLP-1-friendly clusters |
+> | Force-Graph Layout | ✅ Fixed | Fruchterman-Reingold spring-force layout |
+> | Export Summary | ✅ Live | Clipboard export of ingredient intelligence |
+> | Onboarding Tour | ✅ Live | 5-step guided walkthrough |
+> | Map Zoom & Pan | ✅ Session 7 | Scroll-wheel zoom, drag pan, double-click reset |
+> | Cuisine Region Labels | ✅ Session 7 | 8 cuisine centroids on map canvas |
+> | Map Touch Support | ✅ Session 7 | Single-finger pan, two-finger pinch zoom |
+> | Tab Categorization | ✅ Session 8 | 18 tabs grouped into Core/Play/Analyze/Advanced |
+> | Empty States | ✅ Session 8 | Contextual placeholders for all panels |
+> | Chef Overlay Drawer | ✅ Session 8 | Slide-out sidebar with backdrop close |
+> | Deep-Link URLs | ✅ Session 8 | Shareable #tab=map&model=chem&ingredient=miso |
+> | Responsive Design | ✅ Session 8 | Breakpoints at 768px and 480px |
+> | ARIA + Keyboard Nav | ✅ Session 8 | Tab roles + arrow key navigation |
+> | Skeleton Loading | ✅ Session 8 | Shimmer-animated placeholder layout |
+> | Contrast Fix | ✅ Session 8 | --text3 bumped for WCAG AA compliance |
+> | Smart Tooltip | ✅ Session 8 | Edge-avoiding map tooltip |
+> | PWA Manifest + Home Screen | ✅ Session 9 | Data URI manifest + apple-mobile-web-app tags |
+> | Dark Mode Toggle | ✅ Session 9 | CSS variable swap + localStorage persistence |
+> | Spoonacular Graceful Degradation | ✅ Session 9 | Feature panels hidden when no key |
+> | Map Gesture Hint | ✅ Session 9 | First-visit touch overlay, fades after 4s |
+> | Cross-Model Consensus | ✅ Session 9 | All 3 models compared in Chef substitutes |
+> | Unified Smart Search | ✅ Session 9 | Search + describe merged in one input |
+> | Molecular Fingerprint Card | ✅ Session 9 | Compound intensity bars in Chef Toolkit |
+> | Seasonal Heatmap (Phase 3) | ✅ Session 9 | Month-by-month ingredient availability grid |
+> | Service Worker + Offline | ✅ Session 9 | sw.js caches index.html + model data |
+> | Map Viewport Culling | ✅ Session 9 | Off-screen points skipped during render |
 
 ## Section 1: The Most Actionable Findings
 

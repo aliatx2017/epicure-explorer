@@ -33,6 +33,16 @@ This is not a recipe database. This is a **flavour relationship engine** — the
    - [💊 Meal Plan — GLP-1 Meal Plan Generator](#318--meal-plan)
 4. [Professional Workflows & Strategies](#4-professional-workflows--strategies)
 5. [Troubleshooting](#5-troubleshooting)
+   - [Force-Directed Map — Fixed](#51-force-directed-map--fixed)
+   - [Browser performance](#52-browser-performance)
+   - [PWA & Offline Support](#53-pwa--offline-support)
+   - [Dark Mode](#54-dark-mode)
+   - [Unified Smart Search Bar](#55-unified-smart-search-bar)
+   - [Cross-Model Consensus in Substitutions](#56-cross-model-consensus-in-substitutions)
+   - [Molecular Fingerprint Card](#57-molecular-fingerprint-card)
+   - [Seasonal Heatmap](#58-seasonal-heatmap)
+   - [Spoonacular Graceful Degradation](#59-spoonacular-graceful-degradation)
+   - [Map Gesture Hint (Mobile)](#510-map-gesture-hint-mobile)
 
 ---
 
@@ -964,7 +974,7 @@ The embedding space opens the door to features that are **architecturally possib
 
 > **Already shipped:** GLP-1 Diet Mode (💊 badge + 💚 filter toggle), Explainable Substitutions (💡 "Why This Substitute?" panel), Nutrition Heatmap Overlay (🔥 colour-coded UMAP), Flavour Arithmetic Explorer (🧮 visual chip UI with history), Cocktail Mixology (🍸 spirit + mixer → drink intelligence), Seasonal Calendar (🗓️ peak-season browser + map overlay), Spoonacular API (🌐 live recipe search, nutrition, wine pairing), Snap→Ingredient Search (📸 food photo → classify → explore), Ingredient2Vec API (🔬 nearest-neighbour + arithmetic), Food Agent (🤖 natural language → ingredient match), Trending panel (📈 seasonal + rarity + GLP-1 signals), and GLP-1 Meal Plan Generator (💊 7-day plan from embedding clusters) — see §3.4, §3.8, §3.10–§3.18 for details.
 >
-> **Bug fix:** Force-Directed graph projection now works — `getForceGraphLayout()` implements a Fruchterman-Reingold spring-force layout from top-15 neighbour edges. See §3.4 and §5.7.
+> **Bug fix:** Force-Directed graph projection now works — `getForceGraphLayout()` implements a Fruchterman-Reingold spring-force layout from top-15 neighbour edges. See §3.4 and §5.1.
 
 ---
 
@@ -1038,7 +1048,7 @@ Then visit `http://localhost:8080`.
 - Are there enough matching ingredients for the direction vector? Each direction needs ≥3 matching ingredients from the vocabulary to compute a centroid.
 - At small angles (0–10°) the change is subtle; drag to 45°+ to see clear differences.
 
-### 5.7 Force-Directed Map — Fixed
+### 5.1 Force-Directed Map — Fixed
 
 **Problem:** Previously, selecting "Force-Directed" from the Map projection dropdown threw `ReferenceError: getForceGraphLayout is not defined`. UMAP and PCA methods worked normally.
 
@@ -1046,11 +1056,73 @@ Then visit `http://localhost:8080`.
 
 **If Force-Directed still seems slow:** The sub-sampled repulsion trades some accuracy for speed. UMAP or PCA projection are faster alternatives when exploring.
 
-### 5.8 Browser performance
+### 5.2 Browser performance
 
 The 12 MB data bundle is loaded once. After that:
 - Neighbours, Compare, Modes are instant (precomputed lookups)
 - SLERP is fast (one dot product per ingredient — 1,790 operations)
 - PCA Map re-renders on resize (debounced to 200ms)
 
-If the map is sluggish on low-end devices, the point rendering (1,790 arc() calls) is the bottleneck. This is normal.
+If the map is sluggish on low-end devices, the point rendering (1,790 arc() calls) was historically the bottleneck. **Session 9** added viewport-frustum culling — only points visible within the canvas area (+10px margin) are rendered, making zoomed-in navigation smooth.
+
+### 5.9 PWA & Offline Support
+
+Epicure Explorer supports "Add to Home Screen" on mobile via an inline data URI manifest. After the first visit, the Service Worker (`sw.js`) caches:
+- `index.html` (the app shell) — cached on install
+- `epicure_shared.json` (128 KB, ingredient list + direction vectors) — cached on install
+- Per-model JSON bundles (~4 MB each) — cached on first fetch via stale-while-revalidate
+
+**Result:** Returning users can browse the app without network access. The shared data and last-used model are available offline.
+
+### 5.10 Dark Mode
+
+Click the 🌙/☀️ button in the header to toggle between dark and light themes. The preference is saved to `localStorage('epicure_theme')` and restored on subsequent visits. The `.light` CSS class swaps all 15 color variables (background, surface, text, accents, semantic colors).
+
+### 5.11 Unified Smart Search Bar
+
+The ingredient search and "Describe a Dish" inputs have been merged into a single smart search bar at the top of the page. The system auto-detects:
+
+- **Single-word query** → ingredient autocomplete (fuzzy match, same as before)
+- **Multi-word query with spaces** → describe-dish parsing (350ms debounce), matching ingredient names and fuzzy synonyms
+
+Examples:
+- `miso` → shows ingredient dropdown
+- `creamy garlic pasta with mushrooms` → parses into tags: garlic, mushroom, cream → click any tag to explore
+
+### 5.12 Cross-Model Consensus in Substitutions
+
+When viewing substitutes in the Chef's Toolkit, each substitution now shows a **cross-model consensus badge** — color-coded glyphs indicating agreement across all three embedding models:
+
+- ◆ (purple diamond) = Core blended model
+- ◇ (blue diamond) = Cooc recipe model  
+- ◈ (green diamond) = Chem chemistry model
+
+Each glyph is colored: green (≥0.6), yellow (≥0.4), or red (<0.4). Click 💡 to see the full per-model breakdown.
+
+### 5.13 Molecular Fingerprint Card
+
+The Chef's Toolkit Flavour Profile section now includes a **Molecular Fingerprint** card showing the top 5 active compound categories for the selected ingredient. Each compound is displayed as:
+
+- A **compound pill** with description on hover
+- An **intensity bar** (green > 60%, yellow > 35%, purple default) estimated from the ingredient's sensory direction scores
+
+Example: Miso shows `🧬 Amino Acid ████████ 80%` indicating strong umami/fermented compound presence.
+
+### 5.14 Seasonal Heatmap
+
+The Seasonal Calendar tab now includes a **month-by-month heatmap view**. Click the "📊 Heatmap" button to toggle between the traditional season view and a full grid showing:
+
+- **12 columns** (January–December)
+- **~150 ingredients** grouped by category (Produce, Meat & Seafood, Spices & Herbs, Dairy, Grains)
+- **Color intensity** = peak availability in that month
+- **Clickable ingredient names** — click any name to select it in the embedding space
+
+The current month is highlighted in the table header.
+
+### 5.15 Spoonacular Graceful Degradation
+
+When no Spoonacular API key is saved, the Spoonacular tab now shows a friendly **onboarding banner** instead of empty features. The banner lists what functionality is available (recipe search, nutrition, wine pairing, image recognition) and links to spoonacular.com to get a free key. Once a key is saved, the banner hides and the feature panels appear.
+
+### 5.16 Map Gesture Hint (Mobile)
+
+On touch devices, the first visit to the Map tab shows a subtle overlay: "Drag to pan · Pinch to zoom · Double-tap to reset". It fades out after 4 seconds and never appears again (tracked via `localStorage`).

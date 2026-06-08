@@ -81,6 +81,16 @@ Navigate tabs via the category bar: 🧠 **Core** | 🎮 **Play** | 🔬 **Analy
 |---------|-------------|
 | **👨‍🍳 Chef's Toolkit Pro** | Dietary profile, substitutes with "Why This Substitute?" explanations, cuisine affinity, molecular notes, GLP-1 filter, cost/waste/seasonal hints |
 | **🔍 Map Search** | Find any ingredient on the 2D map — auto-centers, zooms, and pulses |
+| **🧬 Molecular Fingerprint** | Compound intensity bars showing active flavour compound categories |
+| **🔬 Cross-Model Consensus** | Substitute scores compared across all 3 embedding models |
+| **🌙 Dark Mode** | Toggle between dark and light themes, persisted across sessions |
+
+### Infrastructure
+| Feature | What It Does |
+|---------|-------------|
+| **📱 PWA Manifest** | "Add to Home Screen" on mobile with inline data URI manifest |
+| **📴 Service Worker** | Offline caching of app shell and model data JSONs |
+| **⚡ Viewport Culling** | Only renders visible map points during pan/zoom |
 
 ### UI/UX Highlights
 - **Tab categorization** — 18 tabs grouped into 4 categories with filtering bar
@@ -136,13 +146,14 @@ The embeddings come from the [Epicure paper](https://arxiv.org/abs/2605.22391) (
 
 ## Development
 
-This project was built across 8 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
+This project was built across 9 development sessions (June–July 2026). See [`SESSION_JOURNAL.md`](SESSION_JOURNAL.md) for the full log.
 
 ### Quick Stats
-- **5,430 lines** of HTML/CSS/JS in a single file
-- **~112 JavaScript functions** across 18 tabs and Chef's Toolkit
-- **~4,100 lines** of JavaScript application logic
-- **24 files** tracked in version control
+- **5,755 lines** of HTML/CSS/JS in a single file
+- **~117 JavaScript functions** across 18 tabs and Chef's Toolkit
+- **~4,400 lines** of JavaScript application logic
+- **28 files** tracked in version control
+- **57 automated E2E tests** — all passing
 
 ---
 

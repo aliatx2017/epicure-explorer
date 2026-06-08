@@ -1,16 +1,5 @@
-# Virtual environment
 .venv/
-
-# Python cache
 __pycache__/
 *.pyc
-
-# Keep the raw source CSVs and README
-!data/epicure_cooc.csv
-!data/epicure_core.csv
-!data/epicure_chem.csv
-!data/vocab.csv
-!data/mode_atlas_*.csv
-!data/direction_arithmetic_full.csv
-!data/factor_top_alignments_ica_*.csv
-!data/README.txt
+.DS_Store
+node_modules/

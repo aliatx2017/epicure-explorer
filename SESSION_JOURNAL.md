@@ -8,6 +8,7 @@
 **Session 6:** June 2026 — Chef workflow features: Export Summary, onboarding tour, GitHub publish, README, full chef review
 **Session 7:** June 2026 — Map zoom, pan, cuisine region labels, touch support (Phase 2 completed)
 **Session 8:** July 2026 — Full design audit: tab categories, empty states, Chef overlay drawer, deep-link URLs, responsive, ARIA+keyboard, skeleton loading + licensing cleanup
+**Session 9:** June 2026 — 10-feature sprint: PWA manifest, dark mode, Spoonacular graceful degradation, map gesture hint, cross-model consensus, unified search, molecular fingerprint card, seasonal heatmap (Phase 3), Service Worker + offline, map viewport culling. 57/57 E2E tests pass. Repo pushed to GitHub.
 
 ---
 
@@ -334,26 +335,102 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | Responsive | ❌ None | ✅ 768px + 480px |
 | ARIA / Keyboard | ❌ None | ✅ Roles + arrow nav |
 | Skeleton loading | ❌ Spinner | ✅ Shimmer layout |
+| PWA manifest | ❌ | ✅ Inline data URI manifest |
+| Dark mode toggle | ❌ | ✅ CSS variable swap + localStorage |
+| Spoonacular graceful degradation | ❌ | ✅ Feature panels hidden when no key |
+| Map gesture hint | ❌ | ✅ First-visit touch overlay |
+| Cross-model consensus | ❌ | ✅ All 3 models compared in Chef substitutes |
+| Unified smart search | ❌ | ✅ Single input auto-detects ingredient vs describe |
+| Molecular fingerprint card | ❌ | ✅ Compound intensity bars in Chef Toolkit |
+| Seasonal heatmap | ❌ | ✅ Month-by-month grid (Phase 3 shipped) |
+| Service Worker + offline | ❌ | ✅ sw.js caches index.html + model data |
+| Map viewport culling | ❌ | ✅ Off-screen points skipped during render |
+
+---
+
+## Session 9 — Deep Analysis & 10-Feature Implementation Sprint
+
+**Focus:** Responding to a comprehensive strategic review with 10 concrete improvements spanning PWA, UX, accessibility, performance, and new features.
+
+### What Was Done
+
+#### Tier 1 — Quick Wins (4 items, ~1 hr)
+
+| # | Feature | Detail |
+|---|---------|--------|
+| 1 | **📱 PWA Manifest + Home Screen Icon** | Inline `data:application/json` manifest + `theme-color` + `apple-mobile-web-app-capable` meta tags. "Add to Home Screen" works on mobile. |
+| 2 | **🌙 Dark Mode Toggle** | `.light` CSS class swapping all 15 color variables. `toggleTheme()` with `localStorage('epicure_theme')` persistence. Button in header. |
+| 3 | **🔑 Spoonacular Graceful Degradation** | `renderSpoonacular()` hides feature panels when no API key, shows friendly onboarding banner with feature list and link to spoonacular.com. |
+| 4 | **✋ Map Gesture Hint** | First-visit overlay on touch devices: "Drag to pan · Pinch to zoom · Double-tap to reset". Fades after 4s, fires once per user via `localStorage('epicure_map_hint_done')`. |
+
+#### Tier 2 — Medium Impact (4 items, ~5 hrs)
+
+| # | Feature | Detail |
+|---|---------|--------|
+| 5 | **🔬 Cross-Model Consensus** | New `crossModelConsensus()` computes similarity across all 3 loaded models. Substitutions show color-coded agreement glyphs (◆ ◈ ◇ in green/yellow/red). 💡 panel shows full per-model breakdown. |
+| 6 | **🔍 Unified Smart Search Bar** | Merged search + describe-a-dish into one input. Auto-detects: single-word → ingredient autocomplete; multi-word with spaces → describe-dish parsing (350ms debounce). Hidden `#describeInput` preserved for backward compat. |
+| 7 | **🧬 Molecular Fingerprint Card** | Enhanced Chef's Toolkit flavour profile section. Shows top 5 active compound categories as horizontal intensity bars (color-coded green > 60%, yellow > 35%, purple default). Pills show descriptions on hover. |
+| 8 | **🗓️ Seasonal Heatmap (Phase 3 shipped)** | Month-by-month heatmap grid: 12 columns (Jan–Dec) × ~150 ingredients grouped by category (Produce, Protein, Spices, Dairy, Grains). Color intensity = peak availability. Toggle between season view and heatmap view. |
+
+#### Tier 3 — Infrastructure (2 items, ~2 hrs)
+
+| # | Feature | Detail |
+|---|---------|--------|
+| 9 | **📴 Service Worker + Offline Caching** | `sw.js` (60 lines, 1.7 KB) caches `index.html` + `epicure_shared.json` on install, lazy-caches model JSONs on first fetch via stale-while-revalidate. Registers silently in `init()`. |
+| 10 | **⚡ Map Viewport-Frustum Culling** | Point rendering loop skips points outside `[-10, W+10]` × `[-10, H+10]` — when zoomed in, only visible points are drawn instead of all 1,790. |
+
+#### Gap Audit Fix
+| Issue | Fix |
+|-------|-----|
+| `.consensus-badge` CSS class referenced but undefined | Added full styling rules |
+| `#mapSearch` missing `aria-label` | Added `aria-label="Find ingredient on map"` |
+| `#snapFileInput` missing `aria-label` | Added `aria-label="Upload food photo"` |
+| Deep-link hash overwritten by `setupSearch()` → `selectIngredient('miso')` before hash was read | Captured initial hash into `deepLinkIngredient` before any setup runs |
+
+#### Testing
+- **57/57 Playwright end-to-end tests pass** across all 18 tabs, new features, responsive layouts, accessibility, deep-links, service worker, onboarding tour, gesture hints, and Chef's Toolkit
+- All tests run headless against a static HTTP server with no dependencies beyond Playwright
+- 0 console errors on load
+
+### Key Metrics Update
+
+| Metric | Session 8 | Session 9 |
+|--------|-----------|-----------|
+| index.html lines | **5,430** | **5,755** |
+| JS functions | ~112 | ~117 |
+| Tabs | 18 (4 categories) | 18 (4 categories) |
+| Console errors on load | **0** | **0** |
+| Known bugs remaining | **0** | **0** |
+| E2E tests passing | — | **57/57 ✅** |
+| Files tracked | 24 | **28** (+sw.js, tests/e2e.mjs, package.json, package-lock.json) |
+| Service Worker | ❌ | ✅ sw.js (1.7 KB) |
+| PWA manifest | ❌ | ✅ Inline data URI |
 
 ### Open Items & Future Plans
 
 #### Remaining Scoped Phases (from Session 6)
-| Phase | Feature | Effort | Priority |
-|-------|---------|--------|----------|
-| 3 | Seasonal month heatmap (month-by-month ingredient heatmap) | Medium | Medium |
-| 4 | Games interactivity upgrade (more game modes, leaderboard) | Medium | Low |
-| 5 | Build-A-Dish mode (compose ingredient combinations with flavour preview) | High | Medium |
-| 6 | Semantic Describe a Dish (upgrade natural-language parsing with semantic understanding) | Medium | Low |
+| Phase | Feature | Effort | Priority | Status |
+|-------|---------|--------|----------|--------|
+| 3 | Seasonal month heatmap | Medium | Medium | ✅ **Shipped Session 9** |
+| 4 | Games interactivity upgrade (more game modes, leaderboard) | Medium | Low | ❌ Not started |
+| 5 | Build-A-Dish mode (compose ingredient combinations with flavour preview) | High | Medium | ❌ Not started |
+| 6 | Semantic Describe a Dish (upgrade natural-language parsing with semantic understanding) | Medium | Low | ❌ Not started |
 
 #### Newly Identified Opportunities
-| Item | Effort | Notes |
-|------|--------|-------|
-| **PWA manifest** | Very low | `manifest.json` for "Add to Home Screen" on mobile |
-| **Seasonal heatmap** | Medium | Month-by-month ingredient availability heatmap (Phase 3) |
-| **i18n / multi-language** | High | Ingredient names and UI in multiple languages |
-| **Performance optimization** | Medium | Virtualize neighbour lists for large screens, lazy point rendering on map |
-| **Export/Share workflows** | Medium | Export ingredient pairing as image, share deep-link via QR |
-| **Service worker caching** | Medium | Cache JSON bundles for offline use after first load |
+| Item | Effort | Notes | Status |
+|------|--------|-------|--------|
+| **PWA manifest** | Very low | Manifest for "Add to Home Screen" on mobile | ✅ **Shipped Session 9** |
+| **Seasonal heatmap** | Medium | Month-by-month ingredient availability heatmap | ✅ **Shipped Session 9** |
+| **Dark mode toggle** | Very low | CSS variable swap | ✅ **Shipped Session 9** |
+| **Service worker caching** | Medium | Cache JSON bundles for offline use | ✅ **Shipped Session 9** |
+| **Map viewport culling** | Low | Skip off-screen points during pan/zoom | ✅ **Shipped Session 9** |
+| **Cross-model consensus** | Medium | Compare substitute scores across all 3 models | ✅ **Shipped Session 9** |
+| **Unified search bar** | Low | Merge search + describe into one input | ✅ **Shipped Session 9** |
+| **Molecular compound cards** | Medium | Visual compound intensity bars in Chef's Toolkit | ✅ **Shipped Session 9** |
+| **Spoonacular graceful degradation** | Low | Hide features when no API key | ✅ **Shipped Session 9** |
+| **i18n / multi-language** | High | Ingredient names and UI in multiple languages | ❌ Not started |
+| **Performance optimization** | Medium | Larger-scale virtualized rendering | ❌ Not started |
+| **Export/Share workflows** | Medium | Export pairing as image, share via QR | ❌ Not started |
 
 #### Known Non-Issues
 - **Force-graph layout** — fully fixed since Session 4

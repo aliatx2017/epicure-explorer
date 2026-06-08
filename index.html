@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+<meta name="theme-color" content="#0f0f13">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Epicure Explorer&quot;,&quot;short_name&quot;:&quot;Epicure&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0f13&quot;,&quot;theme_color&quot;:&quot;#0f0f13&quot;,&quot;description&quot;:&quot;Discover flavour relationships between 1,790 ingredients using AI embeddings.&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍽️%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;any&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
 <title>Epicure Explorer — Discover Flavour Relationships</title>
 <style>
 /* ── Reset & Variables ── */
@@ -28,6 +32,24 @@
   --radius: 12px;
   --radius-sm: 8px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.light {
+  --bg: #f5f5fa;
+  --surface: #ffffff;
+  --surface2: #eeedf5;
+  --border: #d4d4e0;
+  --text: #1a1a2e;
+  --text2: #666680;
+  --text3: #8a8aa0;
+  --accent: #7c3aed;
+  --accent2: #6d28d9;
+  --green: #16a34a;
+  --yellow: #ca8a04;
+  --orange: #ea580c;
+  --red: #dc2626;
+  --blue: #2563eb;
+  --pink: #db2777;
+  --teal: #0d9488;
 }
 html { font-size: 15px; }
 body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 20px; min-height: 100vh; }
@@ -64,6 +86,14 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .search-dropdown .item:hover { background: var(--surface2); }
 .search-dropdown .item .highlight { color: var(--accent); font-weight: 500; }
 
+/* ── Smart Search (Unified) ── */
+.smart-search { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.smart-search-wrap { position: relative; flex: 1; min-width: 260px; }
+.smart-search-wrap input { width: 100%; padding: 10px 14px 10px 36px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 0.9rem; font-family: var(--font); outline: none; transition: border .2s; }
+.smart-search-wrap input:focus { border-color: var(--accent2); }
+.smart-search-wrap input::placeholder { color: var(--text2); font-size: 0.82rem; }
+.smart-search-wrap::before { content:'🔍'; position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:0.85rem; opacity:0.6; pointer-events:none; }
+
 /* ── Panels ── */
 .main-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
 
@@ -86,6 +116,8 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
   .model-tab { flex: 1; text-align: center; padding: 7px 8px; font-size: 0.75rem; }
   .search-row { flex-direction: column; align-items: stretch; }
   .search-box { min-width: 0; }
+  .smart-search { flex-direction: column; align-items: stretch; }
+  .smart-search-wrap { min-width: 0; }
   .tab-cat { font-size: 0.72rem; padding: 5px 10px; }
   .tab { font-size: 0.72rem; padding: 5px 10px; }
   .panel { padding: 12px; }
@@ -234,6 +266,15 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 }
 .chef-toggle:hover { background: var(--surface2); border-color: var(--accent2); }
 .chef-toggle.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+.theme-toggle { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:var(--radius-sm); border:1px solid var(--border); background:transparent; color:var(--text2); font-size:1.1rem; cursor:pointer; transition:all .15s; }
+.theme-toggle:hover { background:var(--surface2); border-color:var(--accent2); color:var(--text); }
+
+/* ── Map Gesture Hint ── */
+.gesture-hint { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; max-width:280px; text-align:center; z-index:20; box-shadow:0 8px 32px rgba(0,0,0,.5); pointer-events:none; animation:gestureFadeIn .3s ease,gestureFadeOut .4s ease 3.6s forwards; }
+.gesture-hint .gesture-icon { font-size:2rem; margin-bottom:8px; }
+.gesture-hint p { font-size:0.82rem; color:var(--text2); line-height:1.5; }
+@keyframes gestureFadeIn { from { opacity:0; transform:translate(-50%,-50%) scale(.9); } to { opacity:1; transform:translate(-50%,-50%) scale(1); } }
+@keyframes gestureFadeOut { from { opacity:1; } to { opacity:0; } }
 
 .chef-sidebar {
   display: none;
@@ -328,10 +369,12 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .chef-sub-item .sim { color: var(--accent2); margin-left: 3px; }
 .chef-sub-why { cursor: pointer; font-size: 0.65rem; opacity: 0.5; transition: opacity .15s; vertical-align: middle; margin-left: 2px; display: inline-block; }
 .chef-sub-why:hover { opacity: 1; }
+.consensus-badge { display:inline-flex; align-items:center; gap:1px; margin-left:4px; padding:1px 4px; border-radius:4px; background:var(--bg); vertical-align:middle; }
 .chef-sub-explain { font-size: 0.68rem; color: var(--text2); padding: 4px 8px; margin: 2px 0 6px 0; background: var(--bg); border-radius: 4px; line-height: 1.5; }
 .chef-molecular-notes { margin-top: 8px; }
-.chef-molecular-notes h4 { font-size: 0.72rem; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.chef-molecular-note { padding: 2px 8px; border-radius: 99px; font-size: 0.68rem; background: #c084fc22; border: 1px solid #c084fc44; color: var(--accent); display: inline-block; margin: 2px 4px 2px 0; }
+.chef-molecular-notes h4 { font-size: 0.72rem; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.chef-molecular-note { padding: 2px 8px; border-radius: 99px; font-size: 0.68rem; background: #c084fc22; border: 1px solid #c084fc44; color: var(--accent); display: inline-block; margin: 2px 4px 2px 0; cursor: default; transition: all .15s; }
+.chef-molecular-note:hover { background: #c084fc44; }
 .chef-cost-hint { padding: 6px 10px; border-radius: var(--radius-sm); background: #fbbf2411; border: 1px solid #fbbf2433; font-size: 0.7rem; color: var(--yellow); margin-top: 6px; }
 
 /* ── Flavour Arithmetic Explorer — Chip UI ── */
@@ -382,6 +425,18 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
 .seasonal-ing-item { padding: 2px 8px; border-radius: 99px; font-size: 0.68rem; background: var(--surface); border: 1px solid var(--border); color: var(--text2); cursor: pointer; transition: all .15s; }
 .seasonal-ing-item:hover { border-color: var(--accent2); color: var(--accent); background: var(--surface2); }
 .seasonal-summary { font-size: 0.72rem; color: var(--text2); margin-bottom: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── Seasonal Heatmap ── */
+.seasonal-heatmap-wrap { overflow-x:auto; max-height:480px; overflow-y:auto; border-radius:var(--radius-sm); border:1px solid var(--border); background:var(--surface); }
+.seasonal-heatmap { border-collapse:collapse; font-size:0.62rem; width:100%; }
+.seasonal-heatmap th { position:sticky; top:0; background:var(--surface2); color:var(--text2); font-weight:500; padding:4px 2px; text-align:center; border-bottom:1px solid var(--border); z-index:1; }
+.seasonal-heatmap th:first-child { position:sticky; left:0; background:var(--surface2); z-index:2; text-align:left; padding:4px 8px; min-width:100px; }
+.seasonal-heatmap td { padding:0; text-align:center; width:24px; height:20px; }
+.seasonal-heatmap .hm-cell { display:block; width:100%; height:100%; border-radius:2px; transition:opacity .15s; }
+.seasonal-heatmap .hm-cell:hover { opacity:0.7; }
+.seasonal-heatmap .hm-label { color:var(--text2); padding:0 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px; cursor:pointer; }
+.seasonal-heatmap .hm-label:hover { color:var(--accent); }
+.seasonal-heatmap tr:hover td { background:var(--surface2); }
 .seasonal-summary span { padding: 2px 8px; border-radius: 99px; background: var(--surface2); }
 
 /* ── Spoonacular API ── */
@@ -623,26 +678,24 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           <button class="model-tab" data-model="chem">Chem <span class="badge">chemistry</span></button>
         </div>
         <button class="chef-toggle" id="chefToggle" onclick="toggleChefToolkit()">👨‍🍳 Chef's Toolkit</button>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
       </div>
     </header>
 
-    <!-- Search -->
-    <div class="search-row">
-      <label class="input-group-label">🔍 Find an ingredient</label>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search ingredients… (e.g. miso, chocolate, olive_oil)" autocomplete="off" aria-label="Search ingredients">
+    <!-- Smart Search — Unified ingredient + describe-a-dish -->
+    <div class="smart-search">
+      <label class="input-group-label">🔍 Search or describe</label>
+      <div class="smart-search-wrap">
+        <input type="text" id="searchInput" placeholder="Search ingredients or describe a dish… e.g. miso, or &quot;creamy garlic pasta with mushrooms&quot;" autocomplete="off" aria-label="Search ingredients or describe a dish">
         <div class="search-dropdown" id="searchDropdown"></div>
       </div>
-      <span id="selectedIngredient" style="font-size:0.85rem;color:var(--text2);padding:4px 0;">Select an ingredient</span>
+      <span id="selectedIngredient" style="font-size:0.85rem;color:var(--text2);padding:4px 0;white-space:nowrap;">Select an ingredient</span>
     </div>
-
-    <!-- Describe a Dish -->
-    <div class="describe-row">
-      <label class="input-group-label">✏️ Describe any dish</label>
-      <input type="text" id="describeInput" placeholder="e.g. \"creamy garlic pasta with mushrooms\"" autocomplete="off" aria-label="Describe a dish">
-      <span id="describeStatus" style="font-size:0.75rem;color:var(--text2);"></span>
-    </div>
-    <div class="describe-results" id="describeResults"></div>
+    <div id="describeResults" style="margin-top:-8px;"></div>
+    <!-- hidden legacy inputs for backward compat -->
+    <input type="hidden" id="describeInput" aria-label="Describe a dish (legacy)">
+    <span id="describeStatus" style="display:none;"></span>
+    <div class="describe-row" style="display:none;"></div>
 
     <!-- Result Tabs -->
     <div class="tab-categories" id="tabCategories" role="tablist" aria-label="Tab categories">
@@ -776,7 +829,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           </div>
           <p style="font-size:0.85rem;color:var(--text2);margin-bottom:8px;">2D projection of the 300-D embedding space. Switch methods to see different geometric perspectives. Hover over points to identify ingredients. Select a nutrient or season overlay to colour-code the map.</p>
           <div class="map-search-row">
-            <input type="text" id="mapSearch" placeholder="🔍 Find ingredient on map…" class="map-search-input">
+            <input type="text" id="mapSearch" placeholder="🔍 Find ingredient on map…" class="map-search-input" aria-label="Find ingredient on map">
             <button id="mapSearchBtn" class="map-search-btn">Find</button>
             <span id="mapSearchMsg" class="map-search-msg"></span>
           </div>
@@ -1062,7 +1115,9 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
             <span id="seasonCurrent" style="font-size:0.75rem;color:var(--text2);padding:6px 0;"></span>
             <button class="game-new-btn" onclick="goToCurrentSeason()" style="font-size:0.7rem;">📅 Current</button>
             <button class="game-new-btn" onclick="goToNextSeason()" style="font-size:0.7rem;">➡️ Next</button>
+            <button class="game-new-btn" id="seasonHeatmapToggle" onclick="toggleSeasonHeatmap()" style="font-size:0.7rem;">📊 Heatmap</button>
           </div>
+          <div id="seasonalHeatmapWrap" style="display:none;margin-bottom:8px;"></div>
           <div id="seasonalResults" style="min-height:100px;"><div class="empty-state" style="font-size:0.8rem;padding:8px;">Loading seasonal data…</div></div>
         </div>
       </div>
@@ -1139,7 +1194,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           <div class="snap-upload-zone" id="snapUploadZone" style="display:block">
             <div class="snap-upload-icon">📷</div>
             <p style="margin:6px 0;">Click to choose a photo or drag one here</p>
-            <input type="file" id="snapFileInput" accept="image/*" style="display:none">
+            <input type="file" id="snapFileInput" accept="image/*" style="display:none" aria-label="Upload food photo">
             <button class="game-new-btn" onclick="document.getElementById('snapFileInput').click()">📁 Choose Photo</button>
             <p style="font-size:0.72rem;color:var(--text2);margin-top:6px;">Uses Spoonacular AI image recognition (requires API key)</p>
           </div>
@@ -1410,15 +1465,38 @@ function setupSearch() {
     const q = input.value.toLowerCase().trim();
     if (q.length > 0) showDropdown(q);
     else dropdown.classList.remove('show');
+
+    // Auto-detect describe mode: multi-word text not matching a single ingredient
+    clearTimeout(input._describeTimer);
+    if (q.includes(' ') && q.length > 5) {
+      input._describeTimer = setTimeout(function() {
+        // Feed into hidden describeInput for backward compat, then trigger describeDish
+        const di = document.getElementById('describeInput');
+        if (di) di.value = q;
+        describeDish();
+      }, 350);
+    } else if (!q.includes(' ') || q.length <= 5) {
+      // Clear describe results when typing a single-word query
+      var dr = document.getElementById('describeResults');
+      if (dr) dr.innerHTML = '';
+      var ds = document.getElementById('describeStatus');
+      if (ds) ds.textContent = '';
+    }
   });
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-box')) dropdown.classList.remove('show');
+    if (!e.target.closest('.smart-search-wrap') && !e.target.closest('#describeResults')) dropdown.classList.remove('show');
   });
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const items = dropdown.querySelectorAll('.item');
+      const di = document.getElementById('describeInput');
+      // If multi-word with no ingredient matches, run describeDish
+      if (items.length === 0 && di && di.value.trim().includes(' ')) {
+        describeDish();
+        return;
+      }
       if (items.length > 0) items[0].click();
     }
     if (e.key === 'Escape') dropdown.classList.remove('show');
@@ -1689,6 +1767,33 @@ function explainSubstitute(subName, subSim) {
   return parts.join('. ') + '.';
 }
 
+/**
+ * Compute similarity for a substitute across ALL loaded models for cross-model consensus.
+ * Returns array of {model, sim} with color-coded agreement level.
+ */
+function crossModelConsensus(subName) {
+  const names = STATE.data.ingredients;
+  const idx = STATE.selectedIdx;
+  const subIdx = names.indexOf(subName);
+  if (idx < 0 || subIdx < 0) return [];
+  const models = ['cooc', 'core', 'chem'];
+  const modelLabels = { cooc: '📖 Cooc', core: '💎 Core', chem: '🧪 Chem' };
+  return models.filter(m => STATE.modelsLoaded[m] && STATE.models[m])
+    .map(m => {
+      const vec = STATE.models[m].vectors[idx];
+      const subVec = STATE.models[m].vectors[subIdx];
+      if (!vec || !subVec) return null;
+      let dot = 0, nA = 0, nB = 0;
+      for (let i = 0; i < vec.length; i++) { dot += vec[i] * subVec[i]; nA += vec[i] * vec[i]; nB += subVec[i] * subVec[i]; }
+      const sim = dot / (Math.sqrt(nA) * Math.sqrt(nB) || 1);
+      const clamped = Math.max(0, Math.min(1, sim));
+      let color = 'var(--red)';
+      if (clamped >= 0.6) color = 'var(--green)';
+      else if (clamped >= 0.4) color = 'var(--yellow)';
+      return { model: m, label: modelLabels[m], sim: clamped, color: color };
+    }).filter(Boolean);
+}
+
 function checkDietaryTag(name, tag) {
   const rules = DIETARY_RULES[tag];
   if (!rules) return 'maybe';
@@ -1723,6 +1828,28 @@ function toggleChefToolkit() {
     renderChefToolkit();
   }
 }
+
+function toggleTheme() {
+  document.documentElement.classList.toggle('light');
+  const btn = document.getElementById('themeToggle');
+  const isLight = document.documentElement.classList.contains('light');
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Switch to dark mode' : 'Switch to light mode';
+  try { localStorage.setItem('epicure_theme', isLight ? 'light' : 'dark'); } catch(e) {}
+}
+
+// On load, restore saved theme
+(function() {
+  try {
+    if (localStorage.getItem('epicure_theme') === 'light') {
+      document.documentElement.classList.add('light');
+      setTimeout(function() {
+        var btn = document.getElementById('themeToggle');
+        if (btn) { btn.textContent = '☀️'; btn.title = 'Switch to dark mode'; }
+      }, 0);
+    }
+  } catch(e) {}
+})();
 
 function closeChefToolkit() {
   document.getElementById('chefSidebar').classList.remove('visible');
@@ -1848,11 +1975,20 @@ function renderChefToolkit() {
     const subsHtml = subs.map(([sName, sim]) => {
       const glp = checkGLP1(sName);
       const glpIcon = glp.tag === 'yes' ? '💚' : glp.tag === 'no' ? '⚠️' : '';
+      const consensus = crossModelConsensus(sName);
+      const consensusBadge = consensus.length > 1
+        ? '<span class="consensus-badge" title="Cross-model agreement">' + consensus.map(c => `<span style="color:${c.color};font-size:0.62rem;font-weight:600;margin:0 1px;">${c.model === 'core' ? '◆' : c.model === 'chem' ? '◈' : '◇'}</span>`).join('') + '</span>'
+        : '';
+      const consensusHtml = consensus.length > 1
+        ? '<div style="margin-top:4px;font-size:0.65rem;line-height:1.4;">🔬 <strong>Cross-model consensus:</strong><br>' +
+          consensus.map(c => `&nbsp;&nbsp;${c.label}: <span style="color:${c.color};font-weight:600;">${(c.sim*100).toFixed(0)}%</span>`).join('<br>') +
+          '</div>'
+        : '';
       const explanation = explainSubstitute(sName, sim);
       return `<div class="chef-sub-row">
-        <span class="chef-sub-item" data-name="${sName}">${glpIcon} ${sName.replace(/_/g, ' ')} <span class="sim">${(sim*100).toFixed(0)}%</span></span>
+        <span class="chef-sub-item" data-name="${sName}">${glpIcon} ${sName.replace(/_/g, ' ')} <span class="sim">${(sim*100).toFixed(0)}%</span>${consensusBadge}</span>
         <span class="chef-sub-why" data-sub="${sName}" onclick="toggleSubExplain('${sName}')" title="Why this substitute?">💡</span>
-        <div class="chef-sub-explain" id="explain-${sName}" style="display:none;font-size:0.68rem;color:var(--text2);padding:4px 8px;margin:2px 0 6px 0;background:var(--bg);border-radius:4px;line-height:1.5;">${explanation}</div>
+        <div class="chef-sub-explain" id="explain-${sName}" style="display:none;font-size:0.68rem;color:var(--text2);padding:4px 8px;margin:2px 0 6px 0;background:var(--bg);border-radius:4px;line-height:1.5;">${explanation}${consensusHtml}</div>
       </div>`;
     }).join('');
     document.getElementById('chefSubstitutes').innerHTML = subModeHtml + `<div style="font-size:0.65rem;color:var(--text2);margin-bottom:4px;">${modeLabel}</div>` + subsHtml;
@@ -1901,13 +2037,46 @@ function renderChefToolkit() {
 
     const notes = getMolecularNotes(vec);
     const notesHtml = notes.length > 0
-      ? `<div class="chef-molecular-notes"><h4>🧬 Molecular Notes</h4>${notes.map(n => {
+      ? `<div class="chef-molecular-notes"><h4>🧬 Molecular Fingerprint</h4><div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;">${notes.map(n => {
           const full = MOLECULAR_NOTES.find(m => m.name === n);
           return `<span class="chef-molecular-note" title="${full ? full.desc : ''}">${n}</span>`;
         }).join('')}</div>`
       : '';
 
-    document.getElementById('chefFlavourTags').innerHTML = flavourTags + notesHtml;
+    // Compound intensity bars — show top sensory-driven compound strengths
+    const compoundBars = notes.length > 0
+      ? '<div style="margin-top:2px;">' + notes.slice(0, 5).map(n => {
+          const full = MOLECULAR_NOTES.find(m => m.name === n);
+          if (!full) return '';
+          // Estimate intensity from the sensory direction scores
+          let intensity = 0;
+          const condStr = full.check.toString();
+          const dirMatch = condStr.match(/\.(\w+)\s*>\s*([\d.]+)/g);
+          if (dirMatch) {
+            let total = 0, count = 0;
+            dirMatch.forEach(m => {
+              const parts = m.match(/\.(\w+)\s*>\s*([\d.]+)/);
+              if (parts) {
+                const dirVal = sims[parts[1]] || 0;
+                total += Math.min(1, dirVal / parseFloat(parts[2]));
+                count++;
+              }
+            });
+            intensity = count > 0 ? Math.min(1, total / count) : 0.3;
+          }
+          const pct = Math.round(intensity * 100);
+          const barColor = pct > 60 ? 'var(--green)' : pct > 35 ? 'var(--yellow)' : 'var(--accent2)';
+          return `<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;font-size:0.65rem;">
+            <span style="width:70px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${full.desc}">${n}</span>
+            <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+              <div style="height:100%;width:${pct}%;background:${barColor};border-radius:3px;transition:width .3s;"></div>
+            </div>
+            <span style="width:24px;text-align:right;color:var(--text2);">${pct}%</span>
+          </div>`;
+        }).join('') + '</div>'
+      : '';
+
+    document.getElementById('chefFlavourTags').innerHTML = flavourTags + (notesHtml ? notesHtml + compoundBars + '</div>' : '');
   }
 
   // 5. Cost & Waste Hint
@@ -2725,6 +2894,110 @@ function goToNextSeason() {
   renderSeasonal();
 }
 
+var HEATMAP_VISIBLE = false;
+
+function toggleSeasonHeatmap() {
+  HEATMAP_VISIBLE = !HEATMAP_VISIBLE;
+  var wrap = document.getElementById('seasonalHeatmapWrap');
+  var btn = document.getElementById('seasonHeatmapToggle');
+  if (HEATMAP_VISIBLE) {
+    renderSeasonalHeatmap();
+    wrap.style.display = '';
+    btn.textContent = '🗓️ By Season';
+    document.getElementById('seasonalResults').style.display = 'none';
+  } else {
+    wrap.style.display = 'none';
+    btn.textContent = '📊 Heatmap';
+    document.getElementById('seasonalResults').style.display = '';
+  }
+}
+
+function renderSeasonalHeatmap() {
+  var wrap = document.getElementById('seasonalHeatmapWrap');
+  var names = STATE.data ? STATE.data.ingredients : [];
+  var monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Collect ingredients with season data
+  var withSeason = [];
+  for (var i = 0; i < names.length; i++) {
+    var s = getSeasonForIngredient(names[i]);
+    if (s) withSeason.push({ name: names[i], season: s });
+  }
+
+  // Build month mask for each ingredient
+  function seasonToMonths(seasonStr) {
+    var months = [0,0,0,0,0,0,0,0,0,0,0,0];
+    if (seasonStr === 'yearround') return months.map(function() { return 1; });
+    var seasonMonths = { spring: [2,3,4], summer: [5,6,7], autumn: [8,9,10], winter: [11,0,1] };
+    for (var s in seasonMonths) {
+      if (seasonStr.indexOf(s) >= 0) {
+        seasonMonths[s].forEach(function(m) { months[m] = 1; });
+      }
+    }
+    return months;
+  }
+
+  // Group by category
+  var catGroups = {};
+  for (var j = 0; j < withSeason.length; j++) {
+    var ing = withSeason[j];
+    var found = false;
+    for (var ci = 0; ci < ANALYZER_CATEGORIES.length; ci++) {
+      if (ANALYZER_CATEGORIES[ci].keywords.some(function(kw) { return ing.name.indexOf(kw) >= 0 || kw.indexOf(ing.name) >= 0; })) {
+        if (!catGroups[ANALYZER_CATEGORIES[ci].id]) catGroups[ANALYZER_CATEGORIES[ci].id] = { label: ANALYZER_CATEGORIES[ci].label, items: [] };
+        catGroups[ANALYZER_CATEGORIES[ci].id].items.push(ing);
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      if (!catGroups['other']) catGroups['other'] = { label: '📦 Other', items: [] };
+      catGroups['other'].items.push(ing);
+    }
+  }
+
+  // Build HTML
+  var html = '<div class="seasonal-heatmap-wrap"><table class="seasonal-heatmap"><thead><tr><th>Ingredient</th>';
+  for (var m = 0; m < 12; m++) {
+    var isCurrent = m === new Date().getMonth();
+    html += '<th' + (isCurrent ? ' style="color:var(--accent);"' : '') + '>' + monthLabels[m] + '</th>';
+  }
+  html += '</tr></thead><tbody>';
+
+  var catOrder = ['produce','protein','spice','dairy','grain','other'];
+  for (var ci2 = 0; ci2 < catOrder.length; ci2++) {
+    var cat = catGroups[catOrder[ci2]];
+    if (!cat) continue;
+    var catColor = { produce:'#4ade80', protein:'#f87171', spice:'#fbbf24', dairy:'#60a5fa', grain:'#c084fc', other:'var(--text2)' }[catOrder[ci2]];
+    // Category header row
+    html += '<tr style="background:var(--surface2);"><td colspan="13" style="padding:4px 8px;font-size:0.68rem;font-weight:600;color:' + catColor + ';">' + cat.label + ' (' + cat.items.length + ')</td></tr>';
+    cat.items.sort(function(a, b) { return a.name < b.name ? -1 : 1; });
+    for (var k = 0; k < cat.items.length; k++) {
+      var ing = cat.items[k];
+      var months = seasonToMonths(ing.season);
+      html += '<tr><td><span class="hm-label" data-name="' + ing.name + '">' + ing.name.replace(/_/g, ' ') + '</span></td>';
+      for (var m2 = 0; m2 < 12; m2++) {
+        var active = months[m2];
+        var intensity = active ? '1' : '0.06';
+        var color = active ? catColor : 'var(--border)';
+        html += '<td><span class="hm-cell" style="background:' + color + ';opacity:' + intensity + ';"></span></td>';
+      }
+      html += '</tr>';
+    }
+  }
+
+  html += '</tbody></table></div>';
+  wrap.innerHTML = html;
+
+  // Wire ingredient click
+  wrap.querySelectorAll('.hm-label').forEach(function(el) {
+    el.addEventListener('click', function() {
+      selectIngredient(el.dataset.name);
+      document.getElementById('searchInput').value = el.dataset.name;
+    });
+  });
+}
+
 function renderSeasonal() {
   var r = document.getElementById('seasonalResults');
   if (!r) return;
@@ -2759,6 +3032,12 @@ function renderSeasonal() {
   if (uncategorized.length > 0) {
     cats['other'] = { label: '📦 Other', items: uncategorized };
   }
+
+  // Hide heatmap if showing
+  var hmWrap = document.getElementById('seasonalHeatmapWrap');
+  if (hmWrap) hmWrap.style.display = 'none';
+  var hmToggle = document.getElementById('seasonHeatmapToggle');
+  if (hmToggle) hmToggle.textContent = '📊 Heatmap';
 
   if (Object.keys(cats).length === 0) {
     r.innerHTML = '<div class="empty-state">No seasonal ingredients found for ' + SEASON_LABELS[season] + '.</div>';
@@ -2815,10 +3094,34 @@ var SPOON_KEY = localStorage.getItem('spoonacular_key') || '';
 function renderSpoonacular() {
   var keyInput = document.getElementById('spoonKeyInput');
   var statusEl = document.getElementById('spoonKeyStatus');
+  var layoutEl = document.getElementById('spoonLayout');
   if (keyInput) keyInput.value = SPOON_KEY;
   if (statusEl) {
     statusEl.textContent = SPOON_KEY ? '✅ API key saved' : '⚠️ No API key set — enter one above';
     statusEl.style.color = SPOON_KEY ? 'var(--green)' : 'var(--yellow)';
+  }
+  // Graceful degradation: hide feature panel when no key
+  if (layoutEl) {
+    layoutEl.style.display = SPOON_KEY ? '' : 'none';
+  }
+  // Update any degraded-state banner
+  var degradedEl = document.getElementById('spoonDegraded');
+  if (!degradedEl && !SPOON_KEY && layoutEl) {
+    degradedEl = document.createElement('div');
+    degradedEl.id = 'spoonDegraded';
+    degradedEl.style.cssText = 'padding:16px;border-radius:var(--radius-sm);background:var(--surface);border:1px dashed var(--border);text-align:center;margin-top:8px;';
+    degradedEl.innerHTML = '<div style="font-size:1.5rem;margin-bottom:8px;">🔑</div>'
+      + '<p style="font-size:0.82rem;color:var(--text2);margin-bottom:8px;">Enter a free Spoonacular API key above to unlock:</p>'
+      + '<ul style="list-style:none;font-size:0.78rem;color:var(--text2);line-height:1.6;">'
+      + '<li>🍲 Search recipes by ingredients</li>'
+      + '<li>🥗 Get nutrition data</li>'
+      + '<li>🍷 Find wine pairings</li>'
+      + '<li>📸 Image ingredient recognition</li>'
+      + '</ul>'
+      + '<p style="font-size:0.72rem;color:var(--text3);margin-top:8px;">Get your free key at <a href="https://spoonacular.com/food-api" target="_blank" style="color:var(--accent);">spoonacular.com</a></p>';
+    layoutEl.parentNode.insertBefore(degradedEl, layoutEl.nextSibling);
+  } else if (degradedEl) {
+    degradedEl.style.display = SPOON_KEY ? 'none' : '';
   }
 }
 
@@ -4213,6 +4516,19 @@ function renderMap() {
   const names = STATE.data.ingredients;
   const selIdx = STATE.selectedIdx;
 
+  // First-visit gesture hint for touch devices
+  if (('ontouchstart' in window) && !localStorage.getItem('epicure_map_hint_done')) {
+    var existingHint = document.querySelector('.gesture-hint');
+    if (!existingHint) {
+      try { localStorage.setItem('epicure_map_hint_done', '1'); } catch(e) {}
+      var hint = document.createElement('div');
+      hint.className = 'gesture-hint';
+      hint.innerHTML = '<div class="gesture-icon">✋</div><p>Drag to pan · Pinch to zoom<br>Double-tap to reset view</p>';
+      document.getElementById('pcaCanvas').parentElement.appendChild(hint);
+      setTimeout(function() { if (hint.parentNode) hint.parentNode.removeChild(hint); }, 4000);
+    }
+  }
+
   const method = document.getElementById('projMethod').value;
 
   let pcaData;
@@ -4312,8 +4628,12 @@ function renderMap() {
   ctx.fillStyle = '#0f0f13';
   ctx.fillRect(0, 0, W, H);
 
+  // Viewport culling: only render points within visible area (+ margin)
+  const CULL_MARGIN = 10;
   for (let i = 0; i < screenPts.length; i++) {
     const { sx, sy } = screenPts[i];
+    // Skip points outside the visible viewport
+    if (sx < -CULL_MARGIN || sx > W + CULL_MARGIN || sy < -CULL_MARGIN || sy > H + CULL_MARGIN) continue;
     ctx.beginPath();
     ctx.arc(sx, sy, 2.5, 0, Math.PI * 2);
     if (i === selIdx) {
@@ -5236,7 +5556,7 @@ var TOUR_STEPS = [
   { target: '#chefToggle', title: '👨‍🍳 Chef\'s Toolkit', text: 'The sidebar shows dietary info, intelligent substitutes with explanations, cuisine affinity, and flavour chemistry for the selected ingredient.', pos: 'bottom', pad: 8 },
   { target: '.tabs', title: '📊 Explore the Tabs', text: '18 tabs let you explore neighbours, compare models, run flavour arithmetic, analyse dishes, plan meals, and more. Each tab is a different lens into the embedding space.', pos: 'bottom', pad: 8 },
   { target: '[data-tab="map"]', title: '🗺️ Visualise the Map', text: 'The Map tab projects 1,790 ingredients onto a 2D canvas. Try UMAP, PCA, or Force-Directed layout. Hover any dot to identify it.', pos: 'bottom', pad: 8 },
-  { target: '#describeInput', title: '✏️ Describe a Dish', text: 'Type a dish description like "creamy garlic pasta with mushrooms" to find matching ingredients. Click tags to explore each one.', pos: 'top', pad: 8 }
+  { target: '#searchInput', title: '🔍 Smart Search', text: 'Search for any ingredient — or describe a dish like "creamy garlic pasta with mushrooms". The unified search does both. Click tags to explore each ingredient.', pos: 'bottom', pad: 8 }
 ];
 
 var tourActive = false;
@@ -5343,6 +5663,18 @@ function endTour() {
 // ── Init ──
 async function init() {
   try {
+    // Save deep-link hash BEFORE any setup code overwrites it
+    const initialHash = window.location.hash;
+    let deepLinkTab = null, deepLinkModel = null, deepLinkIngredient = null;
+    if (initialHash) {
+      try {
+        const params = new URLSearchParams(initialHash.slice(1));
+        deepLinkTab = params.get('tab');
+        deepLinkModel = params.get('model');
+        deepLinkIngredient = params.get('ingredient');
+      } catch(e) {}
+    }
+
     document.getElementById('loadStatus').textContent = 'Fetching shared data…';
     await loadSharedData();
 
@@ -5369,45 +5701,38 @@ async function init() {
     setupSpoonacular();
     setupSnapTab();
 
-    // Parse URL hash for deep-linking
-    const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.slice(1));
-      const hashTab = params.get('tab');
-      const hashModel = params.get('model');
-      const hashIngredient = params.get('ingredient');
+    // Parse saved deep-link hash (window.location.hash may have been overwritten by setupSearch → selectIngredient → history.replaceState)
+    if (deepLinkModel) {
+      const modelTab = document.querySelector(`.model-tab[data-model="${deepLinkModel}"]`);
+      if (modelTab) modelTab.click();
+    }
 
-      if (hashModel) {
-        const modelTab = document.querySelector(`.model-tab[data-model="${hashModel}"]`);
-        if (modelTab) modelTab.click();
-      }
-
-      if (hashIngredient && STATE.data.ingredients.includes(hashIngredient)) {
-        // Need to wait for model data too, handled via lazy-load in model click
-        setTimeout(() => {
-          selectIngredient(hashIngredient);
-          document.getElementById('searchInput').value = hashIngredient;
-        }, 100);
-      } else {
-        // Pre-select miso so content renders on page load
-        selectIngredient('miso');
-        document.getElementById('searchInput').value = 'miso';
-      }
-
-      if (hashTab) {
-        const tab = document.querySelector(`.tab[data-tab="${hashTab}"]`);
-        if (tab) setTimeout(() => tab.click(), 200);
-      }
+    if (deepLinkIngredient && STATE.data.ingredients.includes(deepLinkIngredient)) {
+      // Need to wait for model data too, handled via lazy-load in model click
+      setTimeout(() => {
+        selectIngredient(deepLinkIngredient);
+        document.getElementById('searchInput').value = deepLinkIngredient;
+      }, 100);
     } else {
       // Pre-select miso so content renders on page load
       selectIngredient('miso');
       document.getElementById('searchInput').value = 'miso';
     }
 
+    if (deepLinkTab) {
+      const tab = document.querySelector(`.tab[data-tab="${deepLinkTab}"]`);
+      if (tab) setTimeout(() => tab.click(), 200);
+    }
+
     renderAll();
 
     // Start onboarding tour (5s delay so user can see the UI first)
     setTimeout(startTour, 1500);
+
+    // Register Service Worker for offline support
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(function() {});
+    }
   } catch (e) {
     document.getElementById('loadStatus').textContent = `Failed to load: ${e.message}`;
   }

@@ -1,0 +1,23 @@
+{
+  "name": "epicure-explorer",
+  "version": "1.0.0",
+  "description": "**Navigate the flavour universe.** A zero-dependency, single-file web app for interactively exploring 1,790 canonical food ingredients across three embedding models, built on the [Epicure paper](https://arxiv.org/abs/2605.22391) (arXiv:2605.22391).",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aliatx2017/epicure-explorer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aliatx2017/epicure-explorer/issues"
+  },
+  "homepage": "https://github.com/aliatx2017/epicure-explorer#readme",
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
