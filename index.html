@@ -7,7 +7,8 @@
 <meta name="theme-color" content="#0f0f13">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Epicure Explorer&quot;,&quot;short_name&quot;:&quot;Epicure&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0f13&quot;,&quot;theme_color&quot;:&quot;#0f0f13&quot;,&quot;description&quot;:&quot;Discover flavour relationships between 1,790 ingredients using AI embeddings.&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍽️%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;any&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Epicure Explorer&quot;,&quot;short_name&quot;:&quot;Epicure&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0f0f13&quot;,&quot;theme_color&quot;:&quot;#0f0f13&quot;,&quot;description&quot;:&quot;Discover flavour relationships between 1,790 ingredients using AI embeddings.&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;icon-192.png&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/png&quot;},{&quot;src&quot;:&quot;icon-512.png&quot;,&quot;sizes&quot;:&quot;512x512&quot;,&quot;type&quot;:&quot;image/png&quot;},{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍽️%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;any&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Epicure Explorer — Discover Flavour Relationships</title>
 <style>
 /* ── Reset & Variables ── */
@@ -900,7 +901,7 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
             <span id="mapSearchMsg" class="map-search-msg"></span>
           </div>
           <div class="pca-container">
-            <canvas id="pcaCanvas"></canvas>
+            <canvas id="pcaCanvas" aria-label="Map of ingredient embeddings — navigation, cuisine regions, and density overlay"></canvas>
           </div>
           <div class="pca-legend" id="pcaLegend">
             <span><span class="dot" style="background:var(--accent)"></span> Selected ingredient</span>
@@ -1847,6 +1848,8 @@ async function loadSharedData() {
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   const json = await resp.json();
   STATE.data = json;
+  // Override seasonal data from shared.json if available (fallback: inline SEASONAL_DATA constant)
+  if (json.seasonal) SEASONAL_DATA = json.seasonal;
   return json;
 }
 
@@ -1968,7 +1971,12 @@ async function loadModelData(modelName) {
   json.vectors = [];
   const dim = json.dim;
   for (let i = 0; i < json.n; i++) {
-    json.vectors.push(Array.from(floats.subarray(i * dim, (i + 1) * dim)));
+    const slice = Array.from(floats.subarray(i * dim, (i + 1) * dim));
+    // Guard against degenerate vectors (NaN/Infinity)
+    if (slice.some(function(v) { return !isFinite(v); })) {
+      slice.fill(0);
+    }
+    json.vectors.push(slice);
   }
   delete json.vectorsB64;
 
@@ -2175,27 +2183,30 @@ function setupSearch() {
   });
 
   input.addEventListener('input', () => {
-    const q = input.value.toLowerCase().trim();
-    if (q.length > 0) { showDropdown(q); renderSearchIntents(q); }
-    else { dropdown.classList.remove('show'); document.getElementById('searchIntentChips').innerHTML = ''; }
+    clearTimeout(input._searchTimer);
+    input._searchTimer = setTimeout(function() {
+      const q = input.value.toLowerCase().trim();
+      if (q.length > 0) { showDropdown(q); renderSearchIntents(q); }
+      else { dropdown.classList.remove('show'); document.getElementById('searchIntentChips').innerHTML = ''; }
 
-    // Auto-detect describe mode: multi-word text not matching a single ingredient
-    clearTimeout(input._describeTimer);
-    renderSearchIntents(q);
-    if (q.includes(' ') && q.length > 5) {
-      input._describeTimer = setTimeout(function() {
-        // Feed into hidden describeInput for backward compat, then trigger describeDish
-        const di = document.getElementById('describeInput');
-        if (di) di.value = q;
-        describeDish();
-      }, 350);
-    } else if (!q.includes(' ') || q.length <= 5) {
-      // Clear describe results when typing a single-word query
-      var dr = document.getElementById('describeResults');
-      if (dr) dr.innerHTML = '';
-      var ds = document.getElementById('describeStatus');
-      if (ds) ds.textContent = '';
-    }
+      // Auto-detect describe mode: multi-word text not matching a single ingredient
+      clearTimeout(input._describeTimer);
+      renderSearchIntents(q);
+      if (q.includes(' ') && q.length > 5) {
+        input._describeTimer = setTimeout(function() {
+          // Feed into hidden describeInput for backward compat, then trigger describeDish
+          const di = document.getElementById('describeInput');
+          if (di) di.value = q;
+          describeDish();
+        }, 350);
+      } else if (!q.includes(' ') || q.length <= 5) {
+        // Clear describe results when typing a single-word query
+        var dr = document.getElementById('describeResults');
+        if (dr) dr.innerHTML = '';
+        var ds = document.getElementById('describeStatus');
+        if (ds) ds.textContent = '';
+      }
+    }, 150);
   });
 
   document.addEventListener('click', (e) => {
@@ -2581,6 +2592,9 @@ function toggleTheme() {
   const isLight = document.documentElement.classList.contains('light');
   btn.textContent = isLight ? '☀️' : '🌙';
   btn.title = isLight ? 'Switch to dark mode' : 'Switch to light mode';
+  // Sync theme-color meta tag
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = isLight ? '#f5f5fa' : '#0f0f13';
   try { localStorage.setItem('epicure_theme', isLight ? 'light' : 'dark'); } catch(e) {}
 }
 
@@ -3978,7 +3992,7 @@ function renderBuildDietFlags(matched) {
 // ── Seasonal Calendar Data + Rendering ──
 
 /** Seasonal peaks per ingredient — month ranges. Many ingredients span multiple seasons. */
-const SEASONAL_DATA = {
+var SEASONAL_DATA = {
   // ── Spring (Mar–May) ──
   asparagus: 'spring', pea: 'spring', snow_pea: 'spring', sugar_snap_pea: 'spring',
   artichoke: 'spring', fava_bean: 'spring', ramp: 'spring', morel: 'spring',
@@ -4524,6 +4538,10 @@ function spoonGetRecipeInfo(id) {
     if (!nutrition) { r.innerHTML = '<div class="spoon-error">No nutrition data available.</div>'; return; }
     // Also get summary
     spoonFetch('https://api.spoonacular.com/recipes/' + id + '/information?includeNutrition=false').then(function(info) {
+      if (!info || typeof info !== 'object') {
+        r.innerHTML = '<div class="spoon-error">Could not load recipe details.</div>';
+        return;
+      }
       var title = info.title || 'Recipe #' + id;
       var readyMin = info.readyInMinutes || '—';
       var servings = info.servings || '—';
@@ -5763,9 +5781,14 @@ function renderSlerp() {
 }
 
 function dotProduct(a, b) {
+  if (!a || !b || a.length !== b.length) return 0;
   let s = 0;
-  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
-  return s;
+  for (let i = 0; i < a.length; i++) {
+    const val = a[i] * b[i];
+    if (!isFinite(val)) continue;
+    s += val;
+  }
+  return isFinite(s) ? s : 0;
 }
 
 // ── PCA Map ──
@@ -7444,6 +7467,11 @@ function setupModelTabs() {
         } catch (e) {
           console.error(`Failed to load ${modelName}:`, e);
           tab.querySelector('.spinner-small')?.remove();
+          // Show user-visible error in the active panel
+          var activePanel = document.querySelector('.main-grid > .panel:not([style*="display:none"])');
+          if (activePanel) {
+            activePanel.innerHTML = '<div class="empty-state" style="color:var(--red);">❌ Failed to load ' + modelName + ' model data. <button class="game-new-btn" onclick="location.reload()" style="margin-left:6px;font-size:0.7rem;">🔄 Refresh</button></div>';
+          }
           return;
         }
         tab.querySelector('.spinner-small')?.remove();
@@ -8004,7 +8032,14 @@ async function init() {
       navigator.serviceWorker.register('./sw.js').catch(function() {});
     }
   } catch (e) {
-    document.getElementById('loadStatus').textContent = `Failed to load: ${e.message}`;
+    document.getElementById('loadStatus').textContent = `❌ Failed to load: ${e.message}`;
+    var loadEl = document.getElementById('loading');
+    var retryBtn = document.createElement('button');
+    retryBtn.textContent = '🔄 Retry';
+    retryBtn.className = 'game-new-btn';
+    retryBtn.style.cssText = 'margin-top:12px;padding:8px 20px;font-size:0.85rem;';
+    retryBtn.onclick = function() { retryBtn.remove(); init(); };
+    loadEl.appendChild(retryBtn);
   }
 }
 

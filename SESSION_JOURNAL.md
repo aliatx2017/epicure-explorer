@@ -703,3 +703,56 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 | E2E tests | **72/72 ✅** | **68/68 ✅** (4 redundant removed) |
 | Nutrition coverage | — | **1,790 ingredients** (FSA per-100g) + **51,235 recipes** (per-recipe FSA) |
 
+---
+
+## Session 15 — Safety, Performance, a11y & Seasonal Data Extraction
+
+**Focus:** Responding to a deep codebase audit: fix runtime safety gaps, add search debounce, fix branding/a11y gaps, extract seasonal data from hardcoded JS into data-driven format.
+
+### What Was Done
+
+#### Phase 1 — Runtime Safety
+| Fix | Detail |
+|-----|--------|
+| **🔄 Retry on load failure** | `init()` catch now shows ❌ message + "🔄 Retry" button that re-invokes `init()` |
+| **🔄 Model-load error display** | `setupModelTabs()` shows user-visible error in active panel with refresh button on model load failure |
+| **🧮 NaN/Infinity guard** | `dotProduct()` now skips non-finite products, returns 0 on degenerate inputs; vector decode replaces NaN/Infinity vectors with zeros |
+| **🛡️ Spoonacular null guard** | `spoonGetRecipeInfo()` checks info response is a valid object before accessing nested properties |
+
+#### Phase 2 — Search Debounce
+| Fix | Detail |
+|-----|--------|
+| **⏱️ 150ms debounce** | Smart search `input` handler wrapped in `clearTimeout`/`setTimeout` pattern — no longer fires on every keystroke |
+| **👂 Listener audit** | Confirmed `setupMapInteractions()` one-time guard prevents accumulator leak on model/tab switch |
+
+#### Phase 3 — Branding & a11y
+| Fix | Detail |
+|-----|--------|
+| **🎨 theme-color sync** | `toggleTheme()` now updates `<meta name="theme-color">` — `#0f0f13` (dark) ↔ `#f5f5fa` (light) |
+| **📱 PWA icons** | Generated 192×192 and 512×512 PNG icons (purple plate/fork design); added to manifest + `apple-touch-icon` + SW cache preload |
+| **♿ Canvas aria-label** | `#pcaCanvas` now has descriptive `aria-label="Map of ingredient embeddings — navigation, cuisine regions, and density overlay"` |
+
+#### Phase 4 — Data-Driven Seasonal
+| Fix | Detail |
+|-----|--------|
+| **📦 Seasonal extraction** | 149 seasonal entries moved from `const SEASONAL_DATA` in `index.html` into `epicure_shared.json["seasonal"]` |
+| **🔄 Runtime override** | `loadSharedData()` sets `SEASONAL_DATA = json.seasonal` if available; inline constant preserved as fallback |
+| **📏 `const` → `var`** | `SEASONAL_DATA` changed from `const` to `var` to allow reassignment |
+
+### Metrics Update
+
+| Metric | Session 14 | Session 15 |
+|--------|-----------|------------|
+| index.html lines | 8,025 | **8,060** |
+| JS functions | ~163 | **~163** |
+| Tabs | 19 (4 categories) | **19 (4 categories)** |
+| File size | ~422 KB | **~425 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **68/68 ✅** | **68/68 ✅** |
+| PWA icons | ❌ emoji only | ✅ 192×192 + 512×512 PNG |
+| Seasonal data | Hardcoded JS constant | ✅ Data-driven from `epicure_shared.json` |
+| Search debounce | ❌ per-keystroke | ✅ 150ms trailing-edge |
+| theme-color sync | ❌ hardcoded | ✅ dark/light toggle updates meta |
+| Canvas aria-label | ❌ missing | ✅ descriptive label added |
+

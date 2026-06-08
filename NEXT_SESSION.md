@@ -1,7 +1,7 @@
 # Next Session — Starting Point
 
 **Branch:** `main`  
-**Last commit:** Session 14 — Bug fix pass + im2recipe 35K nutritional integration  
+**Last commit:** Session 15 — Safety, perf, a11y, seasonal data extraction  
 **All 68 E2E tests pass · 0 console errors · 0 known bugs**
 
 ---
@@ -10,53 +10,41 @@
 
 | Metric | Value |
 |--------|-------|
-| `index.html` lines | **8,025** |
+| `index.html` lines | **8,060** |
 | JS functions | **~163** |
 | Tabs | **19** (4 categories) |
-| File size | **422 KB** |
+| File size | **425 KB** |
 | Console errors | **0** |
 | Known bugs | **0** |
 | E2E tests | **68/68 ✅** |
 | Languages | EN, ES, FR, 中文, 日本語 |
 | Nutrition data | **1,790 ingredients** (FSA per-100g) + **51,235 recipes** (per-recipe FSA) |
+| PWA icons | **192×192 + 512×512 PNG** (purple plate/fork) |
+| Seasonal data | **149 entries** — now data-driven from `epicure_shared.json` |
 
 ---
 
-## What Session 14 Shipped
+## What Session 15 Shipped
 
-### Bug Fix Pass (14a)
-| Fix | Severity | Detail |
-|-----|----------|--------|
-| **🐛 Missing `<div class="game-card">`** | 🔴 HIGH | Flavour Compass game-card div missing — added |
-| **🐛 Dead GLP-1 intent chip** | 🔴 HIGH | `applyIntent('diet','glp1')` now calls `toggleGlpFilter()` |
-| **🐛 roundRect polyfill** | 🔴 HIGH | Inline polyfill for older browsers |
-| **🐛 Stale doc sizes** | 🟡 MEDIUM | GUIDE.md/README.md 259→408 KB |
-| **🐛 Unused vars removed** | 🟡 MEDIUM | `pcaAnimationId`, `DENSITY_INFO_*` |
-| **🐛 Missing CSS class** | 🟡 MEDIUM | `.spoon-recipe-grid` added |
-| **🐛 Spoonacular limit** | 🟡 MEDIUM | Configurable via localStorage |
-| **🐛 Test file fixes** | 🟡 MEDIUM | 19-tab loop, removed 4 redundant tests |
-
-### im2recipe Nutritional Integration (14b)
 | Phase | Feature | Detail |
 |-------|---------|--------|
-| **1** 🔬 | **`build_nutrition.py`** | USDA nutrition DB → im2recipe format with FSA traffic lights |
-| **2** 📦 | **epicure_nutrition.json** | 789 KB, all 1,790 ingredients |
-| **3** 🧠 | **FSA Health Direction** | `💚 FSA Health` in SLERP dropdown under `💪 Health` |
-| **4** 🥗 | **Recipe Nutrition tab** | Per-recipe FSA traffic lights from im2recipe 35K dataset |
-| **5** 📥 | **35K importer** | `build_nutrition.py --import-im2recipe` |
-| **6** 🔗 | **Ingredient→Recipe index** | 622 ingredients → 157K recipe links |
-| **7** 💾 | **Offline caching** | All nutrition data cached by Service Worker |
+| **1** 🛡️ | **Runtime safety** | Retry button on load failure; user-visible error on model-load failure; NaN/Infinity guards in `dotProduct()` and vector decode; null-response guard in Spoonacular info API |
+| **2** ⚡ | **Search debounce** | 150ms trailing-edge debounce on smart search input — no longer fires on every keystroke |
+| **3** 🎨 | **Branding & a11y** | `theme-color` meta tag syncs with dark/light toggle; real 192×192 + 512×512 PNG icons in manifest + `apple-touch-icon` + SW cache; `aria-label` on map canvas |
+| **4** 📦 | **Data-driven seasonal** | 149 seasonal entries extracted from hardcoded JS constant into `epicure_shared.json`; loaded at runtime with backward-compatible inline fallback |
 
-### Data Files Added
-
+### Files Added
 | File | Size | Description |
 |------|------|-------------|
-| `build_nutrition.py` | 45 KB | Python nutrition pipeline |
-| `data/epicure_nutrition.json` | 789 KB | 1,790 ingredients, FSA per-100g |
-| `data/nutrition_vocab.json` | 114 KB | im2recipe↔Epicure name mappings |
-| `data/recipe_nutrition.json` | 98 MB | 51,235 per-recipe FSA records |
-| `data/recipe_detections_slim.json` | 2.1 MB | 622-ingredient→recipe link index |
-| `data/recipe_ingredient_map.json` | 5.7 MB | Full USDA-ingredient→recipe map |
+| `icon-192.png` | 2.3 KB | PWA home-screen icon |
+| `icon-512.png` | 6.8 KB | PWA splash-screen icon |
+
+### Files Modified
+| File | Change |
+|------|--------|
+| `index.html` | +91 lines: NaN guards, debounce, error handling, theme-color sync, canvas a11y, data-driven seasonal |
+| `data/epicure_shared.json` | +153 lines: added `"seasonal"` key with 149 entries |
+| `sw.js` | +2 lines: cache `icon-*.png` on install |
 
 ---
 
@@ -76,17 +64,19 @@
 | Nutrition tab untested | No E2E for FSA display or per-recipe data | New feature, manual check only |
 | i18n coverage | Only Spanish tested; FR/zh/ja never verified | |
 
+### New Candidate Improvements (from Session 15 audit)
+| Item | Effort | Priority | Notes |
+|------|--------|----------|-------|
+| **Deduplicate `dotProduct` calls** | Low | Low | Computed in ~30 places; extract to shared helper? Already one shared `dotProduct()` function — callers could be audit-checked |
+| **Move remaining hardcoded data** | Medium | Low | `NUTRITION_DATA` (~1,790 inline entries), cuisine keyword lists, direction names could move to `epicure_shared.json` |
+| **Test error states** | Medium | Medium | E2E tests for load failure, network offline, API 429 |
+| **i18n coverage for all 5 languages** | Low | Low | Only Spanish verified in E2E; add FR/zh/ja assertions |
+
 ### Future Architectural Directions (Separate Project)
 - Ingredient2Vec REST API + OpenAPI spec (requires server)
 - Recipe generation via LLM (requires backend + API keys)
 - Professional/Creator paid tier (requires auth, billing)
 - Analytics dashboard (requires server logs or third-party service)
-
-### im2recipe Data Cleanup
-The `~/Downloads/` originals can be deleted:
-- `det_ingrs.json` (345 MB) — ✅ Already processed into `recipe_detections_slim.json`
-- `recipes_with_nutritional_info.json` (213 MB) — ✅ Already processed into `recipe_nutrition.json`
-- `recipe1M_layers.tar.gz` (381 MB) — Not used by Epicure Explorer
 
 ---
 

@@ -3,6 +3,8 @@ const CACHE = 'epicure-v1';
 const STATIC = [
   './',
   './index.html',
+  './icon-192.png',
+  './icon-512.png',
   './data/epicure_shared.json',
   './data/epicure_nutrition.json',
   './data/recipe_nutrition.json',

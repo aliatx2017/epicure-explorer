@@ -59,11 +59,13 @@ This is not a recipe database. This is a **flavour relationship engine** — the
 
 ```
 epicure-explorer/
-├── index.html          ← THE WEB APP — single self-contained HTML file (408 KB)
+├── index.html          ← THE WEB APP — single self-contained HTML file (425 KB)
 ├── preprocess.py       ← Python script that generates the data bundle
 ├── requirements.txt    ← Pinned Python dependencies (umap-learn, scikit-learn, etc.)
+├── icon-192.png        ← PWA home-screen icon (2.3 KB)
+├── icon-512.png        ← PWA splash-screen icon (6.8 KB)
 ├── data/
-│   ├── epicure_shared.json  ← Shared data (128 KB) — ingredients list + 16 direction vectors
+│   ├── epicure_shared.json  ← Shared data (168 KB) — ingredients + 16 direction vectors + seasonal
 │   ├── epicure_cooc.json    ← Cooc model data (~4 MB) — neighbours + UMAP + vectors
 │   ├── epicure_core.json    ← Core model data (~4 MB)
 │   ├── epicure_chem.json    ← Chem model data (~4 MB)
