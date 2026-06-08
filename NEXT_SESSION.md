@@ -1,8 +1,29 @@
 # Next Session — Starting Point
 
 **Branch:** `main`  
-**Last commit:** `483ef25` — Session 15: Safety, perf, a11y, seasonal data extraction  
+**Last commit:** `28be2ae` — SW cache versioning: content-hash replaces hardcoded 'epicure-v1'  
 **All 68 E2E tests pass · 0 console errors · 0 known bugs · Working tree clean**
+
+---
+
+## What This Session Shipped
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🏷️ | **SW cache versioning** | `tools/version-sw.js` generates content-derived `epicure-<sha12>` from all cached files (index.html, icons, model JSONs, nutrition data, sw.js itself). Cache automatically invalidates when any file changes. Idempotent — same hash on re-run if files unchanged. |
+
+### Files Added
+| File | Size | Description |
+|------|------|-------------|
+| `tools/version-sw.js` | 3.0 KB | Node.js script: reads all cached files → SHA-256 hash → patches `sw.js` CACHE key |
+| `.sw-version` | 19 B | Current cache version record (for CI/tooling) |
+
+### Files Modified
+| File | Change |
+|------|--------|
+| `sw.js` | Cache key changed from hardcoded `'epicure-v1'` to content-hash `'epicure-c82486bc87a3'` |
+| `package.json` | Added `"version-sw": "node tools/version-sw.js"` script |
+| `NEXT_SESSION.md` | Updated with this session's changes; cache versioning moved from Open Items to resolved |
 
 ---
 
@@ -23,7 +44,7 @@
 | Seasonal data | **149 entries** — data-driven from `epicure_shared.json` |
 | CSS | **~686 lines** |
 | JavaScript (script block) | **~6,595 lines** |
-| SW cache key | Hardcoded `'epicure-v1'` — **no automatic invalidation** |
+| SW cache key | Content-hash derived `'epicure-<sha12>'` — **auto-invalidates on data changes** |
 
 ---
 
@@ -58,7 +79,6 @@
 |------|--------|-------|
 | **Recipe generation (LLM)** | 🔴 High | Needs backend — FastAPI/Node server, API key management, cost control |
 | **Ingredient2Vec REST API** | 🔴 High | Server-side project: auth, rate-limiting, billing |
-| **Hash-based cache versioning** | 🟢 Low | `sw.js` uses hardcoded `'epicure-v1'` — no auto-invalidation when data files change. Recommend date-stamp or hash-of-data-files approach. |
 
 ### Test Coverage Gaps
 | Area | Gap | Notes |
@@ -90,6 +110,12 @@
 cd epicure-explorer
 python3 -m http.server 8080
 # Open http://localhost:8080
+```
+
+### After changing data files, index.html, or sw.js
+
+```bash
+node tools/version-sw.js   # Updates sw.js cache key from file content hash
 ```
 
 ## Run Tests

@@ -4,7 +4,8 @@
   "description": "**Navigate the flavour universe.** A zero-dependency, single-file web app for interactively exploring 1,790 canonical food ingredients across three embedding models, built on the [Epicure paper](https://arxiv.org/abs/2605.22391) (arXiv:2605.22391).",
   "main": "sw.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version-sw": "node tools/version-sw.js"
   },
   "repository": {
     "type": "git",

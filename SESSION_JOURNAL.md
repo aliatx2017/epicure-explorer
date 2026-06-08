@@ -797,3 +797,45 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 - Cache versioning remains the single highest-priority technical debt
 - `origin/main` up to date
 
+---
+
+## Session 16 — SW Cache Versioning & Handoff Refresh
+
+**Focus:** Resolving the oldest open technical debt — replacing hardcoded `'epicure-v1'` SW cache key with a content-hash derived version that auto-invalidates when data files change.
+
+### What Was Done
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🏷️ | **`tools/version-sw.js`** | Node.js script that reads all cached files (STATIC pre-cache + lazy-loaded model JSONs + sw.js itself), normalizing sw.js's own CACHE line to a placeholder to avoid self-feedback, computes SHA-256 hash (truncated to 12 hex chars), and patches sw.js. Idempotent — same input files always produce the same version. |
+| **2** 📦 | **`package.json` script** | `"version-sw": "node tools/version-sw.js"` added to scripts. |
+| **3** 🧪 | **Idempotency verified** | Running the script twice produces identical `epicure-c82486bc87a3` — confirmed stable. |
+| **4** 📖 | **NEXT_SESSION.md** | Cache versioning moved from "Open Items" to resolved; workflow docs updated with `node tools/version-sw.js` step. |
+
+### Metrics Update
+
+| Metric | Session 15b | Session 16 |
+|--------|-----------|------------|
+| index.html lines | 8,060 | **8,060** (unchanged) |
+| JS functions | 176 | **176** (unchanged) |
+| File size | ~424 KB | **~424 KB** |
+| Console errors on load | **0** | **0** |
+| Known bugs | **0** | **0** |
+| E2E tests | **68/68 ✅** | **68/68 ✅** |
+| SW cache key | `'epicure-v1'` (hardcoded) | **`'epicure-c82486bc87a3'` (content-hash)** |
+| Cache versioning | ⚠️ Still open | ✅ **Resolved** |
+
+### Files Added
+| File | Size | Description |
+|------|------|-------------|
+| `tools/version-sw.js` | 3.0 KB | Content-hash SW versioner |
+| `.sw-version` | 19 B | Current version record |
+
+### Files Modified
+| File | Change |
+|------|--------|
+| `sw.js` | `'epicure-v1'` → `'epicure-c82486bc87a3'` (auto-generated) |
+| `package.json` | Added `version-sw` script |
+| `NEXT_SESSION.md` | Resolved cache versioning; documented workflow |
+
+
