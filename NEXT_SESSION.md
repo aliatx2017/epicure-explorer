@@ -1,27 +1,44 @@
 # Next Session — Starting Point
 
 **Branch:** `main`  
-**Last commit:** `d31b857` — Add i18n E2E tests for French, Chinese, Japanese  
+**Last commit:** (session 19)  
 **All 80 E2E tests pass · 0 console errors · 0 known bugs · Working tree clean**
 
 ---
 
-## What This Session Shipped
+## What Session 19 Shipped
 
-This session (Session 18) resolved all 3 Tier-2 items: Nutrition E2E tests, Build-A-Dish → TheMealDB recipe integration, and Flavour Pair of the Day.
+**Cuisine direction vectors** — replaced heuristic keyword-list approximation with Core model GMM mode-atlas members. This resolves the documented "future work" limitation from `SESSION-2026-06-07.md` line 111.
 
 | Phase | Feature | Detail |
 |-------|---------|--------|
-| **1** 🧪 | **Nutrition tab E2E tests** | 2 new tests: FSA traffic-light display (🟢🟡🔴 emojis + "Per 100g" header) and per-recipe nutrition data for common ingredients. **78→80.** |
-| **2** 🍲 | **Build-A-Dish → TheMealDB** | New "🍲 Find Recipes with These Ingredients" button after centroid results. Calls `mealDBFetch()` with the first build ingredient, renders 12 recipe cards inline with cuisine/category info and a "✓ matches" badge when other build ingredients appear in recipe titles. |
-| **3** 🧪 | **Flavour Pair of the Day** | New banner below the search bar showing a random molecularly-interesting ingredient pair. Picks from 200 random candidate pairs (similarity 0.4–0.88, prefers cross-cuisine). Expandable details show shared molecular notes, sensory alignment, and cuisine info. Persisted in localStorage per day. |
+| **1** 🧮 | **`tools/compute_cuisine_directions.py`** | Standalone script mapping 194 Core GMM modes to 8 cuisine macro-regions, collecting member ingredients, computing centroid vectors. |
+| **2** 🔧 | **`preprocess.py` updated** | `compute_directions()` now accepts `mode_atlas_path` argument; uses mode membership instead of keyword + NN expansion. |
+| **3** ✅ | **`epicure_shared.json` updated** | 8 cuisine direction vectors recomputed. Sensory directions unchanged. Metadata: `direction_method = "mode-atlas + keyword seeds"`. |
+| **4** 🧪 | **80/80 E2E ✅** | All tests pass with new direction vectors. |
+
+### Cuisine Mode Coverage
+
+| Cuisine | Modes | Members | Method |
+|---------|-------|---------|--------|
+| East Asian | 46 | 951 | Mode atlas |
+| Western Atlantic | 8 | 447 | Mode atlas |
+| Mediterranean | 20 | 737 | Mode atlas |
+| Eastern European | 3 | 102 | Modes + 11 keyword seeds |
+| Southeast Asian | 4 | 380 | Mode atlas |
+| South Asian | 2 | 75 | Modes + 21 keyword seeds |
+| Latin American | 14 | 542 | Mode atlas |
+| Japanese | 1 | 72 | Mode + 33 keyword seeds |
 
 ### Files Modified
+
 | File | Change |
 |------|--------|
-| `tests/e2e.mjs` | +55 lines: 2 Nutrition subtab tests. 78→80 tests |
-| `index.html` | +Build-A-Dish recipe button + `searchBuildRecipes()` + Flavour Pair of the Day banner + `generateFlavourPair()`/`explainFlavourPair()`/`renderFlavourPair()`/`formatName()`/`toggleFlavourPairDetail()` + hook in `loadModelData()` |
-| `README.md` | Test count 78→80 |
+| `tools/compute_cuisine_directions.py` | **Created** — 15 KB standalone script for mode-atlas cuisine direction generation |
+| `preprocess.py` | `compute_directions()` signature changed: now takes optional `mode_atlas_path`. Added `CUISINE_MODE_IDS`, `CUISINE_SEEDS`, `load_mode_atlas()`, `_fallback_cuisine_directions()`. |
+| `data/epicure_shared.json` | 8 cuisine direction vectors replaced. Metadata updated. SW cache key regenerated. |
+| `sw.js` | Cache key: `'epicure-25e8f4a27cf8'` |
+| `SESSION_JOURNAL.md` | Session 19 entry added |
 | `NEXT_SESSION.md` | Full rewrite for this session |
 
 ---
@@ -30,39 +47,32 @@ This session (Session 18) resolved all 3 Tier-2 items: Nutrition E2E tests, Buil
 
 | Metric | Value |
 |--------|-------|
-| `index.html` lines | **~8,130** |
-| JS functions | **~182** (named + nested) |
+| `index.html` lines | **~8,293** |
+| JS functions | **~202** (named + nested) |
 | Tabs | **19** (4 categories) |
-| File size | **~427 KB** |
+| File size | **~435 KB** |
 | Console errors | **0** |
 | Known bugs | **0** |
 | E2E tests | **80/80 ✅** |
 | Languages | EN, ES, FR, 中文, 日本語 (all verified in E2E) |
 | Nutrition data | **1,790 ingredients** (FSA per-100g) + **51,235 recipes** (per-recipe FSA) |
-| PWA icons | **192×192 + 512×512 PNG** (purple plate/fork) |
-| Seasonal data | **149 entries** — data-driven from `epicure_shared.json` |
-| Nutrition data | **413 entries** — data-driven from `epicure_shared.json` |
+| Cuisine directions | **GMM mode-atlas based** — replaces heuristic keyword lists |
+| Sensory directions | **Keyword centroid** (unchanged, 8 directions) |
 | CSS | **~686 lines** |
-| JavaScript (script block) | **~6,640 lines** |
-| SW cache key | `'epicure-64adfa564ac8'` — content-hash derived, auto-invalidates |
+| JavaScript (script block) | **~6,814 lines** |
+| SW cache key | `'epicure-25e8f4a27cf8'` — content-hash derived, auto-invalidates |
 
 ---
 
-## What's Next — Tier 3 (requires backend server)
+## What's Next
 
-All Tier-1 and Tier-2 items are resolved. Remaining items require backend infrastructure.
+All known client-side limitations are resolved. No remaining open items:
 
-| # | Item | Effort | Notes |
-|---|------|--------|-------|
-| **1** | **LLM Recipe Generation** | 🔴 High | FastAPI/Node server, API key management, cost control. Based on *Losses that Cook* (arXiv:2601.02531). |
-| **2** | **Ingredient2Vec REST API** | 🔴 High | Server-side project with auth, rate-limiting, billing. Host the embeddings as a paid API. |
-| **3** | **Personalized Food Agent** | 🔴 High | Multi-agent RAG — natural language "what's for dinner?" combining embeddings + nutrition + recipes. |
+- ~~Tier 3~~ (cancelled — requires backend infrastructure)
+- ~~Cuisine direction vector heuristic~~ ✅ Resolved — now mode-atlas based
+- ~~Inline SEASONAL_DATA / NUTRITION_DATA drift~~ ✅ Guarded by `tools/check-fallbacks.mjs`
 
-### ✅ Resolved This Session
-
-- **Nutrition tab E2E tests** — 2 new tests verifying FSA traffic lights and per-recipe data. 78→80 tests.
-- **Build-A-Dish → TheMealDB** — "Find Recipes with These Ingredients" button wires selected ingredients into TheMealDB API, renders recipe cards inline.
-- **Flavour Pair of the Day** — Daily banner with random molecularly-interesting pair, expandable molecular/sensory explanation, localStorage-persisted.
+If you want to start fresh feature work, consider the future directions from `GUIDE.md` §4.9 (Ingredient Direction Arithmetic, Photo-to-Nutrition, Graph-RAG Chef Assistant, MCP-Native Architecture).
 
 ---
 
@@ -77,12 +87,26 @@ python3 -m http.server 8080
 ### After changing data files, index.html, or sw.js
 
 ```bash
-node tools/version-sw.js   # Updates sw.js cache key from file content hash
+node tools/version-sw.js            # Updates sw.js cache key
+node tools/check-fallbacks.mjs       # Verifies inline fallbacks haven't drifted
 ```
 
-## Run Tests
+### To regenerate cuisine direction vectors
 
 ```bash
-cd epicure-explorer
-node tests/e2e.mjs   # 80 tests, ~60s
+python3 tools/compute_cuisine_directions.py
+node tools/version-sw.js
+```
+
+### Full data reprocess
+
+```bash
+python3 preprocess.py                # Full pipeline (embeddings → JSON)
+node tools/version-sw.js
+```
+
+### Run Tests
+
+```bash
+node tests/e2e.mjs                   # 80 tests, ~60s
 ```

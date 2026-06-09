@@ -5,7 +5,8 @@
   "main": "sw.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "version-sw": "node tools/version-sw.js"
+    "version-sw": "node tools/version-sw.js",
+    "check-fallbacks": "node tools/check-fallbacks.mjs"
   },
   "repository": {
     "type": "git",

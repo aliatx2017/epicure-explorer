@@ -11,6 +11,7 @@
 **Session 9:** June 2026 — 10-feature sprint: PWA manifest, dark mode, Spoonacular graceful degradation, map gesture hint, cross-model consensus, unified search, molecular fingerprint card, seasonal heatmap (Phase 3), Service Worker + offline, map viewport culling. 57/57 E2E tests pass. Repo pushed to GitHub.
 **Session 10:** July 2026 — Feedback-driven polish sprint: Spoonacular call tracking + 429 handling, offline banner, search alias system (50+ culinary variants), density heatmap overlay, CSV + PNG exports, share link, 5-language i18n (EN/ES/FR/中文/日本語), semantic search intent detection, usage analytics, offline-aware APIs. 57/57 E2E tests pass.
 **Session 18:**  — All 3 Tier-2 features shipped: Nutrition tab E2E tests, Build-A-Dish → TheMealDB recipe integration, Flavour Pair of the Day. 80/80 E2E tests pass.
+**Session 19:**  — Cuisine direction vectors upgraded from heuristic keyword lists to Core GMM mode-atlas members. Resolves documented "future work" limitation. 80/80 E2E tests pass.
 
 ---
 
@@ -934,3 +935,56 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 - **80/80 E2E tests pass**, 0 bugs, 0 console errors
 - Remaining: **Tier 3** (LLM Recipe Generation, Ingredient2Vec REST API, Personalized Food Agent) — requires backend infrastructure
 - `origin/main` ready for push
+
+---
+
+## Session 19 — Cuisine Direction Vectors: Mode-Atlas Upgrade
+
+**Focus:** Replacing heuristic keyword-list cuisine direction vectors with the Core model's GMM mode-atlas members — resolving the documented "future work" limitation.
+
+### What Was Done
+
+| Phase | Feature | Detail |
+|-------|---------|--------|
+| **1** 🔍 | **Research** | Mapped all 194 Core model GMM modes to the 8 cuisine macro-regions. Found strong mode coverage for East Asian (46 modes), Mediterranean (20), Latin American (14), and Western Atlantic (8). Weaker coverage for Japanese (1 mode) and South Asian (3 modes) — supplemented with keyword seeds. |
+| **2** 🧮 | **`tools/compute_cuisine_directions.py`** | New standalone script: loads Core mode atlas, collects member ingredients per cuisine from assigned modes + keyword seeds, computes centroid vectors. Output: 8 improved cuisine direction vectors. |
+| **3** 🔧 | **`preprocess.py` updated** | `compute_directions()` now takes a `mode_atlas_path` argument and uses mode-atlas membership instead of heuristic keyword + NN expansion. Fallback preserves old keyword approach. Metadata version bumped to 2.1. |
+| **4** ✅ | **`epicure_shared.json` updated** | 8 cuisine direction vectors recomputed. Sensory directions preserved unchanged. Old `direction_expansion` metadata replaced with `direction_method`. |
+| **5** 🧪 | **Tests pass** | 80/80 E2E ✅ |
+
+### What Changed
+
+| File | Change |
+|------|--------|
+| `tools/compute_cuisine_directions.py` | Created — standalone mode-atlas cuisine direction generator (15 KB) |
+| `preprocess.py` | `compute_directions()` now takes mode_atlas_path; added `CUISINE_MODE_IDS` mapping, `CUISINE_SEEDS`, `load_mode_atlas()`, `_fallback_cuisine_directions()`. Old keyword lists preserved as fallback. |
+| `data/epicure_shared.json` | 8 cuisine direction vectors replaced. Metadata updated: `direction_method` = "mode-atlas + keyword seeds". SW cache key updated. |
+| `sw.js` | Cache key: `'epicure-25e8f4a27cf8'` (content-hash regenerated after data change) |
+
+### Cuisine Mode Coverage
+
+| Cuisine | Modes | Members (vocabulary matched) |
+|---------|-------|------|
+| East Asian | 46 | 951 (385 in vocab) |
+| Western Atlantic | 8 | 447 (209 in vocab) |
+| Mediterranean | 20 | 737 (340 in vocab) |
+| Eastern European | 3 + seeds | 102 (65 in vocab) |
+| Southeast Asian | 4 | 380 (153 in vocab) |
+| South Asian | 2 + seeds | 75 (35 in vocab) |
+| Latin American | 14 | 542 (257 in vocab) |
+| Japanese | 1 + 33 seeds | 72 (42 in vocab) |
+
+### Metrics
+
+| Metric | Session 18 | Session 19 |
+|--------|-----------|------------|
+| index.html lines | ~8,130 | **~8,293** (docs/metrics updates) |
+| JS functions | ~182 | **~202** (script-level count) |
+| E2E tests | **80/80 ✅** | **80/80 ✅** |
+| Console errors | **0** | **0** |
+| Known bugs | **0** | **0** |
+| File size | ~427 KB | **~435 KB** |
+| CSS lines | ~686 | **~686** (unchanged) |
+| JS script lines | ~6,640 | **~6,814** |
+| SW cache key | `'epicure-64adfa564ac8'` | **`'epicure-25e8f4a27cf8'`** |
+| Cuisine directions | Heuristic keywords + NN | **GMM mode-atlas + seeds ✅** |

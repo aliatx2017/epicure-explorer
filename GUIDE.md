@@ -59,13 +59,13 @@ This is not a recipe database. This is a **flavour relationship engine** — the
 
 ```
 epicure-explorer/
-├── index.html          ← THE WEB APP — single self-contained HTML file (428 KB)
+├── index.html          ← THE WEB APP — single self-contained HTML file (435 KB)
 ├── preprocess.py       ← Python script that generates the data bundle
 ├── requirements.txt    ← Pinned Python dependencies (umap-learn, scikit-learn, etc.)
 ├── icon-192.png        ← PWA home-screen icon (2.3 KB)
 ├── icon-512.png        ← PWA splash-screen icon (6.8 KB)
 ├── data/
-│   ├── epicure_shared.json  ← Shared data (168 KB) — ingredients + 16 direction vectors + seasonal
+│   ├── epicure_shared.json  ← Shared data (146 KB) — ingredients + 16 direction vectors + seasonal + nutrition
 │   ├── epicure_cooc.json    ← Cooc model data (~4 MB) — neighbours + UMAP + vectors
 │   ├── epicure_core.json    ← Core model data (~4 MB)
 │   ├── epicure_chem.json    ← Chem model data (~4 MB)
@@ -101,14 +101,14 @@ preprocess.py
   │  • Packs float32 vectors as base64 for compact transfer
   │  • Splits output into shared + per-model JSONs for lazy loading
   │
-  ├── data/epicure_shared.json  (128 KB — loaded first)
+  ├── data/epicure_shared.json  (146 KB — loaded first)
   ├── data/epicure_cooc.json   (~4 MB — loaded on demand)
   ├── data/epicure_core.json   (~4 MB — loaded on demand)
   └── data/epicure_chem.json   (~4 MB — loaded on demand)
           │
           ▼
 index.html
-  │  • Fetches epicure_shared.json at startup (128 KB)
+  │  • Fetches epicure_shared.json at startup (146 KB)
   │  • Loads model data on demand when tab is switched
   │  • Decodes base64 vectors back to Float32Array
   │  • Renders all 5 tabs from in-memory data
@@ -120,7 +120,7 @@ index.html
 | Data item | Size | Notes |
 |---|---|---|
 | Raw CSVs (3 models × 1,790 × 300 floats) | ~4.9 MB each | 6 decimal places; raw skip-gram outputs (not L2-normalised) per `data/README.txt` |
-| `epicure_shared.json` | 128 KB | Ingredients + 16 direction vectors — loaded first |
+| `epicure_shared.json` | 146 KB | Ingredients + 16 direction vectors + seasonal + nutrition — loaded first |
 | `epicure_cooc.json` / `epicure_core.json` / `epicure_chem.json` | ~4.1 MB each | Per-model: neighbours, UMAP, vectors, mode atlas — lazy-loaded |
 | Mode atlases | ~175–196 KB each | GMM cluster definitions |
 | `direction_arithmetic_full.csv` | 147 KB | Paper's SLERP evaluation results — 2,160 rows of hit-rank/hit-sim data across all models, angles, and test cases (see [§3.3](#33--direction-slerp) for how the app recomputes SLERP live) |
@@ -131,15 +131,15 @@ index.html
 
 ### 1.4 App Architecture (index.html)
 
-The entire application is a **single HTML file** (~8,130 lines) containing:
+The entire application is a **single HTML file** (~8,293 lines) containing:
 
 - **CSS** (~686 lines) — dark theme, responsive grid, panel layout, card components, canvas styling, mode filter controls, game cards, chef sidebar overlay, describe-dish input, snap upload zone, tab category bar, skeleton loading screen, responsive breakpoints, accessibility support
 - **HTML** (~775 lines) — shell structure with 19 tab panels grouped into 4 categories, search bar, model switcher, mode filter bar, games panel, chef's toolkit overlay drawer, describe-dish input row, snap upload/preview area, accessibility labels, credit footer
-- **JavaScript** (~6,595 lines) — all application logic, organised as:
+- **JavaScript** (~6,814 lines) — all application logic, organised as:
 
 | Function | Purpose |
 |---|---|
-| `loadSharedData()` | Fetch `epicure_shared.json` (128 KB — ingredients + directions) |
+| `loadSharedData()` | Fetch `epicure_shared.json` (146 KB — ingredients + directions + seasonal + nutrition) |
 | `loadModelData()` | Lazy-fetch per-model JSON (~4 MB) on model tab switch |
 | `base64ToArrayBuffer()` | Decode base64 → Float32Array |
 | `setupSearch()` | Fuzzy search over 1,790 ingredient names |
@@ -181,7 +181,7 @@ The entire application is a **single HTML file** (~8,130 lines) containing:
 | `showEmptyState()` | Centralised empty-state helper — renders contextual placeholder text for all 18 panels when no ingredient is selected |
 | `closeChefToolkit()` | Close the Chef's Toolkit overlay drawer and backdrop |
 
-The **lazy-loading** architecture means initial load is only 128 KB (`epicure_shared.json`). Model data (~4 MB each) is fetched only when the user switches to that model tab. This makes the app feel instant on desktop and friendly on mobile connections.
+The **lazy-loading** architecture means initial load is only 146 KB (`epicure_shared.json`). Model data (~4 MB each) is fetched only when the user switches to that model tab. This makes the app feel instant on desktop and friendly on mobile connections.
 
 ### 1.5 Accessibility
 
@@ -252,7 +252,7 @@ python3 -m venv .venv
 .venv/bin/python3 preprocess.py
 ```
 
-This reads the raw CSV files from `data/` and writes `data/epicure_shared.json` (128 KB) + three per-model JSON files (~4 MB each). It takes about 3–5 minutes on a modern machine (UMAP is the bottleneck).
+This reads the raw CSV files from `data/` and writes `data/epicure_shared.json` (146 KB) + three per-model JSON files (~4 MB each). It takes about 3–5 minutes on a modern machine (UMAP is the bottleneck).
 
 ---
 
@@ -1048,7 +1048,7 @@ The embedding space opens the door to features that are **architecturally possib
 - **Graph-RAG Chef Assistant:** Natural-language query over the full embedding space — "What replaces eggs in a gluten-free brunch?"
 - **MCP-Native Architecture:** Expose the embedding space as an MCP server so any AI assistant can query your food intelligence layer
 
-> **Already shipped:** GLP-1 Diet Mode (💊 badge + 💚 filter toggle), Explainable Substitutions (💡 "Why This Substitute?" panel), Nutrition Deep-Dive (🔬 per-ingredient FSA traffic lights), FSA Health Direction (💚 healthy↔indulgent SLERP vector), Per-Recipe Nutrition (🥗 51K recipe FSA scores in Recipe tab), Nutrition Heatmap Overlay (🔥 colour-coded UMAP), Flavour Arithmetic Explorer (🧮 visual chip UI with history), Cocktail Mixology (🍸 spirit + mixer → drink intelligence), Seasonal Calendar (🗓️ peak-season browser + map overlay), Spoonacular API (🌐 live recipe search, nutrition, wine pairing), Snap→Ingredient Search (📸 food photo → classify → explore), Ingredient2Vec API (🔬 nearest-neighbour + arithmetic), Food Agent (🤖 natural language → ingredient match), Trending panel (📈 seasonal + rarity + GLP-1 signals), and GLP-1 Meal Plan Generator (💊 7-day plan from embedding clusters) — see §3.4, §3.8, §3.10–§3.20 for details.
+> **Already shipped:** GLP-1 Diet Mode (💊 badge + 💚 filter toggle), Explainable Substitutions (💡 "Why This Substitute?" panel), Nutrition Deep-Dive (🔬 per-ingredient FSA traffic lights), FSA Health Direction (💚 healthy↔indulgent SLERP vector), Per-Recipe Nutrition (🥗 51K recipe FSA scores in Recipe tab), Nutrition Heatmap Overlay (🔥 colour-coded UMAP), Flavour Arithmetic Explorer (🧮 visual chip UI with history), Cocktail Mixology (🍸 spirit + mixer → drink intelligence), Seasonal Calendar (🗓️ peak-season browser + map overlay), Spoonacular API (🌐 live recipe search, nutrition, wine pairing), Snap→Ingredient Search (📸 food photo → classify → explore), Ingredient2Vec API (🔬 nearest-neighbour + arithmetic), Food Agent (🤖 natural language → ingredient match), Trending panel (📈 seasonal + rarity + GLP-1 signals), GLP-1 Meal Plan Generator (💊 7-day plan from embedding clusters), **Cuisine Direction Vectors** (🌍 upgraded from heuristic keywords to Core GMM mode-atlas members — see §3.3)
 >
 > **Bug fix:** Force-Directed graph projection now works — `getForceGraphLayout()` implements a Fruchterman-Reingold spring-force layout from top-15 neighbour edges. See §3.4 and §5.1.
 
@@ -1145,7 +1145,7 @@ If the map is sluggish on low-end devices, the point rendering (1,790 arc() call
 
 Epicure Explorer supports "Add to Home Screen" on mobile via an inline data URI manifest. After the first visit, the Service Worker (`sw.js`) caches:
 - `index.html` (the app shell) — cached on install
-- `epicure_shared.json` (128 KB, ingredient list + direction vectors) — cached on install
+- `epicure_shared.json` (146 KB, ingredient list + direction vectors + seasonal + nutrition) — cached on install
 - Per-model JSON bundles (~4 MB each) — cached on first fetch via stale-while-revalidate
 
 **Result:** Returning users can browse the app without network access. The shared data and last-used model are available offline.

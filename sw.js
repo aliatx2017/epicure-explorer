@@ -1,5 +1,5 @@
 /* Epicure Explorer — Service Worker for offline caching */
-const CACHE = 'epicure-680f162bb43e';
+const CACHE = 'epicure-25e8f4a27cf8';
 const STATIC = [
   './',
   './index.html',
