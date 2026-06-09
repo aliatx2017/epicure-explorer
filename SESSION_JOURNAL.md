@@ -978,13 +978,14 @@ Static HTML `arithDropdown` overwritten at runtime by JS template literal → du
 
 | Metric | Session 18 | Session 19 |
 |--------|-----------|------------|
-| index.html lines | ~8,130 | **~8,293** (docs/metrics updates) |
-| JS functions | ~182 | **~202** (script-level count) |
+| index.html lines | ~8,130 | **~8,459** (+166 for Direction Arithmetic) |
+| JS functions | ~182 | **~207** |
 | E2E tests | **80/80 ✅** | **80/80 ✅** |
 | Console errors | **0** | **0** |
 | Known bugs | **0** | **0** |
-| File size | ~427 KB | **~435 KB** |
+| File size | ~427 KB | **~444 KB** |
 | CSS lines | ~686 | **~686** (unchanged) |
-| JS script lines | ~6,640 | **~6,814** |
-| SW cache key | `'epicure-64adfa564ac8'` | **`'epicure-25e8f4a27cf8'`** |
+| JS script lines | ~6,640 | **~6,982** |
+| SW cache key | `'epicure-64adfa564ac8'` | **`'epicure-021d63b387bb'`** |
 | Cuisine directions | Heuristic keywords + NN | **GMM mode-atlas + seeds ✅** |
+| Direction Arithmetic | — | **🎯 Shipped** |

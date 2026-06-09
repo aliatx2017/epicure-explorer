@@ -47,10 +47,10 @@
 
 | Metric | Value |
 |--------|-------|
-| `index.html` lines | **~8,293** |
-| JS functions | **~202** (named + nested) |
+| `index.html` lines | **~8,459** |
+| JS functions | **~207** (named + nested) |
 | Tabs | **19** (4 categories) |
-| File size | **~435 KB** |
+| File size | **~444 KB** |
 | Console errors | **0** |
 | Known bugs | **0** |
 | E2E tests | **80/80 ✅** |

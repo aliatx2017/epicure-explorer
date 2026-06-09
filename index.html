@@ -1153,6 +1153,32 @@ header .subtitle-academic { color: var(--text3); font-size: 0.72rem; margin-top:
           <div class="arith-history" id="arithHistory"></div>
           <div id="arithmeticResults"><div class="empty-state" style="font-size:0.8rem;padding:8px;">Add at least 2 ingredients above to compute flavour arithmetic.</div></div>
         </div>
+        <hr style="margin:16px 0;border-color:var(--border);opacity:0.4;">
+        <div class="panel-section">
+          <h3 style="font-size:0.95rem;margin-bottom:8px;">🎯 Direction Arithmetic</h3>
+          <p style="font-size:0.85rem;color:var(--text2);margin-bottom:10px;">Vector analogy: <strong>base − remove + add</strong>. E.g. <em>risotto − mushroom + truffle</em> to add truffle flavour without truffle.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+            <div style="flex:1;min-width:120px;position:relative;">
+              <label style="font-size:0.7rem;color:var(--accent);font-weight:600;">Base</label>
+              <input type="text" id="dirArithBase" class="compare2-input" placeholder="e.g. mushroom" autocomplete="off" aria-label="Direction arithmetic base ingredient">
+              <div class="compare2-dropdown" id="dirArithBaseDropdown"></div>
+            </div>
+            <span style="color:var(--text2);font-size:1.2rem;padding-bottom:4px;">−</span>
+            <div style="flex:1;min-width:120px;position:relative;">
+              <label style="font-size:0.7rem;color:#f87171;font-weight:600;">Remove</label>
+              <input type="text" id="dirArithSub" class="compare2-input" placeholder="e.g. mushroom" autocomplete="off" aria-label="Direction arithmetic remove ingredient">
+              <div class="compare2-dropdown" id="dirArithSubDropdown"></div>
+            </div>
+            <span style="color:var(--text2);font-size:1.2rem;padding-bottom:4px;">+</span>
+            <div style="flex:1;min-width:120px;position:relative;">
+              <label style="font-size:0.7rem;color:#4ade80;font-weight:600;">Add</label>
+              <input type="text" id="dirArithAdd" class="compare2-input" placeholder="e.g. truffle" autocomplete="off" aria-label="Direction arithmetic add ingredient">
+              <div class="compare2-dropdown" id="dirArithAddDropdown"></div>
+            </div>
+            <button class="game-new-btn" onclick="runDirectionArithmetic()" style="font-size:0.75rem;padding:6px 14px;margin-bottom:4px;">▶ Compute</button>
+          </div>
+          <div id="dirArithResults" style="margin-top:10px;"><div class="empty-state" style="font-size:0.8rem;padding:8px;">Enter a base ingredient, one to remove, and one to add instead.</div></div>
+        </div>
       </div>
       </div>
     </div>
@@ -3621,6 +3647,146 @@ function runArithmetic() {
 function setupArithmetic() {
   // Initial setup done on first tab switch via renderArithChips
   // Also hook model tab switches to update model label
+  setupDirectionArithmetic();
+}
+
+// ── Direction Arithmetic — base − remove + add ──
+
+function setupDirectionArithmetic() {
+  setupDirArithInput('dirArithBase', 'dirArithBaseDropdown', 'mushroom');
+  setupDirArithInput('dirArithSub', 'dirArithSubDropdown', 'mushroom');
+  setupDirArithInput('dirArithAdd', 'dirArithAddDropdown', 'truffle');
+}
+
+function setupDirArithInput(inputId, dropdownId, example) {
+  var input = document.getElementById(inputId);
+  var dropdown = document.getElementById(dropdownId);
+  if (!input || !dropdown) return;
+  var names = getIngredientNames();
+  input.addEventListener('focus', function() {
+    var val = input.value.trim().toLowerCase().replace(/ /g,'_');
+    showDirArithDropdown(inputId, dropdownId, val || '');
+  });
+  input.addEventListener('input', function() {
+    showDirArithDropdown(inputId, dropdownId, input.value.trim().toLowerCase().replace(/ /g,'_'));
+  });
+  input.addEventListener('blur', function() {
+    setTimeout(function() { dropdown.classList.remove('show'); }, 200);
+  });
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { dropdown.classList.remove('show'); runDirectionArithmetic(); }
+  });
+  // Show example matches on focus
+  input.placeholder = 'e.g. ' + example.replace(/_/g,' ');
+}
+
+function showDirArithDropdown(inputId, dropdownId, query) {
+  var dropdown = document.getElementById(dropdownId);
+  var names = getIngredientNames();
+  var q = query.toLowerCase();
+  var matches = q ? names.filter(function(n) { return n.includes(q); }).slice(0, 8) : names.slice(0, 5);
+  if (matches.length === 0 && q.length > 0) {
+    // Fuzzy fallback: try substring of query
+    matches = names.filter(function(n) { return q.includes(n) || n.includes(q); }).slice(0, 5);
+  }
+  dropdown.innerHTML = matches.map(function(n) {
+    var d = n.replace(/_/g,' ');
+    var i = d.indexOf(q);
+    return '<div class="item" data-name="'+n+'">'+(i>=0?d.slice(0,i)+'<span class="hl">'+d.slice(i,i+q.length)+'</span>'+d.slice(i+q.length):d)+'</div>';
+  }).join('');
+  dropdown.classList.add('show');
+  dropdown.querySelectorAll('.item').forEach(function(el) {
+    el.addEventListener('click', function() {
+      document.getElementById(inputId).value = el.dataset.name.replace(/_/g,' ');
+      dropdown.classList.remove('show');
+      runDirectionArithmetic();
+    });
+  });
+}
+
+function runDirectionArithmetic() {
+  var r = document.getElementById('dirArithResults');
+  if (!r) return;
+  var names = STATE.data.ingredients;
+  var model = getModel();
+  if (!model || !model.vectors) { r.innerHTML = '<div class="empty-state">⚠️ Model data not loaded</div>'; return; }
+
+  var baseName = document.getElementById('dirArithBase').value.trim().toLowerCase().replace(/\s+/g, '_');
+  var subName = document.getElementById('dirArithSub').value.trim().toLowerCase().replace(/\s+/g, '_');
+  var addName = document.getElementById('dirArithAdd').value.trim().toLowerCase().replace(/\s+/g, '_');
+
+  if (!baseName || !subName || !addName) {
+    r.innerHTML = '<div class="empty-state" style="font-size:0.8rem;padding:8px;">Enter a base ingredient, one to remove, and one to add instead.</div>';
+    return;
+  }
+
+  var baseIdx = names.indexOf(baseName);
+  var subIdx = names.indexOf(subName);
+  var addIdx = names.indexOf(addName);
+
+  if (baseIdx < 0) { r.innerHTML = '<div class="empty-state">Base ingredient "'+baseName.replace(/_/g,' ')+'" not found.</div>'; return; }
+  if (subIdx < 0) { r.innerHTML = '<div class="empty-state">Remove ingredient "'+subName.replace(/_/g,' ')+'" not found.</div>'; return; }
+  if (addIdx < 0) { r.innerHTML = '<div class="empty-state">Add ingredient "'+addName.replace(/_/g,' ')+'" not found.</div>'; return; }
+
+  var dim = model.vectors[0].length;
+  var baseVec = model.vectors[baseIdx];
+  var subVec = model.vectors[subIdx];
+  var addVec = model.vectors[addIdx];
+
+  // Compute: base - sub + add, then normalize
+  var resultVec = new Array(dim);
+  for (var j = 0; j < dim; j++) {
+    resultVec[j] = baseVec[j] - subVec[j] + addVec[j];
+  }
+  var norm = Math.sqrt(resultVec.reduce(function(s,x){return s+x*x}, 0));
+  if (norm < 0.001) {
+    r.innerHTML = '<div class="empty-state">⚠️ Result vector is degenerate (near zero). Try different ingredients.</div>';
+    return;
+  }
+  for (var j = 0; j < dim; j++) resultVec[j] /= norm;
+
+  // Find nearest neighbours
+  var results = model.vectors.map(function(v,i) {
+    return { idx: i, sim: dotProduct(resultVec, v) };
+  }).sort(function(a,b){ return b.sim - a.sim; });
+
+  // Filter out the three input ingredients
+  var used = new Set([baseName, subName, addName]);
+  var top = [];
+  for (var ri = 0; ri < results.length && top.length < 12; ri++) {
+    var n = names[results[ri].idx];
+    if (!used.has(n)) top.push({ name: n, sim: results[ri].sim });
+  }
+
+  // Build expression string
+  var expr = baseName.replace(/_/g,' ') + ' − ' + subName.replace(/_/g,' ') + ' + ' + addName.replace(/_/g,' ');
+
+  // Render
+  r.innerHTML =
+    '<div style="background:var(--surface2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;text-align:center;font-size:0.95rem;font-weight:600;color:var(--accent);border:1px solid var(--border);">🎯 <span style="color:var(--text);">'+
+    baseName.replace(/_/g,' ') + ' </span><span style="color:#f87171;">−</span><span style="color:var(--text);"> ' + subName.replace(/_/g,' ') + ' </span><span style="color:#4ade80;">+</span><span style="color:var(--text);"> ' + addName.replace(/_/g,' ') +
+    '</span> <span style="color:var(--text2);font-weight:400;">→</span> <span style="color:var(--text);font-weight:600;">'+(top[0]?top[0].name.replace(/_/g,' '):'—')+'</span></div>'+
+    '<div class="neighbour-grid" style="grid-template-columns:1fr 1fr;">'+
+    top.map(function(item,i) {
+      var p = Math.max((item.sim/top[0].sim)*100, 5);
+      return '<div class="neighbour-card fade-in" style="animation-delay:'+(i*30)+'ms;cursor:pointer;padding:6px 10px;" data-name="'+item.name+'">'+
+        '<span class="name">'+item.name.replace(/_/g,' ')+'</span>'+
+        '<div class="sim-wrap"><div class="sim-bar" style="width:'+p+'%;background:var(--accent2)"></div>'+
+        '<span class="sim-label">'+(item.sim*100).toFixed(0)+'%</span></div></div>';
+    }).join('')+'</div>';
+
+  // Wire click-to-select
+  r.querySelectorAll('[data-name]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var n = el.dataset.name;
+      selectIngredient(n);
+      document.getElementById('searchInput').value = n;
+    });
+  });
+
+  // Update the - and + labels to show actual ingredient names
+  var labels = r.parentElement.querySelectorAll('label');
+  // We won't dynamically change the label text since the inputs show the names
 }
 
 // ── Cocktail Mixology — Spirit + Mixer → Ingredient Suggestions ──
